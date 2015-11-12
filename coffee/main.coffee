@@ -74,3 +74,11 @@
             dropbox_link.role = "button"
             dropbox_link.innerHTML = "View Version #{proj.version}"
             buttons.appendChild dropbox_link
+
+        if proj.link? and proj.link_text
+            link = document.createElement "a"
+            link.href = "#{proj.link}"
+            link.className = "btn btn-default"
+            link.role = "button"
+            link.innerHTML = proj.link_text
+            buttons.appendChild link
