@@ -1,0 +1,10 @@
+task :coffee do
+    mkdir_p 'scripts'
+    sh 'coffee -w -o scripts/ -c coffee/'
+end
+
+task :clean do
+    rm_r 'scripts/'
+end
+
+task default: :coffee
