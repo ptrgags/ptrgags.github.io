@@ -89,6 +89,8 @@ class @ProjectCard extends Widget
 
         panel
 
+NUM_COLS = 2
+
 @score = (proj) ->
     val = 0
     if proj.priority?
@@ -130,10 +132,10 @@ class @ProjectCard extends Widget
             contents.appendChild row
 
         col = document.createElement "div"
-        col.className = "col-sm-4"
+        col.className = "col-sm-#{12 // NUM_COLS}"
         row.appendChild col
 
         card = new ProjectCard proj
         col.appendChild card.render()
 
-        column = (column + 1) % 3
+        column = (column + 1) % NUM_COLS
