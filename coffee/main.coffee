@@ -89,14 +89,41 @@ class @ProjectCard extends Widget
 
         panel
 
+@score = (proj) ->
+    val = 0
+    if proj.priority?
+        val |= 0x04
+    if proj.version?
+        val |= 0x02
+    if proj.dev_status? and proj.dev_status is 'development'
+        val |= 0x01
+    val
+
+@sort_projects = (a, b) ->
+    a_score = score a
+    b_score = score b
+
+    if a_score > b_score
+        return -1
+    if a_score < b_score
+        return 1
+
+    if a.title < b.title
+        return -1
+    if a.title > b.title
+        return 1
+
+    return 0
+
 @onload = ->
     contents = document.getElementById("content")
     column = 0
     row = null
 
-    for key of projects
-        proj = projects[key]
+    project_arr = (projects[key] for key of projects)
+    project_arr.sort sort_projects
 
+    for proj in project_arr
         if column is 0
             row = document.createElement "div"
             row.className = "row"

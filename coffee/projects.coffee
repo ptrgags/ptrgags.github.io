@@ -17,7 +17,6 @@
         drobox_version_prefix: "Demo"
     byte_cards:
         title: "ByteCards"
-        version: null
         with: "KarishmaChanglani"
         description: "Next generation of digital playing cards"
         dev_number: "1.0"
