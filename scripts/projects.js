@@ -29,6 +29,7 @@
     },
     arduino_morse: {
       title: "Arduino Morse",
+      version: "0.1",
       dev_number: "1.0",
       description: "Text to morse code library with Arduino-powered beacon",
       github_link: "arduino-morse"
@@ -49,7 +50,7 @@
       dev_number: "1.0"
     },
     ptrgags_github_io: {
-      title: "ptrgags.github.io",
+      title: "Website",
       description: "This website. Still under development",
       version: "0.2.1",
       dev_number: "1.0",
@@ -62,6 +63,15 @@
       description: "Music programmed with Sonic Pi",
       dev_number: "1.0",
       github_link: "mixtape"
+    },
+    spinograph: {
+      title: "Spin-o-Sketch",
+      description: "Spinograph/Etch-A-Sketch",
+      version: "1.0",
+      dev_number: "2.0",
+      github_link: "spin-o-sketch",
+      dropbox_link: "spin-o-sketch/index.html",
+      dropbox_version_prefix: "Version"
     }
   };
 
