@@ -4,6 +4,15 @@
     extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     hasProp = {}.hasOwnProperty;
 
+  this.make_elem = function(tag, parent) {
+    var elem;
+    elem = document.createElement(tag);
+    if (parent != null) {
+      parent.appendChild(elem);
+    }
+    return elem;
+  };
+
   this.Widget = (function() {
     function Widget() {}
 
@@ -153,11 +162,23 @@
     return 0;
   };
 
-  this.onload = function() {
-    var card, col, column, contents, i, key, len, proj, project_arr, results, row;
+  this.show_ideas = function() {
+    var contents, title;
     contents = document.getElementById("content");
+    contents.innerHTML = "";
+    title = make_elem("h1", contents);
+    return title.innerHTML = "Project Ideas";
+  };
+
+  this.show_projects = function() {
+    var card, col, column, contents, i, key, len, proj, project_arr, results, row, title;
+    contents = document.getElementById("content");
+    contents.innerHTML = "";
     column = 0;
     row = null;
+    title = document.createElement("h1");
+    title.innerHTML = "GitHub Projects";
+    contents.appendChild(title);
     project_arr = (function() {
       var results;
       results = [];
@@ -183,6 +204,12 @@
       results.push(column = (column + 1) % NUM_COLS);
     }
     return results;
+  };
+
+  this.onload = function() {
+    document.getElementById("btn-github").onclick = show_projects;
+    document.getElementById("btn-ideas").onclick = show_ideas;
+    return show_projects();
   };
 
 }).call(this);

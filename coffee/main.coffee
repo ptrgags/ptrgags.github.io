@@ -1,3 +1,9 @@
+@make_elem = (tag, parent) ->
+    elem = document.createElement tag
+    if parent?
+        parent.appendChild elem
+    elem
+
 class @Widget
     render: ->
         paragraph = document.createElement "p"
@@ -127,10 +133,22 @@ NUM_COLS = 2
 
     return 0
 
-@onload = ->
+@show_ideas = ->
     contents = document.getElementById("content")
+    contents.innerHTML = ""
+
+    title = make_elem "h1", contents
+    title.innerHTML = "Project Ideas"
+
+@show_projects = ->
+    contents = document.getElementById("content")
+    contents.innerHTML = ""
     column = 0
     row = null
+
+    title = document.createElement "h1"
+    title.innerHTML = "GitHub Projects"
+    contents.appendChild title
 
     project_arr = (projects[key] for key of projects)
     project_arr.sort sort_projects
@@ -149,3 +167,8 @@ NUM_COLS = 2
         col.appendChild card.render()
 
         column = (column + 1) % NUM_COLS
+
+@onload = ->
+    document.getElementById("btn-github").onclick = show_projects
+    document.getElementById("btn-ideas").onclick = show_ideas
+    show_projects()
