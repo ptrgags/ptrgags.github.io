@@ -1,0 +1,15 @@
+task :coffee_watch do
+    mkdir_p 'scripts'
+    sh 'coffee -w -o scripts/ -c coffee/'
+end
+
+task :coffee do
+    mkdir_p 'scripts'
+    sh 'coffee -o scripts/ -c coffee/'	
+end
+
+task :clean do
+    rm_r 'scripts/'
+end
+
+task default: :coffee_watch
