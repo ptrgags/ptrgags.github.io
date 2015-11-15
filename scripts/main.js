@@ -26,7 +26,7 @@
     }
 
     ProjectCard.prototype.render = function() {
-      var buttons, description, dropbox_link, github_link, heading, info_col, link, panel, panel_body, pic_col, row, status_tag, tags, version_tag;
+      var buttons, collab, collab_p, description, dropbox_link, github_link, heading, info_col, link, panel, panel_body, pic_col, row, status_tag, tags, version_tag;
       panel = document.createElement('div');
       panel.className = "panel panel-default";
       panel_body = document.createElement('div');
@@ -44,6 +44,15 @@
       pic_col = document.createElement('div');
       pic_col.className = "col-sm-6";
       row.appendChild(pic_col);
+      if (this.project["with"] != null) {
+        collab_p = document.createElement("p");
+        collab_p.innerHTML = "With ";
+        info_col.appendChild(collab_p);
+        collab = document.createElement("a");
+        collab.innerHTML = this.project["with"];
+        collab.href = "https://github.com/" + this.project["with"];
+        collab_p.appendChild(collab);
+      }
       tags = document.createElement('p');
       info_col.appendChild(tags);
       if (this.project.version != null) {

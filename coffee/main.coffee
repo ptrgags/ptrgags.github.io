@@ -31,6 +31,16 @@ class @ProjectCard extends Widget
         pic_col.className = "col-sm-6"
         row.appendChild pic_col
 
+        if @project.with?
+            collab_p = document.createElement "p"
+            collab_p.innerHTML = "With "
+            info_col.appendChild collab_p
+
+            collab = document.createElement "a"
+            collab.innerHTML = @project.with
+            collab.href = "https://github.com/#{@project.with}"
+            collab_p.appendChild collab
+
         tags = document.createElement 'p'
         info_col.appendChild tags
 
