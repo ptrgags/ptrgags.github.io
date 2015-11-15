@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bootstrap Test</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script>
+        var displayProjects = function() {
+            document.getElementById("page-title").innerHTML = "Projects"
+            document.getElementById("page-body").innerHTML = "Cards go here..."
+        };
+
+        var displayTodo = function() {
+            document.getElementById("page-title").innerHTML = "The To Do List"
+            document.getElementById("page-body").innerHTML = "<ul><li>one</li><li>two</li></ul>"
+        };
+    </script>
+</head>
+<body onload="displayProjects();">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="glyphicon glyphicon-menu-hamburger"></span>
+                </button>
+                <a class="navbar-brand" href="#">GagsDev</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="#" onclick="displayProjects();">Github Projects</a></li>
+                    <li><a href="#" onclick="displayTodo();">Project Ideas</a></li>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <h1 id="page-title">Blah</h1>
+        <p id="page-body">blah blah blah</h1>
+    </div>
+</body>
+</html>
