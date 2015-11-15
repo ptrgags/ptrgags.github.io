@@ -18,7 +18,7 @@
 
     Widget.prototype.render = function() {
       var paragraph;
-      paragraph = document.createElement("p");
+      paragraph = make_elem("p");
       paragraph.innerHTML = "Widget";
       return paragraph;
     };
@@ -36,48 +36,39 @@
 
     ProjectCard.prototype.render = function() {
       var buttons, collab, collab_p, description, dropbox_link, github_link, heading, info_col, link, panel, panel_body, pic_col, row, status_tag, tags, version_tag;
-      panel = document.createElement('div');
+      panel = make_elem('div');
       panel.className = "panel panel-default";
-      panel_body = document.createElement('div');
+      panel_body = make_elem('div', panel);
       panel_body.className = "panel-body";
-      panel.appendChild(panel_body);
-      heading = document.createElement('h2');
+      heading = make_elem('h2', panel_body);
       heading.innerHTML = this.project.title;
-      panel_body.appendChild(heading);
-      row = document.createElement('div');
+      row = make_elem('div', panel_body);
       row.className = "row";
-      panel_body.appendChild(row);
-      info_col = document.createElement('div');
+      info_col = make_elem('div', row);
       info_col.className = "col-sm-6";
-      row.appendChild(info_col);
-      pic_col = document.createElement('div');
+      pic_col = make_elem('div', row);
       pic_col.className = "col-sm-6";
-      row.appendChild(pic_col);
       if (this.project["with"] != null) {
-        collab_p = document.createElement("p");
+        collab_p = make_elem("p", info_col);
         collab_p.innerHTML = "With ";
-        info_col.appendChild(collab_p);
-        collab = document.createElement("a");
+        collab = make_elem("a", collab_p);
         collab.innerHTML = this.project["with"];
         collab.href = "https://github.com/" + this.project["with"];
-        collab_p.appendChild(collab);
       }
-      tags = document.createElement('p');
-      info_col.appendChild(tags);
+      tags = make_elem('p', info_col);
       if (this.project.version != null) {
         if (!this.project.version_prefix) {
           this.project.version_prefix = "Version";
         }
-        version_tag = document.createElement('span');
+        version_tag = make_elem('span', tags);
         version_tag.className = "label label-success";
         version_tag.innerHTML = this.project.version_prefix + " " + this.project.version;
-        tags.appendChild(version_tag);
       }
       if (this.project.dev_number != null) {
         if (!this.project.dev_status) {
           this.project.dev_status = "backlog";
         }
-        status_tag = document.createElement('span');
+        status_tag = make_elem('span', tags);
         if (this.project.dev_status === 'backlog') {
           status_tag.className = "label label-danger";
           status_tag.innerHTML = "v" + this.project.dev_number + " on Backlog";
@@ -85,39 +76,33 @@
           status_tag.className = "label label-warning";
           status_tag.innerHTML = "v" + this.project.dev_number + " in Development";
         }
-        tags.appendChild(status_tag);
       }
       if (this.project.description != null) {
-        description = document.createElement('p');
+        description = make_elem('p', info_col);
         description.innerHTML = this.project.description;
-        info_col.appendChild(description);
       }
-      buttons = document.createElement("div");
+      buttons = make_elem("div", panel_body);
       buttons.className = "btn-group";
-      panel_body.appendChild(buttons);
       if (this.project.github_link != null) {
-        github_link = document.createElement("a");
+        github_link = make_elem("a", buttons);
         github_link.href = "https://github.com/ptrgags/" + this.project.github_link;
         github_link.className = "btn btn-default";
         github_link.role = "button";
         github_link.innerHTML = "View on Github";
-        buttons.appendChild(github_link);
       }
       if ((this.project.dropbox_link != null) && (this.project.version != null)) {
-        dropbox_link = document.createElement("a");
+        dropbox_link = make_elem("a", buttons);
         dropbox_link.href = "https://dl.dropboxusercontent.com/u/25993970/github/" + this.project.dropbox_link;
         dropbox_link.className = "btn btn-default";
         dropbox_link.role = "button";
         dropbox_link.innerHTML = "View Version " + this.project.version;
-        buttons.appendChild(dropbox_link);
       }
       if ((this.project.link != null) && this.project.link_text) {
-        link = document.createElement("a");
+        link = make_elem("a", buttons);
         link.href = "" + this.project.link;
         link.className = "btn btn-default";
         link.role = "button";
         link.innerHTML = this.project.link_text;
-        buttons.appendChild(link);
       }
       return panel;
     };
@@ -176,7 +161,7 @@
     contents.innerHTML = "";
     column = 0;
     row = null;
-    title = document.createElement("h1");
+    title = make_elem("h1");
     title.innerHTML = "GitHub Projects";
     contents.appendChild(title);
     project_arr = (function() {
@@ -192,13 +177,11 @@
     for (i = 0, len = project_arr.length; i < len; i++) {
       proj = project_arr[i];
       if (column === 0) {
-        row = document.createElement("div");
+        row = make_elem("div", contents);
         row.className = "row";
-        contents.appendChild(row);
       }
-      col = document.createElement("div");
+      col = make_elem("div", row);
       col.className = "col-sm-" + (Math.floor(12 / NUM_COLS));
-      row.appendChild(col);
       card = new ProjectCard(proj);
       col.appendChild(card.render());
       results.push(column = (column + 1) % NUM_COLS);
