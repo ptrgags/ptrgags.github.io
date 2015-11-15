@@ -28,7 +28,8 @@ class @IdeasCard extends Widget
 
         p = make_elem "p", panel_body
         p.innerHTML = "Feel free to take inspiration from this list! If you
-        develop something cool, I'd love to hear about it!"
+        develop something cool, let me know at ptrgags@gmail.com.
+        I'd love to hear about it!"
 
         ul = make_elem "ul", panel_body
 
@@ -98,21 +99,21 @@ class @ProjectCard extends Widget
         if @project.github_link?
             github_link = make_elem "a", buttons
             github_link.href = "https://github.com/ptrgags/#{@project.github_link}"
-            github_link.className = "btn btn-default"
+            github_link.className = "btn btn-success"
             github_link.role = "button"
             github_link.innerHTML = "View on Github"
 
         if @project.dropbox_link? and @project.version?
             dropbox_link = make_elem "a", buttons
             dropbox_link.href = "https://dl.dropboxusercontent.com/u/25993970/github/#{@project.dropbox_link}"
-            dropbox_link.className = "btn btn-default"
+            dropbox_link.className = "btn btn-success"
             dropbox_link.role = "button"
             dropbox_link.innerHTML = "View Version #{@project.version}"
 
         if @project.link? and @project.link_text
             link = make_elem "a", buttons
             link.href = "#{@project.link}"
-            link.className = "btn btn-default"
+            link.className = "btn btn-success"
             link.role = "button"
             link.innerHTML = @project.link_text
         panel
@@ -150,7 +151,7 @@ NUM_COLS = 2
     contents.innerHTML = ""
 
     title = make_elem "h1", contents
-    title.innerHTML = "Project Ideas"
+    title.innerHTML = "Future Project Ideas"
 
     ideas_widget = new IdeasCard ideas
     contents.appendChild ideas_widget.render()
@@ -162,7 +163,7 @@ NUM_COLS = 2
     row = null
 
     title = make_elem "h1"
-    title.innerHTML = "GitHub Projects"
+    title.innerHTML = "My GitHub Projects"
     contents.appendChild title
 
     project_arr = (projects[key] for key of projects)

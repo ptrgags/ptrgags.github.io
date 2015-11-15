@@ -52,11 +52,11 @@
     ptrgags_github_io: {
       title: "Website",
       description: "This website. Still under development",
-      version: "0.2.1",
-      dev_number: "1.0",
+      version: "1.0.1",
+      dev_number: "1.1",
       github_link: "ptrgags.github.io",
       link: "http://ptrgags.github.io",
-      link_text: "View Version 0.2.1"
+      link_text: "View Version 1.0.1"
     },
     mixtape: {
       title: "Mixtape",

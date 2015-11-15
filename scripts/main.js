@@ -43,7 +43,7 @@
       intro = make_elem('p', panel_body);
       intro.innerHTML = "This is a list of possible future projects I'd be interested in trying. I probably won't find time for most of them, but if enough people ask me about a single idea, I might consider making it a project.";
       p = make_elem("p", panel_body);
-      p.innerHTML = "Feel free to take inspiration from this list! If you develop something cool, I'd love to hear about it!";
+      p.innerHTML = "Feel free to take inspiration from this list! If you develop something cool, let me know at ptrgags@gmail.com. I'd love to hear about it!";
       ul = make_elem("ul", panel_body);
       ref = this.ideas;
       for (i = 0, len = ref.length; i < len; i++) {
@@ -117,21 +117,21 @@
       if (this.project.github_link != null) {
         github_link = make_elem("a", buttons);
         github_link.href = "https://github.com/ptrgags/" + this.project.github_link;
-        github_link.className = "btn btn-default";
+        github_link.className = "btn btn-success";
         github_link.role = "button";
         github_link.innerHTML = "View on Github";
       }
       if ((this.project.dropbox_link != null) && (this.project.version != null)) {
         dropbox_link = make_elem("a", buttons);
         dropbox_link.href = "https://dl.dropboxusercontent.com/u/25993970/github/" + this.project.dropbox_link;
-        dropbox_link.className = "btn btn-default";
+        dropbox_link.className = "btn btn-success";
         dropbox_link.role = "button";
         dropbox_link.innerHTML = "View Version " + this.project.version;
       }
       if ((this.project.link != null) && this.project.link_text) {
         link = make_elem("a", buttons);
         link.href = "" + this.project.link;
-        link.className = "btn btn-default";
+        link.className = "btn btn-success";
         link.role = "button";
         link.innerHTML = this.project.link_text;
       }
@@ -183,7 +183,7 @@
     contents = document.getElementById("content");
     contents.innerHTML = "";
     title = make_elem("h1", contents);
-    title.innerHTML = "Project Ideas";
+    title.innerHTML = "Future Project Ideas";
     ideas_widget = new IdeasCard(ideas);
     return contents.appendChild(ideas_widget.render());
   };
@@ -195,7 +195,7 @@
     column = 0;
     row = null;
     title = make_elem("h1");
-    title.innerHTML = "GitHub Projects";
+    title.innerHTML = "My GitHub Projects";
     contents.appendChild(title);
     project_arr = (function() {
       var results;
