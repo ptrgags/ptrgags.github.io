@@ -27,6 +27,37 @@
 
   })();
 
+  this.IdeasCard = (function(superClass) {
+    extend(IdeasCard, superClass);
+
+    function IdeasCard(ideas1) {
+      this.ideas = ideas1;
+    }
+
+    IdeasCard.prototype.render = function() {
+      var i, idea, intro, item, len, p, panel, panel_body, ref, ul;
+      panel = make_elem('div');
+      panel.className = "panel panel-default";
+      panel_body = make_elem('div', panel);
+      panel_body.className = "panel-body";
+      intro = make_elem('p', panel_body);
+      intro.innerHTML = "This is a list of possible future projects I'd be interested in trying. I probably won't find time for most of them, but if enough people ask me about a single idea, I might consider making it a project.";
+      p = make_elem("p", panel_body);
+      p.innerHTML = "Feel free to take inspiration from this list! If you develop something cool, I'd love to hear about it!";
+      ul = make_elem("ul", panel_body);
+      ref = this.ideas;
+      for (i = 0, len = ref.length; i < len; i++) {
+        idea = ref[i];
+        item = make_elem("li", ul);
+        item.innerHTML = idea;
+      }
+      return panel;
+    };
+
+    return IdeasCard;
+
+  })(Widget);
+
   this.ProjectCard = (function(superClass) {
     extend(ProjectCard, superClass);
 
@@ -148,11 +179,13 @@
   };
 
   this.show_ideas = function() {
-    var contents, title;
+    var contents, ideas_widget, title;
     contents = document.getElementById("content");
     contents.innerHTML = "";
     title = make_elem("h1", contents);
-    return title.innerHTML = "Project Ideas";
+    title.innerHTML = "Project Ideas";
+    ideas_widget = new IdeasCard(ideas);
+    return contents.appendChild(ideas_widget.render());
   };
 
   this.show_projects = function() {
@@ -192,7 +225,13 @@
   this.onload = function() {
     document.getElementById("btn-github").onclick = show_projects;
     document.getElementById("btn-ideas").onclick = show_ideas;
-    return show_projects();
+    if (location.hash === "#projects") {
+      return show_projects();
+    } else if (location.hash === "#ideas") {
+      return show_ideas();
+    } else {
+      return show_projects();
+    }
   };
 
 }).call(this);

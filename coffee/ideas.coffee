@@ -1,0 +1,5 @@
+@ideas = [
+    "foo",
+    "bar",
+    "baz"
+]

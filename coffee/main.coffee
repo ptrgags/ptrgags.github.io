@@ -10,6 +10,34 @@ class @Widget
         paragraph.innerHTML = "Widget"
         paragraph
 
+class @IdeasCard extends Widget
+    constructor: (@ideas) ->
+
+    render: ->
+        panel = make_elem 'div'
+        panel.className = "panel panel-default"
+
+        panel_body = make_elem 'div', panel
+        panel_body.className = "panel-body"
+
+        intro = make_elem 'p', panel_body
+        intro.innerHTML = "This is a list of possible future projects
+        I'd be interested in trying. I probably won't find time for most of them,
+        but if enough people ask me about a single idea, I might
+        consider making it a project."
+
+        p = make_elem "p", panel_body
+        p.innerHTML = "Feel free to take inspiration from this list! If you
+        develop something cool, I'd love to hear about it!"
+
+        ul = make_elem "ul", panel_body
+
+        for idea in @ideas
+            item = make_elem "li", ul
+            item.innerHTML = idea
+
+        panel
+
 class @ProjectCard extends Widget
     constructor: (@project) ->
 
@@ -124,6 +152,9 @@ NUM_COLS = 2
     title = make_elem "h1", contents
     title.innerHTML = "Project Ideas"
 
+    ideas_widget = new IdeasCard ideas
+    contents.appendChild ideas_widget.render()
+
 @show_projects = ->
     contents = document.getElementById("content")
     contents.innerHTML = ""
@@ -153,4 +184,10 @@ NUM_COLS = 2
 @onload = ->
     document.getElementById("btn-github").onclick = show_projects
     document.getElementById("btn-ideas").onclick = show_ideas
-    show_projects()
+
+    if location.hash is "#projects"
+        show_projects()
+    else if location.hash is "#ideas"
+        show_ideas()
+    else
+        show_projects()
