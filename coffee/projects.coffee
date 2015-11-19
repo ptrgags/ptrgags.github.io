@@ -28,11 +28,18 @@
         dev_number: "1.0"
         description: "Text to morse code library with Arduino-powered beacon"
         github_link: "arduino-morse"
-    square_runner:
-        title: "Square Runner"
+    square_runner_flash:
+        title: "Square Runner Flash"
+        version: "0.1"
         dev_number: "1.0"
         github_link: "square-runner"
-        description: "Porting an old game to HTML5"
+        description: "My old flash game from 2010-11"
+    square_runner_java:
+        title: "Square Runner Java"
+        version: "0.1"
+        dev_number: "1.0"
+        github_link: "square-runner"
+        description: "Java port of Square Runner Flash"
     text_visualizer:
         title: "Text Visualizer"
         description: "Visualization of hashed text"
