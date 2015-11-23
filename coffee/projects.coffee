@@ -51,11 +51,11 @@
     ptrgags_github_io:
         title: "Website"
         description: "This website. Still under development"
-        version: "1.0.1"
+        version: "1.0.2"
         dev_number: "1.1"
         github_link: "ptrgags.github.io"
         link: "http://ptrgags.github.io"
-        link_text: "View Version 1.0.1"
+        link_text: "View Version 1.0.2"
     mixtape:
         title: "Mixtape"
         description: "Music programmed with Sonic Pi"
