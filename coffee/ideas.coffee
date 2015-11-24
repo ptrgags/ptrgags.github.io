@@ -9,4 +9,8 @@
     "Machi Koro clone",
     "Network of microcontollers/single-board computers",
     "Interactive games instead of PowerPoints",
+    "Cellular Automata (Maybe with multiple colors?)",
+    "Turing Machines",
+    "Make use of electronic sensors",
+    "Pizza in... Code out idle game"
 ]
