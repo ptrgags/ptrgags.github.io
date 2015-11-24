@@ -11,7 +11,7 @@
     turn_based_strategy: {
       title: "Turn-Based Strategy",
       description: "Library for making turn-based strategy games",
-      version: "0.1",
+      version: "0.2",
       "with": "IzzyEevee",
       dev_number: "1.0",
       dev_status: "development",
@@ -60,11 +60,11 @@
     ptrgags_github_io: {
       title: "Website",
       description: "This website. Still under development",
-      version: "1.0.2",
+      version: "1.0.3",
       dev_number: "1.1",
       github_link: "ptrgags.github.io",
       link: "http://ptrgags.github.io",
-      link_text: "View Version 1.0.2"
+      link_text: "View Version 1.0.3"
     },
     mixtape: {
       title: "Mixtape",
