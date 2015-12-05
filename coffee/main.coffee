@@ -182,6 +182,22 @@ NUM_COLS = 2
 
         column = (column + 1) % NUM_COLS
 
+@projects = {}
+@ideas = []
+
+@fetch_data = ->
+    projects_url = "https://raw.githubusercontent.com/ptrgags/ptrgags.github.io/json/json/projects.json"
+    ideas_url = "https://raw.githubusercontent.com/ptrgags/ptrgags.github.io/json/json/ideas.json"
+    $.getJSON projects_url, "", (data) ->
+        window.projects = data
+        if location.hash is "#projects"
+            show_projects()
+    $.getJSON ideas_url, "", (data) ->
+        window.ideas = data
+        if location.hash is "#ideas"
+            show_ideas()
+fetch_data()
+
 @onload = ->
     document.getElementById("btn-github").onclick = show_projects
     document.getElementById("btn-ideas").onclick = show_ideas

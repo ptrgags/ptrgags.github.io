@@ -222,6 +222,30 @@
     return results;
   };
 
+  this.projects = {};
+
+  this.ideas = [];
+
+  this.fetch_data = function() {
+    var ideas_url, projects_url;
+    projects_url = "https://raw.githubusercontent.com/ptrgags/ptrgags.github.io/json/json/projects.json";
+    ideas_url = "https://raw.githubusercontent.com/ptrgags/ptrgags.github.io/json/json/ideas.json";
+    $.getJSON(projects_url, "", function(data) {
+      window.projects = data;
+      if (location.hash === "#projects") {
+        return show_projects();
+      }
+    });
+    return $.getJSON(ideas_url, "", function(data) {
+      window.ideas = data;
+      if (location.hash === "#ideas") {
+        return show_ideas();
+      }
+    });
+  };
+
+  fetch_data();
+
   this.onload = function() {
     document.getElementById("btn-github").onclick = show_projects;
     document.getElementById("btn-ideas").onclick = show_ideas;
