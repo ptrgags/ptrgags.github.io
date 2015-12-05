@@ -222,6 +222,31 @@
     return results;
   };
 
+  this.projects = {};
+
+  this.ideas = [];
+
+  this.fetch_data = function() {
+    var base_url, ideas_url, projects_url;
+    base_url = "https://dl.dropboxusercontent.com/u/25993970/github/website";
+    projects_url = base_url + "/projects.json";
+    ideas_url = base_url + "/ideas.json";
+    $.getJSON(projects_url, "", function(data) {
+      window.projects = data;
+      if (location.hash === "#projects") {
+        return show_projects();
+      }
+    });
+    return $.getJSON(ideas_url, "", function(data) {
+      window.ideas = data;
+      if (location.hash === "#ideas") {
+        return show_ideas();
+      }
+    });
+  };
+
+  fetch_data();
+
   this.onload = function() {
     document.getElementById("btn-github").onclick = show_projects;
     document.getElementById("btn-ideas").onclick = show_ideas;
