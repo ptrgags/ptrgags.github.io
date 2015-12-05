@@ -186,8 +186,9 @@ NUM_COLS = 2
 @ideas = []
 
 @fetch_data = ->
-    projects_url = "https://raw.githubusercontent.com/ptrgags/ptrgags.github.io/json/json/projects.json"
-    ideas_url = "https://raw.githubusercontent.com/ptrgags/ptrgags.github.io/json/json/ideas.json"
+    base_url = "https://dl.dropboxusercontent.com/u/25993970/github/website"
+    projects_url = "#{base_url}/projects.json"
+    ideas_url = "#{base_url}/ideas.json"
     $.getJSON projects_url, "", (data) ->
         window.projects = data
         if location.hash is "#projects"
