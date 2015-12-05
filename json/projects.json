@@ -4,7 +4,7 @@
         "description": "Handy Bash customization scripts",
         "version": "1.1",
         "dev_number": "1.2",
-        "github_link": "linux-login",
+        "github_link": "linux-login"
     },
     "turn_based_strategy": {
         "title": "Turn-Based Strategy",
