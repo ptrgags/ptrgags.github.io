@@ -191,7 +191,7 @@ NUM_COLS = 2
     ideas_url = "#{base_url}/ideas.json"
     $.getJSON projects_url, "", (data) ->
         window.projects = data
-        if location.hash is "#projects"
+        if location.hash is "#projects" or location.hash is ""
             show_projects()
     $.getJSON ideas_url, "", (data) ->
         window.ideas = data

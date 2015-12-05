@@ -233,7 +233,7 @@
     ideas_url = base_url + "/ideas.json";
     $.getJSON(projects_url, "", function(data) {
       window.projects = data;
-      if (location.hash === "#projects") {
+      if (location.hash === "#projects" || location.hash === "") {
         return show_projects();
       }
     });
