@@ -1,102 +1,121 @@
+@make_elem = (tag, parent) ->
+    elem = document.createElement tag
+    if parent?
+        parent.appendChild elem
+    elem
+
 class @Widget
     render: ->
-        paragraph = document.createElement "p"
+        paragraph = make_elem "p"
         paragraph.innerHTML = "Widget"
         paragraph
+
+class @IdeasCard extends Widget
+    constructor: (@ideas) ->
+
+    render: ->
+        panel = make_elem 'div'
+        panel.className = "panel panel-default"
+
+        panel_body = make_elem 'div', panel
+        panel_body.className = "panel-body"
+
+        intro = make_elem 'p', panel_body
+        intro.innerHTML = "This is a list of possible future projects
+        I'd be interested in trying. I probably won't find time for most of them,
+        but if enough people ask me about a single idea, I might
+        consider making it a project."
+
+        p = make_elem "p", panel_body
+        p.innerHTML = "Feel free to take inspiration from this list! If you
+        develop something cool, let me know at ptrgags@gmail.com.
+        I'd love to hear about it!"
+
+        ul = make_elem "ul", panel_body
+
+        for idea in @ideas
+            item = make_elem "li", ul
+            item.innerHTML = idea
+
+        panel
 
 class @ProjectCard extends Widget
     constructor: (@project) ->
 
     render: ->
-        panel = document.createElement 'div'
+        panel = make_elem 'div'
         panel.className = "panel panel-default"
 
-        panel_body = document.createElement 'div'
+        panel_body = make_elem 'div', panel
         panel_body.className = "panel-body"
-        panel.appendChild panel_body
 
-        heading = document.createElement 'h2'
+        heading = make_elem 'h2', panel_body
         heading.innerHTML = @project.title
-        panel_body.appendChild heading
 
-        row = document.createElement 'div'
+        row = make_elem 'div', panel_body
         row.className = "row"
-        panel_body.appendChild row
 
-        info_col = document.createElement 'div'
+        info_col = make_elem 'div', row
         info_col.className = "col-sm-6"
-        row.appendChild info_col
 
-        pic_col = document.createElement 'div'
+        pic_col = make_elem 'div', row
         pic_col.className = "col-sm-6"
-        row.appendChild pic_col
 
         if @project.with?
-            collab_p = document.createElement "p"
+            collab_p = make_elem "p", info_col
             collab_p.innerHTML = "With "
-            info_col.appendChild collab_p
 
-            collab = document.createElement "a"
+            collab = make_elem "a", collab_p
             collab.innerHTML = @project.with
             collab.href = "https://github.com/#{@project.with}"
-            collab_p.appendChild collab
 
-        tags = document.createElement 'p'
-        info_col.appendChild tags
+        tags = make_elem 'p', info_col
 
         if @project.version?
             if not @project.version_prefix
                 @project.version_prefix = "Version"
-            version_tag = document.createElement 'span'
+            version_tag = make_elem 'span',  tags
             version_tag.className = "label label-success"
             version_tag.innerHTML = "#{@project.version_prefix} #{@project.version}"
-            tags.appendChild version_tag
 
         if @project.dev_number?
             if not @project.dev_status
                 @project.dev_status = "backlog"
-            status_tag = document.createElement 'span'
+            status_tag = make_elem 'span', tags
             if @project.dev_status is 'backlog'
                 status_tag.className = "label label-danger"
                 status_tag.innerHTML = "v#{@project.dev_number} on Backlog"
             else if @project.dev_status is 'development'
                 status_tag.className = "label label-warning"
                 status_tag.innerHTML = "v#{@project.dev_number} in Development"
-            tags.appendChild status_tag
 
         if @project.description?
-            description = document.createElement 'p'
+            description = make_elem 'p', info_col
             description.innerHTML = @project.description
-            info_col.appendChild description
 
-        buttons = document.createElement "div"
+        buttons = make_elem "div", panel_body
         buttons.className = "btn-group"
-        panel_body.appendChild buttons
 
         if @project.github_link?
-            github_link = document.createElement "a"
+            github_link = make_elem "a", buttons
             github_link.href = "https://github.com/ptrgags/#{@project.github_link}"
-            github_link.className = "btn btn-default"
+            github_link.className = "btn btn-success"
             github_link.role = "button"
             github_link.innerHTML = "View on Github"
-            buttons.appendChild github_link
 
         if @project.dropbox_link? and @project.version?
-            dropbox_link = document.createElement "a"
+            dropbox_link = make_elem "a", buttons
             dropbox_link.href = "https://dl.dropboxusercontent.com/u/25993970/github/#{@project.dropbox_link}"
-            dropbox_link.className = "btn btn-default"
+            dropbox_link.className = "btn btn-success"
             dropbox_link.role = "button"
             dropbox_link.innerHTML = "View Version #{@project.version}"
-            buttons.appendChild dropbox_link
 
         if @project.link? and @project.link_text
-            link = document.createElement "a"
+            link = make_elem "a", buttons
             link.href = "#{@project.link}"
-            link.className = "btn btn-default"
+            link.className = "btn btn-success"
             link.role = "button"
             link.innerHTML = @project.link_text
-            buttons.appendChild link
-
         panel
 
 NUM_COLS = 2
@@ -127,25 +146,66 @@ NUM_COLS = 2
 
     return 0
 
-@onload = ->
+@show_ideas = ->
     contents = document.getElementById("content")
+    contents.innerHTML = ""
+
+    title = make_elem "h1", contents
+    title.innerHTML = "Future Project Ideas"
+
+    ideas_widget = new IdeasCard ideas
+    contents.appendChild ideas_widget.render()
+
+@show_projects = ->
+    contents = document.getElementById("content")
+    contents.innerHTML = ""
     column = 0
     row = null
+
+    title = make_elem "h1"
+    title.innerHTML = "My GitHub Projects"
+    contents.appendChild title
 
     project_arr = (projects[key] for key of projects)
     project_arr.sort sort_projects
 
     for proj in project_arr
         if column is 0
-            row = document.createElement "div"
+            row = make_elem "div", contents
             row.className = "row"
-            contents.appendChild row
 
-        col = document.createElement "div"
+        col = make_elem "div", row
         col.className = "col-sm-#{12 // NUM_COLS}"
-        row.appendChild col
 
         card = new ProjectCard proj
         col.appendChild card.render()
 
         column = (column + 1) % NUM_COLS
+
+@projects = {}
+@ideas = []
+
+@fetch_data = ->
+    base_url = "https://dl.dropboxusercontent.com/u/25993970/github/website"
+    projects_url = "#{base_url}/projects.json"
+    ideas_url = "#{base_url}/ideas.json"
+    $.getJSON projects_url, "", (data) ->
+        window.projects = data
+        if location.hash is "#projects" or location.hash is ""
+            show_projects()
+    $.getJSON ideas_url, "", (data) ->
+        window.ideas = data
+        if location.hash is "#ideas"
+            show_ideas()
+fetch_data()
+
+@onload = ->
+    document.getElementById("btn-github").onclick = show_projects
+    document.getElementById("btn-ideas").onclick = show_ideas
+
+    if location.hash is "#projects"
+        show_projects()
+    else if location.hash is "#ideas"
+        show_ideas()
+    else
+        show_projects()
