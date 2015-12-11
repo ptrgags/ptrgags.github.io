@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel='stylesheet' href='gitgraph.css'/>
+    <script src="gitgraph.js"></script>
+    <script>
+        window.onload = function() {
+            var gitgraph = new GitGraph({
+                mode:"compact",
+                orientation: "verticals"
+            });
+            var master = gitgraph.branch('master');
+            gitgraph.commit().commit().commit();
+            var develop = gitgraph.branch('develop')
+            gitgraph.commit().commit()
+            master.checkout()
+            gitgraph.commit().commit()
+            develop.checkout()
+            var feature = gitgraph.branch('feature')
+            gitgraph.commit().commit()
+            develop.checkout()
+            gitgraph.commit()
+            gitgraph.commit()
+            var feature2 = gitgraph.branch('feature2')
+            gitgraph.commit().commit()
+            feature.checkout()
+            feature.merge(master)
+            master.checkout()
+            var fix1 = master.branch('fix1')
+            fix1.commit()
+            var fix2 = master.branch('fix2')
+            fix2.commit().commit()
+            fix1.commit()
+        }
+    </script>
+</head>
+    <canvas id="gitGraph"></canvas>
+</html>
