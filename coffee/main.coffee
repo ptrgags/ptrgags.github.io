@@ -7,6 +7,11 @@ NUM_COLS = 2
         when "#ideas" then show_ideas()
         else console.warn "Invalid hash... Fix this"
 
+@refresh_repo = (title_key) ->
+    repo = repos[title_key]
+    card = new ProjectCard repo
+    $("##{title_key}").html card.render()
+
 @score = (proj) ->
     val = 0
     if proj.priority?
@@ -47,15 +52,14 @@ NUM_COLS = 2
     column = 0
     row = null
 
-    for repo in repos
+    for repo_name, repo of repos
         if column is 0
             row = $('<div>').addClass("row").appendTo '#content'
-        col = $('<div>').addClass("col-sm-#{12 // NUM_COLS}").appendTo row
-
-        #TODO: Use JQuery to be more consistent?
-        card = new ProjectCard repo
-        $(col).append card.render()
-
+        col = $('<div>')
+            .addClass("col-sm-#{12 // NUM_COLS}")
+            .prop("id", repo_name)
+            .appendTo row
+        refresh_repo repo_name
         column = (column + 1) % NUM_COLS
 
 
@@ -66,22 +70,6 @@ NUM_COLS = 2
         window.ideas = data
         refresh()
 fetch_ideas()
-
-###
-@fetch_data = ->
-    base_url = "https://dl.dropboxusercontent.com/u/25993970/github/website"
-    projects_url = "#{base_url}/projects.json"
-    ideas_url = "#{base_url}/ideas.json"
-    $.getJSON projects_url, "", (data) ->
-        window.projects = data
-        if location.hash is "#projects" or location.hash is ""
-            show_projects()
-    $.getJSON ideas_url, "", (data) ->
-        window.ideas = data
-        if location.hash is "#ideas"
-            show_ideas()
-fetch_data()
-###
 
 @onload = ->
     $("#btn-github").click refresh

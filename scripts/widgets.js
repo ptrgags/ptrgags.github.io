@@ -65,13 +65,23 @@
     }
 
     ProjectCard.prototype.render = function() {
-      var buttons, description, panel, panel_body;
+      var buttons, description, klass, panel, panel_body, tags, text;
       panel = $("<div>").addClass('panel panel-default');
       panel_body = $("<div>").addClass('panel-body').appendTo(panel);
       $("<h2>").html(this.project.title).appendTo(panel_body);
-      $("<p>").html(this.project.years).appendTo(panel_body);
+      tags = $("<p>").appendTo(panel_body);
       description = $("<p>").html(this.project.description).appendTo(panel_body);
-      $("<p>").prop("id", "labels-" + this.project.title).appendTo(panel_body);
+      if (this.project.version_tag != null) {
+        if (this.project.version_tag === "") {
+          text = "No Releases";
+          klass = "label label-danger";
+        } else {
+          text = this.project.version_tag;
+          klass = 'label label-success';
+        }
+        $("<span>").addClass(klass).html(text).appendTo(tags);
+      }
+      $("<span>").addClass("label label-primary").html(this.project.years).appendTo(tags);
       buttons = $('<div>').addClass("btn-group").appendTo(panel_body);
       if (this.project.github_link != null) {
         $('<a role="button">').prop("href", this.project.github_link).addClass("btn btn-success").html("View on GitHub").appendTo(buttons);
@@ -88,42 +98,6 @@
           collab = make_elem "a", collab_p
           collab.innerHTML = @project.with
           collab.href = "https://github.com/#{@project.with}"
-       */
-
-      /*
-      tags = make_elem 'p', info_col
-      
-      if @project.version?
-          if not @project.version_prefix
-              @project.version_prefix = "Version"
-          version_tag = make_elem 'span',  tags
-          version_tag.className = "label label-success"
-          version_tag.innerHTML = "#{@project.version_prefix} #{@project.version}"
-      
-      if @project.dev_number?
-          if not @project.dev_status
-              @project.dev_status = "backlog"
-          status_tag = make_elem 'span', tags
-          if @project.dev_status is 'backlog'
-              status_tag.className = "label label-danger"
-              status_tag.innerHTML = "v#{@project.dev_number} on Backlog"
-          else if @project.dev_status is 'development'
-              status_tag.className = "label label-warning"
-              status_tag.innerHTML = "v#{@project.dev_number} in Development"
-      
-      if @project.description?
-          description = make_elem 'p', info_col
-          description.innerHTML = @project.description
-      
-      buttons = make_elem "div", panel_body
-      buttons.className = "btn-group"
-      
-      if @project.dropbox_link? and @project.version?
-          dropbox_link = make_elem "a", buttons
-          dropbox_link.href = "https://dl.dropboxusercontent.com/u/25993970/github/#{@project.dropbox_link}"
-          dropbox_link.className = "btn btn-success"
-          dropbox_link.role = "button"
-          dropbox_link.innerHTML = "View Version #{@project.version}"
        */
       return panel;
     };

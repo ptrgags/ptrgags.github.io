@@ -17,6 +17,13 @@
     }
   };
 
+  this.refresh_repo = function(title_key) {
+    var card, repo;
+    repo = repos[title_key];
+    card = new ProjectCard(repo);
+    return $("#" + title_key).html(card.render());
+  };
+
   this.score = function(proj) {
     var val;
     val = 0;
@@ -60,20 +67,19 @@
   };
 
   this.show_repos = function() {
-    var card, col, column, i, len, repo, results, row;
+    var col, column, repo, repo_name, results, row;
     $("#content").html("");
     $("<h1>").html("My GitHub Projects").appendTo("#content");
     column = 0;
     row = null;
     results = [];
-    for (i = 0, len = repos.length; i < len; i++) {
-      repo = repos[i];
+    for (repo_name in repos) {
+      repo = repos[repo_name];
       if (column === 0) {
         row = $('<div>').addClass("row").appendTo('#content');
       }
-      col = $('<div>').addClass("col-sm-" + (Math.floor(12 / NUM_COLS))).appendTo(row);
-      card = new ProjectCard(repo);
-      $(col).append(card.render());
+      col = $('<div>').addClass("col-sm-" + (Math.floor(12 / NUM_COLS))).prop("id", repo_name).appendTo(row);
+      refresh_repo(repo_name);
       results.push(column = (column + 1) % NUM_COLS);
     }
     return results;
@@ -89,23 +95,6 @@
   };
 
   fetch_ideas();
-
-
-  /*
-  @fetch_data = ->
-      base_url = "https://dl.dropboxusercontent.com/u/25993970/github/website"
-      projects_url = "#{base_url}/projects.json"
-      ideas_url = "#{base_url}/ideas.json"
-      $.getJSON projects_url, "", (data) ->
-          window.projects = data
-          if location.hash is "#projects" or location.hash is ""
-              show_projects()
-      $.getJSON ideas_url, "", (data) ->
-          window.ideas = data
-          if location.hash is "#ideas"
-              show_ideas()
-  fetch_data()
-   */
 
   this.onload = function() {
     $("#btn-github").click(refresh);
