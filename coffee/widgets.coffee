@@ -44,24 +44,30 @@ class @ProjectCard extends Widget
     constructor: (@project) ->
 
     render: ->
-        panel = make_elem 'div'
-        panel.className = "panel panel-default"
+        panel = $("<div>").addClass 'panel panel-default'
+        panel_body = $("<div>").addClass('panel-body').appendTo panel
+        $("<h2>").html(@project.title).appendTo panel_body
+        $("<p>").html(@project.years).appendTo panel_body
+        description = $("<p>").html(@project.description).appendTo panel_body
+        $("<p>").prop("id", "labels-#{@project.title}").appendTo panel_body
+        buttons = $('<div>').addClass("btn-group").appendTo panel_body
 
-        panel_body = make_elem 'div', panel
-        panel_body.className = "panel-body"
+        if @project.github_link?
+            $('<a role="button">')
+                .prop("href", @project.github_link)
+                .addClass("btn btn-success")
+                .html("View on GitHub")
+                .appendTo buttons
 
-        heading = make_elem 'h2', panel_body
-        heading.innerHTML = @project.title
+        #TODO: handle the project for this website
+        if @project.github_page? and @project.github_page isnt ""
+            $('<a role="button">')
+                .prop("href", @project.github_page)
+                .addClass("btn btn-success")
+                .html("View GitHub Page")
+                .appendTo buttons
 
-        row = make_elem 'div', panel_body
-        row.className = "row"
-
-        info_col = make_elem 'div', row
-        info_col.className = "col-sm-6"
-
-        pic_col = make_elem 'div', row
-        pic_col.className = "col-sm-6"
-
+        ###
         if @project.with?
             collab_p = make_elem "p", info_col
             collab_p.innerHTML = "With "
@@ -69,7 +75,9 @@ class @ProjectCard extends Widget
             collab = make_elem "a", collab_p
             collab.innerHTML = @project.with
             collab.href = "https://github.com/#{@project.with}"
+        ###
 
+        ###
         tags = make_elem 'p', info_col
 
         if @project.version?
@@ -97,24 +105,11 @@ class @ProjectCard extends Widget
         buttons = make_elem "div", panel_body
         buttons.className = "btn-group"
 
-        if @project.github_link?
-            github_link = make_elem "a", buttons
-            github_link.href = "https://github.com/ptrgags/#{@project.github_link}"
-            github_link.className = "btn btn-success"
-            github_link.role = "button"
-            github_link.innerHTML = "View on Github"
-
         if @project.dropbox_link? and @project.version?
             dropbox_link = make_elem "a", buttons
             dropbox_link.href = "https://dl.dropboxusercontent.com/u/25993970/github/#{@project.dropbox_link}"
             dropbox_link.className = "btn btn-success"
             dropbox_link.role = "button"
             dropbox_link.innerHTML = "View Version #{@project.version}"
-
-        if @project.link? and @project.link_text
-            link = make_elem "a", buttons
-            link.href = "#{@project.link}"
-            link.className = "btn btn-success"
-            link.role = "button"
-            link.innerHTML = @project.link_text
+        ###
         panel

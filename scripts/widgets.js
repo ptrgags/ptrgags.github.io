@@ -65,75 +65,66 @@
     }
 
     ProjectCard.prototype.render = function() {
-      var buttons, collab, collab_p, description, dropbox_link, github_link, heading, info_col, link, panel, panel_body, pic_col, row, status_tag, tags, version_tag;
-      panel = make_elem('div');
-      panel.className = "panel panel-default";
-      panel_body = make_elem('div', panel);
-      panel_body.className = "panel-body";
-      heading = make_elem('h2', panel_body);
-      heading.innerHTML = this.project.title;
-      row = make_elem('div', panel_body);
-      row.className = "row";
-      info_col = make_elem('div', row);
-      info_col.className = "col-sm-6";
-      pic_col = make_elem('div', row);
-      pic_col.className = "col-sm-6";
-      if (this.project["with"] != null) {
-        collab_p = make_elem("p", info_col);
-        collab_p.innerHTML = "With ";
-        collab = make_elem("a", collab_p);
-        collab.innerHTML = this.project["with"];
-        collab.href = "https://github.com/" + this.project["with"];
-      }
-      tags = make_elem('p', info_col);
-      if (this.project.version != null) {
-        if (!this.project.version_prefix) {
-          this.project.version_prefix = "Version";
-        }
-        version_tag = make_elem('span', tags);
-        version_tag.className = "label label-success";
-        version_tag.innerHTML = this.project.version_prefix + " " + this.project.version;
-      }
-      if (this.project.dev_number != null) {
-        if (!this.project.dev_status) {
-          this.project.dev_status = "backlog";
-        }
-        status_tag = make_elem('span', tags);
-        if (this.project.dev_status === 'backlog') {
-          status_tag.className = "label label-danger";
-          status_tag.innerHTML = "v" + this.project.dev_number + " on Backlog";
-        } else if (this.project.dev_status === 'development') {
-          status_tag.className = "label label-warning";
-          status_tag.innerHTML = "v" + this.project.dev_number + " in Development";
-        }
-      }
-      if (this.project.description != null) {
-        description = make_elem('p', info_col);
-        description.innerHTML = this.project.description;
-      }
-      buttons = make_elem("div", panel_body);
-      buttons.className = "btn-group";
+      var buttons, description, panel, panel_body;
+      panel = $("<div>").addClass('panel panel-default');
+      panel_body = $("<div>").addClass('panel-body').appendTo(panel);
+      $("<h2>").html(this.project.title).appendTo(panel_body);
+      $("<p>").html(this.project.years).appendTo(panel_body);
+      description = $("<p>").html(this.project.description).appendTo(panel_body);
+      $("<p>").prop("id", "labels-" + this.project.title).appendTo(panel_body);
+      buttons = $('<div>').addClass("btn-group").appendTo(panel_body);
       if (this.project.github_link != null) {
-        github_link = make_elem("a", buttons);
-        github_link.href = "https://github.com/ptrgags/" + this.project.github_link;
-        github_link.className = "btn btn-success";
-        github_link.role = "button";
-        github_link.innerHTML = "View on Github";
+        $('<a role="button">').prop("href", this.project.github_link).addClass("btn btn-success").html("View on GitHub").appendTo(buttons);
       }
-      if ((this.project.dropbox_link != null) && (this.project.version != null)) {
-        dropbox_link = make_elem("a", buttons);
-        dropbox_link.href = "https://dl.dropboxusercontent.com/u/25993970/github/" + this.project.dropbox_link;
-        dropbox_link.className = "btn btn-success";
-        dropbox_link.role = "button";
-        dropbox_link.innerHTML = "View Version " + this.project.version;
+      if ((this.project.github_page != null) && this.project.github_page !== "") {
+        $('<a role="button">').prop("href", this.project.github_page).addClass("btn btn-success").html("View GitHub Page").appendTo(buttons);
       }
-      if ((this.project.link != null) && this.project.link_text) {
-        link = make_elem("a", buttons);
-        link.href = "" + this.project.link;
-        link.className = "btn btn-success";
-        link.role = "button";
-        link.innerHTML = this.project.link_text;
-      }
+
+      /*
+      if @project.with?
+          collab_p = make_elem "p", info_col
+          collab_p.innerHTML = "With "
+      
+          collab = make_elem "a", collab_p
+          collab.innerHTML = @project.with
+          collab.href = "https://github.com/#{@project.with}"
+       */
+
+      /*
+      tags = make_elem 'p', info_col
+      
+      if @project.version?
+          if not @project.version_prefix
+              @project.version_prefix = "Version"
+          version_tag = make_elem 'span',  tags
+          version_tag.className = "label label-success"
+          version_tag.innerHTML = "#{@project.version_prefix} #{@project.version}"
+      
+      if @project.dev_number?
+          if not @project.dev_status
+              @project.dev_status = "backlog"
+          status_tag = make_elem 'span', tags
+          if @project.dev_status is 'backlog'
+              status_tag.className = "label label-danger"
+              status_tag.innerHTML = "v#{@project.dev_number} on Backlog"
+          else if @project.dev_status is 'development'
+              status_tag.className = "label label-warning"
+              status_tag.innerHTML = "v#{@project.dev_number} in Development"
+      
+      if @project.description?
+          description = make_elem 'p', info_col
+          description.innerHTML = @project.description
+      
+      buttons = make_elem "div", panel_body
+      buttons.className = "btn-group"
+      
+      if @project.dropbox_link? and @project.version?
+          dropbox_link = make_elem "a", buttons
+          dropbox_link.href = "https://dl.dropboxusercontent.com/u/25993970/github/#{@project.dropbox_link}"
+          dropbox_link.className = "btn btn-success"
+          dropbox_link.role = "button"
+          dropbox_link.innerHTML = "View Version #{@project.version}"
+       */
       return panel;
     };
 

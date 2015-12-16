@@ -1,3 +1,5 @@
 @urls = {}
-urls.user_url = "https://api.github.com/users/ptrgags"
-urls.repos_url = "#{urls.user_url}/repos"
+urls.dropbox_base = "https://dl.dropboxusercontent.com/u/25993970/github/website"
+urls.dropbox_ideas = "#{urls.dropbox_base}/ideas.json"
+urls.github_user_url = "https://api.github.com/users/ptrgags"
+urls.github_repos_url = "#{urls.github_user_url}/repos"

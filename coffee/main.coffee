@@ -1,5 +1,12 @@
 NUM_COLS = 2
 
+@refresh = ->
+    switch location.hash
+        when "" then show_repos()
+        when "#projects" then show_repos()
+        when "#ideas" then show_ideas()
+        else console.warn "Invalid hash... Fix this"
+
 @score = (proj) ->
     val = 0
     if proj.priority?
@@ -27,44 +34,40 @@ NUM_COLS = 2
     return 0
 
 @show_ideas = ->
-    contents = document.getElementById("content")
-    contents.innerHTML = ""
-
-    title = make_elem "h1", contents
-    title.innerHTML = "Future Project Ideas"
+    $("#content").html ""
+    $("<h1>").html("Future Project Ideas").appendTo "#content"
 
     ideas_widget = new IdeasCard ideas
-    contents.appendChild ideas_widget.render()
+    $("#content").append ideas_widget.render()
 
-@show_projects = ->
-    contents = document.getElementById("content")
-    contents.innerHTML = ""
+@show_repos = ->
+    $("#content").html ""
+    $("<h1>").html("My GitHub Projects").appendTo "#content"
+
     column = 0
     row = null
 
-    title = make_elem "h1"
-    title.innerHTML = "My GitHub Projects"
-    contents.appendChild title
-
-    project_arr = (projects[key] for key of projects)
-    project_arr.sort sort_projects
-
-    for proj in project_arr
+    for repo in repos
         if column is 0
-            row = make_elem "div", contents
-            row.className = "row"
+            row = $('<div>').addClass("row").appendTo '#content'
+        col = $('<div>').addClass("col-sm-#{12 // NUM_COLS}").appendTo row
 
-        col = make_elem "div", row
-        col.className = "col-sm-#{12 // NUM_COLS}"
-
-        card = new ProjectCard proj
-        col.appendChild card.render()
+        #TODO: Use JQuery to be more consistent?
+        card = new ProjectCard repo
+        $(col).append card.render()
 
         column = (column + 1) % NUM_COLS
 
-@projects = {}
-@ideas = []
 
+#Get data for the Project Ideas page
+@ideas = []
+@fetch_ideas = ->
+    $.getJSON urls.dropbox_ideas, "", (data) ->
+        window.ideas = data
+        refresh()
+fetch_ideas()
+
+###
 @fetch_data = ->
     base_url = "https://dl.dropboxusercontent.com/u/25993970/github/website"
     projects_url = "#{base_url}/projects.json"
@@ -78,62 +81,9 @@ NUM_COLS = 2
         if location.hash is "#ideas"
             show_ideas()
 fetch_data()
+###
 
 @onload = ->
-    document.getElementById("btn-github").onclick = show_projects
-    document.getElementById("btn-ideas").onclick = show_ideas
-
-    if location.hash is "#projects"
-        show_projects()
-    else if location.hash is "#ideas"
-        show_ideas()
-    else
-        show_projects()
-
-
-###
-TODO: Remove this when done
-<!DOCTYPE html>
-<html>
-<head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script>
-
-        var process_repo = function(repo) {
-            //Info object to be returned
-            var info = {};
-            info.title = repo.name;
-
-            //Description and years
-            var description_splitter = / (?=\()/; //Match the space before the date
-            var description_parts = repo.description.split(description_splitter);
-            info.description = description_parts[0];
-            info.years = description_parts[1] || '';
-            console.log(description_parts);
-
-            $("#content").append(info.title + ": " + info.years + "<br/>");
-
-        };
-
-        var process_repos = function(repos) {
-            for (var i in repos) {
-                process_repo(repos[i]);
-            }
-        };
-
-
-
-
-        var user_url = "https://api.github.com/users/ptrgags";
-        var repos_url = user_url + "/repos";
-
-        $.getJSON(repos_url, "", process_repos);
-
-    </script>
-</head>
-<body>
-    <div id="content"></div>
-</body>
-</html>
-
-###
+    $("#btn-github").click refresh
+    $("#btn-ideas").click refresh
+    refresh()
