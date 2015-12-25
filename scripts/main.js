@@ -97,8 +97,8 @@
   fetch_ideas();
 
   this.onload = function() {
-    $("#btn-github").click(refresh);
-    $("#btn-ideas").click(refresh);
+    $("#btn-github").click(show_repos);
+    $("#btn-ideas").click(show_ideas);
     return refresh();
   };
 
