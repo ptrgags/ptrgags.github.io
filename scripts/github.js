@@ -3,44 +3,18 @@
   this.repos = {};
 
   this.fetch_repos = function() {
-    return $.getJSON(urls.github_repos_url, "", function(repos) {
-      var i, len, repo;
-      for (i = 0, len = repos.length; i < len; i++) {
-        repo = repos[i];
-        process_repo(repo);
+    return $.getJSON(urls.dropbox_repos, "", function(repos) {
+      var repo, repo_name;
+      for (repo_name in repos) {
+        repo = repos[repo_name];
+        process_repo(repo_name, repo);
       }
       return refresh();
     });
   };
 
-  this.fetch_tags = function(title_key) {
-    var repo_name, url;
-    repo_name = repos[title_key].title;
-    url = urls.github_repo_base + "/" + repo_name + "/tags";
-    return $.getJSON(url, "", function(tags) {
-      var version_tag;
-      if (tags.length >= 1) {
-        version_tag = tags[0].name;
-      } else {
-        version_tag = "";
-      }
-      repos[title_key].version_tag = version_tag;
-      return refresh_repo(title_key);
-    });
-  };
-
-  this.process_repo = function(repo) {
-    var info, ref, split_regex, title_key;
-    info = {};
-    info.title = repo.name;
-    split_regex = /(?=\()/;
-    ref = repo.description.split(split_regex), info.description = ref[0], info.years = ref[1];
-    info.years = info.years.substring(1, info.years.length - 1);
-    info.github_link = repo.html_url;
-    info.github_page = repo.homepage;
-    title_key = info.title.replace(/\./g, "-");
-    repos[title_key] = info;
-    return this.fetch_tags(title_key);
+  this.process_repo = function(repo_name, repo_obj) {
+    return repos[repo_name] = repo_obj;
   };
 
   fetch_repos();
