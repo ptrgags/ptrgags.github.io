@@ -2,7 +2,8 @@ NUM_COLS = 2
 
 @refresh = ->
     switch location.hash
-        when "" then show_repos()
+        when "" then show_home()
+        when "#home" then show_home()
         when "#projects" then show_repos()
         when "#ideas" then show_ideas()
         else console.warn "Invalid hash... Fix this"
@@ -37,6 +38,13 @@ NUM_COLS = 2
         return 1
 
     return 0
+
+@show_home = ->
+    $('#content').html ""
+    $("<h1>").html("GagsDev Home").appendTo "#content"
+
+    home_widget = new HomeCard
+    $("#content").append home_widget.render()
 
 @show_ideas = ->
     $("#content").html ""
@@ -74,4 +82,5 @@ fetch_ideas()
 @onload = ->
     $("#btn-github").click show_repos
     $("#btn-ideas").click show_ideas
+    $("#btn-home").click show_home
     refresh()
