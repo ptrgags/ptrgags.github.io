@@ -1,44 +1,43 @@
-#TODO: Use JQuery instead of this
-@make_elem = (tag, parent) ->
-    elem = document.createElement tag
-    if parent?
-        parent.appendChild elem
-    elem
-
-#TODO: Use JQuery
 class @Widget
     render: ->
-        paragraph = make_elem "p"
-        paragraph.innerHTML = "Widget"
-        paragraph
+        $("<p>").html("Widget")
 
-#TODO: Use JQuery
+class @HomeCard extends Widget
+    render: ->
+        panel = $('<div>').addClass 'panel panel-default'
+        panel_body = $("<div>").addClass('panel-body').appendTo panel
+        $("<h2>").html("Welcome").appendTo panel_body
+        $("<p>").html("Hello, my name is Peter Gagliardi.
+        Welcome to my GitHub website! This site is my portfolio
+        of programming projects. It fetches data about my public
+        GitHub repositories and presents them all in one place.").appendTo panel_body
+        $("<p>").html("I have a backend script + cron job that fetches my GitHub
+        data and makes it accessible to the site. As a result, this site updates
+        its content automatically at least once a week, even if I forget to
+        run the script.").appendTo panel_body
+        $("<p>").html("This website is a work in progress. There are many more
+        features I would like to add over time, but I'm usually working
+        on other projects.").appendTo panel_body
+        panel
+
 class @IdeasCard extends Widget
     constructor: (@ideas) ->
 
     render: ->
-        panel = make_elem 'div'
-        panel.className = "panel panel-default"
-
-        panel_body = make_elem 'div', panel
-        panel_body.className = "panel-body"
-
-        intro = make_elem 'p', panel_body
-        intro.innerHTML = "This is a list of possible future projects
+        panel = $('<div>').addClass 'panel panel-default'
+        panel_body = $("<div>").addClass('panel-body').appendTo panel
+        $('<p>').html("This is a list of possible future projects
         I'd be interested in trying. I probably won't find time for most of them,
         but if enough people ask me about a single idea, I might
-        consider making it a project."
-
-        p = make_elem "p", panel_body
-        p.innerHTML = "Feel free to take inspiration from this list! If you
+        consider making it a project.").appendTo panel_body
+        $('<p>').html("Feel free to take inspiration from this list! If you
         develop something cool, let me know at ptrgags@gmail.com.
-        I'd love to hear about it!"
+        I'd love to hear about it!").appendTo panel_body
 
-        ul = make_elem "ul", panel_body
+        ul = $("<ul>").appendTo panel_body
 
         for idea in @ideas
-            item = make_elem "li", ul
-            item.innerHTML = idea
+            $("<li>").html(idea).appendTo ul
 
         panel
 
@@ -81,13 +80,4 @@ class @ProjectCard extends Widget
                 .addClass("btn btn-success")
                 .html("View GitHub Page")
                 .appendTo buttons
-        ###
-        if @project.with?
-            collab_p = make_elem "p", info_col
-            collab_p.innerHTML = "With "
-
-            collab = make_elem "a", collab_p
-            collab.innerHTML = @project.with
-            collab.href = "https://github.com/#{@project.with}"
-        ###
         panel

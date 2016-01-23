@@ -7,7 +7,9 @@
   this.refresh = function() {
     switch (location.hash) {
       case "":
-        return show_repos();
+        return show_home();
+      case "#home":
+        return show_home();
       case "#projects":
         return show_repos();
       case "#ideas":
@@ -58,6 +60,14 @@
     return 0;
   };
 
+  this.show_home = function() {
+    var home_widget;
+    $('#content').html("");
+    $("<h1>").html("GagsDev Home").appendTo("#content");
+    home_widget = new HomeCard;
+    return $("#content").append(home_widget.render());
+  };
+
   this.show_ideas = function() {
     var ideas_widget;
     $("#content").html("");
@@ -99,6 +109,7 @@
   this.onload = function() {
     $("#btn-github").click(show_repos);
     $("#btn-ideas").click(show_ideas);
+    $("#btn-home").click(show_home);
     return refresh();
   };
 
