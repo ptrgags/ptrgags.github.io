@@ -1,7 +1,7 @@
 ---
 layout: page
 title: About
-permalink: /about/
+permalink: /pages/about/
 ---
 This is my website for showcasing my programming projects throughout the years.
 Some of these projects I made back in high school, most have been made

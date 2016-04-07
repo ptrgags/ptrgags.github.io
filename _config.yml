@@ -18,3 +18,7 @@ github_username:  ptrgags
 
 # Build settings
 markdown: kramdown
+
+collections:
+    projects:
+        output: true
