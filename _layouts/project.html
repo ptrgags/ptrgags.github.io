@@ -1,0 +1,41 @@
+---
+layout: default
+---
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline">{{ page.title }}</h1>
+    <img src="http://img.shields.io/badge/status-{{page.status}}-green.svg" />
+  </header>
+
+  {% if page.purpose %}
+  <h2>Purpose</h2>
+  <p>{{page.purpose}}</p>
+  {% endif %}
+
+  {% if page.languages %}
+  <h2>Languages</h2>
+  <ul>
+      {% for language in page.languages %}
+      <li>{{language}}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
+
+  {% if page.concepts %}
+  <h2>Concepts:</h2>
+  <ul>
+      {% for concept in page.concepts %}
+      <li>{{concept}}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
+
+
+  <hr/>
+
+  <div class="post-content" itemprop="articleBody">
+    {{ content }}
+  </div>
+
+</article>
