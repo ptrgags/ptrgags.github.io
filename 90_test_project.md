@@ -1,8 +1,7 @@
 ---
 layout: project
 title: Sample Project
-permalink: /test_project/
-categories: projects
+permalink: /projects/test_project/
 purpose: >
     The purpose of this project is to see if I can have multiple sections
     in one page. This will be used for describing templates
