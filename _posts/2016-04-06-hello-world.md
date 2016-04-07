@@ -2,6 +2,8 @@
 layout: post
 title:  Hello World
 categories: posts
+tags:
+- changes
 ---
 I didn't like my old GitHub Pages site, so I decided to try Jekyll.
 At the very least, it will save me some time in constructing the site.

@@ -30,3 +30,4 @@ Feel free to take inspiration from this list! If you develop something cool, let
 * Procedural music generation
 * [*The Nature of Code*](http://natureofcode.com/book/) - inspired simulation
 * Write decoders for various binary formats.
+* Something with Near Field Communication (NFC)

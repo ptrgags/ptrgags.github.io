@@ -2,6 +2,8 @@
 layout: post
 title:  Setting Up Jekyll
 categories: posts
+tags:
+- changes
 ---
 
 It is now day two of setting up this Jekyll site. So far so good.
