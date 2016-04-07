@@ -12,3 +12,4 @@ site look nice and adding content.
 * Add pages for each project I want to showcase
 * Use a dark theme. I like dark themes better than light themes
 * Decide how the home page should look
+* Add tags to posts

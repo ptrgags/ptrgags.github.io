@@ -12,5 +12,6 @@ languages:
     - JavaScript?
 concepts:
     - Langton's Ant
+draft: true
 ---
 Theory goes here...
