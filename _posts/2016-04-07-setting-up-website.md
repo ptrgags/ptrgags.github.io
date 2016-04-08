@@ -26,6 +26,8 @@ try a Markdown table:
 
 Gah that looks so ugly without formatting. All the more reason to add Bootstrap.
 
+**EDIT**: Editing the SCSS helped. Not perfect, but it's sufficient for now.
+
 What about code?
 
 ```python
@@ -34,8 +36,6 @@ print [x for x in xrange(3)]
 
 Yay! At least that works out-of-the-box, I'll be needing code blocks
 frequently.
-
----
 
 ## Change List:
 

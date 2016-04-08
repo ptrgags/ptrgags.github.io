@@ -1,41 +1,37 @@
 ---
 layout: default
 ---
-<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+<article>
+    <header>
+        <h1>{{page.title}}</h1>
+    </header>
 
-  <header class="post-header">
-    <h1 class="post-title" itemprop="name headline">{{ page.title }}</h1>
-    <!--<img src="http://img.shields.io/badge/status-{{page.status}}-green.svg" />-->
-  </header>
+    <div class="panel panel-default">
+        <div class="panel panel-body">
+            {% if page.purpose %}
+            <h2>Purpose</h2>
+            <p>{{page.purpose}}</p>
+            {% endif %}
 
-  {% if page.purpose %}
-  <h2>Purpose</h2>
-  <p>{{page.purpose}}</p>
-  {% endif %}
+            {% if page.languages %}
+            <h2>Languages</h2>
+            <ul>
+                {% for language in page.languages %}
+                <li>{{language}}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
 
-  {% if page.languages %}
-  <h2>Languages</h2>
-  <ul>
-      {% for language in page.languages %}
-      <li>{{language}}</li>
-      {% endfor %}
-  </ul>
-  {% endif %}
-
-  {% if page.concepts %}
-  <h2>Concepts:</h2>
-  <ul>
-      {% for concept in page.concepts %}
-      <li>{{concept}}</li>
-      {% endfor %}
-  </ul>
-  {% endif %}
-
-
-  <hr/>
-
-  <div class="post-content" itemprop="articleBody">
-    {{ content }}
-  </div>
-
+            {% if page.concepts %}
+            <h2>Concepts:</h2>
+            <ul>
+                {% for concept in page.concepts %}
+                <li>{{concept}}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            
+            {{content}}
+        </div>
+    </div>
 </article>

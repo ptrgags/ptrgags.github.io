@@ -211,3 +211,23 @@ hr {
     margin-top: 8px;
     margin-bottom: 8px;
 }
+
+/**
+ * Tables should look nice
+ */
+table {
+    margin-top: 8px;
+    margin-bottom: 8px;
+
+    th, td {
+        border-collapse: collapse;
+        border: 1px solid #CCCCCC;
+        padding: 10px;
+    }
+    th {
+        background-color: #3333CC;
+    }
+    tr {
+        background-color: #222222;
+    }
+}

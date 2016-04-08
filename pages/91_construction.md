@@ -8,8 +8,9 @@ site look nice and adding content.
 
 ## To Do:
 
-* Use Bootstrap to make things nicer and add a better navbar
 * Add pages for each project I want to showcase
-* Use a dark theme. I like dark themes better than light themes
 * Decide how the home page should look
 * Add tags to posts
+* Download minified Bootstrap
+* Better Project template
+* Allow for Thumbnails
