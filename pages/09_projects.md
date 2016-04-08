@@ -13,6 +13,14 @@ article explaining each project and the motivation for creating it.
 
 {% for project in site.projects %}
 {% unless project.draft %}
-* [{{project.title}}]({{ project.url | prepend: site.baseurl }}) - {{project.description}}
+
+{% if project.thumbnail %}
+![{{project.title}} Thumbnail]({{site.url}}/images/{{project.thumbnail}})
+{% endif %}
+
+[{{project.title}}]({{ project.url | prepend: site.baseurl }}) - {{project.description}}
+
+---
+
 {% endunless %}
 {% endfor %}

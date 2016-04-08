@@ -3,7 +3,24 @@ layout: default
 ---
 <article>
     <header>
-        <h1>{{page.title}}</h1>
+        <div class="row">
+            <div class="col-sm-3">
+                {% if page.thumbnail %}
+                <img class="thumbnail responsive" src="{{site.url}}/images/{{page.thumbnail}}" />
+                {% endif %}
+            </div>
+            <div class="col-sm-9">
+                <h1>{{page.title}} ({{page.years}})</h1>
+                <p>{{page.description}}<p>
+                <!-- TODO: Add Buttons -->
+                <div class="btn-group">
+                    <a role="button" class="btn btn-primary" href="http://github.com/ptrgags/{{page.repo}}">View on GitHub</a>
+                    {% if page.link %}
+                    <a role="button" class="btn btn-primary" href="{{page.link}}">View Demo</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
     </header>
 
     <div class="panel panel-default">
@@ -13,24 +30,29 @@ layout: default
             <p>{{page.purpose}}</p>
             {% endif %}
 
-            {% if page.languages %}
-            <h2>Languages</h2>
-            <ul>
-                {% for language in page.languages %}
-                <li>{{language}}</li>
-                {% endfor %}
-            </ul>
-            {% endif %}
+            <hr />
 
-            {% if page.concepts %}
-            <h2>Concepts:</h2>
-            <ul>
-                {% for concept in page.concepts %}
-                <li>{{concept}}</li>
-                {% endfor %}
-            </ul>
-            {% endif %}
-            
+            <div class="row">
+                <div class="col-sm-6">
+                    <h2>Languages/Libraries:</h2>
+                    <ul>
+                        {% for language in page.languages %}
+                        <li>{{language}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col-sm-6">
+                    <h2>Concepts:</h2>
+                    <ul>
+                        {% for concept in page.concepts %}
+                        <li>{{concept}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <hr />
+
             {{content}}
         </div>
     </div>
