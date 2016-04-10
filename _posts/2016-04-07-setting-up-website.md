@@ -23,10 +23,13 @@ try a Markdown table:
 | 0 | 0 |
 | 1 | 1 |
 | 2 | 4 |
+{: .table .table-striped}
 
 Gah that looks so ugly without formatting. All the more reason to add Bootstrap.
 
 **EDIT**: Editing the SCSS helped. Not perfect, but it's sufficient for now.
+
+**EDIT2**: Kramdown supports adding CSS classes to Markdown! Perfect!
 
 What about code?
 

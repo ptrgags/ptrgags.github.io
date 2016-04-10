@@ -12,5 +12,4 @@ site look nice and adding content.
 * Decide how the home page should look
 * Add tags to posts
 * Download minified Bootstrap
-* Better Project template
-* Allow for Thumbnails
+* Continue to work on designing project pages.

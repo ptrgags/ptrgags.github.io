@@ -24,3 +24,6 @@ article explaining each project and the motivation for creating it.
 
 {% endunless %}
 {% endfor %}
+
+**Note**: I am still writing articles about my GitHub projects! Check back soon
+for more articles!

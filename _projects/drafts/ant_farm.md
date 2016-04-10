@@ -39,16 +39,16 @@ follows two simple rules:
 
 * In the first few steps, the ant makes a roughly symmetric pattern
 
-![Simple]({{site.url}}/images/ant-farm/ant-simple.png)
+![Simple]({{site.url}}/images/ant-farm/ant-simple.png){:.center-block .img-thumbnail}
 
 * Before long, the ant starts moving around the grid in a chaotic manner.
 
-![Chaos]({{site.url}}/images/ant-farm/ant-chaotic.png)
+![Chaos]({{site.url}}/images/ant-farm/ant-chaotic.png){:.center-block .img-thumbnail}
 
 * After several thousand steps of chaos, the ant starts producing a clear
   pattern known as a "highway"
 
-![Highway]({{site.url}}/images/ant-farm/ant-highway.png)
+![Highway]({{site.url}}/images/ant-farm/ant-highway.png){:.center-block .img-thumbnail}
 
 ## Turmites
 
@@ -66,9 +66,7 @@ machines.
 Ant Farm implements various types of turmites and allows users to customize
 their own. Here is a screenshot of a few of them:
 
-![Turmites]({{site.url}}/images/ant-farm/ants-other.png)
+![Turmites]({{site.url}}/images/ant-farm/ants-other.png){:.center-block .img-thumbnail}
 
-
-## Custom Ants
-
-<!-- TODO: Write this section -->
+<!-- TODO: Custom Ants -->
+<!-- TODO: Ant Encoding -->
