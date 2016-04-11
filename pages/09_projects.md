@@ -4,8 +4,6 @@ title: GitHub Projects
 permalink: /projects/
 ---
 
-## My GitHub Projects
-
 This is a list of my GitHub projects I would like to showcase. Each has an
 article explaining each project and the motivation for creating it.
 
@@ -15,7 +13,7 @@ article explaining each project and the motivation for creating it.
 {% unless project.draft %}
 
 {% if project.thumbnail %}
-![{{project.title}} Thumbnail]({{site.url}}/images/{{project.thumbnail}})
+![{{project.title}} Thumbnail]({{site.url}}/images/{{project.thumbnail}}){: .thumbnail .square}
 {% endif %}
 
 [{{project.title}}]({{ project.url | prepend: site.baseurl }}) - {{project.description}}

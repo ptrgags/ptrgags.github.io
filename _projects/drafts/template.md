@@ -36,6 +36,20 @@ languages:
 concepts:
     - Langton's Ant
 
+#The good
+accomplishments:
+    - Working Langton's Ant Simulator
+    - Explores a variety of Turmites
+    - Allows the user to make custom ants
+    - Ants can be exported with a code
+
+#The not-so good
+improvements:
+    - UI could look nicer
+    - UI should be made mobile friendly if possible
+    - There should be better on-page documentation
+    - Can codes be packed any smaller?
+
 #Thumbnail image in the site.url/images/ folder.
 thumbnail: "ant-farm/ant-highway.png"
 

@@ -40,7 +40,7 @@ print [x for x in xrange(3)]
 Yay! At least that works out-of-the-box, I'll be needing code blocks
 frequently.
 
-## Change List:
+### Change List:
 
 * Added projects collection
 * Learn about kramdown
