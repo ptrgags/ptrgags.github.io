@@ -101,7 +101,7 @@ energy term, while the right hand side deals with potential energy.
 
 Let's start with the right hand side's units using an (x, y) coordinate system:
 
-$$ \frac{\partial L}{\partial q_i} = \left[\frac{Energy}{Position}\right] = \left[Force\right] $$
+$$ \frac{\partial L}{\partial q_i} = \left[\frac{Energy}{Position}\right] = [Force] $$
 
 We take the derivative of the energy of the system (L) with respect to one of
 the coordinates. Often, only the potential energy terms depend on position, so
@@ -110,6 +110,8 @@ this derivative is often the same as
 $$\frac{\partial V}{\partial q_i}$$
 
 For example, take a system with spring potential energy:
+
+$$ T = \frac{1}{2} m v^2  $$
 
 $$ V = \frac{1}{2} k x^2$$
 
@@ -124,7 +126,51 @@ will appear on the right hand side of the equation after taking the derivative.
 
 #### Left Hand Side
 
-...
+First, take the derivative of the Lagrangian with respect to the velocity.
+Here is the dimensional analysis:
+
+$$ \frac{\partial L}{\partial \dot q_i} = \left[\frac{Energy}{Velocity}\right] = [Momentum] $$
+
+For an example, take the spring example.
+
+$$ T = \frac{1}{2} m v^2  $$
+
+$$ V = \frac{1}{2} k x^2$$
+
+$$ \frac{\partial L}{\partial v} = \frac{\partial T}{\partial x} - 0 = mv $$
+
+We get the usual formula for momentum!
+
+Now we simply take this quantity and take the time derivative:
+
+$$ \frac{d}{dt}\frac{\partial L}{\partial v} = \frac{d}{dt}(mv) = ma $$
+
+Mass times acceleration... where have we seen this before? Newton's Second law!
+
+#### All Together Now
+
+In the spring example, we went from here:
+
+$$ \frac{d}{dt}\frac{\partial L}{\partial \dot q_i}  = \frac{\partial L}{\partial q_i}$$
+
+to here:
+
+$$ ma = -kx $$
+
+Which is exactly the same as if you started with
+
+$$ ma = \sum F $$
+
+So why the trouble of doing these derivatives when regular force analysis works
+fine? The main reason is that Lagrangian dynamics works in any coordinate
+system, which makes it more flexible than Newtonian force analysis which is
+easiest in Cartesian coordinates.
+
+For example, it is easier to represent the equation for a Pendulum using
+angle instead of x- and y-position.
+
+In some of the sections below, I give examples of the equations used in each
+simulation, along with the coordinate system that is most useful.
 
 ### Runge-Kutta Approximation
 
@@ -148,9 +194,13 @@ systems (Single Spring/Pendulum) have simple phase plots, while chaotic systems
 
 {% include youtube.html vid_id="VkSH4OA2_W8" %}
 
+<!-- TODO: SVG Diagram -->
+
 ...
 
 #### Double Pendulum
+
+<!-- TODO: SVG Diagram -->
 
 {% include youtube.html vid_id="3VqbW6H_ets" %}
 
@@ -158,17 +208,23 @@ systems (Single Spring/Pendulum) have simple phase plots, while chaotic systems
 
 #### Single Spring
 
+<!-- TODO: SVG Diagram -->
+
 {% include youtube.html vid_id="fngVyTJc-Lc" %}
 
 ...
 
 #### Double Spring
 
+<!-- TODO: SVG Diagram -->
+
 {% include youtube.html vid_id="GoOVCgcw65M" %}
 
 ...
 
 #### Orbiting Planets
+
+<!-- TODO: SVG Diagram -->
 
 {% include youtube.html vid_id="rXlmvBBRu8E" %}
 
