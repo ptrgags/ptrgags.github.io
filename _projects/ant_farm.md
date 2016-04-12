@@ -29,6 +29,7 @@ improvements:
 thumbnail: "ant-farm/ant-highway.png"
 draft: false
 years: 2015
+featured: true
 ---
 ### Langton's Ant
 
@@ -78,5 +79,10 @@ their own. Here is a screenshot of a few of them:
 
 ![Turmites]({{site.url}}/images/ant-farm/ants-other.png){:.center-block .img-thumbnail}
 
-<!-- TODO: Custom Ants -->
-<!-- TODO: Ant Encoding -->
+### Custom Ants
+
+...
+
+### Ant Encoding
+
+...
