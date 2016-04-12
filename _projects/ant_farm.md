@@ -16,16 +16,27 @@ languages:
     - Bootstrap
 concepts:
     - Langton's Ant
+accomplishments:
+    - Working Langton's Ant Simulator
+    - Explores a variety of Turmites
+    - Allows the user to make custom ants
+    - Ants can be exported with a code
+improvements:
+    - UI could look nicer
+    - UI should be made mobile friendly if possible
+    - There should be better on-page documentation
+    - Can codes be packed any smaller?
 thumbnail: "ant-farm/ant-highway.png"
 draft: false
 years: 2015
+featured: true
 ---
-## Langton's Ant
+### Langton's Ant
 
 Langton's ant is a theoretical ant that follows simple rules, yet exhibits
 complex behavior over time.
 
-## Rules
+### Rules
 
 Langton's ant is a small ant on a grid of black and white cells. The ant
 follows two simple rules:
@@ -35,7 +46,7 @@ follows two simple rules:
 * When the ant encounters a black cell, color the cell white, turn to the
   left 90° and move the next cell
 
-## Chaos and order
+### Chaos and order
 
 * In the first few steps, the ant makes a roughly symmetric pattern
 
@@ -50,7 +61,7 @@ follows two simple rules:
 
 ![Highway]({{site.url}}/images/ant-farm/ant-highway.png){:.center-block .img-thumbnail}
 
-## Turmites
+### Turmites
 
 What would happen if there were more than two colors? What if the ant's rules
 were different?
@@ -61,12 +72,17 @@ These questions have been explored in various ways, and have been given
 the name "turmites" since any of these ant variants are essentially Turing
 machines.
 
-## Ant Farm Turmites
+### Ant Farm Turmites
 
 Ant Farm implements various types of turmites and allows users to customize
 their own. Here is a screenshot of a few of them:
 
 ![Turmites]({{site.url}}/images/ant-farm/ants-other.png){:.center-block .img-thumbnail}
 
-<!-- TODO: Custom Ants -->
-<!-- TODO: Ant Encoding -->
+### Custom Ants
+
+...
+
+### Ant Encoding
+
+...

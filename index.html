@@ -10,7 +10,9 @@ layout: default
     </div>
 </div>
 
-<h1>Posts</h1>
+
+{% capture col_left %}
+<h2>Posts</h2>
 
 {% for post in site.posts limit:10 %}
 <div class="panel panel-default">
@@ -23,5 +25,18 @@ layout: default
     </div>
 </div>
 {% endfor %}
+{% endcapture %}
+
+{% capture col_right %}
+<h2>Featured Projects</h2>
+
+{% for project in site.projects %}
+    {% if project.featured %}
+    {% include project_panel.html project=project %}
+    {% endif %}
+{% endfor %}
+{% endcapture %}
+
+{% include bootstrap_two_col.html %}
 
 <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
