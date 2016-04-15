@@ -13,8 +13,6 @@ Back in high school, I did a physics research project about subtractive
 synthesizers. This is where I first learned about all of their components
 from oscillators to filters to amp envelopes.
 
-<!-- TODO: Link to synthesizer -->
-
 Along with my project, I made an HTML5 synth to try out what I had learned.
 You can see that HERE.
 
