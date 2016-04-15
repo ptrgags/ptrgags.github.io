@@ -1,0 +1,43 @@
+<svg version="1.1" width="640" height="480" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <mask id="donut">
+      <!-- Outer Circle -->
+      <circle cx="320" cy="240" r="200" fill="white" />
+      <!-- Inner Circle -->
+      <circle cx="320" cy="240" r="130" fill="black" />
+
+      <!-- Eventually this should be a wedge -->
+      <path d="M 320 240 L 520 40 L 520 440" fill="black" />
+    </mask>
+
+    <mask id="g-inside">
+      <!-- Outer Circle -->
+      <circle cx="320" cy="240" r="200" fill="white" />
+      <!-- Inner Circle -->
+      <circle cx="320" cy="240" r="80" fill="black" />
+
+      <!-- Horizontal part of the G -->
+      <rect x="340" y="240" width="100" height="30" fill="white" />
+      <!-- Cut away part of the circle -->
+      <path d="M 320 240 L 520 40 L 520 240" fill="black" />
+    </mask>
+  </defs>
+
+  <g mask="url(#donut)">
+    <!-- Root Circle -->
+    <circle cx="320" cy="240" r="160" fill="fill" stroke="none" />
+    <!-- Cogs -->
+    <rect x="-200" y="-20" width="400" height="40" transform="translate(320, 240) rotate(0)"/>
+    <rect x="-200" y="-20" width="400" height="40" transform="translate(320, 240) rotate(22.5)"/>
+    <rect x="-200" y="-20" width="400" height="40" transform="translate(320, 240) rotate(45)"/>
+    <rect x="-200" y="-20" width="400" height="40" transform="translate(320, 240) rotate(67.5)"/>
+    <rect x="-200" y="-20" width="400" height="40" transform="translate(320, 240) rotate(90)"/>
+    <rect x="-200" y="-20" width="400" height="40" transform="translate(320, 240) rotate(112.5)"/>
+    <rect x="-200" y="-20" width="400" height="40" transform="translate(320, 240) rotate(135)"/>
+    <rect x="-200" y="-20" width="400" height="40" transform="translate(320, 240) rotate(157.5)"/>
+  </g>
+
+  <circle cx="320" cy="240" r="120" fill="fill" stroke="none" mask="url(#g-inside)"/>
+
+
+</svg>
