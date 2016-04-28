@@ -8,8 +8,6 @@ purpose: >
     more powerful way of modeling forces than Newton's Laws alone. I decided
     to try out what I learned using Processing.py.
 status: demo
-#Link to a demo. This will be displayed as a button
-#link: "http://ptrgags.github.io/ant-farm"
 repo: physics-simulations
 #Languages/libraries
 languages:
@@ -33,6 +31,7 @@ thumbnail: "physics-simulations/spring.png"
 years: 2016
 draft: false
 featured: true
+wip: true
 ---
 
 ### Lagrangian Dynamics
@@ -172,13 +171,35 @@ angle instead of x- and y-position.
 In some of the sections below, I give examples of the equations used in each
 simulation, along with the coordinate system that is most useful.
 
-### Runge-Kutta Approximation
+One thing to note: when making physics simulations, the acceleration is the
+quantity we want, for then we can approximate velocity and position over time.
 
-...
+So for the above example, we would solve for the acceleration:
+
+$$ a = \frac{-kx}{m} $$
 
 ### Vectors
 
-...
+Vectors are mathematical objects that contain several components. They can
+be added together, scaled by a constant, etc.
+
+### Runge-Kutta Approximation
+
+Runge-Kutta is a method of approximating the integral of a function numerically.
+It is similar in principle to Euler's Method, though it uses a weighted average
+of derivative values to improve accuracy at the cost of extra calculations.
+
+[See here](http://www.myphysicslab.com/runge_kutta.html) for a site that explains
+the equations, since this page is already large as it is.
+
+In physics simulations, you do the Runge-Kutta algorithm twice at each time
+step. One approximates the velocity given the acceleration, and the other
+calculates position from velocity.
+
+We do this at every frame of the animation. This allows us to plot the path
+of various objects, even when a position function cannot be directly derived.
+This is especially the case for  chaotic systems like the double pendulum or
+double spring.
 
 ### Simulations
 
@@ -196,7 +217,26 @@ systems (Single Spring/Pendulum) have simple phase plots, while chaotic systems
 
 <!-- TODO: SVG Diagram -->
 
-...
+**Variables**:
+
+| Variable   | Units | Description |
+|------------|-------|-------------|
+| $$m$$      | kg    | mass of the bob. Constant. |
+| $$l$$      | m     | Length of the pendulum |
+| $$g$$      | m/s^2 | Acceleration due to gravity |
+| $$\theta$$ | rad   | Angle of the pendulum from vertical |
+| $$\dot \theta$$ | rad/s   | Angular velocity of the pendulum |
+| $$\ddot \theta$$| rad/s^2 | Angular acceleration of the pendulum |
+{: .table .table-striped}
+
+**Equations**:
+
+| Quantity             | Equation |
+|----------------------|----------|
+| Kinetic Energy       | $$T = \frac{1}{2}ml^2\dot\theta^2 $$ |
+| Potential Energy     | $$V = -mg\cos \theta $$ |
+| Equations for Motion | $$\dot \theta = -\frac{g}{l} \sin\theta$$ |
+{: .table .table-striped}
 
 #### Double Pendulum
 
@@ -210,9 +250,31 @@ systems (Single Spring/Pendulum) have simple phase plots, while chaotic systems
 
 <!-- TODO: SVG Diagram -->
 
+This simulation is of an ideal, massless spring fixed at one end
+with a bob on the other end. The system oscillates horizontally on a
+frictionless surface.
+
 {% include youtube.html vid_id="fngVyTJc-Lc" %}
 
-...
+**Variables**:
+
+| Variable   | Units | Description |
+|------------|-------|-------------|
+| $$m$$      | kg    | mass of the bob. Constant. |
+| $$k$$      | N/m   | Spring constant. |
+| $$x$$      | m     | stretch of the spring *from the equilbrium position*|
+| $$\dot x$$ | m/s   | horizontal velocity |
+| $$\ddot x$$| m/s^2 | horizontal acceleration |
+{: .table .table-striped}
+
+**Equations**:
+
+| Quantity             | Equation |
+|----------------------|----------|
+| Kinetic Energy       | $$T = \frac{1}{2}m\dot{x}^2 $$ |
+| Potential Energy     | $$V = \frac{1}{2}k{x}^2 $$ |
+| Equations for Motion | $$\ddot x = -\frac{kx}{m} $$ |
+{: .table .table-striped}
 
 #### Double Spring
 
@@ -220,12 +282,56 @@ systems (Single Spring/Pendulum) have simple phase plots, while chaotic systems
 
 {% include youtube.html vid_id="GoOVCgcw65M" %}
 
-...
+**Variables**:
+
+| Variable     | Units | Description |
+|--------------|-------|-------------|
+| $$m_i$$      | kg    | mass of bob number i. Constant. |
+| $$k_i$$      | N/m   | Spring constant for spring number i. |
+| $$x_i$$      | m     | stretch of the i-th spring *from the equilbrium position*|
+| $$\dot x_i$$ | m/s   | horizontal velocity of bob number i |
+| $$\ddot x_i$$| m/s^2 | horizontal acceleration of bob number i |
+{: .table .table-striped}
+
+Note: bob 2's position, \\(x_2\\) is measured from equilibrium. this is
+NOT the stretch of spring 2.
+
+**Equations**:
+
+| Quantity             | Equation |
+|----------------------|----------|
+| Kinetic Energy       | $$T = \frac{1}{2}m_1 \dot{x_1}^2 + \frac{1}{2}m_2 \dot{x_2}^2$$ |
+| Potential Energy     | $$V = \frac{1}{2}k_1 x_1^2 + \frac{1}{2}k_2(x_2 - x_1)^2 $$ |
+| Equations for Motion | $$\ddot x_1 = \frac{1}{m}(-k_1x_1 - k_2x_1 + k_2x_2)$$ |
+|                      | $$\ddot x_2 = \frac{k_2}{m_2}(x_1 - x_2) $$ |
+{: .table .table-striped}
+
+Note: For potential energy, we need the stretch of each spring. for spring 1,
+this is the same as its displacement from equilibrium. However, for spring 2,
+we have to subtract the stretch of spring 1, else the value will be the
+stretch + how much spring 2 translates to the right due to spring 1's stretch.
 
 #### Orbiting Planets
 
 <!-- TODO: SVG Diagram -->
 
 {% include youtube.html vid_id="rXlmvBBRu8E" %}
+
+**Variables**:
+
+| Variable     | Units | Description |
+|--------------|-------|-------------|
+| $$m$$        | kg    | mass of satellite |
+| $$M$$        | kg    | mass of planet |
+| $$G$$        | ...   | Gravitational Constant |
+| $$r$$        | m     | distance of satellite from center of the planet |
+| $$\dot r$$   | m/s   | radial velocity of satellite |
+| $$\ddot r$$  | m/s^2 | radial acceleration of satellite |
+| $$\theta$$   | rad   | angle of satellite around the planet |
+| $$\dot \theta$$  | rad/s   | angular velocity of satellite |
+| $$\ddot \theta$$ | rad/s^2 | angle of satellite around the planet |
+{: .table .table-striped}
+
+**Equations**:
 
 ...
