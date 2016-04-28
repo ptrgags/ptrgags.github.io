@@ -31,6 +31,7 @@ thumbnail: "physics-simulations/spring.png"
 years: 2016
 draft: false
 featured: true
+wip: true
 ---
 
 ### Lagrangian Dynamics
@@ -216,7 +217,26 @@ systems (Single Spring/Pendulum) have simple phase plots, while chaotic systems
 
 <!-- TODO: SVG Diagram -->
 
-...
+**Variables**:
+
+| Variable   | Units | Description |
+|------------|-------|-------------|
+| $$m$$      | kg    | mass of the bob. Constant. |
+| $$l$$      | m     | Length of the pendulum |
+| $$g$$      | m/s^2 | Acceleration due to gravity |
+| $$\theta$$ | rad   | Angle of the pendulum from vertical |
+| $$\dot \theta$$ | rad/s   | Angular velocity of the pendulum |
+| $$\ddot \theta$$| rad/s^2 | Angular acceleration of the pendulum |
+{: .table .table-striped}
+
+**Equations**:
+
+| Quantity             | Equation |
+|----------------------|----------|
+| Kinetic Energy       | $$T = \frac{1}{2}ml^2\dot\theta^2 $$ |
+| Potential Energy     | $$V = -mg\cos \theta $$ |
+| Equations for Motion | $$\dot \theta = -\frac{g}{l} \sin\theta$$ |
+{: .table .table-striped}
 
 #### Double Pendulum
 
@@ -253,7 +273,7 @@ frictionless surface.
 |----------------------|----------|
 | Kinetic Energy       | $$T = \frac{1}{2}m\dot{x}^2 $$ |
 | Potential Energy     | $$V = \frac{1}{2}k{x}^2 $$ |
-| Equations for Motion | ... |
+| Equations for Motion | $$\ddot x = -\frac{kx}{m} $$ |
 {: .table .table-striped}
 
 #### Double Spring
@@ -282,7 +302,8 @@ NOT the stretch of spring 2.
 |----------------------|----------|
 | Kinetic Energy       | $$T = \frac{1}{2}m_1 \dot{x_1}^2 + \frac{1}{2}m_2 \dot{x_2}^2$$ |
 | Potential Energy     | $$V = \frac{1}{2}k_1 x_1^2 + \frac{1}{2}k_2(x_2 - x_1)^2 $$ |
-| Equations for Motion | ... |
+| Equations for Motion | $$\ddot x_1 = \frac{1}{m}(-k_1x_1 - k_2x_1 + k_2x_2)$$ |
+|                      | $$\ddot x_2 = \frac{k_2}{m_2}(x_1 - x_2) $$ |
 {: .table .table-striped}
 
 Note: For potential energy, we need the stretch of each spring. for spring 1,
@@ -295,5 +316,22 @@ stretch + how much spring 2 translates to the right due to spring 1's stretch.
 <!-- TODO: SVG Diagram -->
 
 {% include youtube.html vid_id="rXlmvBBRu8E" %}
+
+**Variables**:
+
+| Variable     | Units | Description |
+|--------------|-------|-------------|
+| $$m$$        | kg    | mass of satellite |
+| $$M$$        | kg    | mass of planet |
+| $$G$$        | ...   | Gravitational Constant |
+| $$r$$        | m     | distance of satellite from center of the planet |
+| $$\dot r$$   | m/s   | radial velocity of satellite |
+| $$\ddot r$$  | m/s^2 | radial acceleration of satellite |
+| $$\theta$$   | rad   | angle of satellite around the planet |
+| $$\dot \theta$$  | rad/s   | angular velocity of satellite |
+| $$\ddot \theta$$ | rad/s^2 | angle of satellite around the planet |
+{: .table .table-striped}
+
+**Equations**:
 
 ...

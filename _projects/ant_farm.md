@@ -30,6 +30,7 @@ thumbnail: "ant-farm/ant-highway.png"
 draft: false
 years: 2015
 featured: true
+wip: true
 ---
 ### Langton's Ant
 

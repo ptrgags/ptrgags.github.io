@@ -23,6 +23,15 @@ layout: default
         </div>
     </header>
 
+    {% if page.wip %}
+    <div class="panel panel-warning">
+        <div class="panel panel-body">
+            <h2>Work in Progress</h2>
+            <p>This page is a work in progress. Come back soon for new and/or improved content!</p>
+        </div>
+    </div>
+    {% endif %}
+
     <div class="panel panel-default">
         <div class="panel panel-body">
             {% if page.purpose %}
