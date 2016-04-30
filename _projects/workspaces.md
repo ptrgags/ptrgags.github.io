@@ -3,7 +3,7 @@ layout: project
 title: Programming Workspaces
 permalink: /projects/workspaces/
 description: Workspace projects in various languages
-years: 2015-present
+years: 2015-2016
 status: lab
 languages:
     - Python

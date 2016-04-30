@@ -1,39 +1,43 @@
 ---
 layout: project
-title: ByteCards
-permalink: /projects/byte-cards/
-description: A collection of scripts I use to customize my shell in Linux.
-#TODO: Long descrption vs short description
+title: Gas Lab
+permalink: /projects/gas-lab/
+description: >
+    Ideal Gas Law simulator I made for a chemistry teacher in
+    high school.
 purpose: >
     Like most Linux users, I have my own collection of dotfiles, Bash aliases
     and even scripts for coloring my prompt. This repo is where I store my
     command line customization scripts for use wherever I go.
 status: stable
-repo: linux-login
+repo: gas-lab
 languages:
-    - Bash
-    - Python
+    - JavaScript
 concepts:
-    - ANSI Escape Sequences
+    - Ideal Gas Law
 accomplishments:
-    - Colored Prompt
-    - Useful Bash Aliases
+    - Working simulator
 improvements:
-    - Use more Python, less Bash
-    - Add more to my dotfiles
-thumbnail: "byte-cards/icon.png"
-years: 2015-2016
-contributors:
-    - KarishmaChanglani
+    - Graphics overhaul
+    - Fix a bug in the transparency handling
+    - AngularJS and/or Bootstrap?
+thumbnail: "gas-lab/icon.png"
+years: 2013-2014
 ---
 
-### Features
+### The Ideal Gas Law
 
-* Colored Terminal prompts
-* Useful Bash Aliases
-* Example .vimrc
-* Bonus Utility functions
+The Ideal gas law describes the relationship between pressure, volume,
+temperature and amount of gas:
 
-### Documentation
+$$ PV = nRT $$
 
-For the full documentation, see the [README](https://github.com/ptrgags/linux-login) on GitHub
+Where:
+
+<!-- TODO: Add Units -->
+
+* P is the pressure of the gas
+* V is the volume of the gas
+* n is the amount o fthe gas
+* T is the temperature of the gas
+* R is the Ideal Gas Constant
