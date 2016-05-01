@@ -1,39 +1,36 @@
 ---
 layout: project
-title: ByteCards
-permalink: /projects/byte-cards/
-description: A collection of scripts I use to customize my shell in Linux.
-#TODO: Long descrption vs short description
+title: Text Visualizer
+permalink: /projects/text-visualizer/
+description: Animations driven by text hashes.
 purpose: >
-    Like most Linux users, I have my own collection of dotfiles, Bash aliases
-    and even scripts for coloring my prompt. This repo is where I store my
-    command line customization scripts for use wherever I go.
-status: stable
-repo: linux-login
+    Hashes have many uses from security to quick lookups in a hash table.
+    However, I noticed that MD5 hashes and SHA-1 hashes generate hexadecimal
+    numbers as the output string. I decided to use these hex numbers as a
+    seed for otherwise random animations.
+status: demo
+repo: text-visualizer
+link: "http://ptrgags.github.io/text-visualizer"
 languages:
-    - Bash
-    - Python
+    - JavaScript
 concepts:
-    - ANSI Escape Sequences
+    - MD5/SHA-1 hashing algorithms
+    - Lissajous Curves
+    - Different interpretations of data
 accomplishments:
-    - Colored Prompt
-    - Useful Bash Aliases
+    - Animations are needed
 improvements:
-    - Use more Python, less Bash
-    - Add more to my dotfiles
-thumbnail: "byte-cards/icon.png"
-years: 2015-2016
-contributors:
-    - KarishmaChanglani
+    - Add more animation types
+    - Make the UI nicer
+thumbnail: "default-thumbnail.svg"
+years: 2013
+wip: true
 ---
 
-### Features
+### Hashing Algorithms
 
-* Colored Terminal prompts
-* Useful Bash Aliases
-* Example .vimrc
-* Bonus Utility functions
+...
 
-### Documentation
+### Lissajous Curves
 
-For the full documentation, see the [README](https://github.com/ptrgags/linux-login) on GitHub
+...

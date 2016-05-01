@@ -1,39 +1,27 @@
 ---
 layout: project
-title: ByteCards
-permalink: /projects/byte-cards/
-description: A collection of scripts I use to customize my shell in Linux.
-#TODO: Long descrption vs short description
+title: Turn-based Strategy
+permalink: /projects/turn-based-strategy/
+description: An attempt to create a turn-based strategy game engine
 purpose: >
-    Like most Linux users, I have my own collection of dotfiles, Bash aliases
-    and even scripts for coloring my prompt. This repo is where I store my
-    command line customization scripts for use wherever I go.
-status: stable
-repo: linux-login
+    One of my favorite game genres is turn-based strategy games like Fire Emblem
+    or Advance Wars. I decided to try making an engine for creating similar
+    games like these.
+status: lab
+repo: turn-based-strategy
+link: "http://ptrgags.github.io/turn-based-strategy"
 languages:
-    - Bash
-    - Python
+    - CoffeeScript
 concepts:
-    - ANSI Escape Sequences
+    - Turn-based strategy games
 accomplishments:
-    - Colored Prompt
-    - Useful Bash Aliases
+    - Working movement mechanic
+    - Created a finite state machine class with very expressive syntax
 improvements:
-    - Use more Python, less Bash
-    - Add more to my dotfiles
-thumbnail: "byte-cards/icon.png"
-years: 2015-2016
-contributors:
-    - KarishmaChanglani
+    - Need to add battle mechanics
+    - Need to add cutscenes
+    - Need to add more types of units and terrain
+thumbnail: "default-thumbnail.svg"
+years: 2015
+wip: true
 ---
-
-### Features
-
-* Colored Terminal prompts
-* Useful Bash Aliases
-* Example .vimrc
-* Bonus Utility functions
-
-### Documentation
-
-For the full documentation, see the [README](https://github.com/ptrgags/linux-login) on GitHub

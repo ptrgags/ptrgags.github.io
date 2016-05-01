@@ -10,16 +10,16 @@ languages:
     - JavaScript
 concepts:
     - Polar Graphics
-    - todo..........
 accomplishments:
-    - todo.........
+    - Working demo
 improvements:
-    - Allow the user to add color
-    - todo.........
+    - Allow the user to select the color
+    - More patterns
+    - More control over what patterns are generated?
 repo: "spin-o-sketch"
-#thumbnail: "turtle-fractals/sierpinski.png"
+thumbnail: "default-thumbnail.svg"
 years: 2014
-draft: false
+wip: true
 ---
 
 ### Polar Coordinates

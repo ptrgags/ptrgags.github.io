@@ -21,7 +21,7 @@ purpose: >
     I have many one-shot scripts I use for learning about various programming
     topics or languages. I wanted to make a place for archiving my best scripts
     that others could use for reference.
-thumbnail: "workspaces/logo.png"
+thumbnail: "default-thumbnail.svg"
 wip: true
 ---
 

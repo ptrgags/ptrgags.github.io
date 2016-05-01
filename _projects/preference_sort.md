@@ -1,39 +1,28 @@
 ---
 layout: project
-title: ByteCards
-permalink: /projects/byte-cards/
-description: A collection of scripts I use to customize my shell in Linux.
-#TODO: Long descrption vs short description
+title: Preference Sort
+permalink: /projects/preference-sort/
+description: Sort a list by preference by making simple choices
 purpose: >
-    Like most Linux users, I have my own collection of dotfiles, Bash aliases
-    and even scripts for coloring my prompt. This repo is where I store my
-    command line customization scripts for use wherever I go.
+    I find it difficult to pick favorites out of a long list of items. However,
+    it is easier to pick between two elements at a time. I decided to make a
+    silly sorting algorithm that takes a list of strings and asks the user
+    to compare pairs of elements until a winner emerges.
 status: stable
-repo: linux-login
+repo: preference-sort
 languages:
-    - Bash
     - Python
 concepts:
-    - ANSI Escape Sequences
+    - Sorting by User Preference
 accomplishments:
-    - Colored Prompt
-    - Useful Bash Aliases
+    - Working script
+    - Remembers comparisons so the user never is asked the same question twice.
 improvements:
-    - Use more Python, less Bash
-    - Add more to my dotfiles
-thumbnail: "byte-cards/icon.png"
-years: 2015-2016
-contributors:
-    - KarishmaChanglani
+    - Reduce memory footprint
+    - Improve algorithm to minimize the number of comparisons.
+thumbnail: "default-thumbnail.svg"
+years: 2016
+wip: true
 ---
 
-### Features
-
-* Colored Terminal prompts
-* Useful Bash Aliases
-* Example .vimrc
-* Bonus Utility functions
-
-### Documentation
-
-For the full documentation, see the [README](https://github.com/ptrgags/linux-login) on GitHub
+### How it works

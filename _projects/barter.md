@@ -19,7 +19,7 @@ improvements:
     - Actually write a full game with this platform
     - Find a better way to store data
     - Use Bootstrap to make the page look nicer
-thumbnail: "barter/icon.png"
+thumbnail: "barter/logo.svg"
 years: 2014
 wip: true
 ---

@@ -21,8 +21,9 @@ improvements:
     - Graphics overhaul
     - Fix a bug in the transparency handling
     - AngularJS and/or Bootstrap?
-thumbnail: "gas-lab/icon.png"
+thumbnail: "default-thumbnail.svg"
 years: 2013-2014
+wip: true
 ---
 
 ### The Ideal Gas Law

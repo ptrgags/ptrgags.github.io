@@ -2,38 +2,39 @@
 layout: project
 title: ByteCards
 permalink: /projects/byte-cards/
-description: A collection of scripts I use to customize my shell in Linux.
-#TODO: Long descrption vs short description
+description: Playing Cards that fit in a byte
 purpose: >
-    Like most Linux users, I have my own collection of dotfiles, Bash aliases
-    and even scripts for coloring my prompt. This repo is where I store my
-    command line customization scripts for use wherever I go.
-status: stable
-repo: linux-login
+    Karishma and I wanted to make digital playing cards. We noticed that it only
+    takes 52 possible integers to make a regular deck of playing cards, but a
+    byte can be one of 256 possible unsigned integers. We decided to change the
+    number of ranks from 13 to 16 to make our new cards that easily fit in a
+    byte.
+status: lab
+repo: byte-cards
 languages:
-    - Bash
+    - Clojure
+    - Ruby
     - Python
 concepts:
-    - ANSI Escape Sequences
+    - packing multiple integers into one byte
+    - Playing cards
 accomplishments:
-    - Colored Prompt
-    - Useful Bash Aliases
+    - A few working demo scripts
 improvements:
-    - Use more Python, less Bash
-    - Add more to my dotfiles
-thumbnail: "byte-cards/icon.png"
+    - Still need to solidify the API
+    - Need to make more example games
+    - Add support for more languages
+thumbnail: "default-thumbnail.svg"
 years: 2015-2016
 contributors:
     - KarishmaChanglani
+wip: true
 ---
 
-### Features
+### What's in a ByteCard?
 
-* Colored Terminal prompts
-* Useful Bash Aliases
-* Example .vimrc
-* Bonus Utility functions
+...
 
-### Documentation
+### Games
 
-For the full documentation, see the [README](https://github.com/ptrgags/linux-login) on GitHub
+...

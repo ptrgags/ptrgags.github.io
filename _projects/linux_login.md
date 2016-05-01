@@ -21,7 +21,7 @@ accomplishments:
 improvements:
     - Use more Python, less Bash
     - Add more to my dotfiles
-thumbnail: "linux-login/icon.png"
+thumbnail: "linux-login/logo.svg"
 years: 2015-2016
 ---
 

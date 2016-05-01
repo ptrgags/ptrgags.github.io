@@ -24,7 +24,7 @@ improvements:
     - Refactor the Python code
     - Allow for signaling with ASCII bytes
     - More robust serial protocol
-thumbnail: "arduino-morse/icon.png"
+thumbnail: "default-thumbnail.svg"
 years: 2015
 wip: true
 ---
