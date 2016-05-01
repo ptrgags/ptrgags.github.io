@@ -29,9 +29,12 @@ Feel free to take inspiration from this list! If you develop something cool, let
 * Sphero as a tilt sensor input device
 * Procedural music generation
 * [*The Nature of Code*](http://natureofcode.com/book/) - inspired simulation
-* Write decoders for various binary formats.
+* Write decoders for various binary formats
 * Something with Near Field Communication (NFC)
 * Dice games / Tabletop RPG
 * Sphero Theremin
 * Supercollider + Jython Music
 * Design a complete synth GUI in Supercollider
+* Learn about OpenGL Shading Language (GLSL) using Processing
+* Write a full OpenGL program in C++
+* Learn more about VHDL and Verilog

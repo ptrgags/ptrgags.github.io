@@ -2,16 +2,14 @@
 layout: project
 title: Turtle Fractals
 permalink: /projects/turtle_fractals/
-description: Turtle Fractals
+description: "Fractals that use turtle graphics and L-Systems"
 purpose: >
     This project explores creating fractals using L-Systems. The output graphics
     can be displayed with the Python `turtle` module, or it can be
-#TODO: Add description
 status: demo
 languages:
     - Python
     - JavaScript (node.js)
-libraries: []
 concepts:
     - Turtle Graphics
     - L-Systems
@@ -23,8 +21,10 @@ accomplishments:
 improvements:
     - Handle delay in the Sphero commands
     - Use PySerial to send messages to the Sphero
+thumbnail: "turtle-fractals/sierpinski.png"
 years: 2015-2016
-draft: true
+repo: "turtle-fractals"
+wip: true
 ---
 
 ### Turtle Graphics

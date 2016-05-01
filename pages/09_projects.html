@@ -1,0 +1,39 @@
+---
+layout: page
+title: GitHub Projects
+permalink: /projects/
+---
+
+<p>
+    This is a list of my GitHub projects I would like to showcase. Each has an
+    article explaining each project and the motivation for creating it.
+</p>
+
+{% for project in site.projects %}
+{% capture col %}{{forloop.index0 | modulo: 3}}{% endcapture %}
+
+{% if col == '0' %}
+<div class="row">
+{% endif %}
+
+<div class="col-sm-4">
+    <div class="well">
+    <img src="{{site.url}}/images/{{project.thumbnail}}" class="thumbnail square" alt="{{project.title}}" />
+
+    <a href="{{project.url | prepend: site.baseurl}}">{{project.title}}</a>
+    ({{project.years}})<br/>
+    {{project.description}}
+    </div>
+</div>
+
+{% if col == '2' or forloop.last %}
+</div>
+{% endif %}
+
+{% endfor %}
+
+<hr />
+<p>
+    <b>Note</b>: I am still writing articles about my GitHub projects! Check back soon
+    for more articles!
+</p>
