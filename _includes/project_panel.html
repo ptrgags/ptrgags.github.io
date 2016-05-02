@@ -1,9 +1,9 @@
 <div class="row">
     <div class="col-sm-6">
-        <img class="thumbnail responsive square" src="{{site.url}}/images/{{include.project.thumbnail}}" />
+        <img class="img-thumbnail img-responsive" src="{{site.url}}/images/{{include.project.thumbnail}}" />
     </div>
     <div class="col-sm-6">
-        <h3><a href="{{include.project.url | prepend: site.baseurl}}">{{include.project.title}}</a></h3>
+        <h4><a href="{{include.project.url | prepend: site.baseurl}}">{{include.project.title}}</a></h3>
         <p>{{include.project.description}}</p>
     </div>
 </div>
