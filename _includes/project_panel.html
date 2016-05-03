@@ -3,7 +3,11 @@
         <img class="img-thumbnail img-responsive" src="{{site.url}}/images/{{include.project.thumbnail}}" />
     </div>
     <div class="col-sm-6">
-        <h4><a href="{{include.project.url | prepend: site.baseurl}}">{{include.project.title}}</a></h3>
+        <h4>
+            <a href="{{include.project.url | prepend: site.baseurl}}">
+                {{include.project.title}}
+            </a>
+            ({{include.project.years}})</h3>
         <p>{{include.project.description}}</p>
     </div>
 </div>

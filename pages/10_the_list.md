@@ -38,3 +38,4 @@ Feel free to take inspiration from this list! If you develop something cool, let
 * Learn about OpenGL Shading Language (GLSL) using Processing
 * Write a full OpenGL program in C++
 * Learn more about VHDL and Verilog
+* 3D projects in Unity
