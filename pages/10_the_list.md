@@ -39,3 +39,4 @@ Feel free to take inspiration from this list! If you develop something cool, let
 * Write a full OpenGL program in C++
 * Learn more about VHDL and Verilog
 * 3D projects in Unity
+* Synchrony group behaviors (e.g. coupled oscillators)
