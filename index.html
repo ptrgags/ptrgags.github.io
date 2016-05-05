@@ -26,6 +26,7 @@ layout: default
         {% endif %}
     </div>
 {% endfor %}
+<p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
 {% endcapture %}
 
 {% capture col_left %}
@@ -39,8 +40,7 @@ layout: default
     </div>
     {% endif %}
 {% endfor %}
+
 {% endcapture %}
 
 {% include bootstrap_two_col.html %}
-
-<p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
