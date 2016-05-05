@@ -8,6 +8,7 @@ purpose: >
     This was my big project I started in around 8th-9th grade to learn
     how to make games.
 status: demo
+repo: square-runner
 languages:
     - Java
     - Haxe
