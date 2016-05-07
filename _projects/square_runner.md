@@ -7,7 +7,7 @@ purpose: >
     When I started programming, I wanted to learn how to make games.
     This was my big project I started in around 8th-9th grade to learn
     how to make games.
-status: demo
+status: lab
 repo: square-runner
 languages:
     - Java

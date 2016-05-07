@@ -18,8 +18,9 @@ improvements:
     - More control over what patterns are generated?
 repo: "spin-o-sketch"
 link: "http://ptrgags.github.io/spin-o-sketch"
-thumbnail: "default-thumbnail.svg"
+thumbnail: "spin-o-sketch/spinosketch.png"
 years: 2014
+featured: true
 wip: true
 ---
 

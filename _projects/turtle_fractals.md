@@ -29,8 +29,16 @@ wip: true
 
 ### Turtle Graphics
 
+...
+
 ### SVG Graphics
+
+...
 
 ### Sphero & Robots
 
+...
+
 ### Lindenmayer Systems (L-Systems)
+
+...

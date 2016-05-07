@@ -6,7 +6,7 @@ description: A text-based game that deals with bartering
 purpose: >
     As part of an independent study in high school, I decided that I wanted
     to make a simple text-based game.
-status: stable
+status: demo
 repo: barter
 link: "http://ptrgags.github.io/barter"
 languages:
@@ -21,6 +21,7 @@ improvements:
     - Use Bootstrap to make the page look nicer
 thumbnail: "barter/logo.svg"
 years: 2014
+featured: true
 wip: true
 ---
 
