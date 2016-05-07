@@ -17,7 +17,7 @@
                     <ul class="dropdown-menu">
                     {% for project in site.projects %}
                         {% if project.featured %}
-                        <li><a href="#">{{project.title}}</a></li>
+                        <li><a href="{{project.url}}">{{project.title}}</a></li>
                         {% endif %}
                     {% endfor %}
                         <li role="separator" class="divider"></li>
