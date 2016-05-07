@@ -7,7 +7,7 @@ purpose: >
     I still am in the process of learning about parsers. When I saw this
     CodeWars problem, I felt like this would be a good exercise in simple
     lexing and parsing.
-status: stable
+status: demo
 repo: chemical-parser
 languages:
     - Python

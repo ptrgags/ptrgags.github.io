@@ -6,8 +6,7 @@ layout: default
 
 <div class="panel panel-default">
     <div class="panel panel-body">
-        {{site.description}}
-        <p>
+        <p class="lead">
             Please note that this site is still under construction. Check back soon
             for improved site layout, navigation and content!
         </p>
@@ -15,32 +14,32 @@ layout: default
 </div>
 
 
-{% capture col_left %}
+{% capture col_right %}
 <h2>Posts</h2>
 
 {% for post in site.posts limit:10 %}
-<div class="panel panel-default">
-    <div class="panel panel-body">
-        <h3><a href="{{post.url | prepend: site.baseurl}}">{{post.title}}</a></h3>
+    <div class="well">
+        <h4><a href="{{post.url | prepend: site.baseurl}}">{{post.title}}</a></h3>
         <p>{{post.date | date: "%Y-%m-%d"}}</p>
         {% if post.brief %}
         <p>{{post.brief}}</p>
         {% endif %}
     </div>
-</div>
 {% endfor %}
+<p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
 {% endcapture %}
 
-{% capture col_right %}
+{% capture col_left %}
 <h2>Featured Projects</h2>
 
 {% for project in site.projects %}
     {% if project.featured %}
+    <div class="well">
     {% include project_panel.html project=project %}
+    </div>
     {% endif %}
 {% endfor %}
+
 {% endcapture %}
 
 {% include bootstrap_two_col.html %}
-
-<p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>

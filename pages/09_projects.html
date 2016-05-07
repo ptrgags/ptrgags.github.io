@@ -9,6 +9,8 @@ permalink: /projects/
     article explaining each project and the motivation for creating it.
 </p>
 
+<hr />
+
 {% for project in site.projects %}
 {% capture col %}{{forloop.index0 | modulo: 3}}{% endcapture %}
 
@@ -17,13 +19,17 @@ permalink: /projects/
 {% endif %}
 
 <div class="col-sm-4">
-    <div class="well">
+    <a href="{{project.url | prepend: site.baseurl}}">
+    <div class="well no-border">
     <img src="{{site.url}}/images/{{project.thumbnail}}" class="thumbnail square" alt="{{project.title}}" />
 
-    <a href="{{project.url | prepend: site.baseurl}}">{{project.title}}</a>
-    ({{project.years}})<br/>
+    <h4>
+        <a href="{{project.url | prepend: site.baseurl}}">{{project.title}}</a>
+        ({{project.years}})
+    </h4>
     {{project.description}}
     </div>
+    </a>
 </div>
 
 {% if col == '2' or forloop.last %}

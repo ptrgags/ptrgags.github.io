@@ -5,7 +5,7 @@ permalink: /the_list/
 ---
 This is a list of possible future projects I'd be interested in trying. I probably won't find time for most of them, but if enough people ask me about a single idea, I might consider making it a project.
 
-Feel free to take inspiration from this list! If you develop something cool, let me know at ptrgags@gmail.com. I'd love to hear about it!
+Feel free to take inspiration from this list! If you develop something cool, let me know at [{{site.email}}](mailto:{{site.email}}). I'd love to hear about it!
 
 * Count how many times a day one types ls in Bash
 * Computer storage space idle game
@@ -38,3 +38,7 @@ Feel free to take inspiration from this list! If you develop something cool, let
 * Learn about OpenGL Shading Language (GLSL) using Processing
 * Write a full OpenGL program in C++
 * Learn more about VHDL and Verilog
+* 3D projects in Unity
+* Synchrony group behaviors (e.g. coupled oscillators)
+* GBA homebrew with [Tonc](http://www.coranac.com/tonc/text/toc.htm)
+* Build a MIPS processor in VHDL

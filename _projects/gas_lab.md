@@ -9,7 +9,7 @@ purpose: >
     Like most Linux users, I have my own collection of dotfiles, Bash aliases
     and even scripts for coloring my prompt. This repo is where I store my
     command line customization scripts for use wherever I go.
-status: stable
+status: demo
 repo: gas-lab
 languages:
     - JavaScript

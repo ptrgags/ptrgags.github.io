@@ -8,6 +8,14 @@ dl, dd, ol, ul, figure {
     padding: 0;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    word-wrap: break-word;
+
+    a {
+        color: #49cfe7;
+    }
+}
+
 
 
 /**
@@ -240,4 +248,18 @@ table {
 .square {
     width: 200px;
     height: 200px;
+}
+
+
+.well.no-border {
+    border: 0;
+}
+
+.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: #111111;
 }

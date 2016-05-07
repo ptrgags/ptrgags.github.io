@@ -8,7 +8,7 @@ purpose: >
     it is easier to pick between two elements at a time. I decided to make a
     silly sorting algorithm that takes a list of strings and asks the user
     to compare pairs of elements until a winner emerges.
-status: stable
+status: demo
 repo: preference-sort
 languages:
     - Python

@@ -25,7 +25,7 @@ and have been programming since 7th grade.
 
 I currently work part-time as a software developer at
 [Global Monitoring](http://www.globalmonitoring.com). There I help develop
-remote monitoring systems. I have been working there since mid-2014
+remote monitoring systems. I have been working there since mid-2014.
 
 My first Drexel co-op in 2015-2016 was at
 [Susquehanna International Group](http://www.sig.com).
@@ -38,4 +38,6 @@ STEM subjects.
 
 ### Contact Info
 
-Email: ptrgags@gmail.com
+Email: [{{site.email}}](mailto:{{site.email}})
+
+GitHub: [ptrgags](http://github.com/ptrgags)
