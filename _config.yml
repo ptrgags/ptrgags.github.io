@@ -13,7 +13,7 @@ description: > # this means to ignore newlines until "baseurl:"
     GitHub projects and other computer science/physics/math topics!
 baseurl: "" # the subpath of your site, e.g. /blog
 #url: "http://localhost:4000"
-url: "http://ptrgags.github.io" # the base hostname & protocol for your site
+url: "https://ptrgags.github.io" # the base hostname & protocol for your site
 #twitter_username: jekyllrb
 github_username:  ptrgags
 
