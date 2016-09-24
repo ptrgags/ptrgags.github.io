@@ -20,11 +20,12 @@ accomplishments:
     - Working Tutorial story
     - Use a graph data structure to represent the story data
     - Refactored code to use ES6 Promises and classes.
+    - Program to create Barter story JSON files
+    - Tutorial + one short story
 improvements:
     - Actually write a full game with this platform
-    - Write a story creator program
     - UI Tweaks
-    - Switch between multiple stories.
+    - Improve Barter Story Creator
 thumbnail: "barter/logo.svg"
 years: 2014, 2016
 featured: true
@@ -49,3 +50,10 @@ Each option can also have up to two lists of items: the first is a list of items
 the player will have to give up when selecting the action. the second is a list
 of items the player will receive by selecting the action. If both lists are
 specified, it is a "barter".
+
+### Barter Story Creator
+
+The most recent version of Barter has a Story Creator program, written
+in Ruby. The program makes it much easier to write the story JSON file.
+
+For usage, see the [Story Creator README](https://github.com/ptrgags/barter/blob/master/creator/README.md)
