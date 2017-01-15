@@ -35,10 +35,38 @@ Feel free to take inspiration from this list! If you develop something cool, let
 * Sphero Theremin
 * Supercollider + Jython Music
 * Design a complete synth GUI in Supercollider
-* Learn about OpenGL Shading Language (GLSL) using Processing
 * Write a full OpenGL program in C++
 * Learn more about VHDL and Verilog
 * 3D projects in Unity
 * Synchrony group behaviors (e.g. coupled oscillators)
 * GBA homebrew with [Tonc](http://www.coranac.com/tonc/text/toc.htm)
 * Build a MIPS processor in VHDL
+* Google Maps with Latitude and Longitude lines
+* Try Databending
+* Write a language parser with Perl 6 Grammars
+* Write a virtual machine for a simple language
+* Musical object animation
+* Use a USB Microscope to create textures
+
+**Shader Ideas**:
+
+I recently started making pixel shader art. Here are some ideas I plan to work
+on someday:
+
+* Newton's Method Fractal
+* Snowflakes
+* Phoenix Curves
+* Graphing Calculator
+* Apply Raymarching to a TV screen model
+* Julia Sets
+* *2001: A Space Odyssey* inspired shader
+* Flashlight effect + bump-map
+* kaleidoscope
+* Hexagon voronoi shader
+* Skittles in Hot Water shader
+* Layered Voronoi Cells
+* Nested Voronoi Cells
+* Cyclic Cellular Automata
+* Soundcloud Visualization
+* UV flashlight effect
+* Voronoi Circles
