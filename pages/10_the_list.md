@@ -47,6 +47,12 @@ Feel free to take inspiration from this list! If you develop something cool, let
 * Write a virtual machine for a simple language
 * Musical object animation
 * Use a USB Microscope to create textures
+* AI algorithms in Haskell/Scala
+* Logic puzzles in Prolog
+* Watercolor image filter
+* Extended Difference of Gaussians (XDoG) filter
+* Intelligent Scissers
+* Anti-pinhole/pinspeck camera
 
 **Shader Ideas**:
 
