@@ -28,7 +28,7 @@ improvements:
     - Improve Barter Story Creator
 thumbnail: "barter/logo.svg"
 years: 2014, 2016
-featured: true
+featured: false
 ---
 
 ### How Barter Works
