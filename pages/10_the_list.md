@@ -53,6 +53,7 @@ Feel free to take inspiration from this list! If you develop something cool, let
 * Extended Difference of Gaussians (XDoG) filter
 * Intelligent Scissers
 * Anti-pinhole/pinspeck camera
+* Something with StructureSynth
 
 **Shader Ideas**:
 
