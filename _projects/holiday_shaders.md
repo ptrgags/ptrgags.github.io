@@ -7,7 +7,7 @@ purpose: >
     Recently I learned about how to make pixel shaders. For the holidays,
     I made a shader gallery for my friends.
 status: demo
-repo: synthesizer
+repo: holiday_shaders
 languages:
     - JavaScript
     - Three.js
