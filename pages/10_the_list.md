@@ -51,29 +51,32 @@ Feel free to take inspiration from this list! If you develop something cool, let
 * Logic puzzles in Prolog
 * Watercolor image filter
 * Extended Difference of Gaussians (XDoG) filter
-* Intelligent Scissers
+* Intelligent Scissors
 * Anti-pinhole/pinspeck camera
 * Something with StructureSynth
+* Turn a function $z = f(x,y)$ into a laser-cut sculpture
+* Turn a 3D mesh into a laser-cut sculpture
+* Simulate non-photorealistic 3D lighting
 
 **Shader Ideas**:
 
 I recently started making pixel shader art. Here are some ideas I plan to work
 on someday:
 
-* Newton's Method Fractal
+* <s>Newton's Method Fractal</s>&rarr; part of [Holiday Shaders 2](/projects/holiday_shaders2/)
+* <s>Flashlight effect + bump-map</s>&rarr; part of [Holiday Shaders 2](/projects/holiday_shaders2/)
+* <s>kaleidoscope</s>&rarr; part of [Holiday Shaders 2](/projects/holiday_shaders2/)
+* <s>Nested Voronoi Cells</s>&rarr; part of [Holiday Shaders 2](/projects/holiday_shaders2/)
+* <s>UV flashlight effect</s>&rarr; part of [Holiday Shaders 2](/projects/holiday_shaders2/)
+* <s>Julia Sets</s>&rarr; part of [Holiday Shaders 2](/projects/holiday_shaders2/)
+* <s></i>2001: A Space Odyssey</i> inspired shader</s>&rarr; part of [Holiday Shaders 2](/projects/holiday_shaders2/)
 * Snowflakes
 * Phoenix Curves
 * Graphing Calculator
 * Apply Raymarching to a TV screen model
-* Julia Sets
-* *2001: A Space Odyssey* inspired shader
-* Flashlight effect + bump-map
-* kaleidoscope
 * Hexagon voronoi shader
 * Skittles in Hot Water shader
 * Layered Voronoi Cells
-* Nested Voronoi Cells
 * Cyclic Cellular Automata
 * Soundcloud Visualization
-* UV flashlight effect
 * Voronoi Circles
