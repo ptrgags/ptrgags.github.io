@@ -23,7 +23,3 @@ years: 2014
 featured: false
 wip: true
 ---
-
-### Polar Coordinates
-
-...

@@ -79,11 +79,3 @@ Ant Farm implements various types of turmites and allows users to customize
 their own. Here is a screenshot of a few of them:
 
 ![Turmites]({{site.url}}/images/ant-farm/ants-other.png){:.center-block .img-thumbnail}
-
-### Custom Ants
-
-...
-
-### Ant Encoding
-
-...

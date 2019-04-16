@@ -28,19 +28,3 @@ thumbnail: "default-thumbnail.svg"
 years: 2015
 wip: true
 ---
-
-### The CodeWars Puzzle
-
-...
-
-### Binary Morse Code
-
-...
-
-### Arduino Hardware
-
-...
-
-### Video
-
-...

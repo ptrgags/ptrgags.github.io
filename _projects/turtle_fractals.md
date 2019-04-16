@@ -5,7 +5,8 @@ permalink: /projects/turtle_fractals/
 description: "Fractals that use turtle graphics and L-Systems"
 purpose: >
     This project explores creating fractals using L-Systems. The output graphics
-    can be displayed with the Python `turtle` module, or it can be
+    can be displayed with the Python `turtle` module, as an SVG file, or
+    sent to a Sphero robot to trace out a path on the floor
 status: demo
 languages:
     - Python
@@ -26,19 +27,3 @@ years: 2015-2016
 repo: "turtle-fractals"
 wip: true
 ---
-
-### Turtle Graphics
-
-...
-
-### SVG Graphics
-
-...
-
-### Sphero & Robots
-
-...
-
-### Lindenmayer Systems (L-Systems)
-
-...

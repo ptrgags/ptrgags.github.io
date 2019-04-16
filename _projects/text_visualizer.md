@@ -26,11 +26,3 @@ thumbnail: "default-thumbnail.svg"
 years: 2013
 wip: true
 ---
-
-### Hashing Algorithms
-
-...
-
-### Lissajous Curves
-
-...

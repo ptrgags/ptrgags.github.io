@@ -50,8 +50,6 @@ An oscillator is a component that simply generates a pure sound wave.
 
 Filters cut out parts of a sound wave, giving it a more rounder sound.
 
-...
-
 ### Amplifier
 
 Amplifiers simply boost the volume of the sound wave. The amplifier control

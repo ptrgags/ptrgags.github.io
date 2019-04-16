@@ -30,11 +30,3 @@ contributors:
     - KarishmaChanglani
 wip: true
 ---
-
-### What's in a ByteCard?
-
-...
-
-### Games
-
-...

@@ -331,7 +331,3 @@ stretch + how much spring 2 translates to the right due to spring 1's stretch.
 | $$\dot \theta$$  | rad/s   | angular velocity of satellite |
 | $$\ddot \theta$$ | rad/s^2 | angle of satellite around the planet |
 {: .table .table-striped}
-
-**Equations**:
-
-...
