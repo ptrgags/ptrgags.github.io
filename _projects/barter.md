@@ -27,7 +27,11 @@ improvements:
     - UI Tweaks
     - Improve Barter Story Creator
 thumbnail: "barter/logo.svg"
+
+# History
 years: 2014, 2016
+sort_year: 2016
+
 featured: false
 ---
 

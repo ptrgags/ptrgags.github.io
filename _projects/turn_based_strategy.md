@@ -23,5 +23,6 @@ improvements:
     - Need to add more types of units and terrain
 thumbnail: "default-thumbnail.svg"
 years: 2015
+sort_year: 2015
 wip: true
 ---

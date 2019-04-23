@@ -23,5 +23,6 @@ improvements:
     - Port the game to web?
 thumbnail: "default-thumbnail.svg"
 years: "2010-2011, 2012-2013"
+sort_year: 2013
 wip: true
 ---

@@ -7,7 +7,7 @@ purpose: >
     This project explores creating fractals using L-Systems. The output graphics
     can be displayed with the Python `turtle` module, as an SVG file, or
     sent to a Sphero robot to trace out a path on the floor
-status: demo
+status: poc
 languages:
     - Python
     - JavaScript (node.js)
@@ -24,6 +24,6 @@ improvements:
     - Use PySerial to send messages to the Sphero
 thumbnail: "turtle-fractals/sierpinski.png"
 years: 2015-2016
+sort_year: 2016
 repo: "turtle-fractals"
-wip: true
 ---

@@ -11,7 +11,8 @@ permalink: /projects/
 
 <hr />
 
-{% for project in site.projects %}
+{% assign ordered = site.projects | sort: 'sort_year' | reverse %}
+{% for project in ordered %}
 {% capture col %}{{forloop.index0 | modulo: 3}}{% endcapture %}
 
 {% if col == '0' %}

@@ -23,6 +23,7 @@ improvements:
     - Add more to my dotfiles
 thumbnail: "linux-login/logo.svg"
 years: 2015-2016
+sort_year: 2016
 ---
 
 ### Features

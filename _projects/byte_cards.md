@@ -26,6 +26,7 @@ improvements:
     - Add support for more languages
 thumbnail: "default-thumbnail.svg"
 years: 2015-2016
+sort_year: 2016
 contributors:
     - KarishmaChanglani
 wip: true

@@ -2,14 +2,12 @@
 layout: project
 title: Ant Farm
 permalink: /projects/ant_farm/
+
+# Describe the project
 description: Langton's Ant Simulator
-#TODO: Long descrption vs short description
 purpose: >
     I made this as a nerdy holiday present for friends. At the time, I was
     learning about Langton's Ant and wanted to make a simulator for it.
-status: demo
-link: "http://ptrgags.github.io/ant-farm"
-repo: ant-farm
 languages:
     - CoffeeScript
     - p5.js
@@ -27,10 +25,17 @@ improvements:
     - There should be better on-page documentation
     - Can codes be packed any smaller?
 thumbnail: "ant-farm/ant-highway.png"
-draft: false
+
+# Links
+link: "http://ptrgags.github.io/ant-farm"
+repo: ant-farm
+
+# History
 years: 2015
-featured: false
-wip: true
+sort_year: 2015
+
+# Status flags
+status: complete
 ---
 ### Langton's Ant
 

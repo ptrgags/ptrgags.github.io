@@ -32,6 +32,7 @@ improvements:
     - I do not plan to add anything to this project.
 thumbnail: "vision-disorders/icon.svg"
 years: 2017
+sort_year: 2017
 draft: false
 featured: true
 ---

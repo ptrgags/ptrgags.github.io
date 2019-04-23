@@ -20,6 +20,7 @@ repo: "spin-o-sketch"
 link: "http://ptrgags.github.io/spin-o-sketch"
 thumbnail: "spin-o-sketch/spinosketch.png"
 years: 2014
+sort_year: 2014
 featured: false
 wip: true
 ---

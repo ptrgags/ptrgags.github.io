@@ -22,6 +22,7 @@ improvements:
     - Improve algorithm to minimize the number of comparisons.
 thumbnail: "default-thumbnail.svg"
 years: 2016
+sort_year: 2016
 wip: true
 ---
 

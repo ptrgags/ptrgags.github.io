@@ -27,6 +27,7 @@ improvements:
 thumbnail: "holiday-shaders/holiday_shaders.png"
 link: "http://ptrgags.github.io/holiday-shaders"
 years: 2016
+sort_year: 2016
 draft: false
 featured: true
 ---

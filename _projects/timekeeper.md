@@ -28,7 +28,7 @@ improvements:
     - Arbitrary time to Unix timestamp
 thumbnail: "default-thumbnail.svg"
 years: 2016
-featured: false
+sort_year: 2016
 ---
 
 ### Current Local Time -> Different Timezones

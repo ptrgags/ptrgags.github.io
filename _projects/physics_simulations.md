@@ -29,6 +29,7 @@ improvements:
     - Refactor out a vector math library. This will be helpful in other projects.
 thumbnail: "physics-simulations/spring.png"
 years: 2016
+sort_year: 2016
 draft: false
 featured: true
 wip: true

@@ -21,6 +21,7 @@ improvements:
     - Refactor out a generic lexer class
 thumbnail: "default-thumbnail.svg"
 years: 2015
+sort_year: 2015
 wip: true
 ---
 

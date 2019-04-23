@@ -24,5 +24,6 @@ improvements:
     - Make the UI nicer
 thumbnail: "default-thumbnail.svg"
 years: 2013
+sort_year: 2013
 wip: true
 ---

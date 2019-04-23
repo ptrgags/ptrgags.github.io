@@ -2,13 +2,13 @@
 layout: project
 title: Arduino Morse
 permalink: /projects/arduino-morse/
+
+# Describe the project
 description: Arduino Morse Code Signaler
 purpose: >
     A CodeWars problem about binary morse code gave me the idea for
     trying to make an Arduino project that converts an ASCII message
     to binary morse code and then flash it on LEDs.
-status: demo
-repo: arduino-morse
 languages:
     - Python
     - C++ (Arduino)
@@ -25,6 +25,14 @@ improvements:
     - Allow for signaling with ASCII bytes
     - More robust serial protocol
 thumbnail: "default-thumbnail.svg"
+
+# Links
+repo: arduino-morse
+
+# History
 years: 2015
-wip: true
+sort_year: 2015
+
+# Status flags
+status: poc
 ---

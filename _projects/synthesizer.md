@@ -21,6 +21,7 @@ improvements:
 thumbnail: "synthesizer/wave.svg"
 link: "http://ptrgags.github.io/synthesizer"
 years: 2013-2014
+sort_year: 2014
 draft: false
 featured: true
 wip: true
