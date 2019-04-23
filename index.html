@@ -2,21 +2,9 @@
 layout: default
 ---
 
-<h1>Programming Portfolio</h1>
-
 {% capture col_right %}
 <h2>Posts</h2>
 
-{% for post in site.posts limit:10 %}
-    <div class="well">
-        <h4><a href="{{post.url | prepend: site.baseurl}}">{{post.title}}</a></h3>
-        <p>{{post.date | date: "%Y-%m-%d"}}</p>
-        {% if post.brief %}
-        <p>{{post.brief}}</p>
-        {% endif %}
-    </div>
-{% endfor %}
-<p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
 {% endcapture %}
 
 {% capture col_left %}
