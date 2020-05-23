@@ -15,11 +15,12 @@ layout: home
 <h3 class="column-header">Posts</h3>
 {% for post in site.posts limit:10 %}
 <div class="tile">
-    <h4><a href="{{post.url}}">{{post.title}}</a></h4>
-    <p>{{post.date | date: "%Y-%m-%d"}}</p>
-    {% if post.brief %}
+    <h4>
+        {{post.date | date: "%Y-%m-%d"}}
+        - 
+        <a href="{{post.url}}">{{post.title}}</a> 
+    </h4>
     <p>{{post.brief}}</p>
-    {% endif %}
 </div>
 {% endfor %}
 {% endcapture %}

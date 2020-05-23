@@ -1,22 +1,23 @@
 /* General stuff */
-* {
-    padding: 0;
-    margin: 0;
-    font-family: sans-serif;
-}
-
 :root {
     --left-col-width: 40%;
 }
 
 html {
     height: 100%;
+    font-family: sans-serif;
 }
 
 body {
     background-image: url("../images/background.png");
     background-repeat: repeat;
     color: #cccccc;
+    padding: 0;
+    margin: 0;
+}
+
+p {
+    line-height: 1.6em;
 }
 
 .fade {
@@ -90,7 +91,7 @@ nav {
 
 .menu .brand {
     font-weight: bold;
-    font-size: 24px;
+    font-size: 32px;
 }
 
 .menu a {

@@ -3,6 +3,9 @@ layout: post
 title: "New Website"
 date: 2020-05-23 16:30:00 -0400
 categories: update programming
+brief: >-
+    While rebuilding my website, I took a moment to reflect on the old website
+    and how the new one will be different.
 ---
 ### It's been a while...
 
