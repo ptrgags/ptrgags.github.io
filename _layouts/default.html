@@ -4,7 +4,11 @@
 {% include head.html %}
 </head>
 <body>
-    {% include navbar.html %}
-    {{content}}
+    <div class="fade">
+        <div class="container">
+            {% include navbar.html %}
+            {{content}}
+        </div>
+    </div class="fade">
 </body>
 </html>
