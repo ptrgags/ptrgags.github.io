@@ -1,0 +1,27 @@
+---
+layout: home
+---
+
+{% capture left_content %}
+<h3 class="column-header">Recent Projects</h3>
+{% for repo in site.github.public_repositories %}
+<div class="tile">
+    <a href="{{repo.html_url}}">{{repo.name}}</a><br/>
+</div>
+{% endfor %}
+{% endcapture %}
+
+{% capture right_content %}
+<h3 class="column-header">Posts</h3>
+{% for post in site.posts limit:10 %}
+<div class="tile">
+    <h4><a href="{{post.url}}">{{post.title}}</a></h4>
+    <p>{{post.date | date: "%Y-%m-%d"}}</p>
+    {% if post.brief %}
+    <p>{{post.brief}}</p>
+    {% endif %}
+</div>
+{% endfor %}
+{% endcapture %}
+
+{% include two-column.html %}
