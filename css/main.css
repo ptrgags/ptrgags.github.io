@@ -1,0 +1,76 @@
+/* General stuff */
+* {
+    padding: 0;
+    margin: 0;
+    font-family: sans-serif;
+}
+
+body {
+    background-color: #555;
+}
+
+nav {
+    padding: 5px 20px;
+    margin: 10px auto;
+    max-width: 1000px;
+}
+
+.menu {
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+    font-size: 24px;
+}
+
+.menu .brand {
+    font-weight: bold;
+    font-size: 32px;
+}
+
+.menu a {
+    text-decoration: none;
+    color: white;
+}
+
+.menu a:hover {
+    text-decoration: underline;
+}
+
+
+/* Mobile ============================================================== */
+
+#hamburger {
+    order: 1
+}
+
+.section {
+    display: none;
+    width: 100%;
+    text-align: center;
+    order: 2;
+}
+
+.section.visible {
+    display: block;
+}
+
+
+/* Larger screens ============================================================== */
+@media all and (min-width: 600px) {
+    .brand {
+        flex: 1
+    }
+
+    .section {
+        display: block;
+        width: auto;
+        margin: 0 8px;
+    }
+
+    #hamburger {
+        display: none
+    }
+}

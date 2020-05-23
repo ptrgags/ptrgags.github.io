@@ -1,7 +1,5 @@
 ---
-# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
-
-layout: home
+layout: default
 ---
 
 {% assign repos = site.github.public_repositories %}
