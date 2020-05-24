@@ -3,16 +3,17 @@ layout: home
 ---
 
 {% capture left_content %}
-<h3 class="column-header">Recent Projects</h3>
-{% for repo in site.github.public_repositories %}
+<h2 class="column-header">Recent Projects</h2>
+{% assign projects = site.projects | sort: "sort_date" %}
+{% for project in projects limit:10 %}
 <div class="tile">
-    <a href="{{repo.html_url}}">{{repo.name}}</a><br/>
+    <a href="{{project.url}}">{{project.title}}</a><br/>
 </div>
 {% endfor %}
 {% endcapture %}
 
 {% capture right_content %}
-<h3 class="column-header">Posts</h3>
+<h2 class="column-header">Posts</h2>
 {% for post in site.posts limit:10 %}
 <div class="tile">
     <h4>
