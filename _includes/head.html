@@ -1,21 +1,18 @@
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>
+{% if page.title %}
+{{page.title | escape}}
+{% else %}
+{{site.title | escape}}
+{% endif %}
+</title>
+<meta name="description" content="{{site.description}}">
+<link rel="stylesheet" href="/css/main.css">
+<link rel="application/rss+xml" title="{{site.title}}" href="{{ "feed.xml" | prepend: site.url }}">
 
-    <title>{% if page.title %}{{ page.title | escape }}{% else %}{{ site.title | escape }}{% endif %}</title>
+<!-- Font Awesome icons -->
+<script src="https://kit.fontawesome.com/d115ea08ec.js" crossorigin="anonymous"></script>
 
-    <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
-
-    <link rel="stylesheet" href="{{ "/css/main.css" | prepend: site.baseurl }}">
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cyborg/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
-
-    <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
-    <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}">
-</head>
+<!-- handle the navbar menu -->
+<script type="module" src="/scripts/nav.js"></script>

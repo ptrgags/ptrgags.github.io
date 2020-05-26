@@ -1,35 +1,48 @@
 ---
-layout: default
+layout: home
 ---
 
-<h1>GagsDev</h1>
+{% capture left_content %}
+{% comment %}
+<h2 class="column-header">Recent Projects</h2>
+{% assign projects = site.projects | sort: "sort_date" | reverse %}
+{% for project in projects limit:10 %}
+<div class="tile">
+    <a href="{{project.url}}">{{project.title}}</a><br/>
+</div>
+{% endfor %}
+{% endcomment %}
 
-{% capture col_right %}
-<h2>Posts</h2>
-
-{% for post in site.posts limit:10 %}
-    <div class="well">
-        <h4><a href="{{post.url | prepend: site.baseurl}}">{{post.title}}</a></h3>
-        <p>{{post.date | date: "%Y-%m-%d"}}</p>
-        {% if post.brief %}
-        <p>{{post.brief}}</p>
+<h2 class="column-header">Notable GitHub Projects</h2>
+{% assign repos = site.data.repo_whitelist | sort: 'sort_date' | reverse %}
+{% for repo in repos %}
+    {% assign metadata = site.github.public_repositories | where: 'name', repo.name %}
+    {% assign metadata = metadata[0] %}
+    <div class="tile">
+        <a href="{{metadata.html_url}}">{{metadata.name}}</a> - {{metadata.description}}
+        {% if repo.demo %}
+        <br/>
+        <a href="{{repo.demo}}">Demo</a>
+        {% else metadata.has_pages %}
+        <br/>
+        <a href="https://ptrgags.dev/{{repo.name}}">Demo</a>
         {% endif %}
     </div>
 {% endfor %}
-<p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
 {% endcapture %}
 
-{% capture col_left %}
-<h2>Featured Projects</h2>
-
-{% for project in site.projects %}
-    {% if project.featured %}
-    <div class="well">
-    {% include project_panel.html project=project %}
-    </div>
-    {% endif %}
+{% capture right_content %}
+<h2 class="column-header">Posts</h2>
+{% for post in site.posts limit:10 %}
+<div class="tile">
+    <h4>
+        {{post.date | date: "%Y-%m-%d"}}
+        - 
+        <a href="{{post.url}}">{{post.title}}</a> 
+    </h4>
+    <p>{{post.brief}}</p>
+</div>
 {% endfor %}
-
 {% endcapture %}
 
-{% include bootstrap_two_col.html %}
+{% include two-column.html %}

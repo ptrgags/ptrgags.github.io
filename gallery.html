@@ -1,0 +1,12 @@
+---
+layout: default
+---
+<h2>Gallery</h2>
+
+{% for project in site.projects %}
+<div class="card-tile">
+    <a href={{project.url}}>
+    {{project.title}}
+    </a>
+</div>
+{% endfor %}

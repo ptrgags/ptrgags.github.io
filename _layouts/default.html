@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
-    {% include head.html %}
-    <body>
-        {% include navbar.html %}
-        <div class="container content">
+<head>
+{% include head.html %}
+</head>
+<body>
+    <div class="fade">
+        <div class="container">
+            {% include navbar.html %}
             {{content}}
         </div>
-        {% comment %}
-        {% include footer.html %}
-        {% endcomment %}
-    </body>
+    </div>
+</body>
 </html>
