@@ -20,6 +20,10 @@ p {
     line-height: 1.6em;
 }
 
+.center {
+    text-align: center;
+}
+
 .fade {
     max-width: 1400px;
     background: linear-gradient(

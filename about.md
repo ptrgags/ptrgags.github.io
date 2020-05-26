@@ -11,6 +11,8 @@ Professionally, I am a [3D graphics software developer](https://cesium.com/team/
 
 I've also recently become a [member of ACM SIGGRAPH](https://www.siggraph.org/member-profile/peter-gagliardi/).
 
+I do have a [ShaderToy account](https://www.shadertoy.com/user/ptrgags) but I mostly use it for experimenting with shaders. The final results end up in my GitHub repos
+
 ### Contact Info
 
 * Email: [{{site.email}}](mailto:{{site.email}})

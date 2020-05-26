@@ -34,6 +34,10 @@ plugins:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+keep_files:
+  # Keep these symlinks around for local development. These files won't exist
+  # in production
+  - the-bricks
 
 collections:
     projects:
