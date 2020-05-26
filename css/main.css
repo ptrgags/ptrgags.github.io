@@ -51,10 +51,12 @@ p {
 }
 
 .left-column {
+    flex: 1 0 400px;
     width: var(--left-col-width);
 }
 
 .right-column {
+    flex: 1 0 400px;
     width: calc(100% - var(--left-col-width));
 }
 
