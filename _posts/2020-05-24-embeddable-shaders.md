@@ -5,7 +5,7 @@ date: 2020-05-24 11:40:00 -0400
 categories: update programming graphics
 brief: >-
     I found a way to embed shaders in my website using web components, p5.js,
-    and a trick I discovered with GitHubPages.
+    and a trick I discovered with GitHub Pages.
 ---
 
 ### Inspiration
