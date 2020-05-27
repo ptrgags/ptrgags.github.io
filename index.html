@@ -19,7 +19,8 @@ layout: home
     {% assign metadata = site.github.public_repositories | where: 'name', repo.name %}
     {% assign metadata = metadata[0] %}
     <div class="tile">
-        <a href="{{metadata.html_url}}">{{metadata.name}}</a> - {{metadata.description}}
+        <h4><a href="{{metadata.html_url}}">{{metadata.name}}</a></h4>
+        {{metadata.description}}
         {% if repo.demo %}
         <br/>
         <a href="{{repo.demo}}">Demo</a>
