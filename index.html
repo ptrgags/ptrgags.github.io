@@ -1,49 +1,13 @@
----
-layout: home
----
-
-{% capture left_content %}
-{% comment %}
-<h2 class="column-header">Recent Projects</h2>
-{% assign projects = site.projects | sort: "sort_date" | reverse %}
-{% for project in projects limit:10 %}
-<div class="tile">
-    <a href="{{project.url}}">{{project.title}}</a><br/>
-</div>
-{% endfor %}
-{% endcomment %}
-
-<h2 class="column-header">Notable GitHub Projects</h2>
-{% assign repos = site.data.repo_whitelist | sort: 'sort_date' | reverse %}
-{% for repo in repos %}
-    {% assign metadata = site.github.public_repositories | where: 'name', repo.name %}
-    {% assign metadata = metadata[0] %}
-    <div class="tile">
-        <h4><a href="{{metadata.html_url}}">{{metadata.name}}</a></h4>
-        {{metadata.description}}
-        {% if repo.demo %}
-        <br/>
-        <a href="{{repo.demo}}">Demo</a>
-        {% else metadata.has_pages %}
-        <br/>
-        <a href="https://ptrgags.dev/{{repo.name}}">Demo</a>
-        {% endif %}
-    </div>
-{% endfor %}
-{% endcapture %}
-
-{% capture right_content %}
-<h2 class="column-header">Posts</h2>
-{% for post in site.posts limit:10 %}
-<div class="tile">
-    <h4>
-        {{post.date | date: "%Y-%m-%d"}}
-        - 
-        <a href="{{post.url}}">{{post.title}}</a> 
-    </h4>
-    <p>{{post.brief}}</p>
-</div>
-{% endfor %}
-{% endcapture %}
-
-{% include two-column.html %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vite App</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
