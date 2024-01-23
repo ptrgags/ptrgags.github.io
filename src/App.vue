@@ -17,7 +17,7 @@ import HelloWorld from './components/HelloWorld.vue'
     </div>
   </header>
 
-  <RouterView />
+  <RouterView class="router-view" />
 </template>
 
 <style scoped>
@@ -36,6 +36,7 @@ nav {
   font-size: 12px;
   text-align: center;
   margin-top: 2rem;
+  background-color: green;
 }
 
 nav a.router-link-exact-active {
@@ -54,6 +55,10 @@ nav a {
 
 nav a:first-of-type {
   border: 0;
+}
+
+.router-view {
+    border: 1px solid white;
 }
 
 @media (min-width: 1024px) {

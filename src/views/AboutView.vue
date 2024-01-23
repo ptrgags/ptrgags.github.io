@@ -12,4 +12,8 @@
     align-items: center;
   }
 }
+
+.about {
+    background-color: red;
+}
 </style>
