@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import Navbar from "./components/Navbar.vue"
+import {RouterLink, RouterView} from 'vue-router'
+
+import Navbar from './components/Navbar.vue'
 </script>
 
 <template>
     <Navbar />
-    <div>
+    <div class="content">
+        <RouterView />
     </div>
 </template>
 
@@ -14,4 +17,10 @@ body {
     background-repeat: repeat;
     font-family: sans-serif;
 }
+
+.content {
+    background-color: black;
+    color: white;
+}
+
 </style>

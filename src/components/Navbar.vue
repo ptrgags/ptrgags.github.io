@@ -1,11 +1,15 @@
+<script setup lang="ts">
+import {RouterLink} from 'vue-router'
+</script>
+
 <template>
     <header>
-        <div class="title">Peter Gagliardi</div>
+        <div class="title"><RouterLink to="/">Peter Gagliardi</RouterLink></div>
         <nav>
             <ul>
-                <li>Gallery</li>
-                <li>Projects</li>
-                <li>Library</li>
+                <li><RouterLink to="/gallery">Gallery</RouterLink></li>
+                <li><RouterLink to="/projects">Projects</RouterLink></li>
+                <li><RouterLink to="/library">Library</RouterLink></li>
             </ul>
         </nav>
     </header>
