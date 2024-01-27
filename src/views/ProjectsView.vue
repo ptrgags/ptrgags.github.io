@@ -1,3 +1,45 @@
+<script setup lang="ts">
+    import { PROJECTS_NEWEST_FIRST } from '@/data/projects';
+</script>
+
 <template>
-    <h1>Projects still under construction</h1>
+    <h1 class="centered">Projects</h1>
+    <div class="tableau">
+        <template v-for="project in PROJECTS_NEWEST_FIRST">
+            <div v-if="project.show" class="card">
+                <div class="card-thumbnail"></div>
+                <div class="card-text centered">{{ project.title }}<br />({{ project.years }})</div>
+            </div>
+        </template>
+    </div>
 </template>
+
+<style>
+    .centered {
+        text-align: center;
+    }
+
+    .tableau {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .card {
+        border: 1px solid white;
+        border-radius: 4px;
+        margin: 2px;
+        display: inline-block;
+    }
+
+    .card-thumbnail {
+        width: 250px;
+        height: 350px;
+        background-color: #222222;
+    }
+
+    .card-text {
+        height: 40px;
+    }
+</style>
