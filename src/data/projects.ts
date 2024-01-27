@@ -75,6 +75,7 @@ export const PROJECTS: Project[] = [
         years: "2019",
         sort_key: "2019-10:01",
         github_repo_name: "drawing-machines",
+        demo_link: "https://ptrgags.dev/drawing-machines/",
         show: true,
     },
     {

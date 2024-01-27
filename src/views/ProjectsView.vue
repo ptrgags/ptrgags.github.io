@@ -8,7 +8,11 @@
         <template v-for="project in PROJECTS_NEWEST_FIRST">
             <div v-if="project.show" class="card">
                 <div class="card-thumbnail"></div>
-                <div class="card-text centered">{{ project.title }}<br />({{ project.years }})</div>
+                <div class="card-text centered">
+                    <a :href="`/project/${project.github_repo_name}`">{{ project.title }}</a>
+                    <br />
+                    ({{ project.years }})
+                </div>
             </div>
         </template>
     </div>
@@ -34,6 +38,7 @@
     }
 
     .card-thumbnail {
+        background-image: url("https://placekitten.com/250/350");
         width: 250px;
         height: 350px;
         background-color: #222222;
@@ -41,5 +46,6 @@
 
     .card-text {
         height: 40px;
+        background-color: #111111;
     }
 </style>
