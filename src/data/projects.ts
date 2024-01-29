@@ -1,3 +1,5 @@
+const BACKBLAZE_BUCKET = `https://f004.backblazeb2.com/file/ptrgags-website-assets`
+
 export interface Project {
     // Human-readable title for the project
     title: string
@@ -13,9 +15,35 @@ export interface Project {
     github_repo_name: string
     // If the project has a demo link, put it here
     demo_link?: string
+    // If true, there will be a thumbnail in Backblaze in the folder
+    // project-thumbnails/<github_repo_name>.png
+    has_thumbnail: boolean
+    // If true, there will be a thumbnail in Backblaze in the folder
+    // project-cards/<github_repo_name>.png
+    has_project_card: boolean
     // If the project should be visible in the list. This is useful
     // if I'm still working on something
     show: boolean
+}
+
+export function get_thumbnail_url(project: Project): string {
+    if (project.has_thumbnail) {
+        // These images will always be 250x350
+        return `${BACKBLAZE_BUCKET}/project-thumbnails/${project.github_repo_name}.png`
+    }
+
+    // Fallback, use placekitten for now.
+    return 'https://placekitten.com/250/350'
+}
+
+export function get_card_url(project: Project): string {
+    if (project.has_project_card) {
+        // These images will always be 500x700
+        return `${BACKBLAZE_BUCKET}/project-cards/${project.github_repo_name}.png`
+    }
+
+    // Fallback, use placekitten for now.
+    return 'https://placekitten.com/500/700'
 }
 
 export const PROJECTS: Project[] = [
@@ -24,6 +52,8 @@ export const PROJECTS: Project[] = [
         years: "2022-2024",
         sort_key: "2024-01:01",
         github_repo_name: "paper-toaster",
+        has_thumbnail: true,
+        has_project_card: true,
         show: true
     },
     {
@@ -31,6 +61,8 @@ export const PROJECTS: Project[] = [
         years: "2016, 2021, 2024",
         sort_key: "2024-01:02",
         github_repo_name: "p5-sketchbook",
+        has_thumbnail: false,
+        has_project_card: false,
         show: true,
     },
     {
@@ -39,6 +71,8 @@ export const PROJECTS: Project[] = [
         sort_key: "2017-12:01",
         github_repo_name: "holiday-shaders2",
         demo_link: "https://holiday2.shaders.dev",
+        has_thumbnail: false,
+        has_project_card: false,
         show: true,
     },
     {
@@ -47,6 +81,8 @@ export const PROJECTS: Project[] = [
         sort_key: "2016-12:01",
         github_repo_name: "holiday-shaders2",
         demo_link: "https://holiday.shaders.dev",
+        has_thumbnail: false,
+        has_project_card: false,
         show: true,
     },
     {
@@ -54,6 +90,8 @@ export const PROJECTS: Project[] = [
         years: "2020",
         sort_key: "2020-05:01",
         github_repo_name: "symmetry-sketchbook",
+        has_thumbnail: false,
+        has_project_card: false,
         show: true,
     },
     {
@@ -61,6 +99,8 @@ export const PROJECTS: Project[] = [
         years: "2019",
         sort_key: "2019-08:01",
         github_repo_name: "virtual-musum",
+        has_thumbnail: false,
+        has_project_card: false,
         show: true,
     },
     {
@@ -68,6 +108,8 @@ export const PROJECTS: Project[] = [
         years: "2018",
         sort_key: "2018-08:01",
         github_repo_name: "affine-font-indeed",
+        has_thumbnail: false,
+        has_project_card: false,
         show: true,
     },
     {
@@ -76,6 +118,8 @@ export const PROJECTS: Project[] = [
         sort_key: "2019-10:01",
         github_repo_name: "drawing-machines",
         demo_link: "https://ptrgags.dev/drawing-machines/",
+        has_thumbnail: false,
+        has_project_card: false,
         show: true,
     },
     {
@@ -83,6 +127,8 @@ export const PROJECTS: Project[] = [
         years: "2018",
         sort_key: "2018-12:01",
         github_repo_name: "holiday-eyecandy",
+        has_thumbnail: false,
+        has_project_card: false,
         show: true,
     },
     {
@@ -90,6 +136,8 @@ export const PROJECTS: Project[] = [
         years: "2015",
         sort_key: "2015-12:01",
         github_repo_name: "ant-farm",
+        has_thumbnail: false,
+        has_project_card: false,
         show: true,
     },
     {
@@ -97,6 +145,8 @@ export const PROJECTS: Project[] = [
         years: "2014, 2016",
         sort_key: "2016-09:01",
         github_repo_name: "ant-farm",
+        has_thumbnail: false,
+        has_project_card: false,
         show: true,
     },
     {
@@ -105,6 +155,8 @@ export const PROJECTS: Project[] = [
         sort_key: "2014-11:01",
         demo_link: "https://ptrgags.dev/spin-o-sketch/",
         github_repo_name: "spin-o-sketch",
+        has_thumbnail: false,
+        has_project_card: false,
         show: true,
     },
     {
@@ -112,6 +164,8 @@ export const PROJECTS: Project[] = [
         years: "2024",
         sort_key: "2024-01:03",
         github_repo_name: "stretchy-blocks",
+        has_thumbnail: false,
+        has_project_card: false,
         show: false,
     },
     {
@@ -119,6 +173,8 @@ export const PROJECTS: Project[] = [
         years: "2024",
         sort_key: "2024-01:04",
         github_repo_name: "eloquent",
+        has_thumbnail: false,
+        has_project_card: false,
         show: false,
     }
 ]

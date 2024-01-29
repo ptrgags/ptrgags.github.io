@@ -1,11 +1,11 @@
 <script setup lang="ts">
     import { computed } from 'vue'
     import { useRoute } from 'vue-router'
-    import { PROJECTS } from '@/data/projects';
+    import { PROJECTS, get_card_url } from '@/data/projects';
 
     const route = useRoute()
 
-    const github_link = computed(() => {
+    const github_url = computed(() => {
         return `https://github.com/ptrgags/${route.params.repo_name}`
     })
 
@@ -16,16 +16,25 @@
     const demo_link = computed(() => {
         return project.value?.demo_link
     })
+
+    const image_url = computed(() => {
+        if (project.value === undefined) {
+            return 'https://placekitten.com/500/700'
+        }
+        return get_card_url(project.value);
+    })
 </script>
 
 <template>
     <div class="header">
         <div class="screenshot-frame">
-            <div class="screenshot"></div>
+            <div class="screenshot">
+                <img :src="image_url" />
+            </div>
         </div>
         <div class="details">
             <h1>{{ project?.title }} ({{ project?.years }})</h1>
-            <a :href="github_link">GitHub</a>
+            <a :href="github_url">GitHub</a>
             &nbsp;
             <a v-if="demo_link" :href="demo_link">Demo</a>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed dui suscipit, vulputate neque eget, eleifend lectus. Aenean elementum nec diam eu blandit. Proin consectetur ultrices tortor at vehicula. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vestibulum erat non leo luctus euismod. Nam lorem mi, gravida ac velit sit amet, fermentum ornare sem. Phasellus ut rhoncus nisi. Integer tristique tempor tempus. Nunc vitae odio ut neque maximus luctus at vel dolor. Duis id tincidunt dolor, vel pretium elit. Proin aliquam felis a rhoncus egestas. Etiam volutpat varius urna, in sodales tellus dignissim non. Vestibulum rhoncus tristique ante, eget condimentum risus ullamcorper vel. Phasellus eget semper orci.</p>
@@ -47,7 +56,6 @@
     }
 
     .screenshot {
-        background-image: url("https://placekitten.com/500/700");
         width: 500px;
         height: 700px;
         background-color: #222222;
