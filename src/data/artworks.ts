@@ -22,12 +22,12 @@ export interface Artwork {
 }
 
 export function get_artwork_url(artwork: Artwork) {
-    return `/artwork/${artwork.id}`
+    return `/artwork/${artwork.project_id}/${artwork.id}`
 }
 
 export const ARTWORKS: Artwork[] = [
     {
-        id: "TurtleDances",
+        id: "2022-06-27_TurtleDances",
         title: "Turtle Dances",
         date: "2022-06-27",
         sort_key: "2022-06-27:01",
@@ -37,7 +37,7 @@ export const ARTWORKS: Artwork[] = [
         show: true,
     },
     {
-        id: "ElementaryCA",
+        id: "2022-07-09_ElementaryCA",
         title: "Elementary Cellular Automaton",
         date: "2022-07-09",
         sort_key: "2022-07-09:01",
@@ -47,7 +47,7 @@ export const ARTWORKS: Artwork[] = [
         show: true,
     },
     {
-        id: "IsoGrid",
+        id: "2022-07-24_IsoGrid",
         title: "Isometric Grid",
         date: "2022-07-24",
         sort_key: "2022-07-24:01",
@@ -57,7 +57,7 @@ export const ARTWORKS: Artwork[] = [
         show: true,
     },
     {
-        id: "ColoredBraids",
+        id: "2022-08-23_ColoredBraids",
         title: "Colored Braids",
         date: "2022-08-23",
         sort_key: "2022-08-23:01",
@@ -71,7 +71,7 @@ export const ARTWORKS: Artwork[] = [
 export function get_thumbnail_url(artwork: Artwork): string {
     if (artwork.has_thumbnail) {
         // These images will always be 250x350
-        return `${BACKBLAZE_BUCKET}/artwork-thumbnails/${artwork.project_id}/${artwork.date}_${artwork.id}.png`
+        return `${BACKBLAZE_BUCKET}/artwork-thumbnails/${artwork.project_id}/${artwork.id}.png`
     }
 
     // Fallback, use placekitten for now.
@@ -81,7 +81,7 @@ export function get_thumbnail_url(artwork: Artwork): string {
 export function get_card_url(artwork: Artwork): string {
     if (artwork.has_card) {
         // These images will always be 500x700
-        return `${BACKBLAZE_BUCKET}/project-cards/${artwork.date}_${artwork.id}.png`
+        return `${BACKBLAZE_BUCKET}/artwork-cards/${artwork.project_id}/${artwork.id}.png`
     }
 
     // Fallback, use placekitten for now.

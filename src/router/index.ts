@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import ArtworkView from '@/views/ArtworkView.vue'
 import HomeView from '../views/HomeView.vue'
 import GalleryView from '../views/GalleryView.vue'
 import ProjectsView from '../views/ProjectsView.vue'
@@ -17,6 +18,11 @@ const router = createRouter({
       path: '/gallery',
       name: 'gallery',
       component: GalleryView
+    },
+    {
+        path: '/artwork/:project_id/:artwork_id',
+        name: 'artwork',
+        component: ArtworkView
     },
     {
       path: '/projects',
