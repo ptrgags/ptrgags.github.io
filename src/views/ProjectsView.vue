@@ -1,10 +1,8 @@
 <script setup lang="ts">
-    import { type Project, PROJECTS_NEWEST_FIRST, get_thumbnail_url } from '@/data/projects';
+    import { PROJECTS_NEWEST_FIRST, get_thumbnail_url, get_project_url } from '@/data/projects';
     import ThumbnailCard from '@/components/ThumbnailCard.vue'
 
-    function get_project_url(project: Project) {
-        return `/project/${project.github_repo_name}`
-    }
+    
 </script>
 
 <template>

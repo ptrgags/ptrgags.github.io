@@ -26,6 +26,10 @@ export interface Project {
     show: boolean
 }
 
+export function get_project_url(project: Project) {
+    return `/project/${project.github_repo_name}`
+}
+
 export function get_thumbnail_url(project: Project): string {
     if (project.has_thumbnail) {
         // These images will always be 250x350
@@ -183,4 +187,4 @@ export const PROJECTS_NEWEST_FIRST = [...PROJECTS].sort(
     (a: Project, b: Project) => b.sort_key.localeCompare(a.sort_key)
 )
 
-export const PROJECTS_NEWEST_5 = PROJECTS_NEWEST_FIRST.slice(5)
+export const PROJECTS_NEWEST_5 = PROJECTS_NEWEST_FIRST.filter(x => x.show).slice(0, 5)
