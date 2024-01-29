@@ -1,4 +1,4 @@
-const BACKBLAZE_BUCKET = `https://f004.backblazeb2.com/file/ptrgags-website-assets`
+import {BACKBLAZE_BUCKET} from "@/core/website_constants"
 
 export interface Project {
     // Human-readable title for the project
