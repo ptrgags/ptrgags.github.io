@@ -182,3 +182,5 @@ export const PROJECTS: Project[] = [
 export const PROJECTS_NEWEST_FIRST = [...PROJECTS].sort(
     (a: Project, b: Project) => b.sort_key.localeCompare(a.sort_key)
 )
+
+export const PROJECTS_NEWEST_5 = PROJECTS_NEWEST_FIRST.slice(5)

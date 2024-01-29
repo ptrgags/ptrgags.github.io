@@ -1,21 +1,23 @@
 <script setup lang="ts">
-    import { PROJECTS_NEWEST_FIRST, get_thumbnail_url } from '@/data/projects';
+    import { type Project, PROJECTS_NEWEST_FIRST, get_thumbnail_url } from '@/data/projects';
+    import ThumbnailCard from '@/components/ThumbnailCard.vue'
+
+    function get_project_url(project: Project) {
+        return `/project/${project.github_repo_name}`
+    }
 </script>
 
 <template>
     <h1 class="centered">Projects</h1>
     <div class="tableau">
         <template v-for="project in PROJECTS_NEWEST_FIRST">
-            <div v-if="project.show" class="card">
-                <div class="card-thumbnail">
-                    <img :src="get_thumbnail_url(project)" />
-                </div>
-                <div class="card-text centered">
-                    <a :href="`/project/${project.github_repo_name}`">{{ project.title }}</a>
-                    <br />
-                    ({{ project.years }})
-                </div>
-            </div>
+            <ThumbnailCard 
+                v-if="project.show"
+                :image="get_thumbnail_url(project)"
+                :link="get_project_url(project)"
+                :title="project.title"
+                :years="project.years"
+            />
         </template>
     </div>
 </template>
@@ -30,23 +32,5 @@
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
-    }
-
-    .card {
-        border: 1px solid white;
-        border-radius: 4px;
-        margin: 2px;
-        display: inline-block;
-    }
-
-    .card-thumbnail {
-        width: 250px;
-        height: 350px;
-        background-color: #222222;
-    }
-
-    .card-text {
-        height: 40px;
-        background-color: #111111;
     }
 </style>
