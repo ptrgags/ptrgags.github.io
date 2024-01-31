@@ -64,26 +64,6 @@ function entry_class(index: number) {
     padding: 10px 40px;
 }
 
-.timeline-entry::after {
-    content: '';
-    position: absolute;
-    z-index: 1;
-    background-color: orange;
-    width: 20px;
-    height: 20px;
-    top: 10px;
-    border-radius: 10px;
-}
-
-/* position the dots on the timeline*/
-.entry-right::after {
-    left: -10px;
-}
-
-.entry-left::after {
-    right: -10px;
-}
-
 .entry-content {
     display: flex;
     align-items: center;
@@ -147,6 +127,27 @@ function entry_class(index: number) {
     left: 20px;
 }
 
+/* Big dot on the timeline */
+.timeline-entry::after {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    background-color: orange;
+    width: 20px;
+    height: 20px;
+    top: 10px;
+    border-radius: 10px;
+}
+
+/* position the dots on the timeline*/
+.entry-right::after {
+    left: -10px;
+}
+
+.entry-left::after {
+    right: -10px;
+}
+
 .thumbnail {
     border: 4px solid #d68c03;
     border-radius: 4px;
@@ -168,5 +169,58 @@ function entry_class(index: number) {
 
 .entry-description h3 {
     color: #d68c03;
+}
+
+/* For medium-sized screens, start stacking the content vertically */
+@media screen and (max-width: 1400px) {
+    /* Stack the content vertically to fit the screen better */
+    .entry-left .entry-content {
+        flex-direction: column;
+    }
+
+    .entry-right .entry-content {
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .timeline {
+        max-width: 100%;
+    }
+
+    /* move the timeline to the left */
+    .timeline::after {
+        left: 20px;
+    }
+
+    /* Timeline entries now fill the parent container */
+    .timeline-entry {
+        width: 100%;
+        padding: 10px 10px 10px 40px;
+    }
+    
+    /* all the cards need to be aligned to the left of the parent */
+    .entry-right {
+        left: 0%;
+    }
+
+    /* Stack the content vertically to fit the screen better */
+    .entry-left .entry-content {
+        /* Move the sharp corner to the left */
+        border-top-right-radius: 10px;
+        border-top-left-radius: 0px;
+    }
+
+    .entry-left::after, .entry-right::after {
+        left: 10px;
+    }
+
+    .entry-left::before, .entry-right::before {
+        width: 20px;
+        left: 10px;
+        right: initial;
+        border-radius: 10px 0px 0px 10px;
+    }
+    
 }
 </style>
