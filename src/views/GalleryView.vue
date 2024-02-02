@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ARTWORKS_NEWEST_FIRST, get_thumbnail_url, get_artwork_url } from '@/data/artworks';
+import { ARTWORKS_NEWEST_FIRST } from '@/data/artworks';
 import ThumbnailCard from '@/components/ThumbnailCard.vue';
 import Timeline from '@/components/Timeline.vue';
 import type { TimelineEntry } from '@/core/TimelineEntry';
@@ -28,8 +28,9 @@ const dummy_entries: TimelineEntry[] = [
         <template v-for="artwork in ARTWORKS_NEWEST_FIRST">
             <ThumbnailCard 
                 v-if="artwork.show"
-                :image="get_thumbnail_url(artwork)"
-                :link="get_artwork_url(artwork)"
+                :image="artwork.thumbnail_url"
+                :alt="artwork.alt_text"
+                :link="artwork.artwork_url"
                 :title="artwork.title"
                 :years="artwork.date"
             />

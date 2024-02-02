@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import ThumbnailCard from '@/components/ThumbnailCard.vue';
-    import { PROJECTS_NEWEST_5, get_thumbnail_url, get_project_url } from '@/data/projects';
-    import { ARTWORKS_NEWEST_5, get_thumbnail_url as art_thumbnail, get_artwork_url } from '@/data/artworks';
+    import { PROJECTS_NEWEST_5 } from '@/data/projects';
+    import { ARTWORKS_NEWEST_5 } from '@/data/artworks';
 </script>
 
 <template>
@@ -10,8 +10,9 @@
         <template v-for="project in PROJECTS_NEWEST_5">
             <ThumbnailCard 
                 v-if="project.show"
-                :image="get_thumbnail_url(project)"
-                :link="get_project_url(project)"
+                :image="project.thumbnail_url"
+                :alt="project.alt_text"
+                :link="project.project_url"
                 :title="project.title"
                 :years="project.years"
             />
@@ -23,8 +24,9 @@
         <template v-for="artwork in ARTWORKS_NEWEST_5">
             <ThumbnailCard
                 v-if="artwork.show"
-                :image="art_thumbnail(artwork)"
-                :link="get_artwork_url(artwork)"
+                :image="artwork.thumbnail_url"
+                :alt="artwork.alt_text"
+                :link="artwork.artwork_url"
                 :title="artwork.title"
                 :years="artwork.date"
             />

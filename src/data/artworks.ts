@@ -1,31 +1,7 @@
-import {BACKBLAZE_BUCKET} from '@/core/website_constants'
+import { BACKBLAZE_BUCKET } from '@/core/website_constants'
+import { type ArtworkDescriptor, Artwork } from '@/core/Artwork'
 
-export interface Artwork {
-    // Unique ID of this artwork
-    id: string,
-    // Human-readable title of this artwork
-    title: string,
-    // Date the artwork was made as YYYY-MM-DD
-    date: string,
-    // Sort the artwork in the format YYYY-MM-DD:NN
-    sort_key: string,
-    // The corresponding project ID (if it exists)
-    project_id: string,
-    // If true, a 250x350 thumbnail representation of the artwork exists in
-    // backblaze as /artwork-thumbnails/<project_id>/<date>_<id>.png
-    has_thumbnail: boolean,
-    // If true, a larger 500x700 version of the artwork exists in
-    // backblaze as /artwork-cards/<project_id>/<date>_<id>.png
-    has_card: boolean,
-    // If false, the artwork is hidden.
-    show: boolean
-}
-
-export function get_artwork_url(artwork: Artwork) {
-    return `/artwork/${artwork.project_id}/${artwork.id}`
-}
-
-export const ARTWORKS: Artwork[] = [
+const ARTWORK_DESCRIPTORS: ArtworkDescriptor[] = [
     {
         id: "2022-06-27_TurtleDances",
         title: "Turtle Dances",
@@ -68,25 +44,7 @@ export const ARTWORKS: Artwork[] = [
     }
 ]
 
-export function get_thumbnail_url(artwork: Artwork): string {
-    if (artwork.has_thumbnail) {
-        // These images will always be 250x350
-        return `${BACKBLAZE_BUCKET}/artwork-thumbnails/${artwork.project_id}/${artwork.id}.png`
-    }
-
-    // Fallback, use placekitten for now.
-    return 'https://placekitten.com/250/350'
-}
-
-export function get_card_url(artwork: Artwork): string {
-    if (artwork.has_card) {
-        // These images will always be 500x700
-        return `${BACKBLAZE_BUCKET}/artwork-cards/${artwork.project_id}/${artwork.id}.png`
-    }
-
-    // Fallback, use placekitten for now.
-    return 'https://placekitten.com/500/700'
-}
+export const ARTWORKS = ARTWORK_DESCRIPTORS.map(x => new Artwork(x))
 
 export const ARTWORKS_NEWEST_FIRST = [...ARTWORKS].sort(
     (a: Artwork, b: Artwork) => b.sort_key.localeCompare(a.sort_key)

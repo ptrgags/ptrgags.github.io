@@ -1,15 +1,23 @@
 <script setup lang="ts">
-    const props = defineProps<{
-        image: string,
-        link: string,
-        title: string,
-        years: string
-    }>()
+import CardImage from '@/components/CardImage.vue'
+
+const props = defineProps<{
+    image_url?: string,
+    link?: string,
+    alt: string,
+    title: string,
+    years: string
+}>()
 </script>
 
 <template>
     <div class="card-frame">
-        <img :src="props.image" />
+        <CardImage 
+            size="thumbnail"
+            alt="props.alt"
+            :url="props.image_url"
+            :link="props.link"
+        />
         <div class="card-text centered">
             <a :href="props.link">{{ props.title }}</a>
             <br />
@@ -21,7 +29,7 @@
 <style>
     .card-text {
         height: 40px;
-        background-color: #111111;
+        background-color: var(--background-text);
 
         /* Round the bottom */
         border-bottom-left-radius: 8px;
