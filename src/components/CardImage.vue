@@ -13,7 +13,8 @@ const img_url = computed(() => {
         return props.url
     }
 
-    return `@/assets/placeholder-${props.size}.png`
+    // this is in public/assets
+    return `/assets/placeholder-${props.size}.png`
 })
 </script>
 
