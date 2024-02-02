@@ -19,16 +19,3 @@
         </template>
     </div>
 </template>
-
-<style>
-    .centered {
-        text-align: center;
-    }
-
-    .tableau {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-</style>

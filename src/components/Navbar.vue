@@ -9,7 +9,6 @@ import {RouterLink} from 'vue-router'
             <ul>
                 <li><RouterLink to="/gallery">Gallery</RouterLink></li>
                 <li><RouterLink to="/projects">Projects</RouterLink></li>
-                <li><RouterLink to="/library">Library</RouterLink></li>
             </ul>
         </nav>
     </header>
@@ -17,12 +16,15 @@ import {RouterLink} from 'vue-router'
 
 <style>
 header {
-    height: 40px;
+    height: 60px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    background-color: black;
-    color: white;
+    background-color: var(--background-dark);
+    color: var(--color-text);
+
+    border-bottom: 10px solid var(--background-transparent);
+    background-clip: padding-box;
 }
 
 .title {

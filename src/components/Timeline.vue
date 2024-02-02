@@ -18,7 +18,7 @@ function entry_class(index: number) {
         <template v-for="(entry, index) in entries">
             <div :class="entry_class(index)">
                 <div class="entry-content">
-                    <div v-if="entry.thumbnail_url" class="thumbnail">
+                    <div v-if="entry.thumbnail_url" class="card-frame">
                         <img :src="entry.thumbnail_url" />
                     </div>
                     <div class="entry-description">
@@ -38,14 +38,14 @@ function entry_class(index: number) {
     position: relative;
     max-width: 80%;
     margin: 0 auto;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: var(--background-transparent);
 }
 
 /* Draw the actual timeline */
 .timeline::after {
     content: "";
     position: absolute;
-    background-color: #333333;
+    background-color: var(--background-text);
     
     /* make a long, thin rectangle */
     top: 0px;
@@ -95,7 +95,7 @@ function entry_class(index: number) {
     
     /* Set a rounded border except on the left side */
     border-width: 10px 0px 10px 10px;
-    border-color: #333333;
+    border-color: var(--background-text);
     border-style:solid;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -117,7 +117,7 @@ function entry_class(index: number) {
 
     /* Same idea as for .entry-left::before, but the opposite direction */
     border-width: 10px 10px 10px 0px;
-    border-color: #333333;
+    border-color: var(--background-text);
     border-style:solid;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
@@ -132,7 +132,7 @@ function entry_class(index: number) {
     content: '';
     position: absolute;
     z-index: 1;
-    background-color: orange;
+    background-color: var(--color-accent);
     width: 20px;
     height: 20px;
     top: 10px;
@@ -148,27 +148,13 @@ function entry_class(index: number) {
     right: -10px;
 }
 
-.thumbnail {
-    border: 4px solid #d68c03;
-    border-radius: 4px;
-    margin: 10px 20px;
-}
-
-/*
- * There was a tiny bit of space at the bottom of the image due to aligning to
- * the baseline, switching to block fixes it
- */
-.thumbnail img {
-    display: block;
-}
-
 .entry-description {
     display: inline-block;
     padding: 20px 20px;
 }
 
 .entry-description h3 {
-    color: #d68c03;
+    color: var(--color-accent);
 }
 
 /* For medium-sized screens, start stacking the content vertically */

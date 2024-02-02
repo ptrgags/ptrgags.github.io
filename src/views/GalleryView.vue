@@ -37,16 +37,3 @@ const dummy_entries: TimelineEntry[] = [
     </div>
     <Timeline :entries="dummy_entries" />
 </template>
-
-<style>
-    .centered {
-        text-align: center;
-    }
-
-    .tableau {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-</style>

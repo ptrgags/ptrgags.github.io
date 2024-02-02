@@ -8,10 +8,8 @@
 </script>
 
 <template>
-    <div class="card">
-        <div class="card-thumbnail">
-            <img :src="props.image" />
-        </div>
+    <div class="card-frame">
+        <img :src="props.image" />
         <div class="card-text centered">
             <a :href="props.link">{{ props.title }}</a>
             <br />
@@ -21,21 +19,12 @@
 </template>
 
 <style>
-    .card {
-        border: 1px solid white;
-        border-radius: 4px;
-        margin: 2px;
-        display: inline-block;
-    }
-
-    .card-thumbnail {
-        width: 250px;
-        height: 350px;
-        background-color: #222222;
-    }
-
     .card-text {
         height: 40px;
         background-color: #111111;
+
+        /* Round the bottom */
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
     }
 </style>

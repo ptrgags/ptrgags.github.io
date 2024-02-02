@@ -26,13 +26,11 @@
 </script>
 
 <template>
-    <div class="header">
-        <div class="screenshot-frame">
-            <div class="screenshot">
-                <img :src="image_url" />
-            </div>
+    <div class="tableau">
+        <div class="card-frame">
+            <img :src="image_url" />
         </div>
-        <div class="details">
+        <div class="plaque">
             <h1>{{ project?.title }} ({{ project?.years }})</h1>
             <a :href="github_url">GitHub</a>
             &nbsp;
@@ -42,28 +40,3 @@
         </div>
     </div>
 </template>
-
-<style>
-    .header {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center  
-    }
-
-    .screenshot-frame {
-        border: 1px solid white;
-    }
-
-    .screenshot {
-        width: 500px;
-        height: 700px;
-        background-color: #222222;
-    }
-
-    .details {
-        padding: 40px;
-        width: 500px;
-        background-color: rgba(0, 0, 0, 0.8);
-    }
-</style>
