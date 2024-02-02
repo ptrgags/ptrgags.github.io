@@ -28,7 +28,7 @@ const dummy_entries: TimelineEntry[] = [
         <template v-for="artwork in ARTWORKS_NEWEST_FIRST">
             <ThumbnailCard 
                 v-if="artwork.show"
-                :image="artwork.thumbnail_url"
+                :image_url="artwork.thumbnail_url"
                 :alt="artwork.alt_text"
                 :link="artwork.artwork_url"
                 :title="artwork.title"
