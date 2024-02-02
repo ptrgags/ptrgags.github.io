@@ -3,6 +3,7 @@
 -->
 <script setup lang="ts">
 import type { TimelineEntry } from '@/core/TimelineEntry';
+import CardImage from './CardImage.vue';
 defineProps<{
     entries: TimelineEntry[]
 }>()
@@ -19,7 +20,11 @@ function entry_class(index: number) {
             <div :class="entry_class(index)">
                 <div class="entry-content">
                     <div v-if="entry.thumbnail_url" class="card-frame">
-                        <img :src="entry.thumbnail_url" />
+                        <CardImage 
+                            size="thumbnail"
+                            :url="entry.thumbnail_url"
+                            :alt="entry.alt_text" 
+                        />
                     </div>
                     <div class="entry-description">
                         <h3>{{ entry.date }}</h3>

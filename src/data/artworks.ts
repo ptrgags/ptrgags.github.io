@@ -51,3 +51,19 @@ export const ARTWORKS_NEWEST_FIRST = [...ARTWORKS].sort(
 )
 
 export const ARTWORKS_NEWEST_5 = ARTWORKS_NEWEST_FIRST.filter(x => x.show).slice(0, 5)
+
+type ArtworksByProject = {[key: string]: Artwork[]}
+
+function index_artworks(): ArtworksByProject {
+    const result: ArtworksByProject = {}
+    for (const artwork of ARTWORKS) {
+        const id = artwork.project_id
+        if (result[id] === undefined) {
+            result[id] = []
+        }
+        result[id].push(artwork)
+    }
+
+    return result
+}
+export const ARTWORKS_BY_PROJECT = index_artworks()

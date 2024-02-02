@@ -1,4 +1,5 @@
-import {BACKBLAZE_BUCKET} from "@/core/website_constants"
+import { BACKBLAZE_BUCKET } from "@/core/website_constants"
+import type { TimelineEntry } from "@/core/TimelineEntry"
 
 export interface ArtworkDescriptor {
     // Unique ID of this artwork
@@ -50,5 +51,14 @@ export class Artwork {
 
     get artwork_url() {
         return `/artworks/${this.project_id}/${this.id}`
+    }
+
+    to_timeline_entry(): TimelineEntry {
+        return {
+            date: `Artwork: ${this.title} (${this.date})`,
+            thumbnail_url: this.thumbnail_url,
+            alt_text: this.alt_text,
+            description: "Lorem Ipsum blah blah blah blah blah blah"
+        }
     }
 }
