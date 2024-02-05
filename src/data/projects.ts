@@ -149,12 +149,14 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
     {
         id: 'eloquent',
         title: "Eloquent",
-        years: "2024",
-        sort_key: "2024-01:04",
+        years: "2023-2024",
+        sort_key: "2024-02-00:01",
+        // description: "A tool for the indecisive. Eloquent lets you compare and rank a list of ideas."
         github_repo: "eloquent",
-        has_thumbnail: false,
-        has_card: false,
-        show: false,
+        demo_link: "https://ptrgags.dev/eloquent",
+        has_thumbnail: true,
+        has_card: true,
+        show: true,
     }
 ]
 

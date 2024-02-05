@@ -61,6 +61,8 @@ a:active {
 
     /* Shrink the image if it's too wide on mobile */
     max-width: 80vw;
+    
+    background-color: var(--background-text);
 }
 
 .plaque {

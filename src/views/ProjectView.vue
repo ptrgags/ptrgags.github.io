@@ -18,7 +18,7 @@ const timeline_entries = computed(() => {
         return []
     }
 
-    const artworks = ARTWORKS_BY_PROJECT[project.value.id]
+    const artworks = ARTWORKS_BY_PROJECT[project.value.id] ?? []
     const newest_first = [...artworks].sort(
         (a: Artwork, b: Artwork) => b.sort_key.localeCompare(a.sort_key)
     )
