@@ -1,4 +1,5 @@
-import {BACKBLAZE_BUCKET} from "@/core/website_constants"
+import { BACKBLAZE_BUCKET } from "@/core/website_constants"
+import { type TimelineEntry } from "@/core/TimelineEntry"
 
 export interface ProjectDescriptor {
     // Unique ID for this project.
@@ -13,6 +14,8 @@ export interface ProjectDescriptor {
     // NNN is a 0-padded number to uniquely identify the project (if multiple
     // were updated in the same month)
     sort_key: string
+    // HTML description of the project
+    description: string
     // GitHub repo name. If present, a link to GitHub will be added on the 
     // project page. For programming projects, this must match the ID.
     github_repo?: string
@@ -25,10 +28,12 @@ export interface ProjectDescriptor {
     // project-cards/<id>.png
     has_card: boolean
     // Alt text for the images
-    alt_text?: string
+    alt_text: string
     // If the project should be visible in the list. This is useful
     // if I'm still working on something
-    show: boolean
+    show: boolean,
+    // Other non-artwork updates to include in the timeline
+    updates?: TimelineEntry[]
 }
 
 export class Project {
@@ -37,11 +42,13 @@ export class Project {
     show: boolean
     title: string
     years: string
+    description: string
     github_url?: string
     demo_url?: string
     card_url?: string
     thumbnail_url?: string
     alt_text: string
+    updates?: TimelineEntry[]
 
     constructor(descriptor: ProjectDescriptor) {
         this.id = descriptor.id
@@ -49,8 +56,10 @@ export class Project {
         this.show = descriptor.show
         this.title = descriptor.title
         this.years = descriptor.years
+        this.description = descriptor.description
         this.demo_url = descriptor.demo_link
-        this.alt_text = descriptor.alt_text ?? "TODO: Write alt text"
+        this.alt_text = descriptor.alt_text
+        this.updates = descriptor.updates
 
         this.github_url = descriptor.github_repo ? `https://github.com/ptrgags/${descriptor.github_repo}` : undefined
         this.thumbnail_url = descriptor.has_thumbnail ? `${BACKBLAZE_BUCKET}/project-thumbnails/${this.id}.png` : undefined

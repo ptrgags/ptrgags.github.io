@@ -1,6 +1,8 @@
+import type { Thumbnail } from "./Thumbnail"
+
 export interface TimelineEntry {
-    thumbnail_url?: string
-    alt_text: string
+    sort_key: string
+    thumbnail?: Thumbnail
     date: string
     description: string
 }

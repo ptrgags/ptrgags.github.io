@@ -19,12 +19,8 @@ function entry_class(index: number) {
         <template v-for="(entry, index) in entries">
             <div :class="entry_class(index)">
                 <div class="entry-content">
-                    <div v-if="entry.thumbnail_url" class="card-frame">
-                        <CardImage 
-                            size="thumbnail"
-                            :url="entry.thumbnail_url"
-                            :alt="entry.alt_text" 
-                        />
+                    <div v-if="entry.thumbnail" class="card-frame">
+                        <CardImage size="thumbnail" :url="entry.thumbnail.url" :alt="entry.thumbnail.alt_text" />
                     </div>
                     <div class="entry-description">
                         <h3>{{ entry.date }}</h3>
@@ -37,7 +33,6 @@ function entry_class(index: number) {
 </template>
 
 <style scoped>
-
 /* Container for the whole timeline */
 .timeline {
     position: relative;
@@ -51,15 +46,16 @@ function entry_class(index: number) {
     content: "";
     position: absolute;
     background-color: var(--background-text);
-    
+
     /* make a long, thin rectangle */
     top: 0px;
     bottom: 0px;
     width: 8px;
-    
+
     /* center on the page */
     left: 50%;
-    margin-left: -4px; /* half of width */
+    margin-left: -4px;
+    /* half of width */
 }
 
 .timeline-entry {
@@ -81,6 +77,7 @@ function entry_class(index: number) {
     flex-direction: row-reverse;
     border-top-right-radius: 0px;
 }
+
 .entry-right .entry-content {
     border-top-left-radius: 0px;
 }
@@ -97,14 +94,14 @@ function entry_class(index: number) {
 .entry-left::before {
     content: "";
     z-index: 1;
-    
+
     /* Set a rounded border except on the left side */
     border-width: 10px 0px 10px 10px;
     border-color: var(--background-text);
-    border-style:solid;
+    border-style: solid;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
-    
+
     /* 
      * set the size and position of it to fit in the gap between the
      * entry bubble and the timeline.
@@ -123,7 +120,7 @@ function entry_class(index: number) {
     /* Same idea as for .entry-left::before, but the opposite direction */
     border-width: 10px 10px 10px 0px;
     border-color: var(--background-text);
-    border-style:solid;
+    border-style: solid;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
 
@@ -164,6 +161,7 @@ function entry_class(index: number) {
 
 /* For medium-sized screens, start stacking the content vertically */
 @media screen and (max-width: 1400px) {
+
     /* Stack the content vertically to fit the screen better */
     .entry-left .entry-content {
         flex-direction: column;
@@ -189,7 +187,7 @@ function entry_class(index: number) {
         width: 100%;
         padding: 10px 10px 10px 40px;
     }
-    
+
     /* all the cards need to be aligned to the left of the parent */
     .entry-right {
         left: 0%;
@@ -202,16 +200,18 @@ function entry_class(index: number) {
         border-top-left-radius: 0px;
     }
 
-    .entry-left::after, .entry-right::after {
+    .entry-left::after,
+    .entry-right::after {
         left: 10px;
     }
 
-    .entry-left::before, .entry-right::before {
+    .entry-left::before,
+    .entry-right::before {
         width: 20px;
         left: 10px;
         right: initial;
         border-radius: 10px 0px 0px 10px;
     }
-    
+
 }
 </style>

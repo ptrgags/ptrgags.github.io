@@ -54,10 +54,18 @@ export class Artwork {
     }
 
     to_timeline_entry(): TimelineEntry {
+        let thumbnail;
+        if (this.thumbnail_url) {
+            thumbnail = {
+                url: this.thumbnail_url,
+                alt_text: this.alt_text
+            }
+        }
+
         return {
+            sort_key: this.sort_key,
             date: `Artwork: ${this.title} (${this.date})`,
-            thumbnail_url: this.thumbnail_url,
-            alt_text: this.alt_text,
+            thumbnail,
             description: "Lorem Ipsum blah blah blah blah blah blah"
         }
     }

@@ -4,8 +4,8 @@ import { useRoute } from 'vue-router'
 import { PROJECTS } from '@/data/projects'
 import { ARTWORKS_BY_PROJECT } from '@/data/artworks'
 import CardImage from '@/components/CardImage.vue'
-import { type Artwork } from '@/core/Artwork'
 import Timeline from '@/components/Timeline.vue'
+import type { TimelineEntry } from '@/core/TimelineEntry'
 
 const route = useRoute()
 
@@ -19,31 +19,28 @@ const timeline_entries = computed(() => {
     }
 
     const artworks = ARTWORKS_BY_PROJECT[project.value.id] ?? []
-    const newest_first = [...artworks].sort(
-        (a: Artwork, b: Artwork) => b.sort_key.localeCompare(a.sort_key)
-    )
+    const artwork_entries: TimelineEntry[] = artworks.map(x => x.to_timeline_entry())
+    const update_entries: TimelineEntry[] = project.value.updates ?? []
 
-    return newest_first.map(x => x.to_timeline_entry())
+    const newest_first = [...artwork_entries, ...update_entries].sort(
+        (a: TimelineEntry, b: TimelineEntry) => b.sort_key.localeCompare(a.sort_key)
+    )
+    return newest_first
 })
 </script>
 
 <template>
     <template v-if="project">
         <div class="tableau">
-            <div  class="card-frame">
-                <CardImage 
-                    size="card"
-                    :url="project.card_url"
-                    :alt="project.alt_text"
-                />
+            <div class="card-frame">
+                <CardImage size="card" :url="project.card_url" :alt="project.alt_text" />
             </div>
             <div class="plaque">
                 <h1>{{ project.title }} ({{ project.years }})</h1>
                 <a v-if="project.github_url" :href="project.github_url">GitHub</a>
                 &nbsp;
                 <a v-if="project.demo_url" :href="project.demo_url">Demo</a>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sed dui suscipit, vulputate neque eget, eleifend lectus. Aenean elementum nec diam eu blandit. Proin consectetur ultrices tortor at vehicula. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vestibulum erat non leo luctus euismod. Nam lorem mi, gravida ac velit sit amet, fermentum ornare sem. Phasellus ut rhoncus nisi. Integer tristique tempor tempus. Nunc vitae odio ut neque maximus luctus at vel dolor. Duis id tincidunt dolor, vel pretium elit. Proin aliquam felis a rhoncus egestas. Etiam volutpat varius urna, in sodales tellus dignissim non. Vestibulum rhoncus tristique ante, eget condimentum risus ullamcorper vel. Phasellus eget semper orci.</p>
-                <p>Nulla facilisi. Suspendisse in justo orci. Vestibulum dapibus lacinia erat, vitae vehicula ex tincidunt quis. Quisque venenatis diam lacus, maximus aliquam ante iaculis id. Sed nibh nisi, lobortis cursus mauris vitae, luctus volutpat ex. Etiam iaculis nisl id felis sodales, sed mollis erat interdum. Quisque magna tellus, tincidunt quis sem posuere, consectetur ultrices felis. Duis viverra auctor tellus, non vestibulum purus vulputate et. Maecenas vitae ipsum at enim posuere lacinia. Ut orci magna, tristique non pulvinar sit amet, lobortis at velit. Nulla at dolor eget turpis imperdiet finibus eget ac urna. Mauris pulvinar, urna vel ultricies maximus, nibh nisl lobortis neque, sagittis euismod lectus tellus ornare arcu. Duis finibus, dolor varius malesuada feugiat, purus metus pretium metus, ut tincidunt tellus tortor eu libero. Nullam vestibulum neque nec velit lacinia, non porta nisi aliquet. Suspendisse vel libero sit amet arcu facilisis tincidunt.</p>
+                <span v-html="project.description"></span>
             </div>
         </div>
         <Timeline :entries="timeline_entries" />
