@@ -7,10 +7,10 @@
 <template>
     <h1 class="centered">Recent Projects</h1>
     <div class="tableau">
-        <template v-for="project in PROJECTS_NEWEST_5">
+        <template v-for="project in PROJECTS_NEWEST_5" :key="project.id">
             <ThumbnailCard 
                 v-if="project.show"
-                :image="project.thumbnail_url"
+                :image_url="project.thumbnail_url"
                 :alt="project.alt_text"
                 :link="project.project_url"
                 :title="project.title"
@@ -21,10 +21,10 @@
     </div>
     <h1 class="centered">Recent Artworks</h1>
     <div class="tableau">
-        <template v-for="artwork in ARTWORKS_NEWEST_5">
+        <template v-for="artwork in ARTWORKS_NEWEST_5" :key="artwork.id">
             <ThumbnailCard
                 v-if="artwork.show"
-                :image="artwork.thumbnail_url"
+                :image_url="artwork.thumbnail_url"
                 :alt="artwork.alt_text"
                 :link="artwork.artwork_url"
                 :title="artwork.title"
