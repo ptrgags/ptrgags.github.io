@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {RouterView} from 'vue-router'
+import { RouterView } from 'vue-router'
 
 import Navbar from './components/Navbar.vue'
 
@@ -27,4 +27,7 @@ body {
     min-height: 100vh;
 }
 
+.content h1 {
+    margin-top: 0px;
+}
 </style>

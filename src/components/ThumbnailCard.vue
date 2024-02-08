@@ -12,12 +12,7 @@ const props = defineProps<{
 
 <template>
     <div class="card-frame">
-        <CardImage 
-            size="thumbnail"
-            alt="props.alt"
-            :url="props.image_url"
-            :link="props.link"
-        />
+        <CardImage size="thumbnail" alt="props.alt" :url="props.image_url" :link="props.link" />
         <div class="card-text centered">
             <a :href="props.link">{{ props.title }}</a>
             <br />
@@ -27,12 +22,12 @@ const props = defineProps<{
 </template>
 
 <style>
-    .card-text {
-        height: 40px;
-        background-color: var(--background-text);
+.card-text {
+    height: 40px;
+    background-color: var(--background-text);
 
-        /* Round the bottom */
-        border-bottom-left-radius: 8px;
-        border-bottom-right-radius: 8px;
-    }
+    /* Round the bottom */
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
 </style>

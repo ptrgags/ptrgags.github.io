@@ -7,14 +7,8 @@ import ThumbnailCard from '@/components/ThumbnailCard.vue'
     <h1 class="centered">Projects</h1>
     <div class="tableau">
         <template v-for="project in PROJECTS_NEWEST_FIRST">
-            <ThumbnailCard 
-                v-if="project.show"
-                :image="project.thumbnail_url"
-                :link="project.project_url"
-                :alt="project.alt_text"
-                :title="project.title"
-                :years="project.years"
-            />
+            <ThumbnailCard v-if="project.show" :image_url="project.thumbnail_url" :link="project.project_url"
+                :alt="project.alt_text" :title="project.title" :years="project.years" />
         </template>
     </div>
 </template>

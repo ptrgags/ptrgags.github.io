@@ -40,7 +40,7 @@ const timeline_entries = computed(() => {
                 <a v-if="project.github_url" :href="project.github_url">GitHub</a>
                 &nbsp;
                 <a v-if="project.demo_url" :href="project.demo_url">Demo</a>
-                <span v-html="project.description"></span>
+                <div v-html="project.description"></div>
             </div>
         </div>
         <Timeline :entries="timeline_entries" />
