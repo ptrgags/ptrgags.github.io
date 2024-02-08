@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import type MaybeLink from './MaybeLink.vue';
+import MaybeLink from './MaybeLink.vue';
 
 const props = defineProps<{
     url?: string,

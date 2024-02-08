@@ -11,7 +11,6 @@ import { ARTWORKS_NEWEST_5 } from '@/data/artworks';
             <ThumbnailCard v-if="project.show" :image_url="project.thumbnail_url" :alt="project.alt_text"
                 :link="project.project_url" :title="project.title" :years="project.years" />
         </template>
-
     </div>
     <h1 class="centered">Featured Artworks</h1>
     <div class="tableau">

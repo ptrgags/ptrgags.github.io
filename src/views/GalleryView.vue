@@ -6,7 +6,7 @@ import ThumbnailCard from '@/components/ThumbnailCard.vue';
 <template>
     <h1 class="centered">Gallery</h1>
     <div class="tableau">
-        <template v-for="artwork in ARTWORKS_NEWEST_FIRST">
+        <template v-for="artwork in ARTWORKS_NEWEST_FIRST" :key="artwork.sort_key">
             <ThumbnailCard 
                 v-if="artwork.show"
                 :image_url="artwork.thumbnail_url"
@@ -16,5 +16,8 @@ import ThumbnailCard from '@/components/ThumbnailCard.vue';
                 :years="artwork.date"
             />
         </template>
+        <div class="plaque" v-show="true">
+            🚧 Curating old artworks, check back later for more!
+        </div>
     </div>
 </template>
