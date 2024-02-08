@@ -7,6 +7,7 @@ const ARTWORK_DESCRIPTORS: ArtworkDescriptor[] = [
         date: "2022-06-27",
         sort_key: "2022-06-27:01",
         project_id: "paper-toaster",
+        img_format: "png",
         alt_text: "Example output of the turtle dance artwork from the paper toaster project. This pattern looks like a hexagon with decorative kites pointing outwards from each vertex.",
         tagline: "Artwork inspired by a Bridges math art paper about turtle graphics. It modifies an integer sequence to compute turn angles",
         description: `
@@ -47,6 +48,7 @@ const ARTWORK_DESCRIPTORS: ArtworkDescriptor[] = [
         date: "2022-07-09",
         sort_key: "2022-07-09:01",
         project_id: "paper-toaster",
+        img_format: "png",
         alt_text: "An example output of the cellular automaton that produces a chaotic arrangement of triangle shapes",
         tagline: "The classic cellular automaton, now in printable form",
         description: `
@@ -74,6 +76,7 @@ const ARTWORK_DESCRIPTORS: ArtworkDescriptor[] = [
         date: "2022-07-24",
         sort_key: "2022-07-24:01",
         project_id: "paper-toaster",
+        img_format: "png",
         alt_text: "A pattern of ropes woven into a braided pattern",
         tagline: "A tiling that looks like braided strands of rope",
         description: `
@@ -103,6 +106,7 @@ const ARTWORK_DESCRIPTORS: ArtworkDescriptor[] = [
         date: "2022-07-24",
         sort_key: "2022-07-24:02",
         project_id: "paper-toaster",
+        img_format: "png",
         alt_text: "A mountain-shaped scene drawn in isometric projection on a black background.",
         tagline: "A simple isometric scene, rendered with some 2D graphics trickery",
         description: `
@@ -153,6 +157,7 @@ const ARTWORK_DESCRIPTORS: ArtworkDescriptor[] = [
         sort_key: "2022-08-23:01",
         project_id: "paper-toaster",
         tagline: "Braids, now in technicolor!",
+        img_format: "png",
         alt_text: "Rainbow colored braids in groups of 2 or 3",
         description: `
         <p>
@@ -175,6 +180,27 @@ const ARTWORK_DESCRIPTORS: ArtworkDescriptor[] = [
         </p>
         `,
         show: true,
+    },
+    {
+        id: "2024-02-04_BlueVelvetScarf",
+        title: "Blue Velvet Scarf",
+        date: "2024-02-04",
+        sort_key: "2024-02-04:01",
+        project_id: "blue-velvet-scarf",
+        tagline: "The finished scarf. In total, it took about a month and a half and 25 pattern repeats",
+        img_format: "jpg",
+        alt_text: "The finished scarf resting on a table",
+        description: `
+        <p>
+            A scarf knitted with blue and black velvet yarn. From start to
+            finish, it took me about a month and a half, faster than the previous
+            scarf I made.
+        </p>
+        <p>
+            See the project page for more details.
+        </p>
+        `,
+        show: true
     }
 ]
 

@@ -19,7 +19,8 @@ export interface ArtworkDescriptor {
     // Alt text for the images
     alt_text: string,
     // If false, the artwork is hidden.
-    show: boolean
+    show: boolean,
+    img_format: "png" | "jpg"
 }
 
 export class Artwork {
@@ -32,6 +33,7 @@ export class Artwork {
     tagline: string
     description: string
     alt_text: string
+    img_format: "png" | "jpg"
 
     constructor(descriptor: ArtworkDescriptor) {
         this.id = descriptor.id
@@ -43,6 +45,7 @@ export class Artwork {
         this.tagline = descriptor.tagline
         this.description = descriptor.description
         this.alt_text = descriptor.alt_text
+        this.img_format = descriptor.img_format
     }
 
     get artwork_url(): string {
@@ -50,11 +53,11 @@ export class Artwork {
     }
 
     get thumbnail_url(): string {
-        return `${BACKBLAZE_BUCKET}/artwork-thumbnails/${this.project_id}/${this.id}.png`
+        return `${BACKBLAZE_BUCKET}/artwork-thumbnails/${this.project_id}/${this.id}.${this.img_format}`
     }
 
     get card_url(): string {
-        return `${BACKBLAZE_BUCKET}/artwork-cards/${this.project_id}/${this.id}.png`
+        return `${BACKBLAZE_BUCKET}/artwork-cards/${this.project_id}/${this.id}.${this.img_format}`
     }
 
     to_timeline_entry(): TimelineEntry {

@@ -28,6 +28,8 @@ export interface ProjectDescriptor {
     // If the project should be visible in the list. This is useful
     // if I'm still working on something
     show: boolean
+    // Image format. 
+    img_format: "png" | "jpg"
 }
 
 export class Project {
@@ -40,7 +42,8 @@ export class Project {
     demo_url?: string
     alt_text: string
     description: string
-    updates?: TimelineEntry[]
+    img_format: "png" | "jpg"
+    updates: TimelineEntry[]
 
     constructor(descriptor: ProjectDescriptor) {
         this.id = descriptor.id
@@ -51,6 +54,8 @@ export class Project {
         this.demo_url = descriptor.demo_link
         this.alt_text = descriptor.alt_text
         this.description = descriptor.description
+        this.updates = descriptor.updates ?? []
+        this.img_format = descriptor.img_format
 
         this.github_url = descriptor.github_repo ? `https://github.com/ptrgags/${descriptor.github_repo}` : undefined
 
@@ -61,10 +66,10 @@ export class Project {
     }
 
     get thumbnail_url(): string {
-        return `${BACKBLAZE_BUCKET}/project-thumbnails/${this.id}.png`
+        return `${BACKBLAZE_BUCKET}/project-thumbnails/${this.id}.${this.img_format}`
     }
 
     get card_url(): string {
-        return `${BACKBLAZE_BUCKET}/project-cards/${this.id}.png`
+        return `${BACKBLAZE_BUCKET}/project-cards/${this.id}.${this.img_format}`
     }
 }
