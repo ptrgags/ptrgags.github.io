@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import type MaybeLink from './MaybeLink.vue';
 
 const props = defineProps<{
     url?: string,
@@ -25,7 +26,7 @@ function handle_error(event: Event) {
 </script>
 
 <template>
-    <a :href="props.link" :is="props.link ? 'a' : 'span'">
+    <MaybeLink :url="props.link">
         <img :src="img_url" :alt="props.alt" @error="handle_error" />
-    </a>
+    </MaybeLink>
 </template>

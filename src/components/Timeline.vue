@@ -2,21 +2,22 @@
     Timeline component inspired by https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_timeline
 -->
 <script setup lang="ts">
-import type { TimelineEntry } from '@/core/TimelineEntry';
-import CardImage from './CardImage.vue';
+import type { TimelineEntry } from '@/core/TimelineEntry'
+import CardImage from './CardImage.vue'
+import MaybeLink from "./MaybeLink.vue"
 defineProps<{
     entries: TimelineEntry[]
 }>()
 
 function entry_class(index: number) {
-    const side = index % 2 == 0 ? "entry-right" : "entry-left";
+    const side = index % 2 == 0 ? "entry-right" : "entry-left"
     return ["timeline-entry", side]
 }
 </script>
 
 <template>
     <div class="timeline">
-        <template v-for="(entry, index) in entries">
+        <template v-for="(entry, index) in entries" :key="entry.sort_key">
             <div :class="entry_class(index)">
                 <div class="entry-content">
                     <div v-if="entry.thumbnail" class="entry-image card-frame">
@@ -24,7 +25,7 @@ function entry_class(index: number) {
                             :alt="entry.thumbnail.alt_text" />
                     </div>
                     <div class="entry-description">
-                        <h3><a :href="entry.title_link" :is="entry.title_link ? 'a' : 'span'">{{ entry.title }}</a> ({{
+                        <h3><MaybeLink :url="entry.title_link">{{ entry.title }}</MaybeLink> ({{
                             entry.date }})</h3>
                         <span v-html="entry.description"></span>
                     </div>
