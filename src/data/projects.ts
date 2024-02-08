@@ -85,14 +85,6 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
         github_repo: "eloquent",
         demo_link: "https://ptrgags.dev/eloquent",
         show: true,
-        updates: [
-            {
-                sort_key: "2023-12-29:01",
-                date: "2023-12-29",
-                title: "Start of Project",
-                description: "I did most of the development for this project over holiday break",
-            }
-        ]
     },
     {
         id: "blue-velvet-scarf",

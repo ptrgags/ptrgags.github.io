@@ -33,7 +33,7 @@ const timeline_entries = computed(() => {
     <template v-if="project">
         <div class="tableau">
             <div class="card-frame">
-                <CardImage size="card" :url="project.card_url" :alt="project.alt_text" />
+                <CardImage size="card" orientation="portrait" :url="project.card_url" :alt="project.alt_text" />
             </div>
             <div class="plaque">
                 <h1>{{ project.title }} ({{ project.years }})</h1>

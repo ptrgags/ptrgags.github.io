@@ -19,8 +19,9 @@ function entry_class(index: number) {
         <template v-for="(entry, index) in entries">
             <div :class="entry_class(index)">
                 <div class="entry-content">
-                    <div v-if="entry.thumbnail" class="card-frame">
-                        <CardImage size="thumbnail" :url="entry.thumbnail.url" :alt="entry.thumbnail.alt_text" />
+                    <div v-if="entry.thumbnail" class="entry-image card-frame">
+                        <CardImage size="thumbnail" :orientation="entry.thumbnail.orientation" :url="entry.thumbnail.url"
+                            :alt="entry.thumbnail.alt_text" />
                     </div>
                     <div class="entry-description">
                         <h3><a :href="entry.title_link" :is="entry.title_link ? 'a' : 'span'">{{ entry.title }}</a> ({{
@@ -149,6 +150,15 @@ function entry_class(index: number) {
 
 .entry-left::after {
     right: -10px;
+}
+
+.entry-image {
+    /* 
+     * If we're too large to fit, don't shrink the image, shrink the text next to it.
+     * This is needed since .card-frame image has max-width 100% so tends to
+     * shrink too much for landscape images
+     */
+    flex-shrink: 0;
 }
 
 .entry-description {

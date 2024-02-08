@@ -21,7 +21,7 @@ const project = computed(() => {
 <template>
     <div v-if="artwork" class="tableau">
         <div class="card-frame">
-            <CardImage size="card" :url="artwork.card_url" :alt="artwork.alt_text" />
+            <CardImage size="card" orientation="portrait" :url="artwork.card_url" :alt="artwork.alt_text" />
         </div>
         <div class="plaque">
             <h1>{{ artwork.title }} ({{ artwork.date }})</h1>

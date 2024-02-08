@@ -71,8 +71,8 @@ li::marker {
     /* Also round the image inside the frame */
     border-radius: 8px;
 
-    /* Shrink the image if it's too wide on mobile */
-    max-width: 80vw;
+    /* Shrink the image if it's too wide for the screen */
+    max-width: 100%;
 
     background-color: var(--background-text);
 }

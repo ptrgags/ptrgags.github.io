@@ -12,7 +12,7 @@ const props = defineProps<{
 
 <template>
     <div class="card-frame">
-        <CardImage size="thumbnail" alt="props.alt" :url="props.image_url" :link="props.link" />
+        <CardImage size="thumbnail" orientation="portrait" alt="props.alt" :url="props.image_url" :link="props.link" />
         <div class="card-text centered">
             <a :href="props.link">{{ props.title }}</a>
             <br />

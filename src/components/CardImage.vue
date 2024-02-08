@@ -5,6 +5,7 @@ const props = defineProps<{
     url?: string,
     alt: string,
     size: 'thumbnail' | 'card'
+    orientation?: 'portrait' | 'landscape'
     link?: string,
 }>()
 
@@ -17,14 +18,6 @@ const img_url = computed(() => {
     return `/assets/placeholder-${props.size}.png`
 })
 
-const width = computed(() => {
-    return props.size === 'thumbnail' ? 250 : 500;
-})
-
-const height = computed(() => {
-    return props.size === 'thumbnail' ? 350 : 700;
-})
-
 function handle_error(event: Event) {
     const img = event.target as HTMLImageElement
     img.src = `/assets/placeholder-${props.size}.png`
@@ -33,6 +26,6 @@ function handle_error(event: Event) {
 
 <template>
     <a :href="props.link" :is="props.link ? 'a' : 'span'">
-        <img :src="img_url" :width="width" :height="height" :alt="props.alt" @error="handle_error" />
+        <img :src="img_url" :alt="props.alt" @error="handle_error" />
     </a>
 </template>
