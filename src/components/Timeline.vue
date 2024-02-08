@@ -23,8 +23,9 @@ function entry_class(index: number) {
                         <CardImage size="thumbnail" :url="entry.thumbnail.url" :alt="entry.thumbnail.alt_text" />
                     </div>
                     <div class="entry-description">
-                        <h3>{{ entry.date }}</h3>
-                        <p>{{ entry.description }}</p>
+                        <h3><a :href="entry.title_link" :is="entry.title_link ? 'a' : 'span'">{{ entry.title }}</a> ({{
+                            entry.date }})</h3>
+                        <span v-html="entry.description"></span>
                     </div>
                 </div>
             </div>

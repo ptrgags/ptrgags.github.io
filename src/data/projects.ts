@@ -19,7 +19,8 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
             {
                 sort_key: "2022-06-15:01",
                 date: "2022-06-15",
-                description: "Start of the project. I started making a sketchbook format and made a few simple patterns as a warm-up.",
+                title: "Start of Project",
+                description: "I started making a sketchbook format and made a few simple patterns as a warm-up.",
             }
         ]
     },

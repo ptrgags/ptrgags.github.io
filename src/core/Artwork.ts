@@ -8,18 +8,16 @@ export interface ArtworkDescriptor {
     title: string,
     // Date the artwork was made as YYYY-MM-DD
     date: string,
+    // Short description for the timeline
+    tagline: string,
+    // Longer HTML description of the artwork for the artwork page
+    description: string,
     // Sort the artwork in the format YYYY-MM-DD:NN
     sort_key: string,
     // The corresponding project ID (if it exists)
     project_id: string,
-    // If true, a 250x350 thumbnail representation of the artwork exists in
-    // backblaze as /artwork-thumbnails/<project_id>/<date>_<id>.png
-    has_thumbnail: boolean,
-    // If true, a larger 500x700 version of the artwork exists in
-    // backblaze as /artwork-cards/<project_id>/<date>_<id>.png
-    has_card: boolean,
     // Alt text for the images
-    alt_text?: string,
+    alt_text: string,
     // If false, the artwork is hidden.
     show: boolean
 }
@@ -31,8 +29,8 @@ export class Artwork {
     show: boolean
     title: string
     date: string
-    card_url?: string
-    thumbnail_url?: string
+    tagline: string
+    description: string
     alt_text: string
 
     constructor(descriptor: ArtworkDescriptor) {
@@ -42,15 +40,21 @@ export class Artwork {
         this.show = descriptor.show
         this.title = descriptor.title
         this.date = descriptor.date
-        this.alt_text = descriptor.alt_text ?? "TODO: Write alt text"
-
-
-        this.thumbnail_url = descriptor.has_thumbnail ? `${BACKBLAZE_BUCKET}/artwork-thumbnails/${this.project_id}/${this.id}.png` : undefined
-        this.card_url = descriptor.has_card ? `${BACKBLAZE_BUCKET}/artwork-cards/${this.project_id}/${this.id}.png` : undefined
+        this.tagline = descriptor.tagline
+        this.description = descriptor.description
+        this.alt_text = descriptor.alt_text
     }
 
-    get artwork_url() {
-        return `/artworks/${this.project_id}/${this.id}`
+    get artwork_url(): string {
+        return `/artwork/${this.project_id}/${this.id}`
+    }
+
+    get thumbnail_url(): string {
+        return `${BACKBLAZE_BUCKET}/artwork-thumbnails/${this.project_id}/${this.id}.png`
+    }
+
+    get card_url(): string {
+        return `${BACKBLAZE_BUCKET}/artwork-cards/${this.project_id}/${this.id}.png`
     }
 
     to_timeline_entry(): TimelineEntry {
@@ -64,9 +68,11 @@ export class Artwork {
 
         return {
             sort_key: this.sort_key,
-            date: `Artwork: ${this.title} (${this.date})`,
+            title: `Artwork: ${this.title}`,
+            title_link: this.artwork_url,
+            date: `${this.date}`,
             thumbnail,
-            description: "Lorem Ipsum blah blah blah blah blah blah"
+            description: this.tagline,
         }
     }
 }

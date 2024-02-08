@@ -18,13 +18,21 @@
 a:link {
     color: var(--color-accent);
 }
+
 a:visited {
     color: var(--color-accent-dark);
 }
+
 a:hover {
     color: var(--color-text);
 }
+
 a:active {
+    color: var(--color-accent2);
+}
+
+/* Make bullet lists look nice */
+li::marker {
     color: var(--color-accent2);
 }
 
@@ -61,7 +69,7 @@ a:active {
 
     /* Shrink the image if it's too wide on mobile */
     max-width: 80vw;
-    
+
     background-color: var(--background-text);
 }
 

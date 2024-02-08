@@ -16,10 +16,15 @@ const img_url = computed(() => {
     // this is in public/assets
     return `/assets/placeholder-${props.size}.png`
 })
+
+function handle_error(event: Event) {
+    const img = event.target as HTMLImageElement
+    img.src = `/assets/placeholder-${props.size}.png`
+}
 </script>
 
 <template>
     <a :href="props.link ?? undefined">
-        <img :src="img_url" :alt="props.alt" />
+        <img :src="img_url" :alt="props.alt" @error="handle_error" />
     </a>
 </template>

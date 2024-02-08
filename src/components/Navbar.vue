@@ -1,20 +1,26 @@
 <script setup lang="ts">
-import {RouterLink} from 'vue-router'
+import { RouterLink } from 'vue-router'
 </script>
 
 <template>
     <header>
-        <div class="title"><RouterLink to="/">Peter Gagliardi</RouterLink></div>
+        <div class="title">
+            <RouterLink to="/">Peter Gagliardi</RouterLink>
+        </div>
         <nav>
             <ul>
-                <li><RouterLink to="/gallery">Gallery</RouterLink></li>
-                <li><RouterLink to="/projects">Projects</RouterLink></li>
+                <li>
+                    <RouterLink to="/gallery">Gallery</RouterLink>
+                </li>
+                <li>
+                    <RouterLink to="/projects">Projects</RouterLink>
+                </li>
             </ul>
         </nav>
     </header>
 </template>
 
-<style>
+<style scoped>
 header {
     height: 60px;
     display: flex;
@@ -39,5 +45,4 @@ li {
     /** Make them appear on one line */
     display: inline-block;
     padding: 4px;
-}
-</style>
+}</style>
