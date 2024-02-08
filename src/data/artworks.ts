@@ -1,4 +1,3 @@
-import { BACKBLAZE_BUCKET } from '@/core/website_constants'
 import { type ArtworkDescriptor, Artwork } from '@/core/Artwork'
 
 const ARTWORK_DESCRIPTORS: ArtworkDescriptor[] = [
