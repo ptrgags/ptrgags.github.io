@@ -89,17 +89,6 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
     }
 ]
 /*
-    
-    {
-        id: 'ptrgags.github.io',
-        title: "This Website",
-        years: '2015-2017, 2024',
-        sort_key: "2024-02-00:01",
-        github_repo: "ptrgags.github.io",
-        has_thumbnail: false,
-        has_card: false,
-        show: true,
-    },
     {
         id: "p5-sketchbook",
         title: "p5.js Sketchbook",
@@ -225,7 +214,6 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
         has_card: false,
         show: false,
     },
-    
 ]
 */
 
