@@ -15,6 +15,9 @@ import { RouterLink } from 'vue-router'
                 <li>
                     <RouterLink to="/projects">Projects</RouterLink>
                 </li>
+                <li>
+                    <a href="https://github.com/ptrgags"><img width="30px" src="@/assets/github-mark-white.svg" /></a>
+                </li>
             </ul>
         </nav>
     </header>
@@ -39,10 +42,21 @@ header {
     flex-grow: 1;
 }
 
+ul {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 li {
     /** Turns off the bullets */
     list-style: none;
     /** Make them appear on one line */
     display: inline-block;
     padding: 4px;
-}</style>
+}
+
+img {
+    display: inline-block;
+}
+</style>
