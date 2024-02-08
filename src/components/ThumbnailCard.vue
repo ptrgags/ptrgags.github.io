@@ -29,5 +29,7 @@ const props = defineProps<{
     /* Round the bottom */
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
+
+    padding: 4px;
 }
 </style>

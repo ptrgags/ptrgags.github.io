@@ -13,6 +13,10 @@
     --background-transparent: rgba(0, 0, 0, 0.5);
 }
 
+:root {
+    scrollbar-color: var(--color-accent-dark) var(--background-dark);
+}
+
 
 /* Style links consistently */
 a:link {
