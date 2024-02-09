@@ -62,7 +62,7 @@ export class Project {
     }
 
     get project_url(): string {
-        return `/project/${this.id}`
+        return `#/project/${this.id}`
     }
 
     get thumbnail_url(): string {
