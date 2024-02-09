@@ -5,7 +5,11 @@ import { RouterLink } from 'vue-router'
 <template>
     <header>
         <div class="title">
-            <RouterLink to="/">Peter Gagliardi</RouterLink>
+            <RouterLink to="/">
+                <div class="align-logo">
+                <img class="logo" src="@/assets/monogram.png" alt="PG monogram logo"/>Peter Gagliardi
+                </div>
+            </RouterLink>
         </div>
         <nav>
             <ul>
@@ -16,7 +20,7 @@ import { RouterLink } from 'vue-router'
                     <RouterLink to="/projects">Projects</RouterLink>
                 </li>
                 <li>
-                    <a href="https://github.com/ptrgags"><img width="30px" src="@/assets/github-mark-white.svg" /></a>
+                    <a href="https://github.com/ptrgags"><img width="32px" src="@/assets/github-mark-white.svg" /></a>
                 </li>
             </ul>
         </nav>
@@ -54,6 +58,16 @@ li {
     /** Make them appear on one line */
     display: inline-block;
     padding: 4px;
+}
+
+.align-logo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.logo {
+    margin: 0px 8px;
 }
 
 img {
