@@ -49,7 +49,7 @@ export class Artwork {
     }
 
     get artwork_url(): string {
-        return `/artwork/${this.project_id}/${this.id}`
+        return `#/artwork/${this.project_id}/${this.id}`
     }
 
     get thumbnail_url(): string {
