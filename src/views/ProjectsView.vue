@@ -11,7 +11,8 @@ import ThumbnailCard from '@/components/ThumbnailCard.vue'
                 :alt="project.alt_text" :title="project.title" :years="project.years" />
         </template>
         <div class="plaque" v-show="true">
-            🚧 Curating old projects, check back later for more!
+            <p>🚧 Curating old projects, check back later for more!</p>
+            <p>For a list of my other programming projects, see my <a href="https://github.com/ptrgags?tab=repositories">GitHub repositories</a></p>
         </div>
     </div>
 </template>
