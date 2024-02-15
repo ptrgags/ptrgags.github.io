@@ -110,11 +110,11 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
             <li>Repeat rows 1-12 until you reach the desired length. I did 25 repeats total</li>
         </ul>
         <p>
-        The interesting zig-zag pattern happens for two reasons. First, 
-        switching colors every 5 stitches (which does not divide evenly into the
-        32 columns), this produces a stripe pattern. However, since knitting
-        flat involves going back and forth, every other row is flipped
-        horizontally.
+            The interesting zig-zag pattern happens for two reasons. First, 
+            switching colors every 5 stitches (which does not divide evenly into the
+            32 columns), this produces a stripe pattern. However, since knitting
+            flat involves going back and forth, every other row is flipped
+            horizontally.
         </p>
         `,
         show: true,
@@ -170,9 +170,41 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
                     orientation: "landscape"
                 },
                 description: "Nearly finished at 23/25 repeats. Here I folded the scarf in half and compared with another scarf I had made. The blue velvet scarf is a little shorter",
-            }
+            },
+            
         ],
-    }
+    },
+    {
+        id: "stretchy-blocks",
+        title: "Stretchy Blocks",
+        years: "2024",
+        sort_key: "2024-02-00:03",
+        alt_text: "Screenshot of the Stretchy Blocks animation",
+        img_format: "png",
+        description: `
+        <div class="warning">
+            ⚠ Compatibility Note: The live demo linked above requires WebGPU. This is a recent
+            browser feature, and not all browsers support it. As of 2024-02-15,
+            this is known to work in Chrome and Edge for Windows, but not Firefox or
+            on mobile devices. Check <a href="https://caniuse.com/webgpu">Can I use...</a>
+            for up-to-date compatibility information.
+        </div>
+        <p>
+            This project was a warm-up exercise to learn about <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGPU_API">WebGPU</a>,
+            the new API for programming the graphics card in the browser. It's a animation
+            of cubes that stretch and shrink. See the Demo link above for the animated
+            version.
+        </p>
+        <p>
+            The animation is done completely procedurally in the shader. I make use of
+            GPU instancing so I only have to upload a single cube to the GPU. All the
+            shapes, colors, animations and so on are done mathematically in the shader.
+        </p>
+        `,
+        github_repo: "stretchy-blocks",
+        demo_link: "https://ptrgags.dev/stretchy-blocks",
+        show: true
+    },
 ]
 /*
     {
@@ -290,16 +322,7 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
         has_card: false,
         show: true,
     },
-    {
-        id: 'stretchy-blocks',
-        title: "Stretchy Blocks",
-        years: "2024",
-        sort_key: "2024-01-00:03",
-        github_repo: "stretchy-blocks",
-        has_thumbnail: false,
-        has_card: false,
-        show: false,
-    },
+    
 ]
 */
 

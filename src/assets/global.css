@@ -7,9 +7,12 @@
     --color-accent-dark: #cf9009;
     --color-accent2: #0eafaf;
 
+    --color-warning: #ecec0b;
+
     /** Background colors for different purposes */
     --background-text: #333333;
     --background-dark: #111111;
+    --background-light: #555555;
     --background-transparent: rgba(0, 0, 0, 0.5);
 }
 
@@ -95,4 +98,12 @@ li::marker {
 
 .plaque h1 {
     color: var(--color-accent);
+}
+
+.warning {
+    color: var(--color-warning);
+    border: 2px solid var(--color-warning);
+    border-radius: 10px;
+    background-color: var(--background-light);
+    margin: 8px;
 }
