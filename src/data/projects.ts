@@ -190,10 +190,9 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
             for up-to-date compatibility information.
         </div>
         <p>
-            This project was a warm-up exercise to learn about <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGPU_API">WebGPU</a>,
-            the new API for programming the graphics card in the browser. It's a animation
-            of cubes that stretch and shrink. See the Demo link above for the animated
-            version.
+            This project was a warm-up exercise to learn about <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGPU_API">WebGPU</a>.
+            I made an animation of cubes that stretch and shrink. See the Demo
+            link above for the animated version.
         </p>
         <p>
             The animation is done completely procedurally in the shader. I make use of
