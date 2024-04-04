@@ -495,6 +495,41 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
       },
     ],
   },
+  {
+    id: 'hyperbolic-crochet',
+    title: 'Making of Hyperbolic Crochet',
+    years: '2021-2023',
+    sort_key: '2023-07-00:01',
+    alt_text: 'Photo of completed crochet pattern',
+    img_format: 'jpg',
+    description: `
+        <p>
+            This crocheting project was inspired by the TED talk <a href="https://youtu.be/w1TBZhd-sN0?si=XsH01B6DCeU8LoqT">"Crocheting Hyperbolic Planes"</a>
+            by Daina Taimiņa. Hyperbolic crocheting is pretty simple, you just
+            keep doing increases and the fabric will naturally curl up into
+            organic-looking patterns. Though I used a much larger branching
+            factor of 2 rather than something small like 11/10 (mentioned in the video).
+        </p>
+        <p>
+            I kept my pattern very simple, essentially the same stitch over
+            and over. It was nice as a way to keep my hands busy when watching
+            or listening to something.
+        </p>
+        <ul>
+            <li>Row 0: Chain 10</li>
+            <li>Row 1, 2, ..., N-2: inc in every stitch</li>
+            <li>Row N-2: dc in every stitch.</li>
+            <li>Row N-1: sc in  different color</li>
+        </ul>
+        <p>
+            I worked on this project off and on over the span of a little over
+            2 years. Some months I would work on it a lot, other times I
+            wouldn't work on it at all.
+        </p>
+    `,
+    show: true,
+    // TODO: Document updates.
+  },
 ]
 /*
     {
