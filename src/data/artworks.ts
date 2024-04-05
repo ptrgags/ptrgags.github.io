@@ -1,16 +1,18 @@
 import { type ArtworkDescriptor, Artwork } from '@/core/Artwork'
 
 const ARTWORK_DESCRIPTORS: ArtworkDescriptor[] = [
-    {
-        id: "2022-06-27_TurtleDances",
-        title: "Turtle Dances",
-        date: "2022-06-27",
-        sort_key: "2022-06-27:01",
-        project_id: "paper-toaster",
-        img_format: "png",
-        alt_text: "Example output of the turtle dance artwork from the paper toaster project. This pattern looks like a hexagon with decorative kites pointing outwards from each vertex.",
-        tagline: "Artwork inspired by a Bridges math art paper about turtle graphics. It modifies an integer sequence to compute turn angles",
-        description: `
+  {
+    id: '2022-06-27_TurtleDances',
+    title: 'Turtle Dances',
+    date: '2022-06-27',
+    sort_key: '2022-06-27:01',
+    project_id: 'paper-toaster',
+    img_format: 'png',
+    alt_text:
+      'Example output of the turtle dance artwork from the paper toaster project. This pattern looks like a hexagon with decorative kites pointing outwards from each vertex.',
+    tagline:
+      'Artwork inspired by a Bridges math art paper about turtle graphics. It modifies an integer sequence to compute turn angles',
+    description: `
         <p>
             This artwork was inspired by the <a href="https://www.bridgesmathart.org/">Bridges</a> math art paper,
             <a href="https://archive.bridgesmathart.org/2017/bridges2017-139.pdf">"Let the Numbers Do the Walking: Generating Turtle Dances on the Plane from Integer Sequences"</a>
@@ -40,18 +42,19 @@ const ARTWORK_DESCRIPTORS: ArtworkDescriptor[] = [
             <li><a href="https://www.desmos.com/calculator/wcmvohdoxt">It looks cooler in polar coordinates</a></li>
         </ul>
         `,
-        show: true,
-    },
-    {
-        id: "2022-07-09_ElementaryCA",
-        title: "Elementary Cellular Automaton",
-        date: "2022-07-09",
-        sort_key: "2022-07-09:01",
-        project_id: "paper-toaster",
-        img_format: "png",
-        alt_text: "An example output of the cellular automaton that produces a chaotic arrangement of triangle shapes",
-        tagline: "The classic cellular automaton, now in printable form",
-        description: `
+    show: true,
+  },
+  {
+    id: '2022-07-09_ElementaryCA',
+    title: 'Elementary Cellular Automaton',
+    date: '2022-07-09',
+    sort_key: '2022-07-09:01',
+    project_id: 'paper-toaster',
+    img_format: 'png',
+    alt_text:
+      'An example output of the cellular automaton that produces a chaotic arrangement of triangle shapes',
+    tagline: 'The classic cellular automaton, now in printable form',
+    description: `
         <p>
             Looking for more pattern ideas to make on my receipt printer, I returned to the classic
             <a href="https://mathworld.wolfram.com/ElementaryCellularAutomaton.html">elementary cellular automaton</a>.
@@ -68,18 +71,18 @@ const ARTWORK_DESCRIPTORS: ArtworkDescriptor[] = [
             for example.
         </p>
         `,
-        show: true,
-    },
-    {
-        id: "2022-07-24_Braids",
-        title: "Braids",
-        date: "2022-07-24",
-        sort_key: "2022-07-24:01",
-        project_id: "paper-toaster",
-        img_format: "png",
-        alt_text: "A pattern of ropes woven into a braided pattern",
-        tagline: "A tiling that looks like braided strands of rope",
-        description: `
+    show: true,
+  },
+  {
+    id: '2022-07-24_Braids',
+    title: 'Braids',
+    date: '2022-07-24',
+    sort_key: '2022-07-24:01',
+    project_id: 'paper-toaster',
+    img_format: 'png',
+    alt_text: 'A pattern of ropes woven into a braided pattern',
+    tagline: 'A tiling that looks like braided strands of rope',
+    description: `
         <p>
             I like making tilings and I like drawing braided rope, so I
             figured I'd combine the two into this artwork.
@@ -98,18 +101,18 @@ const ARTWORK_DESCRIPTORS: ArtworkDescriptor[] = [
             off-canvas, it's easy to make it look consistent.
         </p>
         `,
-        show: true
-    },
-    {
-        id: "2022-07-24_IsoGrid",
-        title: "Isometric Grid",
-        date: "2022-07-24",
-        sort_key: "2022-07-24:02",
-        project_id: "paper-toaster",
-        img_format: "png",
-        alt_text: "A mountain-shaped scene drawn in isometric projection on a black background.",
-        tagline: "A simple isometric scene, rendered with some 2D graphics trickery",
-        description: `
+    show: true,
+  },
+  {
+    id: '2022-07-24_IsoGrid',
+    title: 'Isometric Grid',
+    date: '2022-07-24',
+    sort_key: '2022-07-24:02',
+    project_id: 'paper-toaster',
+    img_format: 'png',
+    alt_text: 'A mountain-shaped scene drawn in isometric projection on a black background.',
+    tagline: 'A simple isometric scene, rendered with some 2D graphics trickery',
+    description: `
         <p>
             I like the look of isometric projection a lot, it gives a nice
             view of a 3D scene while keeping the lines nice and parallel. I
@@ -148,20 +151,20 @@ const ARTWORK_DESCRIPTORS: ArtworkDescriptor[] = [
             needs to be rendered once, so I did what I could get away with.
         </p>
         `,
-        show: true,
-    },
-    {
-        id: "2022-08-23_ColoredBraids",
-        title: "Colored Braids",
-        date: "2022-08-23",
-        sort_key: "2022-08-23:01",
-        project_id: "paper-toaster",
-        tagline: "Braids, now in technicolor!",
-        img_format: "png",
-        alt_text: "Rainbow colored braids in groups of 2 or 3",
-        description: `
+    show: true,
+  },
+  {
+    id: '2022-08-23_ColoredBraids',
+    title: 'Colored Braids',
+    date: '2022-08-23',
+    sort_key: '2022-08-23:01',
+    project_id: 'paper-toaster',
+    tagline: 'Braids, now in technicolor!',
+    img_format: 'png',
+    alt_text: 'Rainbow colored braids in groups of 2 or 3',
+    description: `
         <p>
-            After I had made the earlier artwork <a href="/artwork/paper-toaster/2022-07-24_Braids">Braids</a>,
+            After I had made the earlier artwork <a href="#/artwork/paper-toaster/2022-07-24_Braids">Braids</a>,
             a friend told me that it would look nice in color for fabric. So I
             made a different script to allow specifying a color palette and
             other improvements. This one isn't designed for the receipt printer,
@@ -179,18 +182,19 @@ const ARTWORK_DESCRIPTORS: ArtworkDescriptor[] = [
             braids happen in groups of 2 and 3.
         </p>
         `,
-        show: true,
-    },
-    {
-        id: "2024-02-04_BlueVelvetScarf",
-        title: "Blue Velvet Scarf",
-        date: "2024-02-04",
-        sort_key: "2024-02-04:01",
-        project_id: "blue-velvet-scarf",
-        tagline: "The finished scarf. In total, it took about a month and a half and 25 pattern repeats",
-        img_format: "jpg",
-        alt_text: "The finished scarf resting on a table",
-        description: `
+    show: true,
+  },
+  {
+    id: '2024-02-04_BlueVelvetScarf',
+    title: 'Blue Velvet Scarf',
+    date: '2024-02-04',
+    sort_key: '2024-02-04:01',
+    project_id: 'blue-velvet-scarf',
+    tagline:
+      'The finished scarf. In total, it took about a month and a half and 25 pattern repeats',
+    img_format: 'jpg',
+    alt_text: 'The finished scarf resting on a table',
+    description: `
         <p>
             A scarf knitted with blue and black velvet yarn. From start to
             finish, it took me about a month and a half, faster than the previous
@@ -200,30 +204,30 @@ const ARTWORK_DESCRIPTORS: ArtworkDescriptor[] = [
             See the project page for more details.
         </p>
         `,
-        show: true
-    }
+    show: true,
+  },
 ]
 
-export const ARTWORKS = ARTWORK_DESCRIPTORS.map(x => new Artwork(x))
+export const ARTWORKS = ARTWORK_DESCRIPTORS.map((x) => new Artwork(x))
 
-export const ARTWORKS_NEWEST_FIRST = [...ARTWORKS].sort(
-    (a: Artwork, b: Artwork) => b.sort_key.localeCompare(a.sort_key)
+export const ARTWORKS_NEWEST_FIRST = [...ARTWORKS].sort((a: Artwork, b: Artwork) =>
+  b.sort_key.localeCompare(a.sort_key),
 )
 
-export const ARTWORKS_NEWEST_5 = ARTWORKS_NEWEST_FIRST.filter(x => x.show).slice(0, 5)
+export const ARTWORKS_NEWEST_5 = ARTWORKS_NEWEST_FIRST.filter((x) => x.show).slice(0, 5)
 
 type ArtworksByProject = { [key: string]: Artwork[] }
 
 function index_artworks(): ArtworksByProject {
-    const result: ArtworksByProject = {}
-    for (const artwork of ARTWORKS) {
-        const id = artwork.project_id
-        if (result[id] === undefined) {
-            result[id] = []
-        }
-        result[id].push(artwork)
+  const result: ArtworksByProject = {}
+  for (const artwork of ARTWORKS) {
+    const id = artwork.project_id
+    if (result[id] === undefined) {
+      result[id] = []
     }
+    result[id].push(artwork)
+  }
 
-    return result
+  return result
 }
 export const ARTWORKS_BY_PROJECT = index_artworks()
