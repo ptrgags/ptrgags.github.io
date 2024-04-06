@@ -248,9 +248,9 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
         </p>
         <p>
             By the time I got to rosette patterns, I realized that using a
-            WebGL shader would be the best way to implement the patterns, as
-            it requires calculations at every pixel. And since each calculation
-            is independent, this works nicely.
+            WebGL shader would be the best way to implement the patterns. This
+            is because the patterns require calculations at every pixel.
+            Since each calculation is independent, this works nicely.
         </p>
         <p>
             One downside with the old version was the UI had gotten clunky. I
@@ -351,7 +351,7 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
         description: `
             I changed the palettes to be a single hue, with value increasing as
             you go around the color wheel. I also apply a gradient as you move
-            away from the unit circle, this adds a lot of depth
+            away from the unit circle, this adds a lot of depth.
         `,
         thumbnail: {
           url: update_url('symmetry-sketchbook', '2024-02-26_Ghosty.png'),
@@ -424,7 +424,7 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
         date: '2024-03-02',
         title: 'Wallpaper Basics',
         description:
-          'I ported the wallpaper patterns from my old shader. I found that simple striped palettes worked nicely',
+          'I ported the wallpaper patterns from my old shader. I found that simple striped palettes worked nicely.',
         thumbnail: {
           url: update_url('symmetry-sketchbook', '2024-03-02_HoldingHands.png'),
           alt_text:
@@ -479,7 +479,7 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
         description: '',
         thumbnail: {
           url: update_url('symmetry-sketchbook', '2024-03-18_ALittleOffset.png'),
-          alt_text: 'Screenshot of a wallpaper in red and cyan. The axes are ',
+          alt_text: 'Screenshot of a wallpaper in red and cyan.',
         },
       },
       {
@@ -489,7 +489,7 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
         description: `
             To add more variety in wallpaper palettes, I added a mode that lets you
             combine horizontal and vertical stripes into a plaid pattern. In
-            practice it can be used to make a dithered look to wallpapers.
+            practice it can be used to give wallpapers a dithered look.
         `,
         thumbnail: {
           url: update_url('symmetry-sketchbook', '2024-03-18_PlaidWallpaper.png'),
@@ -510,8 +510,9 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
             This crocheting project was inspired by the TED talk <a href="https://youtu.be/w1TBZhd-sN0?si=XsH01B6DCeU8LoqT">"Crocheting Hyperbolic Planes"</a>
             by Daina Taimiņa. Hyperbolic crocheting is pretty simple, you just
             keep doing increases and the fabric will naturally curl up into
-            organic-looking patterns. Though I used a much larger branching
-            factor of 2 rather than something small like 11/10 (mentioned in the video).
+            organic-looking patterns. The video mentions using a slow growth
+            rate such as 11/10. However, I used a much faster growth rate of
+            2.
         </p>
         <p>
             I kept my pattern very simple, essentially the same stitch over
@@ -526,7 +527,7 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
         </ul>
         <p>
             I worked on this project off and on over the span of a little over
-            2 years. Some months I would work on it a lot, other times I
+            2 years. Some months I would work on it often, other times I
             wouldn't work on it at all.
         </p>
     `,
@@ -597,7 +598,7 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
       },
       {
         sort_key: '2023-08-01',
-        date: '202',
+        date: '2023-08-01',
         title: 'End of Spool',
         description: 'This was the last picture I have before reaching the end of the spool.',
         thumbnail: {
@@ -607,7 +608,7 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
       },
       {
         sort_key: '2023-08-17',
-        date: '202',
+        date: '2023-08-17',
         title: 'Spool Change',
         description: 'I got a second spool of thread to finish the last couple rows of stitches.',
         thumbnail: {
@@ -620,7 +621,7 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
         date: '2023-08-19',
         title: 'Last Blue Stitch',
         description:
-          'This picture shows me stitching the last double crochet stitch in blue before I switched to orange',
+          'This picture shows me stitching the last double crochet stitch in blue before I switched to orange.',
         thumbnail: {
           url: update_url('hyperbolic-crochet', '2023-08-19_Update9.jpg'),
           alt_text: '',

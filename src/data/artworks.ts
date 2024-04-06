@@ -216,7 +216,19 @@ const ARTWORK_DESCRIPTORS: ArtworkDescriptor[] = [
     img_format: 'jpg',
     alt_text: 'The finished crochet pattern. It looks like coral or a loofah.',
     description: `
-    foo bar bas
+        <p>
+            This crochet pattern was inspired by the TED talk <a href="https://youtu.be/w1TBZhd-sN0?si=XsH01B6DCeU8LoqT">"Crocheting Hyperbolic Planes"</a>
+            by Daina Taimiņa. Every stitch is an increase.
+        </p>
+        <p>
+            Since each additional row is twice the length of the previous one,
+            there is no way for the fabric to lay flat. Instead, it curls
+            up in 3D space.
+        </p>
+        <p>
+            This type of growth happens often in nature. For example, think
+            of brains, coral, or lettuce.
+        </p>
     `,
     show: true,
   },
