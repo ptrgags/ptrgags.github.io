@@ -74,3 +74,7 @@ export class Project {
     return `${BACKBLAZE_BUCKET}/project-cards/${this.id}.${this.img_format}`
   }
 }
+
+export function update_url(project_id: string, image_fname: string): string {
+  return `${BACKBLAZE_BUCKET}/project-updates/${project_id}/${image_fname}`
+}
