@@ -110,19 +110,12 @@ export const p5_sketchbook_artworks: ArtworkDescriptor[] = [
     description: `
         <p>
             An impossible "game" about trying to keep all the meters filled.
-            It serves as an analogy for trying to keep up with the onslaught
-            of tasks in day-to-day life.
+            It serves as an analogy for trying to keep up with the never-ending
+            list of tasks in day-to-day life.
         </p>
         <p>
             See the <a href="https://ptrgags.dev/p5-sketchbook/Refill/">p5 sketch</a> for the interactive
             version and a more detailed description.
-        </p>
-        <p>
-            The point of this is to be thought-provoking. Us humans have 
-            limitations in how much we can do within a lifespan. Certainly that
-            can feel overwhelming and dreary at times. So the game isn't to
-            do it all (that's impossible!) but be thoughtful about what's
-            important/meaningful to do with one's time.
         </p>
     `,
     show: true,
