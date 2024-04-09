@@ -8,7 +8,7 @@ export const p5_sketchbook: ProjectDescriptor = {
   description: `
     <p>
         This project is a repo where I keep a variety of small art experiments
-        made using <a href="https://p5js.org/">p5.js</a>
+        made using <a href="https://p5js.org/">p5.js</a>.
     </p>
     <p>
         Each sketch is a little different. Some are for learning new things
