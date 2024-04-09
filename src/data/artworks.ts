@@ -1,6 +1,7 @@
 import { type ArtworkDescriptor, Artwork } from '@/core/Artwork'
 import { symmetry_sketchbook_artworks } from './artworks/symmetry_sketchbook'
 import { paper_toaster_artworks } from './artworks/paper_toaster'
+import { p5_sketchbook_artworks } from './artworks/p5_sketchbook'
 
 const ARTWORK_DESCRIPTORS: ArtworkDescriptor[] = [
   ...paper_toaster_artworks,
@@ -53,6 +54,7 @@ const ARTWORK_DESCRIPTORS: ArtworkDescriptor[] = [
     show: true,
   },
   ...symmetry_sketchbook_artworks,
+  ...p5_sketchbook_artworks,
 ]
 
 export const ARTWORKS = ARTWORK_DESCRIPTORS.map((x) => new Artwork(x))
