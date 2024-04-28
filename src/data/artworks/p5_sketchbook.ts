@@ -8,8 +8,7 @@ export const p5_sketchbook_artworks: ArtworkDescriptor[] = [
     sort_key: '2021-06-23:01',
     project_id: 'p5-sketchbook',
     img_format: 'png',
-    alt_text: 'tan image with brown triangle-looking patterns like on the shells of cone snails',
-    tagline: 'A sketch that simulates the patterns on certain cone snail shells',
+    timeline_desc: 'A sketch that simulates the patterns on certain cone snail shells',
     description: `
         <p>
             A simulation of how the triangular pigmentation patterns on
@@ -21,7 +20,6 @@ export const p5_sketchbook_artworks: ArtworkDescriptor[] = [
             for the animated version and a more detailed description.
         </p>
     `,
-    show: true,
   },
   {
     id: '2023-12-23_GrowingFlowers',
@@ -30,9 +28,7 @@ export const p5_sketchbook_artworks: ArtworkDescriptor[] = [
     sort_key: '2023-12-23:01',
     project_id: 'p5-sketchbook',
     img_format: 'png',
-    alt_text:
-      'A generated image of a potted plant. It has green branches that look like a maze, and red circles to represent flowers at the tips of each branch.',
-    tagline: 'A satisfying animation of a plant that grows and flowers',
+    timeline_desc: 'A satisfying animation of a plant that grows and flowers',
     description: `
         <p>
             A simulation of plant growth using a modified random depth-first-search maze generation algorithm.
@@ -42,7 +38,6 @@ export const p5_sketchbook_artworks: ArtworkDescriptor[] = [
             for the animated version and a more detailed description.
         </p>
     `,
-    show: true,
   },
   {
     id: '2024-03-12_PentagTiling',
@@ -51,9 +46,7 @@ export const p5_sketchbook_artworks: ArtworkDescriptor[] = [
     sort_key: '2024-03-12:01',
     project_id: 'p5-sketchbook',
     img_format: 'png',
-    alt_text:
-      'A grid of dark turquoise pentagons with two layers of wavy curves connecting them in various ways.',
-    tagline: 'An artistic tiling on a grid of pentagons',
+    timeline_desc: 'An artistic tiling on a grid of pentagons',
     description: `
         <p>
             An artistic pattern made on a tiling of tag-shaped pentagons.
@@ -67,7 +60,6 @@ export const p5_sketchbook_artworks: ArtworkDescriptor[] = [
             bit of user interaction to make it feel more satisfying.
         </p>
     `,
-    show: true,
   },
   {
     id: '2024-04-09_HyperbolicConnections',
@@ -77,8 +69,7 @@ export const p5_sketchbook_artworks: ArtworkDescriptor[] = [
     sort_key: '2024-04-09:02',
     project_id: 'p5-sketchbook',
     img_format: 'png',
-    alt_text: 'A circle decorated with arcs in light blue and purple',
-    tagline:
+    timeline_desc:
       'A swirly pattern made in the hyperbolic plane. This was originally made in 2021, but I tweaked it a bit when cleaning up p5-sketchbook.',
     description: `
         <p>
@@ -95,7 +86,6 @@ export const p5_sketchbook_artworks: ArtworkDescriptor[] = [
             since that leads to some neat swirly patterns.
         </p>
     `,
-    show: true,
   },
   {
     id: '2024-04-09_Refill',
@@ -104,9 +94,7 @@ export const p5_sketchbook_artworks: ArtworkDescriptor[] = [
     sort_key: '2024-04-09:03',
     project_id: 'p5-sketchbook',
     img_format: 'png',
-    alt_text:
-      'A grid of meters from the Refill game. Some are filled with blue liquid, others with red, others empty',
-    tagline: 'An impossible game about trying to keep a bunch of meters full.',
+    timeline_desc: 'An impossible game about trying to keep a bunch of meters full.',
     description: `
         <p>
             An impossible "game" about trying to keep all the meters filled.
@@ -118,6 +106,5 @@ export const p5_sketchbook_artworks: ArtworkDescriptor[] = [
             version and a more detailed description.
         </p>
     `,
-    show: true,
   },
 ]

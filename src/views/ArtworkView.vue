@@ -20,18 +20,13 @@ const project = computed(() => {
 <template>
   <div v-if="artwork" class="tableau">
     <div class="card-frame">
-      <CardImage
-        size="card"
-        orientation="portrait"
-        :url="artwork.card_url"
-        :alt="artwork.alt_text"
-      />
+      <CardImage :image="artwork.card" />
     </div>
     <div class="plaque">
       <h1>{{ artwork.title }} ({{ artwork.date }})</h1>
       <h3 v-if="project">
         Project:
-        <RouterLink class="big-link" :to="project.project_url">{{ project.title }}</RouterLink>
+        <RouterLink class="big-link" :to="project.url">{{ project.title }}</RouterLink>
       </h3>
       <div v-html="artwork.description"></div>
     </div>

@@ -20,7 +20,7 @@ const timeline_entries = computed(() => {
   }
 
   const artworks = ARTWORKS_BY_PROJECT[project.value.id] ?? []
-  const artwork_entries: TimelineEntry[] = artworks.map((x) => x.to_timeline_entry())
+  const artwork_entries: TimelineEntry[] = artworks.map((x) => x.timeline_entry)
   const update_entries: TimelineEntry[] = project.value.updates
 
   const newest_first = [...artwork_entries, ...update_entries].sort(sort_reverse_chronological)

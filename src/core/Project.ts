@@ -39,6 +39,8 @@ export class Project {
   readonly github_url?: string
   readonly demo_url?: string
 
+  readonly url: string
+
   readonly thumbnail: Thumbnail
   readonly card: Image
   readonly updates: TimelineEntry[]
@@ -50,18 +52,18 @@ export class Project {
     this.demo_url = descriptor.demo_link
     this.description = descriptor.description
     this.updates = descriptor.updates ?? []
+    this.url = `/project/${this.id}`
 
     this.github_url = descriptor.github_repo
       ? `https://github.com/ptrgags/${descriptor.github_repo}`
       : undefined
 
-    const project_url = `/project/${this.id}`
     const img_format = descriptor.img_format
     const thumbnail_url = `${BACKBLAZE_BUCKET}/project-thumbnails/${this.id}.${img_format}`
     this.thumbnail = {
       title: this.title,
       dates: this.years,
-      link: project_url,
+      link: this.url,
       sort_key: descriptor.sort_key,
       thumbnail: {
         url: thumbnail_url,

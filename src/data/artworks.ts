@@ -11,10 +11,9 @@ const ARTWORK_DESCRIPTORS: ArtworkDescriptor[] = [
     date: '2024-02-04',
     sort_key: '2024-02-04:01',
     project_id: 'blue-velvet-scarf',
-    tagline:
+    timeline_desc:
       'The finished scarf. In total, it took about a month and a half and 25 pattern repeats',
     img_format: 'jpg',
-    alt_text: 'The finished scarf resting on a table',
     description: `
         <p>
             A scarf knitted with blue and black velvet yarn. From start to
@@ -25,7 +24,6 @@ const ARTWORK_DESCRIPTORS: ArtworkDescriptor[] = [
             See the project page for more details.
         </p>
         `,
-    show: true,
   },
   {
     id: '2023-09-01_HyperbolicCrochet',
@@ -33,9 +31,9 @@ const ARTWORK_DESCRIPTORS: ArtworkDescriptor[] = [
     date: '2023-09-01',
     sort_key: '2023-09:01',
     project_id: 'hyperbolic-crochet',
-    tagline: 'After about two years and one month, I finally finished making this crochet pattern.',
+    timeline_desc:
+      'After about two years and one month, I finally finished making this crochet pattern.',
     img_format: 'jpg',
-    alt_text: 'The finished crochet pattern. It looks like coral or a loofah.',
     description: `
         <p>
             This crochet pattern was inspired by the TED talk <a href="https://youtu.be/w1TBZhd-sN0?si=XsH01B6DCeU8LoqT">"Crocheting Hyperbolic Planes"</a>
@@ -51,7 +49,6 @@ const ARTWORK_DESCRIPTORS: ArtworkDescriptor[] = [
             of brains, coral, or lettuce.
         </p>
     `,
-    show: true,
   },
   ...symmetry_sketchbook_artworks,
   ...p5_sketchbook_artworks,

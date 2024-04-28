@@ -7,9 +7,8 @@ export const symmetry_sketchbook_artworks: ArtworkDescriptor[] = [
     date: '2024-04-05',
     sort_key: '2024-04-05:01',
     project_id: 'symmetry-sketchbook',
-    tagline: 'An example parametric curve for my website. It has 5-fold rotation symmetry.',
+    timeline_desc: 'An example parametric curve for my website. It has 5-fold rotation symmetry.',
     img_format: 'png',
-    alt_text: 'A blue curve that looks like a star-shaped bow',
     description: `
         <p>
             A parametric curve I made using Symmetry Sketchbook for this portfolio website. This pattern uses 5-fold symmetry of type 2. In other words, there are 5 petals, and the path moves 2 petals at a time.
@@ -18,7 +17,6 @@ export const symmetry_sketchbook_artworks: ArtworkDescriptor[] = [
             <a href="https://ptrgags.dev/symmetry-sketchbook/#/curve_symmetry?custom_pattern=H4sIAAAAAAAACjXKMQ6AIAxG4bv8c2lawIpcxTg6OKgJGBfj3Q0Jrt97D%2B611O08kJVwrWWvyDOcRhYREvYqpDypgOCmjmqJPAeLDf8zpZGUgxkI1i3EoRXxWN4PQev%2BsmsAAAA=">View in Symmetry Sketchbook</a>
         </p>
     `,
-    show: true,
   },
   {
     id: '2024-04-05_OctoShock',
@@ -26,9 +24,8 @@ export const symmetry_sketchbook_artworks: ArtworkDescriptor[] = [
     date: '2024-04-05',
     sort_key: '2024-04-05:02',
     project_id: 'symmetry-sketchbook',
-    tagline: 'An example rosette pattern. It uses 8-fold rotation symmetry.',
+    timeline_desc: 'An example rosette pattern. It uses 8-fold rotation symmetry.',
     img_format: 'png',
-    alt_text: '8 lightning-bolt shapes arranged in a circle on a yellow and orange background',
     description: `
         <p>
             A rosette pattern I made using Symmetry Sketchbook for this portfolio website. This pattern uses 8-fold rotation symmetry along with complex inversions. The pattern looked like lightning bolts, so I picked a color palette to match.
@@ -38,7 +35,6 @@ export const symmetry_sketchbook_artworks: ArtworkDescriptor[] = [
             to try visualizing this with different color palettes.
         </p>
     `,
-    show: true,
   },
   {
     id: '2024-04-05_Treflora',
@@ -46,10 +42,9 @@ export const symmetry_sketchbook_artworks: ArtworkDescriptor[] = [
     date: '2024-04-05',
     sort_key: '2024-04-05:03',
     project_id: 'symmetry-sketchbook',
-    tagline:
+    timeline_desc:
       'An example wallpaper with 3-fold rotation symmetry. I used a palette with greens, dark magentas and orange to make it look like flowers.',
     img_format: 'png',
-    alt_text: 'A green and pink wallpaper pattern that looks like flowers with 3 petals each.',
     description: `
         <p>
             A wallpaper pattern I made using Symmetry sketchbook for this portfolio website. This design uses 3-fold rotation symmetry and a green and pink color palette to make it look like flowers.
@@ -59,6 +54,5 @@ export const symmetry_sketchbook_artworks: ArtworkDescriptor[] = [
             to try visualizing this with different color palettes.
         </p>
     `,
-    show: true,
   },
 ]

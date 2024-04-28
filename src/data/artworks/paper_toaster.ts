@@ -8,9 +8,7 @@ export const paper_toaster_artworks: ArtworkDescriptor[] = [
     sort_key: '2022-06-27:01',
     project_id: 'paper-toaster',
     img_format: 'png',
-    alt_text:
-      'Example output of the turtle dance artwork from the paper toaster project. This pattern looks like a hexagon with decorative kites pointing outwards from each vertex.',
-    tagline:
+    timeline_desc:
       'Artwork inspired by a Bridges math art paper about turtle graphics. It modifies an integer sequence to compute turn angles',
     description: `
         <p>
@@ -42,7 +40,6 @@ export const paper_toaster_artworks: ArtworkDescriptor[] = [
             <li><a href="https://www.desmos.com/calculator/wcmvohdoxt">It looks cooler in polar coordinates</a></li>
         </ul>
         `,
-    show: true,
   },
   {
     id: '2022-07-09_ElementaryCA',
@@ -51,9 +48,7 @@ export const paper_toaster_artworks: ArtworkDescriptor[] = [
     sort_key: '2022-07-09:01',
     project_id: 'paper-toaster',
     img_format: 'png',
-    alt_text:
-      'An example output of the cellular automaton that produces a chaotic arrangement of triangle shapes',
-    tagline: 'The classic cellular automaton, now in printable form',
+    timeline_desc: 'The classic cellular automaton, now in printable form',
     description: `
         <p>
             Looking for more pattern ideas to make on my receipt printer, I returned to the classic
@@ -71,7 +66,6 @@ export const paper_toaster_artworks: ArtworkDescriptor[] = [
             for example.
         </p>
         `,
-    show: true,
   },
   {
     id: '2022-07-24_Braids',
@@ -80,8 +74,7 @@ export const paper_toaster_artworks: ArtworkDescriptor[] = [
     sort_key: '2022-07-24:01',
     project_id: 'paper-toaster',
     img_format: 'png',
-    alt_text: 'A pattern of ropes woven into a braided pattern',
-    tagline: 'A tiling that looks like braided strands of rope',
+    timeline_desc: 'A tiling that looks like braided strands of rope',
     description: `
         <p>
             I like making tilings and I like drawing braided rope, so I
@@ -101,7 +94,6 @@ export const paper_toaster_artworks: ArtworkDescriptor[] = [
             off-canvas, it's easy to make it look consistent.
         </p>
         `,
-    show: true,
   },
   {
     id: '2022-07-24_IsoGrid',
@@ -110,8 +102,7 @@ export const paper_toaster_artworks: ArtworkDescriptor[] = [
     sort_key: '2022-07-24:02',
     project_id: 'paper-toaster',
     img_format: 'png',
-    alt_text: 'A mountain-shaped scene drawn in isometric projection on a black background.',
-    tagline: 'A simple isometric scene, rendered with some 2D graphics trickery',
+    timeline_desc: 'A simple isometric scene, rendered with some 2D graphics trickery',
     description: `
         <p>
             I like the look of isometric projection a lot, it gives a nice
@@ -151,7 +142,6 @@ export const paper_toaster_artworks: ArtworkDescriptor[] = [
             needs to be rendered once, so I did what I could get away with.
         </p>
         `,
-    show: true,
   },
   {
     id: '2022-08-23_ColoredBraids',
@@ -159,9 +149,8 @@ export const paper_toaster_artworks: ArtworkDescriptor[] = [
     date: '2022-08-23',
     sort_key: '2022-08-23:01',
     project_id: 'paper-toaster',
-    tagline: 'Braids, now in technicolor!',
+    timeline_desc: 'Braids, now in technicolor!',
     img_format: 'png',
-    alt_text: 'Rainbow colored braids in groups of 2 or 3',
     description: `
         <p>
             After I had made the earlier artwork <a href="#/artwork/paper-toaster/2022-07-24_Braids">Braids</a>,
@@ -182,6 +171,5 @@ export const paper_toaster_artworks: ArtworkDescriptor[] = [
             braids happen in groups of 2 and 3.
         </p>
         `,
-    show: true,
   },
 ]
