@@ -125,16 +125,6 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
 ]
 /*
     {
-        id: "p5-sketchbook",
-        title: "p5.js Sketchbook",
-        years: "2016, 2021, 2024",
-        sort_key: "2024-01-00:02",
-        github_repo: "p5-sketchbook",
-        has_thumbnail: false,
-        has_card: false,
-        show: true,
-    },
-    {
         id:"holiday-shaders2",
         title: "Holiday Shaders 2",
         years: "2017",
@@ -234,9 +224,3 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
 */
 
 export const PROJECTS = PROJECT_DESCRIPTORS.map((x) => new Project(x))
-
-export const PROJECTS_NEWEST_FIRST = PROJECTS.filter((x) => x.show).sort((a: Project, b: Project) =>
-  b.sort_key.localeCompare(a.sort_key),
-)
-
-export const PROJECTS_NEWEST_5 = PROJECTS_NEWEST_FIRST.slice(0, 5)

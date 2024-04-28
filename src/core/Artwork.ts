@@ -1,5 +1,6 @@
 import { BACKBLAZE_BUCKET } from '@/core/website_constants'
 import type { TimelineEntry } from '@/core/TimelineEntry'
+import type { Thumbnail } from './Thumbnail'
 
 export interface ArtworkDescriptor {
   // Unique ID of this artwork
@@ -60,10 +61,22 @@ export class Artwork {
     return `${BACKBLAZE_BUCKET}/artwork-cards/${this.project_id}/${this.id}.${this.img_format}`
   }
 
+  get thumbnail(): Thumbnail {
+    return {
+      title: this.title,
+      dates: this.date,
+      link: this.artwork_url,
+      sort_key: this.sort_key,
+      thumbnail: {
+        url: this.thumbnail_url,
+      },
+    }
+  }
+
   to_timeline_entry(): TimelineEntry {
-    let thumbnail
+    let image
     if (this.thumbnail_url) {
-      thumbnail = {
+      image = {
         url: this.thumbnail_url,
         alt_text: this.alt_text,
       }
@@ -74,7 +87,7 @@ export class Artwork {
       title: `Artwork: ${this.title}`,
       title_link: this.artwork_url,
       date: `${this.date}`,
-      thumbnail,
+      image,
       description: this.tagline,
     }
   }

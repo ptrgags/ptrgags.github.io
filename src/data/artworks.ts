@@ -59,12 +59,6 @@ const ARTWORK_DESCRIPTORS: ArtworkDescriptor[] = [
 
 export const ARTWORKS = ARTWORK_DESCRIPTORS.map((x) => new Artwork(x))
 
-export const ARTWORKS_NEWEST_FIRST = [...ARTWORKS].sort((a: Artwork, b: Artwork) =>
-  b.sort_key.localeCompare(a.sort_key),
-)
-
-export const ARTWORKS_NEWEST_5 = ARTWORKS_NEWEST_FIRST.filter((x) => x.show).slice(0, 5)
-
 type ArtworksByProject = { [key: string]: Artwork[] }
 
 function index_artworks(): ArtworksByProject {

@@ -1,22 +1,40 @@
 <script setup lang="ts">
-import ThumbnailCard from '@/components/ThumbnailCard.vue';
-import { PROJECTS_NEWEST_5 } from '@/data/projects';
-import { ARTWORKS_NEWEST_5 } from '@/data/artworks';
+import ThumbnailCard from '@/components/ThumbnailCard.vue'
+import { PROJECTS } from '@/data/projects'
+import { ARTWORKS } from '@/data/artworks'
+import { computed } from 'vue'
+import { reverse_chronological, type Thumbnail } from '@/core/Thumbnail'
+
+function top_5_featured(thumbnails: Thumbnail[]): Thumbnail[] {
+  const featured = thumbnails.filter((x) => x.featured).sort(reverse_chronological)
+  const remaining = thumbnails.filter((x) => !x.featured).sort(reverse_chronological)
+
+  // Take the top 5 entries.
+  return [...featured, ...remaining].slice(0, 5)
+}
+
+const featured_artworks = computed<Thumbnail[]>(() => {
+  const all_artworks = ARTWORKS.map((x) => x.thumbnail).filter((x) => !x.hide)
+  return top_5_featured(all_artworks)
+})
+
+const featured_projects = computed<Thumbnail[]>(() => {
+  const all_projects = PROJECTS.map((x) => x.thumbnail).filter((x) => !x.hide)
+  return top_5_featured(all_projects)
+})
 </script>
 
 <template>
-    <h1 class="centered">Featured Projects</h1>
-    <div class="tableau">
-        <template v-for="project in PROJECTS_NEWEST_5" :key="project.id">
-            <ThumbnailCard v-if="project.show" :image_url="project.thumbnail_url" :alt="project.alt_text"
-                :link="project.project_url" :title="project.title" :years="project.years" />
-        </template>
-    </div>
-    <h1 class="centered">Featured Artworks</h1>
-    <div class="tableau">
-        <template v-for="artwork in ARTWORKS_NEWEST_5" :key="artwork.id">
-            <ThumbnailCard v-if="artwork.show" :image_url="artwork.thumbnail_url" :alt="artwork.alt_text"
-                :link="artwork.artwork_url" :title="artwork.title" :years="artwork.date" />
-        </template>
-    </div>
+  <h1 class="centered">Featured Projects</h1>
+  <div class="tableau">
+    <template v-for="thumbnail in featured_projects" :key="thumbnail.sort_key">
+      <ThumbnailCard :card="thumbnail" />
+    </template>
+  </div>
+  <h1 class="centered">Featured Artworks</h1>
+  <div class="tableau">
+    <template v-for="thumbnail in featured_artworks" :key="thumbnail.sort_key">
+      <ThumbnailCard :card="thumbnail" />
+    </template>
+  </div>
 </template>

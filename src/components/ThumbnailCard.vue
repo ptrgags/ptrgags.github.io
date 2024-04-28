@@ -1,28 +1,19 @@
 <script setup lang="ts">
 import CardImage from '@/components/CardImage.vue'
+import type { Thumbnail } from '@/core/Thumbnail'
 
 const props = defineProps<{
-  image_url?: string
-  link?: string
-  alt: string
-  title: string
-  years: string
+  card: Thumbnail
 }>()
 </script>
 
 <template>
   <div class="card-frame">
-    <CardImage
-      size="thumbnail"
-      orientation="portrait"
-      alt="props.alt"
-      :url="props.image_url"
-      :link="props.link"
-    />
+    <CardImage :image="props.card.thumbnail" />
     <div class="card-text centered">
-      <RouterLink v-if="props.link" :to="props.link">{{ props.title }}</RouterLink>
+      <RouterLink v-if="props.card.link" :to="props.card.link">{{ props.card.title }}</RouterLink>
       <br />
-      ({{ props.years }})
+      ({{ props.card.dates }})
     </div>
   </div>
 </template>

@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router'
 import { PROJECTS } from '@/data/projects'
 import { ARTWORKS_BY_PROJECT } from '@/data/artworks'
 import CardImage from '@/components/CardImage.vue'
-import Timeline from '@/components/Timeline.vue'
+import ProjectTimeline from '@/components/ProjectTimeline.vue'
 import type { TimelineEntry } from '@/core/TimelineEntry'
 
 const route = useRoute()
@@ -33,12 +33,7 @@ const timeline_entries = computed(() => {
   <template v-if="project">
     <div class="tableau">
       <div class="card-frame">
-        <CardImage
-          size="card"
-          orientation="portrait"
-          :url="project.card_url"
-          :alt="project.alt_text"
-        />
+        <CardImage :image="project.card_image" />
       </div>
       <div class="plaque">
         <h1>{{ project.title }} ({{ project.years }})</h1>
@@ -48,6 +43,6 @@ const timeline_entries = computed(() => {
         <div v-html="project.description"></div>
       </div>
     </div>
-    <Timeline :entries="timeline_entries" />
+    <ProjectTimeline :entries="timeline_entries" />
   </template>
 </template>

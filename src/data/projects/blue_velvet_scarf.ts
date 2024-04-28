@@ -37,7 +37,7 @@ export const blue_velvet_scarf: ProjectDescriptor = {
       sort_key: '2023-12-18:01',
       date: '2023-12-18',
       title: 'Starting Out',
-      thumbnail: {
+      image: {
         url: update_url('blue-velvet-scarf', '2023-12-18_StartingOut.jpg'),
         alt_text: 'Close-up photo of the start of the scarf after 3 pattern repeats',
       },
@@ -47,7 +47,7 @@ export const blue_velvet_scarf: ProjectDescriptor = {
       sort_key: '2023-12-29:01',
       date: '2023-12-29',
       title: '5/25 Pattern Repeats',
-      thumbnail: {
+      image: {
         url: update_url('blue-velvet-scarf', '2023-12-29_AFewMoreRepeats.jpg'),
         alt_text: 'Photo of the scarf after 5 pattern repeats',
       },
@@ -57,7 +57,7 @@ export const blue_velvet_scarf: ProjectDescriptor = {
       sort_key: '2024-01-07:01',
       date: '2024-01-07',
       title: '7/25 Pattern Repeats',
-      thumbnail: {
+      image: {
         url: update_url('blue-velvet-scarf', '2024-01-07_ABitLonger.jpg'),
         alt_text: 'Photo of the scarf after 7 repeats',
       },
@@ -67,10 +67,9 @@ export const blue_velvet_scarf: ProjectDescriptor = {
       sort_key: '2024-01-31:01',
       date: '2024-01-31',
       title: '19/25 Pattern Repeats',
-      thumbnail: {
+      image: {
         url: update_url('blue-velvet-scarf', '2024-01-31_AlmostDone.jpg'),
         alt_text: 'Close-up photo of the scarf most of the way done',
-        orientation: 'landscape',
       },
       description: '',
     },
@@ -78,10 +77,9 @@ export const blue_velvet_scarf: ProjectDescriptor = {
       sort_key: '2024-02-02:01',
       date: '2024-02-02',
       title: '23/25 Pattern Repeats',
-      thumbnail: {
+      image: {
         url: update_url('blue-velvet-scarf', '2024-02-02_NearlyFinished.jpg'),
         alt_text: 'Photo of the scarf folded in half and laid across a couch',
-        orientation: 'landscape',
       },
       description:
         'Nearly finished at 23/25 repeats. Here I folded the scarf in half and compared with another scarf I had made. The blue velvet scarf is a little shorter',

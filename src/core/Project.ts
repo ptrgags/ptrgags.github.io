@@ -1,5 +1,7 @@
 import { BACKBLAZE_BUCKET } from '@/core/website_constants'
 import type { TimelineEntry } from './TimelineEntry'
+import type { Image } from './Image'
+import type { Thumbnail } from './Thumbnail'
 
 export interface ProjectDescriptor {
   // Unique ID for this project.
@@ -72,6 +74,24 @@ export class Project {
 
   get card_url(): string {
     return `${BACKBLAZE_BUCKET}/project-cards/${this.id}.${this.img_format}`
+  }
+
+  get thumbnail(): Thumbnail {
+    return {
+      title: this.title,
+      dates: this.years,
+      link: this.project_url,
+      sort_key: this.sort_key,
+      thumbnail: {
+        url: this.thumbnail_url,
+      },
+    }
+  }
+
+  get card_image(): Image {
+    return {
+      url: this.card_url,
+    }
   }
 }
 
