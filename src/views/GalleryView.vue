@@ -2,12 +2,13 @@
 import { ARTWORKS } from '@/data/artworks'
 import ThumbnailCard from '@/components/ThumbnailCard.vue'
 import { computed } from 'vue'
-import { reverse_chronological, type Thumbnail } from '@/core/Thumbnail'
+import { type Thumbnail } from '@/core/Thumbnail'
+import { sort_reverse_chronological } from '@/core/Sortable'
 
 const artworks_newest_first = computed<Thumbnail[]>(() => {
   return ARTWORKS.map((x) => x.thumbnail)
     .filter((x) => !x.hide)
-    .sort(reverse_chronological)
+    .sort(sort_reverse_chronological)
 })
 </script>
 

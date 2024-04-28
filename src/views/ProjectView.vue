@@ -6,6 +6,7 @@ import { ARTWORKS_BY_PROJECT } from '@/data/artworks'
 import CardImage from '@/components/CardImage.vue'
 import ProjectTimeline from '@/components/ProjectTimeline.vue'
 import type { TimelineEntry } from '@/core/TimelineEntry'
+import { sort_reverse_chronological } from '@/core/Sortable'
 
 const route = useRoute()
 
@@ -22,9 +23,7 @@ const timeline_entries = computed(() => {
   const artwork_entries: TimelineEntry[] = artworks.map((x) => x.to_timeline_entry())
   const update_entries: TimelineEntry[] = project.value.updates
 
-  const newest_first = [...artwork_entries, ...update_entries].sort(
-    (a: TimelineEntry, b: TimelineEntry) => b.sort_key.localeCompare(a.sort_key),
-  )
+  const newest_first = [...artwork_entries, ...update_entries].sort(sort_reverse_chronological)
   return newest_first
 })
 </script>
@@ -33,7 +32,7 @@ const timeline_entries = computed(() => {
   <template v-if="project">
     <div class="tableau">
       <div class="card-frame">
-        <CardImage :image="project.card_image" />
+        <CardImage :image="project.card" />
       </div>
       <div class="plaque">
         <h1>{{ project.title }} ({{ project.years }})</h1>

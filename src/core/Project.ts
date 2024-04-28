@@ -18,79 +18,60 @@ export interface ProjectDescriptor {
   sort_key: string
   // HTML description of the project
   description: string
+  // Image format.
+  img_format: 'png' | 'jpg'
   // GitHub repo name. If present, a link to GitHub will be added on the
   // project page. For programming projects, this must match the ID.
   github_repo?: string
   // If the project has a demo link, put it here
   demo_link?: string
-  // Alt text for the images
-  alt_text: string
   // Additional updates to add to the timeline that aren't Artworks.
   updates?: TimelineEntry[]
-  // If the project should be visible in the list. This is useful
-  // if I'm still working on something
-  show: boolean
-  // Image format.
-  img_format: 'png' | 'jpg'
+  // If true, hide this entry from the list
+  hide?: boolean
 }
 
 export class Project {
-  id: string
-  sort_key: string
-  show: boolean
-  title: string
-  years: string
-  github_url?: string
-  demo_url?: string
-  alt_text: string
-  description: string
-  img_format: 'png' | 'jpg'
-  updates: TimelineEntry[]
+  readonly id: string
+  readonly title: string
+  readonly years: string
+  readonly description: string
+  readonly github_url?: string
+  readonly demo_url?: string
+
+  readonly thumbnail: Thumbnail
+  readonly card: Image
+  readonly updates: TimelineEntry[]
 
   constructor(descriptor: ProjectDescriptor) {
     this.id = descriptor.id
-    this.sort_key = descriptor.sort_key
-    this.show = descriptor.show
     this.title = descriptor.title
     this.years = descriptor.years
     this.demo_url = descriptor.demo_link
-    this.alt_text = descriptor.alt_text
     this.description = descriptor.description
     this.updates = descriptor.updates ?? []
-    this.img_format = descriptor.img_format
 
     this.github_url = descriptor.github_repo
       ? `https://github.com/ptrgags/${descriptor.github_repo}`
       : undefined
-  }
 
-  get project_url(): string {
-    return `/project/${this.id}`
-  }
-
-  get thumbnail_url(): string {
-    return `${BACKBLAZE_BUCKET}/project-thumbnails/${this.id}.${this.img_format}`
-  }
-
-  get card_url(): string {
-    return `${BACKBLAZE_BUCKET}/project-cards/${this.id}.${this.img_format}`
-  }
-
-  get thumbnail(): Thumbnail {
-    return {
+    const project_url = `/project/${this.id}`
+    const img_format = descriptor.img_format
+    const thumbnail_url = `${BACKBLAZE_BUCKET}/project-thumbnails/${this.id}.${img_format}`
+    this.thumbnail = {
       title: this.title,
       dates: this.years,
-      link: this.project_url,
-      sort_key: this.sort_key,
+      link: project_url,
+      sort_key: descriptor.sort_key,
       thumbnail: {
-        url: this.thumbnail_url,
+        url: thumbnail_url,
       },
+      hide: descriptor.hide,
     }
-  }
 
-  get card_image(): Image {
-    return {
-      url: this.card_url,
+    const card_url = `${BACKBLAZE_BUCKET}/project-cards/${this.id}.${img_format}`
+    this.card = {
+      url: card_url,
     }
   }
 }

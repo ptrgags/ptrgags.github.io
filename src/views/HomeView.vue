@@ -3,11 +3,12 @@ import ThumbnailCard from '@/components/ThumbnailCard.vue'
 import { PROJECTS } from '@/data/projects'
 import { ARTWORKS } from '@/data/artworks'
 import { computed } from 'vue'
-import { reverse_chronological, type Thumbnail } from '@/core/Thumbnail'
+import { type Thumbnail } from '@/core/Thumbnail'
+import { sort_reverse_chronological } from '@/core/Sortable'
 
 function top_5_featured(thumbnails: Thumbnail[]): Thumbnail[] {
-  const featured = thumbnails.filter((x) => x.featured).sort(reverse_chronological)
-  const remaining = thumbnails.filter((x) => !x.featured).sort(reverse_chronological)
+  const featured = thumbnails.filter((x) => x.featured).sort(sort_reverse_chronological)
+  const remaining = thumbnails.filter((x) => !x.featured).sort(sort_reverse_chronological)
 
   // Take the top 5 entries.
   return [...featured, ...remaining].slice(0, 5)

@@ -5,7 +5,6 @@ export const hyperbolic_crochet: ProjectDescriptor = {
   title: 'Making of Hyperbolic Crochet',
   years: '2021-2023',
   sort_key: '2023-07-00:01',
-  alt_text: 'Photo of completed crochet pattern',
   img_format: 'jpg',
   description: `
         <p>
@@ -33,7 +32,6 @@ export const hyperbolic_crochet: ProjectDescriptor = {
             wouldn't work on it at all.
         </p>
     `,
-  show: true,
   updates: [
     {
       sort_key: '2021-07-26',
@@ -41,7 +39,7 @@ export const hyperbolic_crochet: ProjectDescriptor = {
       title: 'Starting Out',
       description:
         'A picture after my first crocheting session. Here you can see the spool of crochet thread. My intent was to go through the entire spool.',
-      thumbnail: {
+      image: {
         url: update_url('hyperbolic-crochet', '2021-07-26_Update1.jpg'),
         alt_text: 'Picture of a spool of crochet thread and the first couple rows of stitches',
       },
@@ -51,9 +49,8 @@ export const hyperbolic_crochet: ProjectDescriptor = {
       date: '2021-08-12',
       title: 'Update 2',
       description: '',
-      thumbnail: {
+      image: {
         url: update_url('hyperbolic-crochet', '2021-08-12_Update2.jpg'),
-        alt_text: '',
       },
     },
     {
@@ -61,9 +58,8 @@ export const hyperbolic_crochet: ProjectDescriptor = {
       date: '2021-10-25',
       title: 'Update 3',
       description: '',
-      thumbnail: {
+      image: {
         url: update_url('hyperbolic-crochet', '2021-10-25_Update3.jpg'),
-        alt_text: '',
       },
     },
     {
@@ -72,7 +68,7 @@ export const hyperbolic_crochet: ProjectDescriptor = {
       title: 'Update 4',
       description:
         'I put the project aside at the end of 2021, and only returned to it the next summer.',
-      thumbnail: {
+      image: {
         url: update_url('hyperbolic-crochet', '2022-07-27_Update4.jpg'),
         alt_text: '',
       },
@@ -83,7 +79,7 @@ export const hyperbolic_crochet: ProjectDescriptor = {
       title: 'Update 5',
       description:
         'Again, I put the project aside, and only picked it up again in early 2023. This time, I was more serious about seeing the project to completion, though it still would take months.',
-      thumbnail: {
+      image: {
         url: update_url('hyperbolic-crochet', '2023-01-25_Update5.jpg'),
         alt_text: '',
       },
@@ -93,7 +89,7 @@ export const hyperbolic_crochet: ProjectDescriptor = {
       date: '2023-07-23',
       title: 'Update 6',
       description: '',
-      thumbnail: {
+      image: {
         url: update_url('hyperbolic-crochet', '2023-07-23_Update6.jpg'),
         alt_text: '',
       },
@@ -103,7 +99,7 @@ export const hyperbolic_crochet: ProjectDescriptor = {
       date: '2023-08-01',
       title: 'End of Spool',
       description: 'This was the last picture I have before reaching the end of the spool.',
-      thumbnail: {
+      image: {
         url: update_url('hyperbolic-crochet', '2023-08-01_Update7.jpg'),
         alt_text: '',
       },
@@ -113,7 +109,7 @@ export const hyperbolic_crochet: ProjectDescriptor = {
       date: '2023-08-17',
       title: 'Spool Change',
       description: 'I got a second spool of thread to finish the last couple rows of stitches.',
-      thumbnail: {
+      image: {
         url: update_url('hyperbolic-crochet', '2023-08-17_Update8.jpg'),
         alt_text: '',
       },
@@ -124,7 +120,7 @@ export const hyperbolic_crochet: ProjectDescriptor = {
       title: 'Last Blue Stitch',
       description:
         'This picture shows me stitching the last double crochet stitch in blue before I switched to orange.',
-      thumbnail: {
+      image: {
         url: update_url('hyperbolic-crochet', '2023-08-19_Update9.jpg'),
         alt_text: '',
       },
@@ -135,7 +131,7 @@ export const hyperbolic_crochet: ProjectDescriptor = {
       title: 'Update 10',
       description:
         'Here I am mid-way through the last row of orange stitches. Interestingly, though the orange section is only one stitch thick, it mostly obscures the blue stitches underneath. This is similar to how the grey matter of the brain covers the white matter underneath, despite there being much more white matter by volume.',
-      thumbnail: {
+      image: {
         url: update_url('hyperbolic-crochet', '2023-08-23_Update10.jpg'),
         alt_text: '',
       },

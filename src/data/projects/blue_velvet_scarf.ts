@@ -5,7 +5,6 @@ export const blue_velvet_scarf: ProjectDescriptor = {
   title: 'Knitting a Blue Velvet Scarf',
   years: '2023-2024',
   sort_key: '2024-02-00:02',
-  alt_text: 'Photo of the completed scarf',
   img_format: 'jpg',
   description: `
         <p>
@@ -30,8 +29,7 @@ export const blue_velvet_scarf: ProjectDescriptor = {
             flat involves going back and forth, every other row is flipped
             horizontally.
         </p>
-        `,
-  show: true,
+    `,
   updates: [
     {
       sort_key: '2023-12-18:01',
@@ -39,7 +37,6 @@ export const blue_velvet_scarf: ProjectDescriptor = {
       title: 'Starting Out',
       image: {
         url: update_url('blue-velvet-scarf', '2023-12-18_StartingOut.jpg'),
-        alt_text: 'Close-up photo of the start of the scarf after 3 pattern repeats',
       },
       description: 'I started the scarf. I did 3 repeats in the first sitting.',
     },
@@ -49,7 +46,6 @@ export const blue_velvet_scarf: ProjectDescriptor = {
       title: '5/25 Pattern Repeats',
       image: {
         url: update_url('blue-velvet-scarf', '2023-12-29_AFewMoreRepeats.jpg'),
-        alt_text: 'Photo of the scarf after 5 pattern repeats',
       },
       description: '',
     },
@@ -59,7 +55,6 @@ export const blue_velvet_scarf: ProjectDescriptor = {
       title: '7/25 Pattern Repeats',
       image: {
         url: update_url('blue-velvet-scarf', '2024-01-07_ABitLonger.jpg'),
-        alt_text: 'Photo of the scarf after 7 repeats',
       },
       description: '',
     },
@@ -69,7 +64,6 @@ export const blue_velvet_scarf: ProjectDescriptor = {
       title: '19/25 Pattern Repeats',
       image: {
         url: update_url('blue-velvet-scarf', '2024-01-31_AlmostDone.jpg'),
-        alt_text: 'Close-up photo of the scarf most of the way done',
       },
       description: '',
     },
@@ -79,7 +73,6 @@ export const blue_velvet_scarf: ProjectDescriptor = {
       title: '23/25 Pattern Repeats',
       image: {
         url: update_url('blue-velvet-scarf', '2024-02-02_NearlyFinished.jpg'),
-        alt_text: 'Photo of the scarf folded in half and laid across a couch',
       },
       description:
         'Nearly finished at 23/25 repeats. Here I folded the scarf in half and compared with another scarf I had made. The blue velvet scarf is a little shorter',

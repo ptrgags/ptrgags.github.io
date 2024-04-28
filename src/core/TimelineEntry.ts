@@ -1,14 +1,11 @@
 import type { Image } from './Image'
+import type { Sortable } from './Sortable'
 
 /**
  * An entry to be displayed in the Timeline component. This lets me document
  * the history of a creative project.
  */
-export interface TimelineEntry {
-  // Sort key so entries are shown in reverse chronological order.
-  // The format is YYYY-MM-DD:NN where N is to track multiple updates in a
-  // single day.
-  sort_key: string
+export interface TimelineEntry extends Sortable {
   // Title of the entry
   title: string
   // Human-readable date(s) corresponding to this update
