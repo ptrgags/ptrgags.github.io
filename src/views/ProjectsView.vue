@@ -4,11 +4,14 @@ import ThumbnailCard from '@/components/ThumbnailCard.vue'
 import { type Thumbnail } from '@/core/Thumbnail'
 import { computed } from 'vue'
 import { sort_reverse_chronological } from '@/core/Sortable'
+import { ALBUMS } from '@/data/music_albums'
 
 const projects_newest_first = computed<Thumbnail[]>(() => {
-  return PROJECTS.map((x) => x.thumbnail)
-    .filter((x) => !x.hide)
-    .sort(sort_reverse_chronological)
+  const projects = PROJECTS.map((x) => x.thumbnail)
+  const albums = ALBUMS.map((x) => x.thumbnail)
+  const all_projects = [...projects, ...albums]
+
+  return all_projects.filter((x) => !x.hide).sort(sort_reverse_chronological)
 })
 </script>
 

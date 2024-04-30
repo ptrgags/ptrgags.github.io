@@ -1,10 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import ArtworkView from '../views/ArtworkView.vue'
 import HomeView from '../views/HomeView.vue'
-import GalleryView from '../views/GalleryView.vue'
-import ProjectsView from '../views/ProjectsView.vue'
-import ProjectView from '../views/ProjectView.vue'
-import LibraryView from '../views/LibraryView.vue'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -12,34 +7,39 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
     },
     {
       path: '/gallery',
       name: 'gallery',
-      component: GalleryView
+      component: () => import('@/views/GalleryView.vue'),
     },
     {
-        path: '/artwork/:project_id/:artwork_id',
-        name: 'artwork',
-        component: ArtworkView
+      path: '/artwork/:project_id/:artwork_id',
+      name: 'artwork',
+      component: () => import('@/views/ArtworkView.vue'),
     },
     {
       path: '/projects',
       name: 'projects',
-      component: ProjectsView,
+      component: () => import('@/views/ProjectsView.vue'),
     },
     {
       path: '/project/:project_id',
       name: 'project',
-      component: ProjectView,
+      component: () => import('@/views/ProjectView.vue'),
+    },
+    {
+      path: '/album/:album_id',
+      name: 'album',
+      component: () => import('@/views/MusicAlbumView.vue'),
     },
     {
       path: '/library',
       name: 'library',
-      component: LibraryView,
+      component: () => import('@/views/LibraryView.vue'),
     },
-  ]
+  ],
 })
 
 export default router

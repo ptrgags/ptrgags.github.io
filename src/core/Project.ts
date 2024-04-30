@@ -39,10 +39,9 @@ export class Project {
   readonly github_url?: string
   readonly demo_url?: string
 
-  readonly url: string
-
-  readonly thumbnail: Thumbnail
-  readonly card: Image
+  url: string
+  thumbnail: Thumbnail
+  card: Image
   readonly updates: TimelineEntry[]
 
   constructor(descriptor: ProjectDescriptor) {
