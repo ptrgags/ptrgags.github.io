@@ -54,7 +54,7 @@ export const improvised_vol2: MusicAlbumDescriptor = {
       date: '2021-10-21',
       description: `
         A different timbre in each ear. I recommend wearing headphones/earbuds 
-        for this one`,
+        for this one.`,
     },
     {
       filename: '06_2021-10-21_TheVisitor.flac',
@@ -82,7 +82,7 @@ export const improvised_vol2: MusicAlbumDescriptor = {
       title: 'Digital Wind',
       date: '2021-10-23',
       description: `
-        Experimenting with an electronic wind instrument (EWI) and a synth
+        Experimenting with an electronic wind instrument (EWI) and a synth.
       `,
     },
     {

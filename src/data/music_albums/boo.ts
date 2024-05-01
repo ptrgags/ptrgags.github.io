@@ -34,38 +34,38 @@ export const boo: MusicAlbumDescriptor = {
         'Composed in MuseScore, played in Waveform Pro using Tracktion Collective Ocarina samples.',
     },
     {
-      filename: '04_2020-10-11_WeekOldLeftovers.flac ',
+      filename: '04_2020-10-11_WeekOldLeftovers.flac',
       title: 'Week Old Leftovers',
       date: '2020-10-11',
       description: 'Made with a Novation Circuit.',
     },
     {
-      filename: '05_2020-10-23_TheBoxThatPlaysSongsInTheNight.flac ',
+      filename: '05_2020-10-23_TheBoxThatPlaysSongsInTheNight.flac',
       title: 'The Box That Plays Songs in the Night',
       date: '2020-10-23',
       description:
         'Composed in MuseScore, converted to music box punch card and recorded with a contact mic.',
     },
     {
-      filename: '06_2020-10-24_Crosstalk.flac ',
+      filename: '06_2020-10-24_Crosstalk.flac',
       title: 'Crosstalk',
       date: '2020-10-24',
       description: 'Roland System-1, playing with the vowel oscillator setting.',
     },
     {
-      filename: '07_2020-10-11_RustingSteel.flac ',
+      filename: '07_2020-10-11_RustingSteel.flac',
       title: 'Rusting Steel',
       date: '2020-10-11',
-      description: 'Made with a Novation Circuit',
+      description: 'Made with a Novation Circuit.',
     },
     {
-      filename: '08_2020-10-11_GhostJam.flac ',
+      filename: '08_2020-10-11_GhostJam.flac',
       title: 'Ghost Jam',
       date: '2020-10-11',
-      description: 'Made with a Novation Circuit',
+      description: 'Made with a Novation Circuit.',
     },
     {
-      filename: '09_2020-10-24_SudokuBass.flac ',
+      filename: '09_2020-10-24_SudokuBass.flac',
       title: 'Sudoku Bass',
       date: '2020-10-24',
       description: `
@@ -75,25 +75,25 @@ export const boo: MusicAlbumDescriptor = {
       `,
     },
     {
-      filename: '10_2020-10-25_Falling.flac ',
+      filename: '10_2020-10-25_Falling.flac',
       title: 'Falling',
       date: '2020-10-25',
-      description: 'Made with a Novation Circuit',
+      description: 'Made with a Novation Circuit.',
     },
     {
-      filename: '11_2020-10-23_HelluvaTrainRide.flac ',
+      filename: '11_2020-10-23_HelluvaTrainRide.flac',
       title: 'Helluva Train Ride',
       date: '2020-10-23',
       description: 'Here I was experimenting with the noise channel of a Roland System-1.',
     },
     {
-      filename: '12_2020-10-11_TwelveToneHorror.flac ',
+      filename: '12_2020-10-11_TwelveToneHorror.flac',
       title: 'Twelve Tone Horror',
       date: '2020-10-11',
       description: `
         Made with Waveform Pro using various plugins. 
         I was trying out <a href="https://en.wikipedia.org/wiki/Twelve-tone_technique">12-tone composition</a>
-        technique. This is also why this is track 12
+        technique. This is also why this is track 12.
       `,
     },
     {
@@ -103,7 +103,7 @@ export const boo: MusicAlbumDescriptor = {
       description: 'Made with a Roland System-1.',
     },
     {
-      filename: '14_2020-10-23_SirensCalling.flac ',
+      filename: '14_2020-10-23_SirensCalling.flac',
       title: 'Sirens Calling',
       date: '2020-10-23',
       description: 'Made with a Roland System-1.',

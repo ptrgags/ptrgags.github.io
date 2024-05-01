@@ -26,7 +26,8 @@ export const loops: MusicAlbumDescriptor = {
   <p>
     Also, thanks to <a href="https://www.youtube.com/@KeygenGirl">@KeygenGirl</a> 
     for our discussions about music production, that helped me get enthusiastic
-    about making music again.
+    about making music again. And she provided some tips about mixing that
+    came in handy!
   </p>
   `,
   play_style: 'loop',
@@ -41,7 +42,14 @@ export const loops: MusicAlbumDescriptor = {
       filename: '02_2024-04-14_Bouncy.flac',
       title: 'Bouncy',
       date: '2024-04-14',
-      description: 'This was an exercise in metric modulation from 3/4 to 4/4 time.',
+      description: `
+        <p>This was an exercise in metric modulation from 3/4 to 4/4 time.</p>
+        <p>
+          Thanks <a href="https://www.youtube.com/@KeygenGirl">@KeygenGirl</a>
+          for your advice about mixing this track! It sounds way clearer
+          now compared to what I originally had.
+        </p>
+      `,
     },
     {
       filename: '03_2024-04-26_OnePitchEach.flac',
@@ -56,7 +64,7 @@ export const loops: MusicAlbumDescriptor = {
     {
       filename: '04_2024-04-10_JupiterIcehouse.flac',
       title: 'Jupiter Icehouse',
-      date: '2024-04-26',
+      date: '2024-04-10',
       description: `
         <p>
         This was the first track I made for this album. I call it a "structure 

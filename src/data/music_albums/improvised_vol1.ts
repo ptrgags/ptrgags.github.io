@@ -29,7 +29,7 @@ export const improvised_vol1: MusicAlbumDescriptor = {
       date: '2021-01-11',
       description: `
         This was a test of recording from various instruments with a portable
-        recording device
+        recording device.
       `,
     },
     {
@@ -82,7 +82,7 @@ export const improvised_vol1: MusicAlbumDescriptor = {
       filename: '08_2021-02-05_AndroidsCrying.flac',
       title: 'Androids Crying',
       date: '2021-02-05',
-      description: "Pocket Operator PO-28 Robot doesn't just sing, it <em>laments</em>",
+      description: "Pocket Operator PO-28 Robot doesn't just sing, it <em>laments</em>.",
     },
     {
       filename: '09_2021-03-24_Vincent.flac',
@@ -111,7 +111,7 @@ export const improvised_vol1: MusicAlbumDescriptor = {
       filename: '12_2021-05-19_PitOfScience.flac',
       title: 'Pit of Science',
       date: '2021-05-19',
-      description: 'Here I was experimenting with an Arturia MicroFreak',
+      description: 'Here I was experimenting with an Arturia MicroFreak.',
     },
     {
       filename: '13_2021-05-19_Rotunda.flac',
