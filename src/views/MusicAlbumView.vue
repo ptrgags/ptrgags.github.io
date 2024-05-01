@@ -77,6 +77,10 @@ function next_track() {
       <div class="plaque">
         <h1>{{ album.title }} ({{ album.years }})</h1>
         <div v-html="album.description"></div>
+        <div v-if="album.play_style === 'loop'">
+          <strong>🔂 Note:</strong> This album is a collection of background loops. The current
+          track will repeat until you pause it or select a different track.
+        </div>
         <div class="centered">
           <audio
             v-if="album.play_style === 'loop'"
@@ -118,7 +122,7 @@ function next_track() {
 
 <style>
 audio {
-  padding-bottom: 10px;
+  padding: 20px 0px;
 }
 
 .album-cover {
