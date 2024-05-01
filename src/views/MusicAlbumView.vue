@@ -18,7 +18,12 @@ const selected_index = ref(0)
 
 function get_track_classes(track: TrackDescriptor): string[] {
   if (selected_track.value && track.title === selected_track.value.title) {
-    return ['track', 'track-selected']
+    const classes = ['track', 'track-selected']
+    const is_looping = album.value && album.value.play_style === 'loop'
+    if (is_looping) {
+      classes.push('track-loop')
+    }
+    return classes
   }
 
   return ['track']
@@ -139,7 +144,7 @@ audio {
   color: var(--color-accent);
 }
 
-.track-selected::after {
+.track-loop::after {
   content: '🔂';
 }
 </style>
