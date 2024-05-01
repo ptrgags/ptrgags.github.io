@@ -20,10 +20,6 @@
   scrollbar-color: var(--color-accent-dark) var(--background-dark);
 }
 
-body {
-  line-height: 150%;
-}
-
 /* Style links consistently */
 a:link {
   color: var(--color-accent);

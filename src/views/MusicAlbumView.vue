@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { ALBUMS } from '@/data/music_albums'
 import type { TrackDescriptor } from '@/core/MusicAlbum'
@@ -13,7 +13,7 @@ const album = computed(() => {
 
 const player = ref<HTMLAudioElement>()
 
-const selected_track = ref(album.value?.tracks[0])
+const selected_track = ref(album.value?.first_track)
 const selected_index = ref(0)
 
 function get_track_classes(track: TrackDescriptor): string[] {
@@ -66,6 +66,11 @@ function next_track() {
     select_track(next_track, selected_index.value)
   }
 }
+
+onMounted(() => {
+  selected_track.value = album.value?.first_track
+  selected_index.value = 0
+})
 </script>
 
 <template>
