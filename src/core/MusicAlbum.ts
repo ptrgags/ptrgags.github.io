@@ -18,6 +18,7 @@ export interface MusicAlbumDescriptor {
   // Whether the track should advance or loop when it reaches the end.
   play_style: 'advance' | 'loop'
   hide?: boolean
+  featured?: boolean
 }
 
 export class MusicAlbum extends Project {
@@ -34,6 +35,7 @@ export class MusicAlbum extends Project {
       sort_key: descriptor.sort_key,
       description: descriptor.description,
       img_format: 'png',
+      featured: descriptor.featured,
     })
 
     this.url = `/album/${this.id}`
@@ -48,6 +50,7 @@ export class MusicAlbum extends Project {
         url: thumbnail_url,
       },
       hide: descriptor.hide,
+      featured: descriptor.featured,
     }
 
     this.tracks = descriptor.tracks

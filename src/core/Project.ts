@@ -29,6 +29,8 @@ export interface ProjectDescriptor {
   updates?: TimelineEntry[]
   // If true, hide this entry from the list
   hide?: boolean
+  // If true, this gets priority sorting on the main page
+  featured?: boolean
 }
 
 export class Project {
@@ -68,6 +70,7 @@ export class Project {
         url: thumbnail_url,
       },
       hide: descriptor.hide,
+      featured: descriptor.featured,
     }
 
     const card_url = `${BACKBLAZE_BUCKET}/project-cards/${this.id}.${img_format}`
