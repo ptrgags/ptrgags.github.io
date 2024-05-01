@@ -21,8 +21,6 @@ export const p5_sketchbook: ProjectDescriptor = {
   `,
   github_repo: 'p5-sketchbook',
   demo_link: 'https://ptrgags.dev/p5-sketchbook/',
-  alt_text: 'a swirly circle with blue and purple streaks generated with p5 sketchbook.',
-  show: true,
   img_format: 'png',
   updates: [
     {

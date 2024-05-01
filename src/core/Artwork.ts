@@ -1,5 +1,7 @@
 import { BACKBLAZE_BUCKET } from '@/core/website_constants'
 import type { TimelineEntry } from '@/core/TimelineEntry'
+import type { Thumbnail } from './Thumbnail'
+import type { Image } from './Image'
 
 export interface ArtworkDescriptor {
   // Unique ID of this artwork
@@ -9,73 +11,69 @@ export interface ArtworkDescriptor {
   // Date the artwork was made as YYYY-MM-DD
   date: string
   // Short description for the timeline
-  tagline: string
+  timeline_desc: string
   // Longer HTML description of the artwork for the artwork page
   description: string
   // Sort the artwork in the format YYYY-MM-DD:NN
   sort_key: string
   // The corresponding project ID (if it exists)
   project_id: string
-  // Alt text for the images
-  alt_text: string
-  // If false, the artwork is hidden.
-  show: boolean
+  // If the thumbnail and card images are PNG or JPEG images
   img_format: 'png' | 'jpg'
+  // If true, hide this entry from the list
+  hide?: boolean
 }
 
 export class Artwork {
-  project_id: string
-  id: string
-  sort_key: string
-  show: boolean
-  title: string
-  date: string
-  tagline: string
-  description: string
-  alt_text: string
-  img_format: 'png' | 'jpg'
+  readonly project_id: string
+  readonly id: string
+  readonly title: string
+  readonly date: string
+  readonly description: string
+
+  readonly url: string
+
+  readonly thumbnail: Thumbnail
+  readonly card: Image
+  readonly timeline_entry: TimelineEntry
 
   constructor(descriptor: ArtworkDescriptor) {
     this.id = descriptor.id
     this.project_id = descriptor.project_id
-    this.sort_key = descriptor.sort_key
-    this.show = descriptor.show
     this.title = descriptor.title
     this.date = descriptor.date
-    this.tagline = descriptor.tagline
     this.description = descriptor.description
-    this.alt_text = descriptor.alt_text
-    this.img_format = descriptor.img_format
-  }
 
-  get artwork_url(): string {
-    return `/artwork/${this.project_id}/${this.id}`
-  }
+    this.url = `/artwork/${this.project_id}/${this.id}`
 
-  get thumbnail_url(): string {
-    return `${BACKBLAZE_BUCKET}/artwork-thumbnails/${this.project_id}/${this.id}.${this.img_format}`
-  }
+    const img_format = descriptor.img_format
+    const thumbnail_url = `${BACKBLAZE_BUCKET}/artwork-thumbnails/${this.project_id}/${this.id}.${img_format}`
+    const card_url = `${BACKBLAZE_BUCKET}/artwork-cards/${this.project_id}/${this.id}.${img_format}`
 
-  get card_url(): string {
-    return `${BACKBLAZE_BUCKET}/artwork-cards/${this.project_id}/${this.id}.${this.img_format}`
-  }
-
-  to_timeline_entry(): TimelineEntry {
-    let thumbnail
-    if (this.thumbnail_url) {
-      thumbnail = {
-        url: this.thumbnail_url,
-        alt_text: this.alt_text,
-      }
+    const sort_key = descriptor.sort_key
+    this.thumbnail = {
+      title: this.title,
+      dates: this.date,
+      link: this.url,
+      sort_key,
+      thumbnail: {
+        url: thumbnail_url,
+      },
     }
 
-    return {
-      sort_key: this.sort_key,
+    this.card = {
+      url: card_url,
+    }
+
+    this.timeline_entry = {
+      sort_key,
       title: `Artwork: ${this.title}`,
-      title_link: this.artwork_url,
-      date: `${this.date}`,
-      thumbnail,
-      description: this.tagline,
+      title_link: this.url,
+      date: this.date,
+      image: {
+        url: thumbnail_url,
+      },
+      description: descriptor.timeline_desc,
     }
   }
 }
