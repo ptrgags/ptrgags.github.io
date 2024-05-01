@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { ALBUMS } from '@/data/music_albums'
 import type { TrackDescriptor } from '@/core/MusicAlbum'
@@ -67,10 +67,15 @@ function next_track() {
   }
 }
 
-onMounted(() => {
-  selected_track.value = album.value?.first_track
-  selected_index.value = 0
-})
+// Update state when the album ID part of the URL changes, e.g.
+// when one page links to another.
+watch(
+  () => route.params.album_id,
+  () => {
+    selected_track.value = album.value?.first_track
+    selected_index.value = 0
+  },
+)
 </script>
 
 <template>
