@@ -36,25 +36,17 @@ export class MusicAlbum extends Project {
       description: descriptor.description,
       img_format: 'png',
       featured: descriptor.featured,
+      hide: descriptor.hide,
     })
 
-    this.url = `/album/${this.id}`
     this.album_url = `${BACKBLAZE_BUCKET}/music-albums/${this.id}`
-    const thumbnail_url = `${BACKBLAZE_BUCKET}/project-thumbnails/${this.id}.png`
-    this.thumbnail = {
-      title: this.title,
-      dates: this.years,
-      link: this.url,
-      sort_key: descriptor.sort_key,
-      thumbnail: {
-        url: thumbnail_url,
-      },
-      hide: descriptor.hide,
-      featured: descriptor.featured,
-    }
 
     this.tracks = descriptor.tracks
     this.play_style = descriptor.play_style
+  }
+
+  get url() {
+    return `/album/${this.id}`
   }
 
   get first_track(): TrackDescriptor {

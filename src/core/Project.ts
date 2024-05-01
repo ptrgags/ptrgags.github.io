@@ -41,7 +41,6 @@ export class Project {
   readonly github_url?: string
   readonly demo_url?: string
 
-  url: string
   thumbnail: Thumbnail
   card: Image
   readonly updates: TimelineEntry[]
@@ -53,7 +52,6 @@ export class Project {
     this.demo_url = descriptor.demo_link
     this.description = descriptor.description
     this.updates = descriptor.updates ?? []
-    this.url = `/project/${this.id}`
 
     this.github_url = descriptor.github_repo
       ? `https://github.com/ptrgags/${descriptor.github_repo}`
@@ -77,6 +75,10 @@ export class Project {
     this.card = {
       url: card_url,
     }
+  }
+
+  get url() {
+    return `/project/${this.id}`
   }
 }
 
