@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { ALBUMS } from '@/data/music_albums'
 import type { TrackDescriptor } from '@/core/MusicAlbum'
+import CardImage from '@/components/CardImage.vue'
 
 const route = useRoute()
 
@@ -14,10 +15,6 @@ const player = ref<HTMLAudioElement>()
 
 const selected_track = ref(album.value?.tracks[0])
 const selected_index = ref(0)
-
-function get_track_url(track: TrackDescriptor) {
-  return `http://localhost:8080/${track.filename}`
-}
 
 function get_track_classes(track: TrackDescriptor): string[] {
   if (selected_track.value && track.title === selected_track.value.title) {
@@ -42,7 +39,7 @@ function select_track(track: TrackDescriptor, index: number) {
 
   const audio_element = player.value
   if (audio_element) {
-    audio_element.src = get_track_url(track)
+    audio_element.src = album.value?.get_track_url(track) ?? ''
     audio_element.load()
 
     // Play the track as soon as we can.
@@ -70,7 +67,7 @@ function next_track() {
   <template v-if="album">
     <div class="tableau">
       <div class="card-frame">
-        <img class="album-cover" :src="album.card.url" width="500" height="500" />
+        <CardImage :image="album.card"></CardImage>
       </div>
       <div class="plaque">
         <h1>{{ album.title }} ({{ album.years }})</h1>
@@ -82,14 +79,14 @@ function next_track() {
             controls
             controlslist="nodownload"
             loop
-            :src="get_track_url(album.first_track)"
+            :src="album.get_track_url(album.first_track)"
           ></audio>
           <audio
             v-else
             ref="player"
             controls
             controlslist="nodownload"
-            :src="get_track_url(album.first_track)"
+            :src="album.get_track_url(album.first_track)"
             @ended="next_track"
           ></audio>
         </div>
@@ -106,7 +103,8 @@ function next_track() {
           </template>
         </div>
         <div v-if="selected_track">
-          {{ selected_track.description }}
+          <h3>Liner notes for "{{ selected_track.title }}":</h3>
+          <div v-html="selected_track.description"></div>
         </div>
       </div>
     </div>
@@ -139,5 +137,9 @@ audio {
 
 .track-selected {
   color: var(--color-accent);
+}
+
+.track-selected::after {
+  content: '🔂';
 }
 </style>

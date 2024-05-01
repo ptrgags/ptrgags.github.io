@@ -1,4 +1,5 @@
 import { Project } from './Project'
+import { BACKBLAZE_BUCKET } from './website_constants'
 
 export interface TrackDescriptor {
   filename: string
@@ -23,10 +24,12 @@ export class MusicAlbum extends Project {
   tracks: TrackDescriptor[]
   play_style: 'advance' | 'loop'
 
+  private album_url: string
+
   constructor(descriptor: MusicAlbumDescriptor) {
     super({
       id: descriptor.id,
-      title: descriptor.title,
+      title: `${descriptor.title} 🎵`,
       years: descriptor.release_date,
       sort_key: descriptor.sort_key,
       description: descriptor.description,
@@ -34,26 +37,28 @@ export class MusicAlbum extends Project {
     })
 
     this.url = `/album/${this.id}`
+    this.album_url = `${BACKBLAZE_BUCKET}/music-albums/${this.id}`
+    const thumbnail_url = `${BACKBLAZE_BUCKET}/project-thumbnails/${this.id}.png`
     this.thumbnail = {
       title: this.title,
       dates: this.years,
       link: this.url,
       sort_key: descriptor.sort_key,
       thumbnail: {
-        url: 'https://placekitten.com/250/350',
+        url: thumbnail_url,
       },
       hide: descriptor.hide,
     }
 
     this.tracks = descriptor.tracks
     this.play_style = descriptor.play_style
-
-    this.card = {
-      url: 'http://localhost:8080/cover.png',
-    }
   }
 
   get first_track(): TrackDescriptor {
     return this.tracks[0]
+  }
+
+  get_track_url(track: TrackDescriptor): string {
+    return `${this.album_url}/${track.filename}`
   }
 }
