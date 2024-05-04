@@ -164,7 +164,7 @@ export const loops: MusicAlbumDescriptor = {
       `,
     },
     {
-      filename: '11-2024-04-29_Xylotheque2.flac',
+      filename: '11_2024-04-29_Xylotheque2.flac',
       title: 'Xylotheque II',
       date: '2024-04-29',
       description: `
