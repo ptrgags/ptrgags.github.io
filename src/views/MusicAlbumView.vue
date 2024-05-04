@@ -148,6 +148,7 @@ audio {
   box-sizing: border-box;
   background-color: var(--background-dark);
   padding: 10px;
+  min-height: 40px;
 }
 
 .track-header {
