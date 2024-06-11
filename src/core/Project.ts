@@ -66,6 +66,7 @@ export class Project {
       sort_key: descriptor.sort_key,
       thumbnail: {
         url: thumbnail_url,
+        size: 'thumbnail',
       },
       hide: descriptor.hide,
       featured: descriptor.featured,
@@ -74,6 +75,7 @@ export class Project {
     const card_url = `${BACKBLAZE_BUCKET}/project-cards/${this.id}.${img_format}`
     this.card = {
       url: card_url,
+      size: 'card',
     }
   }
 

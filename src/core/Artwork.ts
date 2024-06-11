@@ -58,11 +58,13 @@ export class Artwork {
       sort_key,
       thumbnail: {
         url: thumbnail_url,
+        size: 'thumbnail',
       },
     }
 
     this.card = {
       url: card_url,
+      size: 'card',
     }
 
     this.timeline_entry = {
@@ -72,6 +74,7 @@ export class Artwork {
       date: this.date,
       image: {
         url: thumbnail_url,
+        size: 'thumbnail',
       },
       description: descriptor.timeline_desc,
     }

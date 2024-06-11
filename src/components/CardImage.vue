@@ -11,13 +11,17 @@ const size = computed(() => {
   return props.image.size ?? 'thumbnail'
 })
 
+const placeholder_url = computed(() => {
+  // See public/assets in the repo
+  return `/assets/placeholder-${size.value}.png`
+})
+
 const img_url = computed(() => {
   if (props.image.url) {
     return props.image.url
   }
 
-  // this is in public/assets
-  return `/assets/placeholder-${size.value}.png`
+  return placeholder_url.value
 })
 
 const alt_text = computed(() => {
@@ -26,7 +30,7 @@ const alt_text = computed(() => {
 
 function handle_error(event: Event) {
   const img = event.target as HTMLImageElement
-  img.src = `/assets/placeholder-${size.value}.png`
+  img.src = placeholder_url.value
 }
 </script>
 
