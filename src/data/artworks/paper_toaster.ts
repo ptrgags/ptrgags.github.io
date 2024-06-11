@@ -192,13 +192,13 @@ export const paper_toaster_artworks: ArtworkDescriptor[] = [
         <p>
             Imagine a robot that can only move in circular arcs to the left
             or right, always 1/5 of a turn each step. What paths are possible?
-            Will the robot return to the start?
+            How many paths return to the start?
         </p>
         <p>
-            I haven't actually solved the puzzle yet, but I did learn that
-            most of the time, if you repeat a sequence of steps 5 times, it
-            often returns to the start. This is what I do to make these nice
-            patterns with 5-fold symmetry.
+            I haven't completely solved the Project Euler puzzle, but I did
+            learn that most of the time, repeating a sequence of left/right
+            commands 5 times will return the robot to the start. This is what I
+            do to make these nice patterns with 5-fold symmetry.
         </p>
     `,
   },
