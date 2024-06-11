@@ -172,4 +172,52 @@ export const paper_toaster_artworks: ArtworkDescriptor[] = [
         </p>
         `,
   },
+  {
+    id: '2024-06-11_RobotWalks',
+    title: 'Robot Walks',
+    date: '2024-06-11',
+    sort_key: '2024-06-11:01',
+    project_id: 'paper-toaster',
+    timeline_desc:
+      'I added a new artwork inspired by Project Euler puzzle <a href="https://projecteuler.net/problem=208">#208 Robot Walks</a>.',
+    img_format: 'png',
+    description: `
+        <p>
+            This artwork is inspired by Project Euler puzzle
+            <a href="https://projecteuler.net/problem=208">#208 Robot Walks</a>.
+            Project Euler is a website with many math puzzles that require
+            programming to solve. This one had an interesting visualization,
+            so I thought I'd use it to make art.
+        </p>
+        <p>
+            Imagine a robot that can only move in circular arcs to the left
+            or right, always 1/5 of a turn each step. What paths are possible?
+            Will the robot return to the start?
+        </p>
+        <p>
+            I haven't actually solved the puzzle yet, but I did learn that
+            most of the time, if you repeat a sequence of steps 5 times, it
+            often returns to the start. This is what I do to make these nice
+            patterns with 5-fold symmetry.
+        </p>
+    `,
+  },
+  {
+    id: '2024-06-11_FanGear',
+    title: 'Fan Gear',
+    date: '2024-06-11',
+    sort_key: '2024-06-11:02',
+    project_id: 'paper-toaster',
+    timeline_desc: 'Another artwork using the Robot Walks script',
+    img_format: 'png',
+    description: `
+        <p>
+            This is another artwork made with the Robot Walks script in
+            Paper Toaster. For this one, I rendered the robot's path with
+            straight lines instead of circular arcs. This gives it a more
+            angular appearance. It looks to me like a cross between a fan
+            and a gear.
+        </p>
+    `,
+  },
 ]
