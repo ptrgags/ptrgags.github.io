@@ -1,8 +1,8 @@
 import type { MusicAlbumDescriptor } from '@/core/MusicAlbum'
 
 export const rewind_and_ffwd: MusicAlbumDescriptor = {
-  id: 'rewind_and_ffwd',
-  title: 'Rewind and Fast-forward',
+  id: 'rewind-and-ffwd',
+  title: 'REW/FFWD',
   release_date: '2024-07-15',
   sort_key: '2024-07-25:02',
   description: `
@@ -59,7 +59,7 @@ export const rewind_and_ffwd: MusicAlbumDescriptor = {
         'Italian for "fifteenth." In sheet music, 15ma means play the music two octaves (a perfect 15th) above what is written. A fancy way of saying that I took the synth patch from the previous track and bumped it up 2 octaves.',
     },
     {
-      filename: '06_2024-05-18_HauntedTownofPurple.flac',
+      filename: '06_2024-05-18_HauntedTownOfPurple.flac',
       title: 'Haunted Town of Purple',
       date: '2024-05-18',
       description:
