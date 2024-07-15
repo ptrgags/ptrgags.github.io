@@ -4,7 +4,7 @@ export const rewind_and_ffwd: MusicAlbumDescriptor = {
   id: 'rewind-and-ffwd',
   title: 'REW/FFWD',
   release_date: '2024-07-15',
-  sort_key: '2024-07-25:02',
+  sort_key: '2024-07-15:02',
   description: `
         <p>
             My latest experiment with music mixes old and modern tech.
@@ -76,7 +76,7 @@ export const rewind_and_ffwd: MusicAlbumDescriptor = {
     {
       filename: '08_2024-06-07_RingMod.flac',
       title: 'Ring Mod',
-      date: '2024-06-17',
+      date: '2024-06-07',
       description:
         'After studying the math of ring modulation and amplitude modulation, I realized that integer pitch ratios produce the most coherent results. This was my first experiment with that.',
     },

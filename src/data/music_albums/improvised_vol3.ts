@@ -4,7 +4,7 @@ export const improvised_vol3: MusicAlbumDescriptor = {
   id: 'improvised-vol3',
   title: 'Improvised Volume 3',
   release_date: '2024-07-15',
-  sort_key: '2024-07-25:01',
+  sort_key: '2024-07-15:01',
   description: `
         <p>
             I keep a digital recorder near my synth keyboards so I can record
@@ -95,13 +95,13 @@ export const improvised_vol3: MusicAlbumDescriptor = {
     {
       filename: '13_2024-03-24_EchoEchoEcho.flac',
       title: 'Echo Echo Echo',
-      date: '2024-05-07',
+      date: '2024-03-24',
       description: `<i>Enter the echoic chamber</i>`,
     },
     {
       filename: '14_2024-03-24_Spontaneity.flac',
       title: 'Spontaneity',
-      date: '2024-05-07',
+      date: '2024-03-24',
       description: `<i>Sometimes you need to have fun to change things up.</i>`,
     },
     {
