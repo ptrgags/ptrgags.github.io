@@ -7,6 +7,11 @@ This iteration of my website aims to be a portfolio of my creative works.
 Of course this includes programming, but I want to showcase other art and
 music I do over time
 
+## Release Notes
+
+See the [Releases](https://github.com/ptrgags/ptrgags.github.io/releases)
+page for documentation of what each version of this website added.
+
 ## Project Setup
 
 ### Install Dependencies
