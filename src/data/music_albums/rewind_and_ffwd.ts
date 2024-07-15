@@ -18,8 +18,9 @@ export const rewind_and_ffwd: MusicAlbumDescriptor = {
         </p>
         <p>
             I tried to keep my edits minimal to retain the low-fi vibe. I
-            only adjusted volume, and only added noise reduction where
-            it felt necessary.
+            mostly normalized the volume level. However, there were a few
+            places where noise reduction was helpful in making sure the
+            melody is audible.
         </p>
     `,
   tracks: [
@@ -56,14 +57,14 @@ export const rewind_and_ffwd: MusicAlbumDescriptor = {
       title: 'Quindicesima',
       date: '2024-05-16',
       description:
-        'Italian for "fifteenth." In sheet music, 15ma means play the music two octaves (a perfect 15th) above what is written. A fancy way of saying that I took the synth patch from the previous track and bumped it up 2 octaves.',
+        'Italian for "fifteenth." In sheet music, 15ma means play the music two octaves (a perfect 15th) above what is written. This is a fancy way of saying that I took the synth patch from the previous track and bumped it up 2 octaves.',
     },
     {
       filename: '06_2024-05-18_HauntedTownOfPurple.flac',
       title: 'Haunted Town of Purple',
       date: '2024-05-18',
       description:
-        'The percussion of an organ emulator I have reminds me a lot of a certain spooky tune from a Pokémon game.',
+        'The percussion of an organ emulator I have reminds me a lot of a <a href="https://youtu.be/JNJJ-QkZ8cM">certain spooky tune</a> from a Pokémon game.',
     },
     {
       filename: '07_2024-05-18_FamiliarHaunts.flac',
@@ -96,14 +97,15 @@ export const rewind_and_ffwd: MusicAlbumDescriptor = {
       filename: '11_2024-06-27_BluesyEWI.flac',
       title: 'Bluesy EWI',
       date: '2024-06-27',
-      description: "Here I'm using my MiniFreak's chords mode and controlling it with my EWI",
+      description:
+        "Here I'm using the chords mode of my MiniFreak, configured to a blues scale. I then controled the melody with my EWI.",
     },
     {
       filename: '12_2024-06-28_ElectricLayers.flac',
       title: 'Electric Layers',
       date: '2024-06-28',
       description:
-        'This was a combination of an electric piano emulator layered with a synth connected via MIDI',
+        'This is a combination of an electric piano emulator layered with a synth connected via MIDI.',
     },
     {
       filename: '13_2024-06-28_WurliArpeggiated.flac',
@@ -130,7 +132,7 @@ export const rewind_and_ffwd: MusicAlbumDescriptor = {
       title: 'Locrian 5ths',
       date: '2024-07-01',
       description:
-        'This was a fun experiment: I took a synth patch tuned to perfect fifths but played only notes from the B Locrian mode. Technically this produces notes outside of the mode, but I think it made it more musical. Locrian is hard to work with.',
+        'This was a fun experiment: I took a synth patch tuned to perfect fifths but played only notes from the B Locrian mode. Technically this produces notes outside of the mode, but I think it made it more musical. Locrian is more difficult to work with compared with the other modes.',
     },
     {
       filename: '17_2024-07-01_SubOrgan.flac',
