@@ -85,7 +85,7 @@ watch(
         <CardImage :image="album.card"></CardImage>
       </div>
       <div class="plaque">
-        <h1>{{ album.title }} ({{ album.years }})</h1>
+        <h1>{{ album.title }}<br />({{ album.years }})</h1>
         <div v-html="album.description"></div>
         <div v-if="album.play_style === 'loop'">
           <strong>🔂 Note:</strong> This album is a collection of background loops. The current

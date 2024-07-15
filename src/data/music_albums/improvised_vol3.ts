@@ -15,7 +15,7 @@ export const improvised_vol3: MusicAlbumDescriptor = {
         <p>
             The first half of the album is a collection of miscellaneous
             synthesizer tracks. The second half is a number of electric piano
-            tracks using my Yamaha Reface CP which emulates classic EPs like
+            tracks. I used my Yamaha Reface CP which emulates classic EPs like
             Rhodes and Wurlitzers.
         </p>
     `,
