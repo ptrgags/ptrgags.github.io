@@ -61,7 +61,7 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
         sort_key: '2024-09-23:01',
         date: '2024-09-23',
         title: 'Add Docker Support',
-        description: `I've been learning more about Docker recently, and to practice, I reorganized this repo to use Docker, see the <a href="https://github.com/ptrgags/paper-toaster/releases/tag/v1.0.0">Release Notes</a>`,
+        description: `I've been learning more about Docker recently. To practice, I reorganized this repo to use Docker, see the <a href="https://github.com/ptrgags/paper-toaster/releases/tag/v1.0.0">Release Notes</a>`,
       },
     ],
   },
