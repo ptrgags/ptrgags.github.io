@@ -28,6 +28,9 @@ npm run dev
 
 ### Release
 
+After merging all PRs with content update into `main`, follow these steps
+to publish to `gh-pages`.
+
 ```sh
 npm run build
 
