@@ -28,7 +28,7 @@ export const math_notebook_artworks: ArtworkDescriptor[] = [
         the edge of a cube (forward or reversed). The size of the ghosts
         represents how near they were to the north pole before projecting.
         There are 3 rings of 4 ghosts. From largest to smallest, we have
-        the top 4 edges of the cube, the 4 vertical edges, and 4 bottom edges
+        the top 4 edges of the cube, the 4 vertical edges, and 4 bottom edges.
     </p>
     `,
     // Listing my favorite halloween artworks last so they show up first
@@ -61,7 +61,7 @@ export const math_notebook_artworks: ArtworkDescriptor[] = [
     id: '2024-10-30_GhostDoubleSpiral',
     title: 'Ghost Double Spiral',
     date: '2024-10-30',
-    timeline_desc: 'Ghosts that navigate from pole to pole',
+    timeline_desc: 'Ghost sailors, navigating from pole to pole.',
     description: `
         <p>
             Here the ghosts are following 4
@@ -79,7 +79,7 @@ export const math_notebook_artworks: ArtworkDescriptor[] = [
     id: '2024-10-30_RibCage',
     title: 'Rib Cage',
     date: '2024-10-30',
-    timeline_desc: 'Infinite ribs',
+    timeline_desc: 'Infinite ribs.',
     description: `<p>Here I'm using hyperbolic Möbius transformations to make a rib cage that can fit any number of ribs</p>`,
     sort_key: '2024-10-30:05',
     project_id: 'math-notebook',
@@ -90,7 +90,7 @@ export const math_notebook_artworks: ArtworkDescriptor[] = [
     title: 'Hex Tiles',
     date: '2024-10-30',
     timeline_desc: `A Halloween pun.`,
-    description: `<p>A Halloween pun</p>`,
+    description: `<p>A Halloween pun.</p>`,
     sort_key: '2024-10-30:04',
     project_id: 'math-notebook',
     img_format: 'png',
@@ -100,7 +100,7 @@ export const math_notebook_artworks: ArtworkDescriptor[] = [
     title: 'Bone Tree',
     date: '2024-10-30',
     timeline_desc: `Money doesn't grow on trees. But skulls grow on this one.`,
-    description: `<p>I wanted to do a classic tree fractal, but make it spooky for Halloween. Here you go.</p>`,
+    description: `<p>I wanted to do a classic tree fractal, but make it spooky for Halloween.</p>`,
     sort_key: '2024-10-30:03',
     project_id: 'math-notebook',
     img_format: 'png',
@@ -137,8 +137,8 @@ export const math_notebook_artworks: ArtworkDescriptor[] = [
     description: `
         <p>
         I took the candy corn motif, and made a wallpaper tiling out of it. To
-        do something different, I applied a hyperbolic Möbius transformation to
-        pull the vertical columns into the circular arcs you see here.
+        make it more interesting, I applied a hyperbolic Möbius transformation to
+        bend the vertical columns into the circular arcs you see here.
         </p>`,
     sort_key: '2024-10-30:01',
     project_id: 'math-notebook',
