@@ -4,6 +4,7 @@ import { symmetry_sketchbook } from './projects/symmetry_sketchbook'
 import { blue_velvet_scarf } from './projects/blue_velvet_scarf'
 import { p5_sketchbook } from './projects/p5_sketchbook'
 import { math_notebook } from './projects/math_notebook'
+import { next_1000_cards } from './projects/next_1000_cards'
 
 const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
   {
@@ -123,6 +124,7 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
   hyperbolic_crochet,
   p5_sketchbook,
   math_notebook,
+  next_1000_cards,
 ]
 /*
     {

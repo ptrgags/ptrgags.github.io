@@ -10,10 +10,12 @@ export interface ArtworkDescriptor {
   title: string
   // Date the artwork was made as YYYY-MM-DD
   date: string
-  // Short description for the timeline
+  // Short HTML description for the timeline
   timeline_desc: string
-  // Longer HTML description of the artwork for the artwork page
-  description: string
+  // Longer HTML description of the artwork for the artwork page for when
+  // I have more to say If not specified, the timeline_desc will be used instead
+  // This makes it easier to add artworks that I don't have much to say about.
+  description?: string
   // Sort the artwork in the format YYYY-MM-DD:NN
   sort_key: string
   // The corresponding project ID (if it exists)
@@ -42,7 +44,7 @@ export class Artwork {
     this.project_id = descriptor.project_id
     this.title = descriptor.title
     this.date = descriptor.date
-    this.description = descriptor.description
+    this.description = descriptor.description ?? descriptor.timeline_desc
 
     this.url = `/artwork/${this.project_id}/${this.id}`
 
