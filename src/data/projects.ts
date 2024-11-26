@@ -5,6 +5,8 @@ import { blue_velvet_scarf } from './projects/blue_velvet_scarf'
 import { p5_sketchbook } from './projects/p5_sketchbook'
 import { math_notebook } from './projects/math_notebook'
 import { next_1000_cards } from './projects/next_1000_cards'
+import { holiday_shaders } from './projects/holiday_shaders'
+import { holiday_shaders2 } from './projects/holiday_shaders2'
 
 const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
   {
@@ -125,30 +127,11 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
   p5_sketchbook,
   math_notebook,
   next_1000_cards,
+  holiday_shaders,
+  holiday_shaders2,
 ]
+
 /*
-    {
-        id:"holiday-shaders2",
-        title: "Holiday Shaders 2",
-        years: "2017",
-        sort_key: "2017-12-00:01",
-        github_repo: "holiday-shaders2",
-        demo_link: "https://holiday2.shaders.dev",
-        has_thumbnail: false,
-        has_card: false,
-        show: true,
-    },
-    {
-        id: "holiday-shaders",
-        title: "Holiday Shaders",
-        years: "2016",
-        sort_key: "2016-12-00:01",
-        github_repo: "holiday-shaders",
-        demo_link: "https://holiday.shaders.dev",
-        has_thumbnail: false,
-        has_card: false,
-        show: true,
-    },
     {
         id: "virtual-museum",
         title: "Virtual Museum",
