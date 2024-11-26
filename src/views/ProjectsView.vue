@@ -21,11 +21,36 @@ const projects_newest_first = computed<Thumbnail[]>(() => {
     <template v-for="thumbnail in projects_newest_first" :key="thumbnail.sort_key">
       <ThumbnailCard :card="thumbnail" />
     </template>
+  </div>
+
+  <div class="tableau">
     <div class="plaque" v-show="true">
-      <p>🚧 Curating old projects, check back later for more!</p>
+      <h2>Other Projects</h2>
       <p>
-        For a list of my other programming projects, see my
-        <a href="https://github.com/ptrgags?tab=repositories">GitHub repositories</a>
+        Going further back in time, I have other projects I have yet to document here. Here are some
+        of the notable ones:
+      </p>
+      <ul>
+        <li>
+          Drawing Machines (2019) - <a href="https://ptrgags.dev/drawing-machines/">Demo</a>,
+          <a href="https://github.com/ptrgags/drawing-machines">GitHub</a>
+        </li>
+        <li>
+          Virtual Museum (2019) - <a href="https://museum.shaders.dev/">Demo</a>,
+          <a href="https://github.com/ptrgags/virtual-museum">GitHub</a>
+        </li>
+        <li>
+          Holiday Eyecandy (2018) - <a href="https://ptrgags.dev/holiday-eyecandy/">Demo</a>,
+          <a href="https://github.com/ptrgags/holiday-eyecandy">GitHub</a>
+        </li>
+        <li>
+          Ant Farm (2015) - <a href="https://ptrgags.dev/ant-farm/">Demo</a>,
+          <a href="https://github.com/ptrgags/ant-farm">GitHub</a>
+        </li>
+      </ul>
+      <p>
+        For the full list of my programming projects, see my
+        <a href="https://github.com/ptrgags?tab=repositories">GitHub repositories</a>.
       </p>
     </div>
   </div>
