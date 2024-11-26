@@ -9,9 +9,8 @@ export const next_1000_cards: ProjectDescriptor = {
     <p>A long-term project to draw 1000 more trading-card sized doodles.</p>
     <p>
         In recent months, I've revisited doodling with fountain pen on paper.
-        Back around college I was doing that a lot, see for example my old 
-        <a href="https://www.deviantart.com/ptrgags/gallery">DeviantArt gallery</a>
-        from college.
+        During college, I was drawing often. See for example my 
+        <a href="https://www.deviantart.com/ptrgags/gallery">DeviantArt gallery</a>.
     </p>
     <p>
         One of the key things that kept me drawing often was my art trading

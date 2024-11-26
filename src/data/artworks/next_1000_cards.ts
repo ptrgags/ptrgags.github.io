@@ -16,7 +16,7 @@ export const next_1000_cards_artworks: ArtworkDescriptor[] = [
     date: '2024-10-12',
     timeline_desc: `
         I was reading <cite><a href="https://www.google.com/books/edition/The_Algorithmic_Beauty_of_Plants/4F7lBwAAQBAJ?hl=en&gbpv=0">The Algorithmic Beauty of Plants</a></cite>
-        around this time, which explains the tree-shaped motifs.
+        around this time. This inspired the tree-shaped motifs.
     `,
     sort_key: '2024-10-02:01',
     project_id: 'next-1000-cards',
