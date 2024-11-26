@@ -45,8 +45,12 @@ export const next_1000_cards: ProjectDescriptor = {
             card #42. That's 32 cards in total, a hair over 1 card per day!
         <p>
         <p>
-            Considering that I've done the <a href="https://inktober.com/">Inktober drawing challenge</a>
-            in past years (see my sketches from <a href="https://www.deviantart.com/ptrgags/gallery/64663431/inktober-2017">2017</a>, <a href="https://www.deviantart.com/ptrgags/gallery/67366134/inktober-2018">2018</a>),
+            In the past years, I've done the <a href="https://inktober.com/">Inktober drawing challenge</a>.
+            See my sketches from 
+            <a href="https://www.deviantart.com/ptrgags/gallery/64663431/inktober-2017">2017</a> 
+            and 
+            <a href="https://www.deviantart.com/ptrgags/gallery/67366134/inktober-2018">2018</a> 
+            for example.
             I find it amusing that I did the equivalent of an Inktober without
             intending to this year!
         </p>
