@@ -42,6 +42,12 @@ li::marker {
   color: var(--color-accent2);
 }
 
+kbd {
+  background-color: var(--background-dark);
+  padding: 4px;
+  border-radius: 3px;
+}
+
 /* Reusable classes */
 
 /* centered text */
