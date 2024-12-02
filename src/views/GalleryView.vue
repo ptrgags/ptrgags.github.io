@@ -18,6 +18,5 @@ const artworks_newest_first = computed<Thumbnail[]>(() => {
     <template v-for="thumbnail in artworks_newest_first" :key="thumbnail.sort_key">
       <ThumbnailCard :card="thumbnail" />
     </template>
-    <div class="plaque" v-show="true">🚧 Curating old artworks, check back later for more!</div>
   </div>
 </template>
