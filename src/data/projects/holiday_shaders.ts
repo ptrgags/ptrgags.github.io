@@ -20,6 +20,10 @@ export const holiday_shaders: ProjectDescriptor = {
         Around the holidays that year, I used what I learned to make this
         creative project to share with friends and family.
     </p>
+    <p>
+        The following year, I made a better version of this project.
+        See <a href="#/project/holiday-shaders2">Holiday Shaders 2</a>.
+    </p>
   `,
   img_format: 'png',
 }
