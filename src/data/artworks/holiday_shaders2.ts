@@ -97,7 +97,7 @@ export const holiday_shaders2_artworks: ArtworkDescriptor[] = [
         <p>
             In Holiday Shaders 2 I made a few different variations on the 
             <a href="https://en.wikipedia.org/wiki/Newton_fractal">Newton Fractal</a>
-            technique. This "mosaic" style is by far my favorite one, the
+            technique. This "mosaic" style is by far my favorite one, as the
             shading feels most polished.
         </p>
         <p>
