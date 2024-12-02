@@ -27,8 +27,8 @@ const projects_newest_first = computed<Thumbnail[]>(() => {
     <div class="plaque" v-show="true">
       <h2>Other Projects</h2>
       <p>
-        Going further back in time, I have other projects I have yet to document here. Here are some
-        of the notable ones:
+        Going further back in time, I have more projects not documented here. Here are links to some
+        of the notable ones.
       </p>
       <ul>
         <li>
