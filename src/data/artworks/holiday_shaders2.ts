@@ -78,7 +78,7 @@ export const holiday_shaders2_artworks: ArtworkDescriptor[] = [
             This shader was the result of trying out a tutorial on fractal 
             Brownian motion from <a href="https://thebookofshaders.com/13/">The 
             Book of Shaders</a>. Somehow (more by accident than intention), I
-            found settings that looked like liquid metal
+            found settings that looked like liquid metal.
         </p>
         <p>
             The input text for this artwork was <kbd>Blueberry</kbd>.
@@ -92,7 +92,7 @@ export const holiday_shaders2_artworks: ArtworkDescriptor[] = [
     id: '2024-11-21_Eggshell',
     title: 'Newton Mosaic - "Eggshell"',
     date: '2024-11-21',
-    timeline_desc: 'A fractal generated from the input text "Eggshell".',
+    timeline_desc: 'A fractal generated from the input text <kbd>Eggshell</kbd>.',
     description: `
         <p>
             In Holiday Shaders 2 I made a few different variations on the 
