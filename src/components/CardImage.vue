@@ -11,6 +11,14 @@ const size = computed(() => {
   return props.image.size ?? 'thumbnail'
 })
 
+const width = computed(() => {
+  return size.value === 'thumbnail' ? '250' : '500'
+})
+
+const height = computed(() => {
+  return size.value === 'thumbnail' ? '350' : '750'
+})
+
 const placeholder_url = computed(() => {
   // See public/assets in the repo
   return `/assets/placeholder-${size.value}.png`
@@ -36,6 +44,6 @@ function handle_error(event: Event) {
 
 <template>
   <MaybeLink :url="props.image.link">
-    <img :src="img_url" :alt="alt_text" @error="handle_error" />
+    <img :src="img_url" :width="width" :height="height" :alt="alt_text" @error="handle_error" />
   </MaybeLink>
 </template>
