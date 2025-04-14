@@ -23,6 +23,7 @@ body {
 .content {
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
+  height: 100vh;
 }
 
 .content h1 {

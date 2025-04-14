@@ -39,6 +39,11 @@ const router = createRouter({
       name: 'library',
       component: () => import('@/views/LibraryView.vue'),
     },
+    {
+      path: '/stereo-test',
+      name: 'stereo-test',
+      component: () => import('@/views/StereoPhotoView.vue'),
+    },
   ],
 })
 
