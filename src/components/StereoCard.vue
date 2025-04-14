@@ -7,13 +7,22 @@ const props = defineProps<{ left_eye: string; right_eye: string }>()
 const CARD_WIDTH = 500
 const CARD_HEIGHT = 700
 
+enum StereoMode {
+  NO_3D,
+  CROSS_EYED,
+  PARALLEL,
+  ANAGLYPH,
+}
+
 class StereoSketch {
   left_eye_url: string
   right_eye_url: string
+  mode: StereoMode
 
   constructor(left_eye_url: string, right_eye_url: string) {
     this.left_eye_url = left_eye_url
     this.right_eye_url = right_eye_url
+    this.mode = StereoMode.CROSS_EYED
   }
 
   make_anaglyph(p: p5, left_eye: p5.Image, right_eye: p5.Image): p5.Image {
@@ -56,7 +65,15 @@ class StereoSketch {
 
       p.draw = () => {
         p.background(0)
-        this.draw_cross_eyed(p, left_eye, right_eye)
+
+        switch (this.mode) {
+          case StereoMode.CROSS_EYED:
+            this.draw_cross_eyed(p, left_eye, right_eye)
+            break
+          case StereoMode.PARALLEL:
+            this.draw_parallel(p, left_eye, right_eye)
+            break
+        }
       }
     }
     return new p5(sketch, parent)
@@ -65,9 +82,10 @@ class StereoSketch {
 
 const viewer: Ref<HTMLElement | null> = ref(null)
 
+let stereo_sketch: StereoSketch
 onMounted(() => {
   if (viewer.value) {
-    const stereo_sketch = new StereoSketch(props.left_eye, props.right_eye)
+    stereo_sketch = new StereoSketch(props.left_eye, props.right_eye)
     stereo_sketch.wrap(viewer.value)
   }
 })
@@ -76,8 +94,8 @@ onMounted(() => {
 <template>
   <div class="viewer" ref="viewer"></div>
   <button>2D</button>
-  <button>Cross-eyed 3D</button>
-  <button>Parallel 3D</button>
+  <button @click="stereo_sketch.mode = StereoMode.CROSS_EYED">Cross-eyed 3D</button>
+  <button @click="stereo_sketch.mode = StereoMode.PARALLEL">Parallel 3D</button>
   <button>Anaglyph 3D</button>
 </template>
 
