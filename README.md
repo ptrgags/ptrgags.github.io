@@ -28,24 +28,6 @@ npm run dev
 
 ### Release
 
-After merging all PRs with content update into `main`, I follow these steps
-to publish to `gh-pages`. I use a second copy of the repo cloned elsewhere.
-
-For the example below, the main repo is `/path/to/website`, and the
-`gh-pages` version is `/path/to/website-publish`.
-
-```sh
-# This makes a build in the dist/ subdirectory
-cd /path/to/website/
-npm run build
-
-# remove the old build files and add the new ones
-cd /path/to/website-publish/
-rm -r *
-cp -r /path/to/website/dist/* .
-
-# Using a static file server (such as http-server), host the publish directory
-# and double check that everything looks right.
-
-# Finally, check in the changes to gh-pages and push to GH
-```
+I have a GitHub Action configured (see `.github/workflows/deploy.yml`) to
+automatically deploy the website to GitHub pages whenever something is merged
+into `main`. After merging a PR, double check that this happened successfully.
