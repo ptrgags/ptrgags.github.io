@@ -37,6 +37,11 @@ class StereoSketch {
     return image
   }
 
+  draw_2d(p: p5, either_eye: p5.Image) {
+    // Draw in the middle of the screen
+    p.image(either_eye, CARD_WIDTH / 2, 0, CARD_WIDTH, CARD_HEIGHT)
+  }
+
   draw_parallel(p: p5, left_eye: p5.Image, right_eye: p5.Image) {
     p.image(left_eye, 0, 0, CARD_WIDTH, CARD_HEIGHT)
     p.image(right_eye, CARD_WIDTH, 0, CARD_WIDTH, CARD_HEIGHT)
@@ -67,6 +72,9 @@ class StereoSketch {
         p.background(0)
 
         switch (this.mode) {
+          case StereoMode.NO_3D:
+            this.draw_2d(p, left_eye)
+            break
           case StereoMode.CROSS_EYED:
             this.draw_cross_eyed(p, left_eye, right_eye)
             break
@@ -93,10 +101,16 @@ onMounted(() => {
 
 <template>
   <div class="viewer" ref="viewer"></div>
-  <button>2D</button>
+  <button @click="stereo_sketch.mode = StereoMode.NO_3D">2D</button>
   <button @click="stereo_sketch.mode = StereoMode.CROSS_EYED">Cross-eyed 3D</button>
   <button @click="stereo_sketch.mode = StereoMode.PARALLEL">Parallel 3D</button>
   <button>Anaglyph 3D</button>
+  <div>
+    <details>
+      <summary>Viewing Instructions</summary>
+      <p>TODO</p>
+    </details>
+  </div>
 </template>
 
 <style>
