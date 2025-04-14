@@ -81,7 +81,7 @@ onMounted(() => {
   <button>Anaglyph 3D</button>
 </template>
 
-<style scoped>
+<style>
 .viewer {
   width: 80vw;
   padding: 0;
@@ -89,5 +89,6 @@ onMounted(() => {
 
 canvas {
   object-fit: contain;
+  max-width: 80vw;
 }
 </style>
