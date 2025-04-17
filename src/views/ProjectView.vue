@@ -30,7 +30,7 @@ const timeline_entries = computed(() => {
 
 <template>
   <template v-if="project">
-    <div class="tableau">
+    <div class="horizontal">
       <div class="card-frame">
         <CardImage :image="project.card" />
       </div>

@@ -155,26 +155,60 @@ onMounted(() => {
 
 <template>
   <div class="viewer" ref="viewer"></div>
-  <button @click="stereo_sketch.mode = StereoMode.NO_3D">2D</button>
-  <button @click="stereo_sketch.mode = StereoMode.CROSS_EYED">Cross-eyed 3D</button>
-  <button @click="stereo_sketch.mode = StereoMode.PARALLEL">Parallel 3D</button>
-  <button @click="stereo_sketch.mode = StereoMode.ANAGLYPH">Anaglyph 3D</button>
-  <div>
-    <details>
-      <summary>Viewing Instructions</summary>
-      <p>TODO</p>
-    </details>
+  <div class="horizontal">
+    <button @click="stereo_sketch.mode = StereoMode.CROSS_EYED">Cross-eyed 3D</button>
+    <button @click="stereo_sketch.mode = StereoMode.PARALLEL">Parallel 3D</button>
+    <button @click="stereo_sketch.mode = StereoMode.ANAGLYPH">Anaglyph 3D</button>
+    <button @click="stereo_sketch.mode = StereoMode.NO_3D">2D</button>
   </div>
+  <details>
+    <summary>Expand for viewing instructions</summary>
+    <dl>
+      <dt>Cross-eyed 3D</dt>
+      <dd>Cross your eyes to overlap the two images.</dd>
+      <dt>Parallel 3D</dt>
+      <dd>
+        Relax your eyes, and you'll start to see the images overlap. Keep moving your eyes in the
+        same direction and eventually the two will overlap. I find this easiest on smaller screens,
+        so try shrinking your browser window or try on a mobile device.
+      </dd>
+      <dt>Anaglyph 3D</dt>
+      <dd>This mode requires wearing red/cyan 3D glasses.</dd>
+      <dt>2D</dt>
+      <dd>A regular image. No special viewing technique is required.</dd>
+    </dl>
+    <p></p>
+  </details>
 </template>
 
 <style>
-.viewer {
-  width: 80vw;
-  padding: 0;
-}
-
+/** The canvas is created dynamically, so a scoped block won't affect it */
 canvas {
   object-fit: contain;
   max-width: 80vw;
+}
+</style>
+
+<style scoped>
+.viewer {
+  width: 100%;
+  padding: 0;
+}
+
+details {
+  padding: 20px;
+  max-width: 800px;
+}
+
+dt {
+  color: var(--color-accent);
+  font-weight: bold;
+}
+
+button {
+  background-color: var(--background-color-dark);
+  color: var(--color-text);
+  padding: 10px;
+  border-radius: 5px;
 }
 </style>

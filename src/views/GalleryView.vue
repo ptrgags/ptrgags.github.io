@@ -13,8 +13,8 @@ const artworks_newest_first = computed<Thumbnail[]>(() => {
 </script>
 
 <template>
-  <h1 class="centered">Gallery</h1>
-  <div class="tableau">
+  <h1 class="center-text">Gallery</h1>
+  <div class="horizontal">
     <template v-for="thumbnail in artworks_newest_first" :key="thumbnail.sort_key">
       <ThumbnailCard :card="thumbnail" />
     </template>

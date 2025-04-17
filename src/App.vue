@@ -8,7 +8,7 @@ import '@/assets/global.css'
 
 <template>
   <Navbar />
-  <div class="content">
+  <div class="content vertical">
     <RouterView />
   </div>
 </template>
@@ -16,12 +16,13 @@ import '@/assets/global.css'
 <style>
 body {
   background-image: url('assets/background.png');
+  background-color: rgba(0, 0, 0, 0.5);
+  background-blend-mode: multiply;
   background-repeat: repeat;
   font-family: sans-serif;
 }
 
 .content {
-  background-color: rgba(0, 0, 0, 0.5);
   color: white;
   height: 100vh;
 }
