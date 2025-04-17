@@ -18,11 +18,11 @@ const project = computed(() => {
 </script>
 
 <template>
-  <div v-if="artwork" class="tableau">
+  <div v-if="artwork" class="horizontal">
     <div class="card-frame">
       <CardImage :image="artwork.card" />
     </div>
-    <div class="plaque">
+    <div class="plaque half-column">
       <h1>{{ artwork.title }} ({{ artwork.date }})</h1>
       <h3 v-if="project">
         Project:
