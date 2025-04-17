@@ -14,6 +14,56 @@ enum StereoMode {
   ANAGLYPH,
 }
 
+const RGBA_COMPONENTS = 4
+
+function extract_pixels(pixels, pixel_offset) {
+  const red = pixels[pixel_offset]
+  const green = pixels[pixel_offset + 1]
+  const blue = pixels[pixel_offset + 2]
+  return [red, green, blue]
+}
+
+const GAMMA_TO_LINEAR = 2.2
+const GAMMA_TO_SRGB = 1 / GAMMA_TO_LINEAR
+function compute_lightness(srgb: [number, number, number]) {
+  const [sr, sg, sb] = srgb
+  const sr_norm = sr / 255.0
+  const sg_norm = sg / 255.0
+  const sb_norm = sb / 255.0
+
+  // Approximation for actual gamma expansion
+  const r_linear = Math.pow(sr_norm, GAMMA_TO_LINEAR)
+  const g_linear = Math.pow(sg_norm, GAMMA_TO_LINEAR)
+  const b_linear = Math.pow(sb_norm, GAMMA_TO_LINEAR)
+
+  // CIE luminance
+  // See https://en.wikipedia.org/wiki/Grayscale#Colorimetric_(perceptual_luminance-preserving)_conversion_to_grayscale
+  const lightness_linear = 0.2126 * r_linear + 0.7152 * g_linear + 0.0722 * b_linear
+
+  const lightness_srgb = Math.pow(lightness_linear, GAMMA_TO_SRGB)
+  return lightness_srgb * 255.0
+}
+
+/**
+ * Draw a single image to the canvas
+ * @param p The p5 drawing canvas
+ * @param either_eye The image to draw
+ */
+function draw_single(p: p5, either_eye: p5.Image) {
+  p.image(either_eye, CARD_WIDTH / 2, 0, CARD_WIDTH, CARD_HEIGHT)
+}
+
+/**
+ * Draw a single image to the canvas
+ * @param p The p5 drawing canvas
+ * @param left The image to appear on the left
+ * @param right The image to appear on the right
+ */
+function draw_pair(p: p5, left: p5.Image, right: p5.Image) {
+  p.image(left, 0, 0, CARD_WIDTH, CARD_HEIGHT)
+  p.image(right, CARD_WIDTH, 0, CARD_WIDTH, CARD_HEIGHT)
+}
+
 class StereoSketch {
   left_eye_url: string
   right_eye_url: string
@@ -31,32 +81,31 @@ class StereoSketch {
     left_eye.loadPixels()
     right_eye.loadPixels()
 
-    // TODO: Compute the anaglyph
+    for (let i = 0; i < CARD_HEIGHT; i++) {
+      for (let j = 0; j < CARD_WIDTH; j++) {
+        const pixel_offset = (i * CARD_WIDTH + j) * RGBA_COMPONENTS
+        const left_srgb = extract_pixels(left_eye.pixels, pixel_offset)
+        const right_srgb = extract_pixels(right_eye.pixels, pixel_offset)
+
+        const left_lightness = compute_lightness(left_srgb)
+        const right_lightness = compute_lightness(right_srgb)
+
+        image.pixels[pixel_offset] = left_lightness
+        image.pixels[pixel_offset + 1] = right_lightness
+        image.pixels[pixel_offset + 2] = right_lightness
+        image.pixels[pixel_offset + 3] = 255
+      }
+    }
 
     image.updatePixels()
     return image
-  }
-
-  draw_2d(p: p5, either_eye: p5.Image) {
-    // Draw in the middle of the screen
-    p.image(either_eye, CARD_WIDTH / 2, 0, CARD_WIDTH, CARD_HEIGHT)
-  }
-
-  draw_parallel(p: p5, left_eye: p5.Image, right_eye: p5.Image) {
-    p.image(left_eye, 0, 0, CARD_WIDTH, CARD_HEIGHT)
-    p.image(right_eye, CARD_WIDTH, 0, CARD_WIDTH, CARD_HEIGHT)
-  }
-
-  draw_cross_eyed(p: p5, left_eye: p5.Image, right_eye: p5.Image) {
-    p.image(right_eye, 0, 0, CARD_WIDTH, CARD_HEIGHT)
-    p.image(left_eye, CARD_WIDTH, 0, CARD_WIDTH, CARD_HEIGHT)
   }
 
   wrap(parent: HTMLElement) {
     const sketch = (p: p5) => {
       let left_eye: p5.Image
       let right_eye: p5.Image
-      //let anaglyph: p5.Image
+      let anaglyph: p5.Image
 
       p.preload = () => {
         left_eye = p.loadImage(this.left_eye_url)
@@ -65,7 +114,7 @@ class StereoSketch {
 
       p.setup = () => {
         p.createCanvas(2 * CARD_WIDTH, CARD_HEIGHT)
-        //anaglyph = this.make_anaglyph(p, left_eye, right_eye)
+        anaglyph = this.make_anaglyph(p, left_eye, right_eye)
       }
 
       p.draw = () => {
@@ -73,13 +122,18 @@ class StereoSketch {
 
         switch (this.mode) {
           case StereoMode.NO_3D:
-            this.draw_2d(p, left_eye)
-            break
-          case StereoMode.CROSS_EYED:
-            this.draw_cross_eyed(p, left_eye, right_eye)
+            // Either eye would work here, I choose the left eye
+            draw_single(p, left_eye)
             break
           case StereoMode.PARALLEL:
-            this.draw_parallel(p, left_eye, right_eye)
+            draw_pair(p, left_eye, right_eye)
+            break
+          case StereoMode.CROSS_EYED:
+            // Same thing as parallel but with images swapped
+            draw_pair(p, right_eye, left_eye)
+            break
+          case StereoMode.ANAGLYPH:
+            draw_single(p, anaglyph)
             break
         }
       }
@@ -104,7 +158,7 @@ onMounted(() => {
   <button @click="stereo_sketch.mode = StereoMode.NO_3D">2D</button>
   <button @click="stereo_sketch.mode = StereoMode.CROSS_EYED">Cross-eyed 3D</button>
   <button @click="stereo_sketch.mode = StereoMode.PARALLEL">Parallel 3D</button>
-  <button>Anaglyph 3D</button>
+  <button @click="stereo_sketch.mode = StereoMode.ANAGLYPH">Anaglyph 3D</button>
   <div>
     <details>
       <summary>Viewing Instructions</summary>
