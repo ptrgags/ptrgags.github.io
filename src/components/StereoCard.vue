@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import p5 from 'p5'
-import { onMounted, ref, type Ref } from 'vue'
+import { watch, onMounted, ref, type Ref } from 'vue'
 
 const props = defineProps<{ left_eye: string; right_eye: string }>()
 
@@ -13,6 +13,8 @@ enum StereoMode {
   PARALLEL,
   ANAGLYPH,
 }
+
+const stereo_mode = ref<StereoMode>(StereoMode.CROSS_EYED)
 
 const RGBA_COMPONENTS = 4
 
@@ -69,10 +71,10 @@ class StereoSketch {
   right_eye_url: string
   mode: StereoMode
 
-  constructor(left_eye_url: string, right_eye_url: string) {
+  constructor(left_eye_url: string, right_eye_url: string, initial_mode: StereoMode) {
     this.left_eye_url = left_eye_url
     this.right_eye_url = right_eye_url
-    this.mode = StereoMode.CROSS_EYED
+    this.mode = initial_mode
   }
 
   make_anaglyph(p: p5, left_eye: p5.Image, right_eye: p5.Image): p5.Image {
@@ -147,19 +149,40 @@ const viewer: Ref<HTMLElement | null> = ref(null)
 let stereo_sketch: StereoSketch
 onMounted(() => {
   if (viewer.value) {
-    stereo_sketch = new StereoSketch(props.left_eye, props.right_eye)
+    stereo_sketch = new StereoSketch(props.left_eye, props.right_eye, stereo_mode.value)
     stereo_sketch.wrap(viewer.value)
   }
+})
+
+watch(stereo_mode, (value) => {
+  stereo_sketch.mode = value
 })
 </script>
 
 <template>
   <div class="viewer" ref="viewer"></div>
   <div class="horizontal">
-    <button @click="stereo_sketch.mode = StereoMode.CROSS_EYED">Cross-eyed 3D</button>
-    <button @click="stereo_sketch.mode = StereoMode.PARALLEL">Parallel 3D</button>
-    <button @click="stereo_sketch.mode = StereoMode.ANAGLYPH">Anaglyph 3D</button>
-    <button @click="stereo_sketch.mode = StereoMode.NO_3D">2D</button>
+    <div class="padded">
+      <input
+        type="radio"
+        v-model="stereo_mode"
+        :value="StereoMode.CROSS_EYED"
+        id="opt-cross-eyed"
+      />
+      <label for="opt-cross-eyed">Cross-eyed 3D</label>
+    </div>
+    <div class="padded">
+      <input type="radio" v-model="stereo_mode" :value="StereoMode.PARALLEL" id="opt-parallel" />
+      <label for="opt-parallel">Parallel 3D</label>
+    </div>
+    <div class="padded">
+      <input type="radio" v-model="stereo_mode" :value="StereoMode.ANAGLYPH" id="opt-anaglyph" />
+      <label for="opt-anaglyph">Anaglyph</label>
+    </div>
+    <div class="padded">
+      <input type="radio" v-model="stereo_mode" :value="StereoMode.NO_3D" id="opt-2d" />
+      <label for="opt-2d">2D</label>
+    </div>
   </div>
   <details>
     <summary>Expand for viewing instructions</summary>
@@ -203,6 +226,10 @@ details {
 dt {
   color: var(--color-accent);
   font-weight: bold;
+}
+
+.padded {
+  margin: 10px;
 }
 
 button {
