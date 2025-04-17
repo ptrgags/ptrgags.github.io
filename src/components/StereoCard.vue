@@ -18,7 +18,7 @@ const stereo_mode = ref<StereoMode>(StereoMode.CROSS_EYED)
 
 const RGBA_COMPONENTS = 4
 
-function extract_pixels(pixels, pixel_offset) {
+function extract_pixels(pixels: number[], pixel_offset: number): [number, number, number] {
   const red = pixels[pixel_offset]
   const green = pixels[pixel_offset + 1]
   const blue = pixels[pixel_offset + 2]
