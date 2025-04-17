@@ -43,7 +43,16 @@ const timeline_entries = computed(() => {
           <div v-html="project.description"></div>
         </div>
       </div>
-      <ProjectTimeline :entries="timeline_entries" />
+      <div class="timeline-container">
+        <ProjectTimeline :entries="timeline_entries" />
+      </div>
     </div>
   </template>
 </template>
+
+<style scoped>
+.timeline-container {
+  width: 2000px;
+  max-width: 90vw;
+}
+</style>
