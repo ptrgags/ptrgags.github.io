@@ -66,6 +66,16 @@ function draw_pair(p: p5, left: p5.Image, right: p5.Image) {
   p.image(right, CARD_WIDTH, 0, CARD_WIDTH, CARD_HEIGHT)
 }
 
+const DOT_RADIUS = 15
+function draw_helper_dots(p: p5) {
+  p.push()
+  p.stroke(0)
+  p.fill(255, 0, 0)
+  p.circle(CARD_WIDTH / 2, DOT_RADIUS, DOT_RADIUS)
+  p.circle((3 * CARD_WIDTH) / 2, DOT_RADIUS, DOT_RADIUS)
+  p.pop()
+}
+
 class StereoSketch {
   left_eye_url: string
   right_eye_url: string
@@ -138,6 +148,10 @@ class StereoSketch {
             draw_single(p, anaglyph)
             break
         }
+
+        if (this.mode === StereoMode.PARALLEL || this.mode === StereoMode.CROSS_EYED) {
+          draw_helper_dots(p)
+        }
       }
     }
     return new p5(sketch, parent)
@@ -185,14 +199,13 @@ watch(stereo_mode, (value) => {
     </div>
   </div>
   <details>
-    <summary>Expand for viewing instructions</summary>
+    <summary>Expand for 3D viewing instructions</summary>
     <dl>
       <dt>Cross-eyed 3D</dt>
-      <dd>Cross your eyes to overlap the two images.</dd>
+      <dd>Cross your eyes until the two images appear to overlap.</dd>
       <dt>Parallel 3D</dt>
       <dd>
-        Relax your eyes, and you'll start to see the images overlap. Keep moving your eyes in the
-        same direction and eventually the two will overlap. I find this easiest on smaller screens,
+        Relax your eyes until the images appear to overlap. I find this easiest on smaller screens,
         so try shrinking your browser window or try on a mobile device.
       </dd>
       <dt>Anaglyph 3D</dt>
@@ -200,7 +213,14 @@ watch(stereo_mode, (value) => {
       <dt>2D</dt>
       <dd>A regular image. No special viewing technique is required.</dd>
     </dl>
-    <p></p>
+    <p>
+      Unfortunately, stereo 3D comes with several limitations. Some viewers will find cross-eyed
+      viewing easier, others may find parallel easier. Some may have difficulty with both.
+      Furthermore, if there are differences in vision between your left and right eye or otherwise
+      have difficulty with depth perception, this illusion may not work as expected. 3D glasses are
+      more straightforward to use, but they're not a common item to own. I included a variety of
+      formats in the hopes that the viewer can enjoy at least one.
+    </p>
   </details>
 </template>
 
