@@ -229,6 +229,7 @@ watch(stereo_mode, (value) => {
 canvas {
   object-fit: contain;
   max-width: 80vw;
+  max-height: 90vh;
 }
 </style>
 
