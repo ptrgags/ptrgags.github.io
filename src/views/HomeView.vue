@@ -37,7 +37,7 @@ const featured_projects = computed<Thumbnail[]>(() => {
       </template>
     </div>
     <h1 class="center-text">Featured Artworks</h1>
-    <div class="tableau">
+    <div class="horizontal">
       <template v-for="thumbnail in featured_artworks" :key="thumbnail.sort_key">
         <ThumbnailCard :card="thumbnail" />
       </template>

@@ -89,26 +89,15 @@ kbd {
   border-radius: 20px;
 
   /** 
-       * Make a transparent border, and adjust clipping so you can see what's
-       * behind the details pane 
-       */
+    * Make a transparent border, and adjust clipping so you can see what's
+    * behind the details pane 
+    */
   border: 10px solid var(--background-transparent);
   background-clip: padding-box;
 }
 
 .plaque h1 {
   color: var(--color-accent);
-}
-
-/* Old classes ==================================================== */
-
-/* Horizontal layout of N cards */
-.tableau {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: flex-start;
 }
 
 .one-column {
@@ -142,24 +131,6 @@ kbd {
 
   background-color: var(--background-text);
 }
-
-/*
-.plaque {
-  width: 500px;
-  max-width: 80vw;
-  padding: 40px;
-  margin: 20px;
-  background-color: var(--background-text);
-  border-radius: 20px;
-
-  /** 
-     * Make a transparent border, and adjust clipping so you can see what's
-     * behind the details pane 
-     /
-  border: 10px solid var(--background-transparent);
-  background-clip: padding-box;
-}
-*/
 
 .warning {
   color: var(--color-warning);
