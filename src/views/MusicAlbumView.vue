@@ -80,11 +80,11 @@ watch(
 
 <template>
   <template v-if="album">
-    <div class="tableau">
+    <div class="horizontal">
       <div class="card-frame">
         <CardImage :image="album.card"></CardImage>
       </div>
-      <div class="plaque">
+      <div class="plaque half-column">
         <h1>{{ album.title }}<br />({{ album.years }})</h1>
         <div v-html="album.description"></div>
         <div v-if="album.play_style === 'loop'">

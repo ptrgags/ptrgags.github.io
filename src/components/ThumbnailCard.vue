@@ -10,7 +10,7 @@ const props = defineProps<{
 <template>
   <div class="card-frame">
     <CardImage :image="props.card.thumbnail" />
-    <div class="card-text centered">
+    <div class="card-text center-text">
       <RouterLink v-if="props.card.link" :to="props.card.link">{{ props.card.title }}</RouterLink>
       <br />
       ({{ props.card.dates }})

@@ -30,18 +30,20 @@ const timeline_entries = computed(() => {
 
 <template>
   <template v-if="project">
-    <div class="horizontal">
-      <div class="card-frame">
-        <CardImage :image="project.card" />
+    <div class="vertical">
+      <div class="horizontal">
+        <div class="card-frame">
+          <CardImage :image="project.card" />
+        </div>
+        <div class="plaque half-column">
+          <h1>{{ project.title }} ({{ project.years }})</h1>
+          <a class="big-link" v-if="project.github_url" :href="project.github_url">GitHub</a>
+          &nbsp;
+          <a class="big-link" v-if="project.demo_url" :href="project.demo_url">Demo</a>
+          <div v-html="project.description"></div>
+        </div>
       </div>
-      <div class="plaque">
-        <h1>{{ project.title }} ({{ project.years }})</h1>
-        <a class="big-link" v-if="project.github_url" :href="project.github_url">GitHub</a>
-        &nbsp;
-        <a class="big-link" v-if="project.demo_url" :href="project.demo_url">Demo</a>
-        <div v-html="project.description"></div>
-      </div>
+      <ProjectTimeline :entries="timeline_entries" />
     </div>
-    <ProjectTimeline :entries="timeline_entries" />
   </template>
 </template>
