@@ -29,16 +29,18 @@ const featured_projects = computed<Thumbnail[]>(() => {
 </script>
 
 <template>
-  <h1 class="centered">Featured Projects</h1>
-  <div class="tableau">
-    <template v-for="thumbnail in featured_projects" :key="thumbnail.sort_key">
-      <ThumbnailCard :card="thumbnail" />
-    </template>
-  </div>
-  <h1 class="centered">Featured Artworks</h1>
-  <div class="tableau">
-    <template v-for="thumbnail in featured_artworks" :key="thumbnail.sort_key">
-      <ThumbnailCard :card="thumbnail" />
-    </template>
+  <div class="plaque vertical">
+    <h1 class="center-text">Featured Projects</h1>
+    <div class="horizontal">
+      <template v-for="thumbnail in featured_projects" :key="thumbnail.sort_key">
+        <ThumbnailCard :card="thumbnail" />
+      </template>
+    </div>
+    <h1 class="center-text">Featured Artworks</h1>
+    <div class="horizontal">
+      <template v-for="thumbnail in featured_artworks" :key="thumbnail.sort_key">
+        <ThumbnailCard :card="thumbnail" />
+      </template>
+    </div>
   </div>
 </template>

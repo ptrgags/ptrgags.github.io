@@ -2,6 +2,7 @@ html,
 body {
   margin: 0;
   padding: 0;
+  height: 100vh;
 }
 
 :root {
@@ -56,18 +57,57 @@ kbd {
 
 /* Reusable classes */
 
-/* centered text */
-.centered {
+.center-text {
   text-align: center;
 }
 
-/* Horizontal layout of N cards */
-.tableau {
+.vertical {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.horizontal {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   align-items: flex-start;
+}
+
+/**
+ * dark grey card with partially transparent dark border, for listing text
+ *
+ * By default, this does not set the side
+ */
+.plaque {
+  padding: 40px;
+  margin: 20px;
+  background-color: var(--background-text);
+  border-radius: 20px;
+
+  /** 
+    * Make a transparent border, and adjust clipping so you can see what's
+    * behind the details pane 
+    */
+  border: 10px solid var(--background-transparent);
+  background-clip: padding-box;
+}
+
+.plaque h1 {
+  color: var(--color-accent);
+}
+
+.one-column {
+  width: 1200px;
+  max-width: 80vw;
+}
+
+.half-column {
+  width: 600px;
+  max-width: 40vw;
 }
 
 /* Frame around a trading card */
@@ -90,26 +130,6 @@ kbd {
   object-fit: cover;
 
   background-color: var(--background-text);
-}
-
-.plaque {
-  width: 500px;
-  max-width: 80vw;
-  padding: 40px;
-  margin: 20px;
-  background-color: var(--background-text);
-  border-radius: 20px;
-
-  /** 
-     * Make a transparent border, and adjust clipping so you can see what's
-     * behind the details pane 
-     */
-  border: 10px solid var(--background-transparent);
-  background-clip: padding-box;
-}
-
-.plaque h1 {
-  color: var(--color-accent);
 }
 
 .warning {
