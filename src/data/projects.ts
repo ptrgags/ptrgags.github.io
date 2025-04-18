@@ -10,6 +10,14 @@ import { holiday_shaders2 } from './projects/holiday_shaders2'
 
 const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
   {
+    id: 'undersea-3d',
+    title: 'Undersea 3D',
+    years: '2025',
+    sort_key: '2025-04-00:01',
+    description: 'lorem ipsum',
+    img_format: 'jpg',
+  },
+  {
     id: 'paper-toaster',
     title: 'Paper Toaster',
     years: '2022-2024',
