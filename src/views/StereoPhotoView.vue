@@ -25,6 +25,14 @@ const project = computed(() => {
       <RouterLink class="big-link" :to="project.url">{{ project.title }}</RouterLink>
     </h3>
     <StereoCard :left_eye="artwork.left_card_url" :right_eye="artwork.right_card_url"></StereoCard>
-    <div v-html="artwork.description"></div>
+    <div v-html="artwork.description" class="narrow-column"></div>
   </div>
 </template>
+
+<style scoped>
+.narrow-column {
+  width: 800px;
+  max-width: 70vw;
+  margin: 0 auto;
+}
+</style>
