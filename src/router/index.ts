@@ -20,6 +20,11 @@ const router = createRouter({
       component: () => import('@/views/ArtworkView.vue'),
     },
     {
+      path: '/stereo-pair/:project_id/:artwork_id',
+      name: 'stereo-pair',
+      component: () => import('@/views/StereoPhotoView.vue'),
+    },
+    {
       path: '/projects',
       name: 'projects',
       component: () => import('@/views/ProjectsView.vue'),
