@@ -8,7 +8,7 @@ export const undersea_3d_artworks: ArtworkDescriptor[] = [
     timeline_desc: `
         This lobster stood still enough to capture two images. Most other sea
         cretures move too quickly between shots.`,
-    sort_key: '2024-04-16:01',
+    sort_key: '2025-04-16:01',
     project_id: 'undersea-3d',
     img_format: 'jpg',
   },
@@ -17,7 +17,7 @@ export const undersea_3d_artworks: ArtworkDescriptor[] = [
     title: 'Fluorescent Coral',
     date: '2025-04-16',
     timeline_desc: 'Did you know corals glow various colors under black light?',
-    sort_key: '2024-04-16:02',
+    sort_key: '2025-04-16:02',
     project_id: 'undersea-3d',
     img_format: 'jpg',
     description: `
@@ -39,7 +39,7 @@ export const undersea_3d_artworks: ArtworkDescriptor[] = [
     title: 'Friend Or Anemone?',
     date: '2025-04-16',
     timeline_desc: 'Okay, that was a bad pun.',
-    sort_key: '2024-04-16:03',
+    sort_key: '2025-04-16:03',
     project_id: 'undersea-3d',
     img_format: 'jpg',
     description: `
