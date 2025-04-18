@@ -6,6 +6,7 @@ import { computed } from 'vue'
 import { type Thumbnail } from '@/core/Thumbnail'
 import { sort_reverse_chronological } from '@/core/Sortable'
 import { ALBUMS } from '@/data/music_albums'
+import { STEREO_ARTWORKS } from '@/data/stereo_cards'
 
 function top_5_featured(thumbnails: Thumbnail[]): Thumbnail[] {
   const featured = thumbnails.filter((x) => x.featured).sort(sort_reverse_chronological)
@@ -16,7 +17,9 @@ function top_5_featured(thumbnails: Thumbnail[]): Thumbnail[] {
 }
 
 const featured_artworks = computed<Thumbnail[]>(() => {
-  const all_artworks = ARTWORKS.map((x) => x.thumbnail).filter((x) => !x.hide)
+  const basic_artworks = ARTWORKS.map((x) => x.thumbnail)
+  const stereo_artworks = STEREO_ARTWORKS.map((x) => x.thumbnail)
+  const all_artworks = [...basic_artworks, ...stereo_artworks].filter((x) => !x.hide)
   return top_5_featured(all_artworks)
 })
 

@@ -55,6 +55,10 @@ kbd {
   border-radius: 3px;
 }
 
+p {
+  line-height: 1.5em;
+}
+
 /* Reusable classes */
 
 .center-text {

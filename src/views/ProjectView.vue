@@ -7,6 +7,7 @@ import CardImage from '@/components/CardImage.vue'
 import ProjectTimeline from '@/components/ProjectTimeline.vue'
 import type { TimelineEntry } from '@/core/TimelineEntry'
 import { sort_reverse_chronological } from '@/core/Sortable'
+import { STEREO_ARTWORKS_BY_PROJECT } from '@/data/stereo_cards'
 
 const route = useRoute()
 
@@ -21,9 +22,14 @@ const timeline_entries = computed(() => {
 
   const artworks = ARTWORKS_BY_PROJECT[project.value.id] ?? []
   const artwork_entries: TimelineEntry[] = artworks.map((x) => x.timeline_entry)
+
+  const stereo_artworks = STEREO_ARTWORKS_BY_PROJECT[project.value.id] ?? []
+  const stereo_entries: TimelineEntry[] = stereo_artworks.map((x) => x.timeline_entry)
   const update_entries: TimelineEntry[] = project.value.updates
 
-  const newest_first = [...artwork_entries, ...update_entries].sort(sort_reverse_chronological)
+  const newest_first = [...artwork_entries, ...stereo_entries, ...update_entries].sort(
+    sort_reverse_chronological,
+  )
   return newest_first
 })
 </script>
