@@ -252,11 +252,4 @@ dt {
 .padded {
   margin: 10px;
 }
-
-button {
-  background-color: var(--background-color-dark);
-  color: var(--color-text);
-  padding: 10px;
-  border-radius: 5px;
-}
 </style>
