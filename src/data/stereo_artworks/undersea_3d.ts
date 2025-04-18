@@ -11,15 +11,6 @@ export const undersea_3d_artworks: ArtworkDescriptor[] = [
     sort_key: '2024-04-16:01',
     project_id: 'undersea-3d',
     img_format: 'jpg',
-    description: `
-        <p>
-            A spiny lobster at the Adventure Aquarium. It was standing mostly 
-            still, so I was able to get a good stereo photo.
-        </p>
-        <p>
-            I experimented with editing the photo a bit 
-        </p>
-        `,
   },
   {
     id: '2025-04-16_FluorescentCoral',
@@ -32,12 +23,10 @@ export const undersea_3d_artworks: ArtworkDescriptor[] = [
     description: `
         <p>
         From witnessing this tank at the aquarium, I learned that corals are 
-        fluorescent (i.e. they glow under UV light). 
-        </p>
-        <p>
+        fluorescent (i.e. they glow under UV light).
         Later, I learned from <a href="https://www.youtube.com/watch?v=QotFxwrlD0A&list=PLXPyqwUeMof531MhQ8zK4tDEhG9xryXVo&index=5&t=5s&ab_channel=PARLEYCHANNEL">this video</a>
         by Coral Morphologic and Parley <em>why</em> corals fluoresce. It's a
-        defense against harsh UV-light. The coral only absorbs part of the
+        defense against harsh UV light. The coral only absorbs part of the
         light energy, and emits the rest as light of a different color. In
         this case, that's the green and orange coloration on each polyp.
         </p>
@@ -58,8 +47,8 @@ export const undersea_3d_artworks: ArtworkDescriptor[] = [
         at the bottom. They're easy to miss, as they blend in with the gravel.
         </p>
         <p>
-        From a plaque above the tank, these are apparently called 
-        <i>Metridium senile</i>, common name Atlantic Frilled Anemone.
+        These are Atlantic Frilled Anemone (<i>Metridium senile</i>), according
+        to a plaque above the tank.
         </p>
         <p>
             Fun fact: Sea anemones, coral, and jellyfish share a common ancestor. 
