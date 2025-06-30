@@ -10,6 +10,19 @@ import { holiday_shaders2 } from './projects/holiday_shaders2'
 
 const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
   {
+    id: 'nature-3d',
+    title: 'Nature 3D',
+    years: '2025',
+    sort_key: '2025-06-00:01',
+    img_format: 'jpg',
+    description: `
+        <p>
+            An album of stereo photos focused on interesting greenery I find
+            in my day-to-day travels.
+        </p>
+    `,
+  },
+  {
     id: 'undersea-3d',
     title: 'Undersea 3D',
     years: '2025',
