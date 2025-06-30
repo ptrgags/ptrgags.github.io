@@ -18,7 +18,7 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
     description: `
         <p>
             An album of stereo photos focused on interesting greenery I find
-            in my day-to-day travels.
+            while walking around.
         </p>
     `,
   },

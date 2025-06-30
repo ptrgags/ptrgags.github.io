@@ -18,7 +18,7 @@ export const nature_3d_artworks: ArtworkDescriptor[] = [
     title: 'Coleus',
     date: '2025-06-13',
     timeline_desc: `
-        A cool coleus plant I saw in a garden while walking around Philly.
+        A coleus plant I saw in a garden while walking around Philly.
     `,
     sort_key: '2025-06-13:01',
     project_id: 'nature-3d',
@@ -30,7 +30,7 @@ export const nature_3d_artworks: ArtworkDescriptor[] = [
     date: '2025-05-08',
     timeline_desc: `
         Usually I don't pay much attention to hedges. It turns out they make
-        good stereo photo subjects, as the dense leaves create variations
+        good stereo photo subjects. The dense leaves create variations
         in depth everywhere.
     `,
     sort_key: '2025-05-08:01',
@@ -68,9 +68,8 @@ export const nature_3d_artworks: ArtworkDescriptor[] = [
     date: '2025-03-31',
     timeline_desc: `
         A close-up photo of the cherry blossoms. Each flower has 5 petals,
-        though this is a little hard to tell since the petals are curled up
-        in this photo. However, you can make out the star-shaped center of
-        a few of the flowers.
+        though this is a little hard to see in this particular photo. However, 
+        you can make out the star-shaped center of a few of the flowers.
     `,
     sort_key: '2025-03-31:02',
     project_id: 'nature-3d',
