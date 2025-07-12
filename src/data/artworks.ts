@@ -5,6 +5,7 @@ import { p5_sketchbook_artworks } from './artworks/p5_sketchbook'
 import { math_notebook_artworks } from './artworks/math_notebook'
 import { next_1000_cards_artworks } from './artworks/next_1000_cards'
 import { holiday_shaders2_artworks } from './artworks/holiday_shaders2'
+import { raster_tangles } from './artworks/raster_tangles'
 
 const ARTWORK_DESCRIPTORS: ArtworkDescriptor[] = [
   ...paper_toaster_artworks,
@@ -58,6 +59,7 @@ const ARTWORK_DESCRIPTORS: ArtworkDescriptor[] = [
   ...math_notebook_artworks,
   ...next_1000_cards_artworks,
   ...holiday_shaders2_artworks,
+  ...raster_tangles,
 ]
 
 export const ARTWORKS = ARTWORK_DESCRIPTORS.map((x) => new Artwork(x))

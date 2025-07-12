@@ -7,6 +7,7 @@ import { math_notebook } from './projects/math_notebook'
 import { next_1000_cards } from './projects/next_1000_cards'
 import { holiday_shaders } from './projects/holiday_shaders'
 import { holiday_shaders2 } from './projects/holiday_shaders2'
+import { raster_tangles } from './projects/raster_tangles'
 
 const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
   {
@@ -162,6 +163,7 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
   next_1000_cards,
   holiday_shaders,
   holiday_shaders2,
+  raster_tangles,
 ]
 
 /*
