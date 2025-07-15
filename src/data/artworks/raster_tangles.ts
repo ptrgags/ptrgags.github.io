@@ -1,22 +1,19 @@
 import type { ArtworkDescriptor } from '@/core/Artwork'
 
 export const raster_tangles: ArtworkDescriptor[] = [
-  // Other cards for website release (4x)
-  // Monochrome cards for website release (4x)
-  // Calling card second batch 2025-06-29 (4x)
-  // Calling card first batch from the holidays (4x)
+  // Cards made for this website release
   {
     id: '2025-07-03_Thunderstorm',
     title: 'Thunderstorm',
     date: '2025-07-08',
-    timeline_desc: '',
+    timeline_desc: 'For this website release, I made a few more cards',
     sort_key: '2025-07-03:08',
     project_id: 'raster-tangles',
     img_format: 'png',
   },
   {
     id: '2025-07-03_WatermelonKelp',
-    title: 'WatermelonKelp',
+    title: 'Watermelon Kelp',
     date: '2025-07-03',
     timeline_desc: '',
     sort_key: '2025-07-03:07',
@@ -41,11 +38,12 @@ export const raster_tangles: ArtworkDescriptor[] = [
     project_id: 'raster-tangles',
     img_format: 'png',
   },
+  // Monochrome series
   {
     id: '2025-07-03_GildedCoral',
     title: 'Gilded Coral',
     date: '2025-07-03',
-    timeline_desc: '',
+    timeline_desc: 'This set of cards had a common theme of monochrome palettes.',
     sort_key: '2025-07-03:04',
     project_id: 'raster-tangles',
     img_format: 'png',
@@ -74,6 +72,85 @@ export const raster_tangles: ArtworkDescriptor[] = [
     date: '2025-07-03',
     timeline_desc: '',
     sort_key: '2025-07-03:01',
+    project_id: 'raster-tangles',
+    img_format: 'png',
+  },
+  // Cards made for explainer
+  {
+    id: '2025-06-29_TimeCard',
+    title: 'Time Card',
+    date: '2025-06-29',
+    timeline_desc:
+      'For the artworks used in the explainer, I picked palettes semi-randomly. This one reminds me of the backgrounds in Spongebob time cards.',
+    sort_key: '2025-06-29:04',
+    project_id: 'raster-tangles',
+    img_format: 'png',
+  },
+  {
+    id: '2025-06-29_QuiltedLightning',
+    title: 'Quilted Lighting',
+    date: '2025-06-29',
+    timeline_desc: '',
+    sort_key: '2025-06-29:03',
+    project_id: 'raster-tangles',
+    img_format: 'png',
+  },
+  {
+    id: '2025-06-29_LavenderArcs',
+    title: 'Lavender Arcs',
+    date: '2025-06-29',
+    timeline_desc:
+      'The color scheme for this one was inspired by some of my fountain pen ink colors.',
+    sort_key: '2025-06-29:02',
+    project_id: 'raster-tangles',
+    img_format: 'png',
+  },
+  {
+    id: '2025-06-29_OrangeCreme',
+    title: 'Orange Creme',
+    date: '2025-06-29',
+    timeline_desc:
+      'The color scheme here reminds me of orange creme. With, uh... mint accents? Not the most appetizing, but it looks cool.',
+    sort_key: '2025-06-29:01',
+    project_id: 'raster-tangles',
+    img_format: 'png',
+  },
+  // Holiday 2024
+  {
+    id: '2024-12-23_DecorativeBubbles',
+    title: 'Decorative Bubbles',
+    date: '2024-12-23',
+    timeline_desc:
+      'Around the holidays in 2024, I made a batch of raster tangles to give to friends and family as gifts. These are some of my favorites.',
+    sort_key: '2024-12-23:04',
+    project_id: 'raster-tangles',
+    img_format: 'png',
+  },
+  {
+    id: '2024-12-24_BloodTree',
+    title: 'Blood Tree',
+    date: '2024-12-24',
+    timeline_desc: 'I love a comic book aesthetic with red accents.',
+    sort_key: '2024-12-24:03',
+    project_id: 'raster-tangles',
+    img_format: 'png',
+  },
+  {
+    id: '2024-12-23_MirroredDanceFloor',
+    title: 'Mirrored Dance Floor',
+    date: '2024-12-23',
+    timeline_desc:
+      'Looking at this image half a year later, I imagined some of the floor tiles are mirrors, reflecting a chaotic array of lights on the ceiling.',
+    sort_key: '2024-12-23:02',
+    project_id: 'raster-tangles',
+    img_format: 'png',
+  },
+  {
+    id: '2024-12-23_ComicBook',
+    title: 'Comic Book',
+    date: '2024-12-23',
+    timeline_desc: 'Using black lines on white background gives a comic-book vibe.',
+    sort_key: '2024-12-23:01',
     project_id: 'raster-tangles',
     img_format: 'png',
   },
