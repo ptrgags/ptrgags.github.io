@@ -6,7 +6,11 @@ export const raster_tangles: ProjectDescriptor = {
   years: '2022, 2024-2025',
   sort_key: '2025-07-12:00',
   description: `
-    <p>DESCRIPTION</p>
+    <p>
+    Raster Tangles is an algorithm to generat pixel art doodles that mimic how I draw.
+    It involves repeatedly sub-dividing a canvas with various geometric patterns. Each
+    resulting region can be colored, creating a patchwork-like artwork.
+    </p>
     <p>
     For more details on how this algorithm works, see the
     <a href="https://github.com/ptrgags/raster-tangles/blob/main/raster-tangles.md">Raster Tangles Guide</a>
@@ -26,7 +30,7 @@ export const raster_tangles: ProjectDescriptor = {
             I made documentation for how the algorithm works, complete with
             plenty of illustrations. You can find it in the
             <a href="https://github.com/ptrgags/raster-tangles/blob/main/raster-tangles.md">Raster Tangles Guide</a>
-            in the GitHub repo
+            in the GitHub repository.
         </p>
       `,
       sort_key: '2025-06-30:01',
@@ -39,7 +43,14 @@ export const raster_tangles: ProjectDescriptor = {
       },
       description: `
             <p>
-                LINK to Raster Tangles Classic
+                The original prototype for Raster Tangles was made in a
+                different repo, <a href="#/project/p5-sketchbook">P5 Sketchbook</a>.
+                The main difference is that it didn't have a concept of outline
+                pixels, so the boundaries between regions are less clearly
+                defined. This gives it a more fabric-like appearance.
+            </p>
+            <p>
+                <a href="https://ptrgags.dev/p5-sketchbook/RasterTangles/">Link to live version</a>.
             </p>
         `,
       sort_key: `2022-00-00:01`,
