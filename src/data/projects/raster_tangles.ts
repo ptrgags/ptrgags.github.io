@@ -7,14 +7,15 @@ export const raster_tangles: ProjectDescriptor = {
   sort_key: '2025-07-12:00',
   description: `
     <p>
-    Raster Tangles is an algorithm to generat pixel art doodles that mimic how I draw.
-    It involves repeatedly sub-dividing a canvas with various geometric patterns. Each
-    resulting region can be colored, creating a patchwork-like artwork.
+        Raster Tangles is an algorithm to generat pixel art doodles that mimic how I draw.
+        It involves repeatedly sub-dividing a canvas with various geometric patterns. Each
+        resulting region can be colored, creating a patchwork-like artwork.
     </p>
     <p>
-    For more details on how this algorithm works, see the
-    <a href="https://github.com/ptrgags/raster-tangles/blob/main/raster-tangles.md">Raster Tangles Guide</a>
-    </p> in the GitHub repository.
+        For more details on how this algorithm works, see the
+        <a href="https://github.com/ptrgags/raster-tangles/blob/main/raster-tangles.md">Raster Tangles Guide</a>
+        in the GitHub repository.
+    </p> 
   `,
   github_repo: 'raster-tangles',
   img_format: 'png',

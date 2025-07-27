@@ -140,7 +140,7 @@ export const raster_tangles: ArtworkDescriptor[] = [
     title: 'Mirrored Dance Floor',
     date: '2024-12-23',
     timeline_desc:
-      'Looking at this image half a year later, I imagined some of the floor tiles are mirrors, reflecting a chaotic array of lights on the ceiling.',
+      'The name of this artwork came from my reaction a half year after I created this image. I imagined some of the floor tiles are mirrors, reflecting a chaotic array of lights on the ceiling.',
     sort_key: '2024-12-23:02',
     project_id: 'raster-tangles',
     img_format: 'png',
@@ -149,7 +149,7 @@ export const raster_tangles: ArtworkDescriptor[] = [
     id: '2024-12-23_ComicBook',
     title: 'Comic Book',
     date: '2024-12-23',
-    timeline_desc: 'Using black lines on white background gives a comic-book vibe.',
+    timeline_desc: 'I used black lines on a white background for a comic book vibe.',
     sort_key: '2024-12-23:01',
     project_id: 'raster-tangles',
     img_format: 'png',
