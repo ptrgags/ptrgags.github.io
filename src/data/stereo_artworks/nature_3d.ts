@@ -19,7 +19,7 @@ export const nature_3d_artworks: ArtworkDescriptor[] = [
     id: '2025-09-27_LeafLitter',
     title: 'Leaf Litter',
     date: '2025-09-27',
-    timeline_desc: 'Fallen leaves in the Water Works South Garden in Philadelphia, PA.',
+    timeline_desc: "Fallen leaves in the Water Works' South Garden in Philadelphia, PA.",
     sort_key: '2025-09-27:01',
   },
   {
@@ -45,7 +45,7 @@ export const nature_3d_artworks: ArtworkDescriptor[] = [
     id: '2025-09-06_SouthGarden',
     title: 'South Garden',
     date: '2025-09-06',
-    timeline_desc: 'A view along the railing of the Water Works South Garden in Philadelphia, PA.',
+    timeline_desc: "A view from the Water Works' South Garden in Philadelphia, PA.",
     sort_key: '2025-09-06:01',
   },
 
@@ -81,7 +81,7 @@ export const nature_3d_artworks: ArtworkDescriptor[] = [
     title: 'Blackberry Lily',
     date: '2025-07-09',
     timeline_desc:
-      'A flower I saw when walking around Swarthmore, PA. Looking it up, I learned it is called a Blackberry Lily (<a href="https://en.wikipedia.org/wiki/Iris_domestica"><i>Iris domestica</i></a>)',
+      'A flower I saw when walking around Swarthmore, PA. Looking it up, I learned that it is called a Blackberry Lily (<a href="https://en.wikipedia.org/wiki/Iris_domestica"><i>Iris domestica</i></a>).',
     sort_key: '2025-07-09:02',
   },
   {
@@ -90,7 +90,7 @@ export const nature_3d_artworks: ArtworkDescriptor[] = [
     title: 'Stargazer Lily',
     date: '2025-07-09',
     timeline_desc:
-      'A flower I saw while walking around Swarthmore. Looking it up, this is a Stargazer Lily (<a href="https://en.wikipedia.org/wiki/Lilium_%27Stargazer%27"><i>Lilium</i> "Stargazer"</a>)',
+      'A flower I saw while walking around Swarthmore. Looking it up, I learned that it is called a Stargazer Lily (<a href="https://en.wikipedia.org/wiki/Lilium_%27Stargazer%27"><i>Lilium</i> "Stargazer"</a>).',
     sort_key: '2025-07-09:01',
   },
   {
