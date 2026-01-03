@@ -160,4 +160,61 @@ export const p5_sketchbook_artworks: ArtworkDescriptor[] = [
         </p>
     `,
   },
+  {
+    id: 'string-art',
+    title: 'String Art',
+    date: '2017, 2024-12',
+    timeline_desc: 'Modular arithmetic, visualized as string art.',
+    sort_key: '2024-12-00:01',
+    project_id: 'p5-sketchbook',
+    img_format: 'png',
+  },
+  {
+    id: 'Perspective Railroad',
+    title: 'Perspective Railroad',
+    date: '2025-02',
+    timeline_desc:
+      'I was exploring Projective Geometric Algebra, and used it to construct this animation in perspective.',
+    sort_key: '2025-02-00:01',
+    project_id: 'p5-sketchbook',
+    img_format: 'png',
+  },
+  {
+    id: 'differential-growth',
+    title: 'Differential Growth',
+    date: '2021, 2025-02',
+    timeline_desc:
+      'I took an old Processing sketch about differential growth and ported it to p5.js',
+    sort_key: '2025-02-00:02',
+    project_id: 'p5-sketchbook',
+    img_format: 'png',
+  },
+  {
+    id: 'worm',
+    title: 'Worm',
+    date: '2025-03',
+    timeline_desc: 'A whimsical interactive worm, based on a constraint-based animation technique.',
+    sort_key: '2025-03-00:01',
+    project_id: 'p5-sketchbook',
+    img_format: 'png',
+  },
+  {
+    id: 'mosaic-slider',
+    title: 'Mosaic Slider',
+    date: '2025-03',
+    timeline_desc: 'A pixel art editor where you can only swap adjacent tiles.',
+    sort_key: '2025-03-00:02',
+    project_id: 'p5-sketchbook',
+    img_format: 'png',
+  },
+  {
+    id: 'robot-walks',
+    title: 'Robot Walks',
+    date: '2025-11',
+    timeline_desc:
+      'Interactive robot that moves in circular arcs. It was based on a Project Euler puzzle.',
+    sort_key: '2025-11-00:01',
+    project_id: 'p5-sketchbook',
+    img_format: 'png',
+  },
 ]
