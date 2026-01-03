@@ -75,7 +75,7 @@ const recent_projects = get_recent(all_projects)
         <ThumbnailCard :card="thumbnail" />
       </template>
     </div>
-    <p><RouterLink to="/gallery">All Artworks ></RouterLink></p>
+    <p><RouterLink to="/gallery">Full Gallery ></RouterLink></p>
     <hr class="divider" width="60%" />
     <h1 class="center-text">Recent Artworks</h1>
     <div class="horizontal">
@@ -83,6 +83,6 @@ const recent_projects = get_recent(all_projects)
         <ThumbnailCard :card="thumbnail" />
       </template>
     </div>
-    <p><RouterLink to="/gallery">All Artworks ></RouterLink></p>
+    <p><RouterLink to="/gallery">Full Gallery ></RouterLink></p>
   </div>
 </template>
