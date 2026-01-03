@@ -5,6 +5,7 @@ export const raster_tangles: ProjectDescriptor = {
   title: 'Raster Tangles',
   years: '2022, 2024-2025',
   sort_key: '2025-07-12:00',
+  featured: true,
   description: `
     <p>
         Raster Tangles is an algorithm to generat pixel art doodles that mimic how I draw.

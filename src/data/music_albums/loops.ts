@@ -5,6 +5,7 @@ export const loops: MusicAlbumDescriptor = {
   title: 'Loops',
   release_date: '2024-05-01',
   sort_key: '2024-05-01:00',
+  featured: true,
   description: `
   <p>
     It's been about two and a half years since I last made music (see

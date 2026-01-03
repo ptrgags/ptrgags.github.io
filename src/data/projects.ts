@@ -15,6 +15,7 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
     title: 'Nature 3D',
     years: '2025',
     sort_key: '2025-06-00:01',
+    featured: true,
     img_format: 'jpg',
     description: `
         <p>

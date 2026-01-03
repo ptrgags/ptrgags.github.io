@@ -6,6 +6,7 @@ export const symmetry_sketchbook: ProjectDescriptor = {
   years: '2019-2020, 2024',
   sort_key: '2024-03-00:00',
   img_format: 'png',
+  featured: true,
   description: `
         <p>
             This project is an exploration of the symmetric mathematical 
