@@ -160,4 +160,64 @@ export const p5_sketchbook_artworks: ArtworkDescriptor[] = [
         </p>
     `,
   },
+  // string art 2017, 2024-12
+  {
+    id: '',
+    title: '',
+    date: '',
+    timeline_desc: '',
+    sort_key: '',
+    project_id: '',
+    img_format: 'png',
+  },
+  // perspective railroad 2025-02
+  {
+    id: '',
+    title: '',
+    date: '',
+    timeline_desc: '',
+    sort_key: '',
+    project_id: '',
+    img_format: 'png',
+  },
+  // differential growth 2021, 2025-02
+  {
+    id: '',
+    title: '',
+    date: '',
+    timeline_desc: '',
+    sort_key: '',
+    project_id: '',
+    img_format: 'png',
+  },
+  // worm 2025-03
+  {
+    id: '',
+    title: '',
+    date: '',
+    timeline_desc: '',
+    sort_key: '',
+    project_id: '',
+    img_format: 'png',
+  },
+  // mosaic slider 2025-03
+  {
+    id: '',
+    title: '',
+    date: '',
+    timeline_desc: '',
+    sort_key: '',
+    project_id: '',
+    img_format: 'png',
+  },
+  // robot walks 2025-11
+  {
+    id: '',
+    title: '',
+    date: '',
+    timeline_desc: '',
+    sort_key: '',
+    project_id: '',
+    img_format: 'png',
+  },
 ]
