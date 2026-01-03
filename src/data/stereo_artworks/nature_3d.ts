@@ -116,6 +116,7 @@ export const nature_3d_artworks: ArtworkDescriptor[] = [
         A coleus plant I saw in a garden while walking around Philly.
     `,
     sort_key: '2025-06-13:01',
+    featured: true,
   },
   {
     ...base,

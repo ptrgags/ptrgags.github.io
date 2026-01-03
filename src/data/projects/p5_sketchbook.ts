@@ -5,6 +5,7 @@ export const p5_sketchbook: ProjectDescriptor = {
   title: 'p5 Sketchbook',
   years: '2016, 2021, 2023-2024',
   sort_key: '2024-04-00:01',
+  featured: true,
   description: `
     <p>
         This project is a repo where I keep a variety of small art experiments

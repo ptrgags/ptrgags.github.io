@@ -150,3 +150,8 @@ p {
   background-color: var(--background-dark);
   border-radius: 8px;
 }
+
+.divider {
+  margin: 20px;
+  border: 1px solid var(--color-accent);
+}

@@ -107,5 +107,6 @@ export const holiday_shaders2_artworks: ArtworkDescriptor[] = [
     sort_key: '2024-11-21:05',
     project_id: 'holiday-shaders2',
     img_format: 'png',
+    featured: true,
   },
 ]
