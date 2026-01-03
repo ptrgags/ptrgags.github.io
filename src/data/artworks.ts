@@ -38,6 +38,7 @@ const ARTWORK_DESCRIPTORS: ArtworkDescriptor[] = [
     timeline_desc:
       'After about two years and one month, I finally finished making this crochet pattern.',
     img_format: 'jpg',
+    featured: true,
     description: `
         <p>
             This crochet pattern was inspired by the TED talk <a href="https://youtu.be/w1TBZhd-sN0?si=XsH01B6DCeU8LoqT">"Crocheting Hyperbolic Planes"</a>

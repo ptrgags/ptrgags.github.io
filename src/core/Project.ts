@@ -29,7 +29,7 @@ export interface ProjectDescriptor {
   updates?: TimelineEntry[]
   // If true, hide this entry from the list
   hide?: boolean
-  // If true, this gets priority sorting on the main page
+  // If true, this gets added to the featured section of the index page
   featured?: boolean
 }
 

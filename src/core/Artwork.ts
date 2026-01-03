@@ -24,6 +24,8 @@ export interface ArtworkDescriptor {
   img_format: 'png' | 'jpg'
   // If true, hide this entry from the list
   hide?: boolean
+  // If true, this gets added to the featured section of the index page
+  featured?: boolean
 }
 
 export class Artwork {
@@ -62,6 +64,7 @@ export class Artwork {
         url: thumbnail_url,
         size: 'thumbnail',
       },
+      featured: descriptor.featured,
     }
 
     this.card = {

@@ -56,6 +56,7 @@ export const math_notebook_artworks: ArtworkDescriptor[] = [
     sort_key: '2024-10-30:07',
     project_id: 'math-notebook',
     img_format: 'png',
+    featured: true,
   },
   {
     id: '2024-10-30_GhostDoubleSpiral',

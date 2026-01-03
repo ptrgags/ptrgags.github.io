@@ -21,6 +21,7 @@ export const next_1000_cards_artworks: ArtworkDescriptor[] = [
     sort_key: '2024-10-02:01',
     project_id: 'next-1000-cards',
     img_format: 'jpg',
+    featured: true,
   },
   {
     id: '2024-10-12_Card0019',

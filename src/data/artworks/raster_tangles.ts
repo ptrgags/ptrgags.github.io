@@ -85,6 +85,7 @@ export const raster_tangles: ArtworkDescriptor[] = [
     sort_key: '2025-06-29:04',
     project_id: 'raster-tangles',
     img_format: 'png',
+    featured: true,
   },
   {
     id: '2025-06-29_QuiltedLightning',
