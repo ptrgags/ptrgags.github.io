@@ -21,12 +21,12 @@ import { RouterLink } from 'vue-router'
         </li>
         <li>
           <a href="https://github.com/ptrgags"
-            ><img width="32px" src="@/assets/github-mark-white.svg"
+            ><img width="24px" src="@/assets/github-mark-white.svg"
           /></a>
         </li>
         <li>
           <a href="https://bsky.app/profile/ptrgags.bsky.social"
-            ><img width="32px" src="@/assets/bluesky-logo-white.svg"
+            ><img width="24px" src="@/assets/bluesky-logo-white.svg"
           /></a>
         </li>
       </ul>
