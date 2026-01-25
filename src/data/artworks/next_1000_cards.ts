@@ -15,7 +15,7 @@ export function make_atc(iso_date: string, card_id: number): ArtworkDescriptor {
 }
 
 export const next_1000_cards_artworks: ArtworkDescriptor[] = [
-  make_atc('2025-09-23', 3),
+  make_atc('2024-09-23', 3),
   {
     ...make_atc('2024-10-12', 12),
     timeline_desc: `
