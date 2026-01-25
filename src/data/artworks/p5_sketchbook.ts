@@ -217,4 +217,26 @@ export const p5_sketchbook_artworks: ArtworkDescriptor[] = [
     project_id: 'p5-sketchbook',
     img_format: 'png',
   },
+  {
+    id: '2026-01-??_AnimatedTangle',
+    title: 'Animated Tangle',
+    date: '2025-12/2026-01',
+    timeline_desc: '',
+    sort_key: '2026-01-00:01',
+    project_id: 'p5-sketchbook',
+    img_format: 'png',
+    description: `
+        <p>
+            As a culminating project for 2025, I tried making an animated
+            version of my doodles using the animation code I've worked on
+            this year. It's not yet complete, but it's coming along nicely!
+        </p>
+        <p>
+            <a href="https://ptrgags.dev/p5-sketchbook/lab/AnimatedTangle/">Link to live demo</a>
+        </p>
+        <p>
+            <a href="https://github.com/ptrgags/p5-sketchbook/issues/99">Link to GitHub issue</a>
+        </p>
+      `,
+  },
 ]
