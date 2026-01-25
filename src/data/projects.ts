@@ -8,6 +8,7 @@ import { next_1000_cards } from './projects/next_1000_cards'
 import { holiday_shaders } from './projects/holiday_shaders'
 import { holiday_shaders2 } from './projects/holiday_shaders2'
 import { raster_tangles } from './projects/raster_tangles'
+import { webgpu_sketchbook } from './projects/webgpu_sketchbook.ts'
 
 const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
   {
@@ -160,6 +161,7 @@ const PROJECT_DESCRIPTORS: ProjectDescriptor[] = [
   symmetry_sketchbook,
   hyperbolic_crochet,
   p5_sketchbook,
+  webgpu_sketchbook,
   math_notebook,
   next_1000_cards,
   holiday_shaders,
