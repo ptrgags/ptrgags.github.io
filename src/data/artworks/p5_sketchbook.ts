@@ -173,7 +173,7 @@ export const p5_sketchbook_artworks: ArtworkDescriptor[] = [
     sort_key: '2025-02-17:01',
     project_id: 'p5-sketchbook',
     img_format: 'png',
-    demo_link: sketch_link('AnimatedTangle'),
+    demo_link: sketch_link('DifferentialGrowth'),
   },
   {
     id: '2025-03-09_Worm',
@@ -215,5 +215,6 @@ export const p5_sketchbook_artworks: ArtworkDescriptor[] = [
     project_id: 'p5-sketchbook',
     img_format: 'png',
     demo_link: sketch_link('AnimatedTangle'),
+    bluesky_thread: 'https://bsky.app/profile/ptrgags.bsky.social/post/3mcl3kbs4pk24',
   },
 ]

@@ -24,6 +24,8 @@ export interface ArtworkDescriptor {
   img_format: 'png' | 'jpg'
   // If the project has a demo link, put it here
   demo_link?: string
+  // If the artwork has a Bluesky thread, put it here
+  bluesky_thread?: string
   // If true, hide this entry from the list
   hide?: boolean
   // If true, this gets added to the featured section of the index page
@@ -37,6 +39,7 @@ export class Artwork {
   readonly date: string
   readonly description: string
   readonly demo_url?: string
+  readonly bluesky_thread?: string
 
   readonly url: string
 
@@ -51,6 +54,7 @@ export class Artwork {
     this.date = descriptor.date
     this.description = descriptor.description ?? descriptor.timeline_desc
     this.demo_url = descriptor.demo_link
+    this.bluesky_thread = descriptor.bluesky_thread
 
     this.url = `/artwork/${this.project_id}/${this.id}`
 
