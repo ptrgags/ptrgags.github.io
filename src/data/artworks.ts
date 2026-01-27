@@ -6,6 +6,7 @@ import { math_notebook_artworks } from './artworks/math_notebook'
 import { next_1000_cards_artworks } from './artworks/next_1000_cards'
 import { holiday_shaders2_artworks } from './artworks/holiday_shaders2'
 import { raster_tangles } from './artworks/raster_tangles'
+import { webgpu_sketchbook_artworks } from './artworks/webgpu_sketchbook.ts'
 
 const ARTWORK_DESCRIPTORS: ArtworkDescriptor[] = [
   ...paper_toaster_artworks,
@@ -57,6 +58,7 @@ const ARTWORK_DESCRIPTORS: ArtworkDescriptor[] = [
   },
   ...symmetry_sketchbook_artworks,
   ...p5_sketchbook_artworks,
+  ...webgpu_sketchbook_artworks,
   ...math_notebook_artworks,
   ...next_1000_cards_artworks,
   ...holiday_shaders2_artworks,

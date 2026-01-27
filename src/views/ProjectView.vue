@@ -45,7 +45,7 @@ const timeline_entries = computed(() => {
           <h1>{{ project.title }} ({{ project.years }})</h1>
           <a class="big-link" v-if="project.github_url" :href="project.github_url">GitHub</a>
           &nbsp;
-          <a class="big-link" v-if="project.demo_url" :href="project.demo_url">Demo</a>
+          <a class="big-link" v-if="project.demo_url" :href="project.demo_url">Live Demo</a>
           <div v-html="project.description"></div>
         </div>
       </div>
