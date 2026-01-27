@@ -1,5 +1,9 @@
 import type { ArtworkDescriptor } from '@/core/Artwork'
 
+function sketch_link(sketch_id: string): string {
+  return `https://ptrgags.github.io/p5-sketchbook/${sketch_id}/`
+}
+
 export const p5_sketchbook_artworks: ArtworkDescriptor[] = [
   {
     id: '2021-06-23_SeashellTexture',
@@ -15,11 +19,8 @@ export const p5_sketchbook_artworks: ArtworkDescriptor[] = [
             seashells are formed. This is based on the paper <a href="http://algorithmicbotany.org/papers/shells.sig92.pdf"><cite>Modeling Seashells</cite></a>
             by Fowler, Meinhardt and Prusinkiewicz.
         </p>
-        <p>
-            See the <a href="https://ptrgags.dev/p5-sketchbook/SeashellTexture/">p5 sketch</a>
-            for the animated version and a more detailed description.
-        </p>
     `,
+    demo_link: sketch_link('SeashellTexture'),
   },
   {
     id: '2023-12-23_GrowingFlowers',
@@ -33,11 +34,8 @@ export const p5_sketchbook_artworks: ArtworkDescriptor[] = [
         <p>
             A simulation of plant growth using a modified random depth-first-search maze generation algorithm.
         </p>
-        <p>
-            See the <a href="https://ptrgags.dev/p5-sketchbook/GrowingFlowers/">p5 sketch</a>
-            for the animated version and a more detailed description.
-        </p>
     `,
+    demo_link: sketch_link('GrowingFlowers'),
   },
   {
     id: '2024-03-12_PentagTiling',
@@ -52,14 +50,11 @@ export const p5_sketchbook_artworks: ArtworkDescriptor[] = [
             An artistic pattern made on a tiling of tag-shaped pentagons.
         </p>
         <p>
-            See the <a href="https://ptrgags.dev/p5-sketchbook/PentagTiling/">p5 sketch</a> for the interactive
-            version and a more detailed description.
-        </p>
-        <p>
             This was an experiment in making generative art with just a little
             bit of user interaction to make it feel more satisfying.
         </p>
     `,
+    demo_link: sketch_link('PentagTiling'),
   },
   {
     id: '2024-04-09_HyperbolicConnections',
@@ -76,16 +71,13 @@ export const p5_sketchbook_artworks: ArtworkDescriptor[] = [
             A swirly pattern made on the Poincaré model of the hyperbolic plane.
         </p>
         <p>
-            See the <a href="https://ptrgags.dev/p5-sketchbook/HyperbolicConnections/">p5 sketch</a> for the interactive
-            version and a more detailed description.
-        </p>
-        <p>
             I first made this sketch in 2021. It just generated the image
             and masked out the background. I removed the masking, just because
             it looks cool. I also enabled warping the image with the mouse,
             since that leads to some neat swirly patterns.
         </p>
     `,
+    demo_link: sketch_link('HyperbolicConnections'),
   },
   {
     id: '2024-04-09_Refill',
@@ -101,11 +93,8 @@ export const p5_sketchbook_artworks: ArtworkDescriptor[] = [
             It serves as an analogy for trying to keep up with the never-ending
             list of tasks in day-to-day life.
         </p>
-        <p>
-            See the <a href="https://ptrgags.dev/p5-sketchbook/Refill/">p5 sketch</a> for the interactive
-            version and a more detailed description.
-        </p>
     `,
+    demo_link: sketch_link('Refill'),
   },
   {
     id: '2024-09-25_InkBlocks',
@@ -127,11 +116,8 @@ export const p5_sketchbook_artworks: ArtworkDescriptor[] = [
             I was curious what pattern you get if you repeat this process
             over a long period of time. So I made this automaton to simulate it.
         </p>
-        <p>
-            See the <a href="https://ptrgags.dev/p5-sketchbook/InkBlocks/">p5 sketch</a>
-            for the animated version and a more detailed description.
-        </p>
     `,
+    demo_link: sketch_link('InkBlocks'),
   },
   {
     id: '2024-09-25_InfiniteSunflower',
@@ -154,89 +140,80 @@ export const p5_sketchbook_artworks: ArtworkDescriptor[] = [
             spirals, except mine continues forever. New florets are added
             in the center, and the oldest petals are removed after a while.
         </p>
-        <p>
-            See the <a href="https://ptrgags.dev/p5-sketchbook/InfiniteSunflower/">p5 sketch</a> 
-            for the animated version and a more detailed description.
-        </p>
     `,
+    demo_link: sketch_link('InfiniteSunflower'),
   },
   {
-    id: 'string-art',
+    id: '2024-12-13_StringArt',
     title: 'String Art',
     date: '2017, 2024-12',
     timeline_desc: 'Modular arithmetic, visualized as string art.',
     sort_key: '2024-12-00:01',
     project_id: 'p5-sketchbook',
     img_format: 'png',
+    demo_link: sketch_link('StringArt'),
   },
   {
-    id: 'Perspective Railroad',
+    id: '2025-02-06_PerspectiveRailroad',
     title: 'Perspective Railroad',
-    date: '2025-02',
+    date: '2025-02-06',
     timeline_desc:
       'I was exploring Projective Geometric Algebra, and used it to construct this animation in perspective.',
-    sort_key: '2025-02-00:01',
+    sort_key: '2025-02-06:01',
     project_id: 'p5-sketchbook',
     img_format: 'png',
+    demo_link: sketch_link('PerspectiveRailroad'),
   },
   {
-    id: 'differential-growth',
+    id: '2025-02-17_DifferentialGrowth',
     title: 'Differential Growth',
     date: '2021, 2025-02',
     timeline_desc:
       'I took an old Processing sketch about differential growth and ported it to p5.js',
-    sort_key: '2025-02-00:02',
+    sort_key: '2025-02-17:01',
     project_id: 'p5-sketchbook',
     img_format: 'png',
+    demo_link: sketch_link('AnimatedTangle'),
   },
   {
-    id: 'worm',
+    id: '2025-03-09_Worm',
     title: 'Worm',
-    date: '2025-03',
+    date: '2025-03-09',
     timeline_desc: 'A whimsical interactive worm, based on a constraint-based animation technique.',
-    sort_key: '2025-03-00:01',
+    sort_key: '2025-03-09:01',
     project_id: 'p5-sketchbook',
     img_format: 'png',
+    demo_link: sketch_link('Worm'),
   },
   {
-    id: 'mosaic-slider',
+    id: '2025-03-11_MosaicSlider',
     title: 'Mosaic Slider',
-    date: '2025-03',
+    date: '2025-03-11',
     timeline_desc: 'A pixel art editor where you can only swap adjacent tiles.',
-    sort_key: '2025-03-00:02',
+    sort_key: '2025-03-11:02',
     project_id: 'p5-sketchbook',
     img_format: 'png',
+    demo_link: sketch_link('MosaicSlider'),
   },
   {
-    id: 'robot-walks',
+    id: '2025-11-16_RobotWalks',
     title: 'Robot Walks',
-    date: '2025-11',
+    date: '2025-11-16',
     timeline_desc:
       'Interactive robot that moves in circular arcs. It was based on a Project Euler puzzle.',
-    sort_key: '2025-11-00:01',
+    sort_key: '2025-11-16:01',
     project_id: 'p5-sketchbook',
     img_format: 'png',
+    demo_link: sketch_link('RobotWalks'),
   },
   {
-    id: '2026-01-??_AnimatedTangle',
+    id: '2026-01-15_AnimatedTangle',
     title: 'Animated Tangle',
     date: '2025-12/2026-01',
-    timeline_desc: '',
-    sort_key: '2026-01-00:01',
+    timeline_desc: 'An animated version of my abstract doodles.',
+    sort_key: '2026-01-15:01',
     project_id: 'p5-sketchbook',
     img_format: 'png',
-    description: `
-        <p>
-            As a culminating project for 2025, I tried making an animated
-            version of my doodles using the animation code I've worked on
-            this year. It's not yet complete, but it's coming along nicely!
-        </p>
-        <p>
-            <a href="https://ptrgags.dev/p5-sketchbook/lab/AnimatedTangle/">Link to live demo</a>
-        </p>
-        <p>
-            <a href="https://github.com/ptrgags/p5-sketchbook/issues/99">Link to GitHub issue</a>
-        </p>
-      `,
+    demo_link: sketch_link('AnimatedTangle'),
   },
 ]

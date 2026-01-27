@@ -22,6 +22,8 @@ export interface ArtworkDescriptor {
   project_id: string
   // If the thumbnail and card images are PNG or JPEG images
   img_format: 'png' | 'jpg'
+  // If the project has a demo link, put it here
+  demo_link?: string
   // If true, hide this entry from the list
   hide?: boolean
   // If true, this gets added to the featured section of the index page
@@ -34,6 +36,7 @@ export class Artwork {
   readonly title: string
   readonly date: string
   readonly description: string
+  readonly demo_url?: string
 
   readonly url: string
 
@@ -47,6 +50,7 @@ export class Artwork {
     this.title = descriptor.title
     this.date = descriptor.date
     this.description = descriptor.description ?? descriptor.timeline_desc
+    this.demo_url = descriptor.demo_link
 
     this.url = `/artwork/${this.project_id}/${this.id}`
 
