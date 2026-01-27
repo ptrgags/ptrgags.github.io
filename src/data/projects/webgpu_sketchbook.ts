@@ -5,7 +5,7 @@ export const webgpu_sketchbook: ProjectDescriptor = {
   title: 'WebGPU Sketchbook',
   years: '2024-2026',
   sort_key: '2026-01-00:01',
-  description: 'TODO',
+  description: 'TODO: Description',
   github_repo: 'webgpu-sketchbook',
   img_format: 'png',
 }
