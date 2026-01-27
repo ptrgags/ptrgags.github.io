@@ -8,4 +8,5 @@ export const webgpu_sketchbook: ProjectDescriptor = {
   description: 'TODO: Description',
   github_repo: 'webgpu-sketchbook',
   img_format: 'png',
+  demo_link: 'https://ptrgags.dev/webgpu-sketchbook',
 }
