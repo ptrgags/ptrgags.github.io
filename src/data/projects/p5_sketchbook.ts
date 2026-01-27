@@ -77,7 +77,7 @@ export const p5_sketchbook: ProjectDescriptor = {
             and tilesets. I wanted to try adding that to my p5 code.
         <p>
         <p>
-            <a href="https://ptrgags.dev/p5-sketchbook/lab/PixelMaze/">Link to live demo</a>
+            <a href="https://ptrgags.dev/p5-sketchbook/PixelMaze/">Link to live demo</a>
         </p>
       `,
       sort_key: '2025-04-00:01',
@@ -95,7 +95,7 @@ export const p5_sketchbook: ProjectDescriptor = {
             visualizations to try things out.
         </p>
         <p>
-            <a href="https://ptrgags.dev/p5-sketchbook/lab/SoundTest/">Link to live demo</a>
+            <a href="https://ptrgags.dev/p5-sketchbook/SoundTest/">Link to live demo</a>
         </p>
       `,
       sort_key: '2025-11-00:01',
@@ -111,7 +111,7 @@ export const p5_sketchbook: ProjectDescriptor = {
             yet, but I like how the visuals turned out.
         </p>
         <p>
-            <a href="https://ptrgags.dev/p5-sketchbook/">Link to live demo</a>
+            <a href="https://ptrgags.dev/p5-sketchbook/MusicalTree">Link to live demo</a>
         </p>
       `,
       sort_key: '2025-12-00:01',
