@@ -49,6 +49,10 @@ li::marker {
   color: var(--color-accent2);
 }
 
+li {
+  line-height: 1.5em;
+}
+
 kbd {
   background-color: var(--background-dark);
   padding: 4px;

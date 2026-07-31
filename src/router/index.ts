@@ -44,6 +44,11 @@ const router = createRouter({
       name: 'library',
       component: () => import('@/views/LibraryView.vue'),
     },
+    {
+      path: '/music',
+      name: 'music',
+      component: () => import('@/views/MusicView.vue'),
+    },
   ],
   scrollBehavior: () => {
     return { top: 0 }
