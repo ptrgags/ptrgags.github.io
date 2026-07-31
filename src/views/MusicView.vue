@@ -54,11 +54,15 @@ const all_albums = computed<Thumbnail[]>(() => {
       </li>
       <li>
         <a href="https://ptrgags.dev/p5-sketchbook/OcarinaTrio/">Ocarina Trio</a> -- A fun musical
-        animation, and the first time I've written music as a round.
+        animation, and the first time I've written music as a
+        <a href="https://en.wikipedia.org/wiki/Round_(music)">round</a>.
       </li>
       <li>
         <a href="https://ptrgags.dev/p5-sketchbook/MusicalTree/">Musical Tree</a> -- A sonification
-        of a fractal generation algorithm (L-system + turtle graphics).
+        of a fractal generation algorithm (<a href="https://en.wikipedia.org/wiki/L-system"
+          >L-system</a
+        >
+        + <a href="https://en.wikipedia.org/wiki/Turtle_graphics">turtle graphics</a>).
       </li>
       <li>
         <a href="https://ptrgags.dev/p5-sketchbook/SoundTest/">Sound Test</a> -- An earlier test of
