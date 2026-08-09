@@ -1,32 +1,28 @@
-<script setup lang="ts">
-import { RouterLink } from 'vue-router'
-</script>
-
 <template>
   <header>
     <div class="title">
-      <RouterLink to="/">
+      <a href="/">
         <div class="align-logo">
-          <img class="logo" src="@/assets/monogram.png" alt="PG monogram logo" />Peter Gagliardi
+          <img class="logo" src="/assets/monogram.png" alt="PG monogram logo" />Peter Gagliardi
         </div>
-      </RouterLink>
+      </a>
     </div>
     <nav>
       <ul>
         <li>
-          <RouterLink to="/gallery">Gallery</RouterLink>
+          <a href="/gallery">Gallery</a>
         </li>
         <li>
-          <RouterLink to="/projects">Projects</RouterLink>
+          <a href="/projects">Projects</a>
         </li>
         <li>
           <a href="https://github.com/ptrgags"
-            ><img width="24px" src="@/assets/github-mark-white.svg"
+            ><img width="24px" src="/assets/github-mark-white.svg"
           /></a>
         </li>
         <li>
           <a href="https://bsky.app/profile/ptrgags.bsky.social"
-            ><img width="24px" src="@/assets/bluesky-logo-white.svg"
+            ><img width="24px" src="/assets/bluesky-logo-white.svg"
           /></a>
         </li>
       </ul>

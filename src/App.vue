@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
 
-import Navbar from './components/Navbar.vue'
+import NavbarHeader from '../.vitepress/theme/NavbarHeader.vue'
 
 import '@/assets/global.css'
 </script>
 
 <template>
-  <Navbar />
+  <NavbarHeader />
   <div class="content vertical">
     <RouterView />
   </div>
