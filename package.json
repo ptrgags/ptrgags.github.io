@@ -4,24 +4,19 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "run-p type-check \"build-only {@}\" --",
-    "preview": "vite preview",
-    "test:unit": "vitest",
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview",
+    "test": "vitest run",
+    "test-watch": "vitest",
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "format": "prettier --write src/",
-    "docs:dev": "vitepress dev",
-    "docs:build": "vitepress build",
-    "docs:preview": "vitepress preview"
+    "format": "prettier --write src/"
   },
   "dependencies": {
     "@types/p5": "^1.7.6",
-    "p5": "^1.11.3",
-    "vitepress": "^1.6.4",
-    "vue": "^3.5.13",
-    "vue-router": "^4.5.0"
+    "p5": "^1.11.3"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.11.0",
@@ -41,6 +36,7 @@
     "typescript": "^5.8.3",
     "vite": "^8.2.0",
     "vitest": "^4.1.10",
-    "vue-tsc": "^2.2.8"
+    "vue-tsc": "^2.2.8",
+    "vitepress": "^1.6.4"
   }
 }
