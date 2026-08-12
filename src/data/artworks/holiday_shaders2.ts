@@ -38,7 +38,7 @@ export const holiday_shaders2_artworks: ArtworkDescriptor[] = [
             titled "Shell".
         </p>
         <p>
-            The input text for this artwork was <kbd>Cup</kbd>.
+            The input text for this artwork was <kbd>Pomegranate</kbd>.
         </p>
     `,
     sort_key: '2024-11-21:02',
