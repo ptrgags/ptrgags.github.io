@@ -1,13 +1,9 @@
 import type { ArtworkDescriptor } from '@/core/Artwork'
 
-const base: { project_id: string; img_format: 'jpg' } = {
-  project_id: 'nature-3d',
-  img_format: 'jpg',
-}
-
 export const nature_3d_artworks: ArtworkDescriptor[] = [
   {
-    ...base,
+    project_id: 'nature-3d',
+    img_format: 'jpg',
     id: '2025-09-27_BridgeThroughWoods',
     title: 'Bridge Through the Woods',
     date: '2025-09-27',
@@ -15,7 +11,8 @@ export const nature_3d_artworks: ArtworkDescriptor[] = [
     sort_key: '2025-09-27:02',
   },
   {
-    ...base,
+    project_id: 'nature-3d',
+    img_format: 'jpg',
     id: '2025-09-27_LeafLitter',
     title: 'Leaf Litter',
     date: '2025-09-27',
@@ -23,7 +20,8 @@ export const nature_3d_artworks: ArtworkDescriptor[] = [
     sort_key: '2025-09-27:01',
   },
   {
-    ...base,
+    project_id: 'nature-3d',
+    img_format: 'jpg',
     id: '2025-09-23_WissahickonCreek',
     title: 'Wissahickon Creek',
     date: '2025-09-23',
@@ -32,7 +30,8 @@ export const nature_3d_artworks: ArtworkDescriptor[] = [
     sort_key: '2025-09-23:02',
   },
   {
-    ...base,
+    project_id: 'nature-3d',
+    img_format: 'jpg',
     id: '2025-09-23_WissahickonValleyPark',
     title: 'Wissahickon Valley Park',
     date: '2025-09-23',
@@ -41,7 +40,8 @@ export const nature_3d_artworks: ArtworkDescriptor[] = [
   },
 
   {
-    ...base,
+    project_id: 'nature-3d',
+    img_format: 'jpg',
     id: '2025-09-06_SouthGarden',
     title: 'South Garden',
     date: '2025-09-06',
@@ -50,7 +50,8 @@ export const nature_3d_artworks: ArtworkDescriptor[] = [
   },
 
   {
-    ...base,
+    project_id: 'nature-3d',
+    img_format: 'jpg',
     id: '2025-07-09_PlanterCloseUp',
     title: 'Planter Close-up',
     date: '2025-07-09',
@@ -58,7 +59,8 @@ export const nature_3d_artworks: ArtworkDescriptor[] = [
     sort_key: '2025-07-09:05',
   },
   {
-    ...base,
+    project_id: 'nature-3d',
+    img_format: 'jpg',
     id: '2025-07-09_CafePlanter',
     title: 'Café Planter',
     date: '2025-07-09',
@@ -70,7 +72,8 @@ export const nature_3d_artworks: ArtworkDescriptor[] = [
     sort_key: '2025-07-09:04',
   },
   {
-    ...base,
+    project_id: 'nature-3d',
+    img_format: 'jpg',
     id: '2025-07-09_RedConeflower',
     title: 'Red Coneflowr',
     date: '2025-07-09',
@@ -79,7 +82,8 @@ export const nature_3d_artworks: ArtworkDescriptor[] = [
     sort_key: '2025-07-09:03',
   },
   {
-    ...base,
+    project_id: 'nature-3d',
+    img_format: 'jpg',
     id: '2025-07-09_BlackberryLily',
     title: 'Blackberry Lily',
     date: '2025-07-09',
@@ -88,7 +92,8 @@ export const nature_3d_artworks: ArtworkDescriptor[] = [
     sort_key: '2025-07-09:02',
   },
   {
-    ...base,
+    project_id: 'nature-3d',
+    img_format: 'jpg',
     id: '2025-07-09_StargazerLily',
     title: 'Stargazer Lily',
     date: '2025-07-09',
@@ -97,7 +102,8 @@ export const nature_3d_artworks: ArtworkDescriptor[] = [
     sort_key: '2025-07-09:01',
   },
   {
-    ...base,
+    project_id: 'nature-3d',
+    img_format: 'jpg',
     id: '2025-06-15_DogwoodTree',
     title: 'Dogwood Tree',
     date: '2025-06-15',
@@ -108,7 +114,8 @@ export const nature_3d_artworks: ArtworkDescriptor[] = [
     sort_key: '2025-06-15:01',
   },
   {
-    ...base,
+    project_id: 'nature-3d',
+    img_format: 'jpg',
     id: '2025-06-13_Coleus',
     title: 'Coleus',
     date: '2025-06-13',
@@ -119,7 +126,8 @@ export const nature_3d_artworks: ArtworkDescriptor[] = [
     featured: true,
   },
   {
-    ...base,
+    project_id: 'nature-3d',
+    img_format: 'jpg',
     id: '2025-05-08_Hedge',
     title: 'Hedge',
     date: '2025-05-08',
@@ -131,7 +139,8 @@ export const nature_3d_artworks: ArtworkDescriptor[] = [
     sort_key: '2025-05-08:01',
   },
   {
-    ...base,
+    project_id: 'nature-3d',
+    img_format: 'jpg',
     id: '2025-04-30_Bark',
     title: 'Bark',
     date: '2025-04-30',
@@ -142,7 +151,8 @@ export const nature_3d_artworks: ArtworkDescriptor[] = [
     sort_key: '2025-04-30:01',
   },
   {
-    ...base,
+    project_id: 'nature-3d',
+    img_format: 'jpg',
     id: '2025-03-31_Sakura',
     title: 'Sakura (Cherry Blossom)',
     date: '2025-03-31',
@@ -154,7 +164,8 @@ export const nature_3d_artworks: ArtworkDescriptor[] = [
     sort_key: '2025-03-31:01',
   },
   {
-    ...base,
+    project_id: 'nature-3d',
+    img_format: 'jpg',
     id: '2025-03-31_SakuraCloseUp',
     title: 'Close Up: Sakura',
     date: '2025-03-31',
