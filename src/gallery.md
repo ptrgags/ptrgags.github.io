@@ -1,3 +1,5 @@
 ---
+layout: article
+title: Gallery
 ---
-# Gallery
+TODO: Add artworks here

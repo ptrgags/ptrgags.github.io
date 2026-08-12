@@ -16,6 +16,9 @@
           <a href="/projects">Projects</a>
         </li>
         <li>
+          <a href="/music">Music</a>
+        </li>
+        <li>
           <a href="https://github.com/ptrgags"
             ><img width="24px" src="/assets/github-mark-white.svg"
           /></a>

@@ -1,7 +1,13 @@
 <script setup lang="ts">
+import ArticleLayout from './ArticleLayout.vue'
+import ArtworkLayout from './ArtworkLayout.vue'
+import HomeLayout from './HomeLayout.vue'
+import MusicAlbumLayout from './MusicAlbumLayout.vue'
 import NavbarHeader from './NavbarHeader.vue'
+import ProjectLayout from './ProjectLayout.vue'
 
 import { useData } from 'vitepress'
+import StereoPhotoLayout from './StereoPhotoLayout.vue'
 
 // https://vitepress.dev/reference/runtime-api#usedata
 const { site, frontmatter } = useData()
@@ -9,34 +15,23 @@ const { site, frontmatter } = useData()
 
 <template>
   <NavbarHeader />
-  <div v-if="frontmatter.home">
-    <h1>{{ site.title }}</h1>
-    <p>{{ site.description }}</p>
-    <ul>
-      <li><a href="/markdown-examples.html">Markdown Examples</a></li>
-      <li><a href="/api-examples.html">API Examples</a></li>
-    </ul>
+  <div v-if="frontmatter.layout === 'home'"><HomeLayout></HomeLayout></div>
+  <div v-else-if="frontmatter.layout === 'article'">
+    <ArticleLayout></ArticleLayout>
   </div>
-  <div v-if="frontmatter.layout === 'project'">
-    <div class="vertical">
-      <div class="card-frame">
-        <!-- <CardImage :image="project.card" />-->
-      </div>
-      <div class="plaque half-column">
-        <h1>{{ frontmatter.title }} ({{ frontmatter.years }})</h1>
-        <!-- TODO: Figure out how to compute the link addresses
-        <a class="big-link" v-if="project.github_url" :href="project.github_url">GitHub</a>
-        &nbsp;
-        <a class="big-link" v-if="project.demo_url" :href="project.demo_url">Live Demo</a>
-        -->
-        <Content />
-      </div>
-      <div class="timeline-container">
-        <!-- <ProjectTimeline :entries="timeline_entries" />-->
-      </div>
-    </div>
+  <div v-else-if="frontmatter.layout === 'artwork'">
+    <ArtworkLayout></ArtworkLayout>
+  </div>
+  <div v-else-if="frontmatter.layout === 'project'">
+    <ProjectLayout></ProjectLayout>
+  </div>
+  <div v-else-if="frontmatter.layout === 'music-album'">
+    <MusicAlbumLayout></MusicAlbumLayout>
+  </div>
+  <div v-else-if="frontmatter.layout === 'stereo-photo'">
+    <StereoPhotoLayout></StereoPhotoLayout>
   </div>
   <div v-else>
-    <Content />
+    <p>--- 404 Not Found ---</p>
   </div>
 </template>
