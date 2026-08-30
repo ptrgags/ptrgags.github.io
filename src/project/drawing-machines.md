@@ -1,4 +1,5 @@
 ---
+layout: project
 id: "drawing-machines"
 title: "Drawing Machines"
 years: "2019"

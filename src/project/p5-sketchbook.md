@@ -1,4 +1,5 @@
 ---
+layout: project
 id: 'p5-sketchbook'
 title: 'p5 Sketchbook'
 years: '2016, 2021, 2023-2026'

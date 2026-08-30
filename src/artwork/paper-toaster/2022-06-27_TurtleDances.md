@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2022-06-27_TurtleDances'
 title: 'Turtle Dances'
 date: '2022-06-27'

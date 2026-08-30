@@ -1,4 +1,5 @@
 ---
+layout: project
 id: 'nature-3d'
 title: 'Nature 3D'
 years: '2025'

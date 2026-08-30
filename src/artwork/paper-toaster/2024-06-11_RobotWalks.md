@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2024-06-11_RobotWalks'
 title: 'Robot Walks'
 date: '2024-06-11'

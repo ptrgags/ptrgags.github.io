@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2022-07-09_ElementaryCA'
 title: 'Elementary Cellular Automaton'
 date: '2022-07-09'

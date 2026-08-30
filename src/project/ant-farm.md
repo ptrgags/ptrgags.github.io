@@ -1,4 +1,5 @@
 ---
+layout: project
 id: 'ant-farm'
 title: "Ant Farm"
 years: "2015"

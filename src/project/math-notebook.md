@@ -1,4 +1,5 @@
 ---
+layout: project
 id: 'math-notebook'
 title: 'Math Notebook'
 years: '2024'

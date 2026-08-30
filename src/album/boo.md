@@ -1,5 +1,5 @@
 ---
-layout: album
+layout: music-album
 id: 'boo'
 title: 'boo.'
 release_date: '2020-10-31'

@@ -1,4 +1,5 @@
 ---
+layout: project
 id: 'paper-toaster'
 title: 'Paper Toaster'
 years: '2022-2024'

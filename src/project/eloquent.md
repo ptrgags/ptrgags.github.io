@@ -1,4 +1,5 @@
 ---
+layout: project
 id: 'eloquent'
 title: 'Eloquent'
 years: '2023-2024'

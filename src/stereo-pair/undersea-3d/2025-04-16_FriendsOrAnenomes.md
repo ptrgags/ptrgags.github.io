@@ -1,4 +1,5 @@
 ---
+layout: stereo-photo
 id: '2025-04-16_FriendsOrAnenomes'
 title: 'Friend Or Anemone?'
 date: '2025-04-16'

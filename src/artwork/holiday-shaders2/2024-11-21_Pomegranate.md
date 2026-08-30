@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2024-11-21_Pomegranate'
 title: 'Shell - "Pomegranate"'
 date: '2024-11-21'

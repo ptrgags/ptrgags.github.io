@@ -1,4 +1,5 @@
 ---
+layout: music-album
 id: 'improvised-vol3'
 title: 'Improvised Volume 3'
 release_date: '2024-07-15'

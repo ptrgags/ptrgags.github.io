@@ -1,4 +1,5 @@
 ---
+layout: project
 id: 'symmetry-sketchbook'
 title: 'Symmetry Sketchbook'
 years: '2019-2020, 2024'

@@ -1,4 +1,5 @@
 ---
+layout: project
 id: 'raster-tangles'
 title: 'Raster Tangles'
 years: '2022, 2024-2025'

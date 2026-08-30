@@ -1,4 +1,5 @@
 ---
+layout: music-album
 id: 'rewind-and-ffwd'
 title: 'REW/FFWD'
 release_date: '2024-07-15'

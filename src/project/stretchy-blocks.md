@@ -1,4 +1,5 @@
 ---
+layout: project
 id: 'stretchy-blocks'
 title: 'Stretchy Blocks'
 years: '2024'

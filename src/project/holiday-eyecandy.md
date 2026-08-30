@@ -1,4 +1,5 @@
 ---
+layout: project
 id: "holiday-eyecandy"
 title: "Holiday Eyecandy"
 years: "2018"

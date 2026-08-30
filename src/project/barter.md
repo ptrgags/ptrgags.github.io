@@ -1,4 +1,5 @@
 ---
+layout: project
 id: 'barter'
 title: "Barter"
 years: "2014, 2016"

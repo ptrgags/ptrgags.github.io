@@ -1,4 +1,5 @@
 ---
+layout: stereo-photo
 project_id: 'nature-3d'
 img_format: 'jpg'
 id: '2025-09-23_WissahickonCreek'

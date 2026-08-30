@@ -15,8 +15,7 @@ const { site, frontmatter } = useData()
 
 <template>
   <NavbarHeader />
-  <div v-if="frontmatter.layout === 'home'"><HomeLayout></HomeLayout></div>
-  <div v-else-if="frontmatter.layout === 'article'">
+  <div v-if="frontmatter.layout === 'article'">
     <ArticleLayout></ArticleLayout>
   </div>
   <div v-else-if="frontmatter.layout === 'artwork'">

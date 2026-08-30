@@ -1,4 +1,5 @@
 ---
+layout: music-album
 id: 'loops'
 title: 'Loops'
 release_date: '2024-05-01'

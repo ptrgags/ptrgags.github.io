@@ -1,4 +1,5 @@
 ---
+layout: project
 id: "affine-font-indeed"
 title: "Affine Font Indeed"
 years: "2018"

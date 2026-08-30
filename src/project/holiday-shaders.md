@@ -1,4 +1,5 @@
 ---
+layout: project
 id: 'holiday-shaders'
 title: 'Holiday Shaders'
 years: '2016'

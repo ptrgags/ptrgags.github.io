@@ -1,4 +1,5 @@
 ---
+layout: project
 id: 'blue-velvet-scarf'
 title: 'Knitting a Blue Velvet Scarf'
 years: '2023-2024'

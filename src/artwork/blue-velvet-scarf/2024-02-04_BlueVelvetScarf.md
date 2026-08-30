@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2024-02-04_BlueVelvetScarf'
 title: 'Blue Velvet Scarf'
 date: '2024-02-04'

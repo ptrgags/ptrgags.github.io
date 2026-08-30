@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2022-08-23_ColoredBraids'
 title: 'Colored Braids'
 date: '2022-08-23'

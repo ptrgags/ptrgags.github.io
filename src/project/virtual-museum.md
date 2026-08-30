@@ -1,4 +1,5 @@
 ---
+layout: project
 id: "virtual-museum"
 title: "Virtual Museum"
 years: "2019"

@@ -1,4 +1,5 @@
 ---
+layout: project
 id: 'next-1000-cards'
 title: 'Next 1000 Cards'
 years: '2024'

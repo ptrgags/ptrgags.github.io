@@ -1,4 +1,5 @@
 ---
+layout: project
 id: 'webgpu-sketchbook'
 title: 'WebGPU Sketchbook'
 years: '2024-2026'

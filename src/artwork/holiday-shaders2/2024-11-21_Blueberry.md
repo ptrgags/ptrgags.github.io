@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2024-11-21_Blueberry'
 title: 'Liquid Metal - "Blueberry"'
 date: '2024-11-21'

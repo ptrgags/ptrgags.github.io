@@ -1,4 +1,5 @@
 ---
+layout: project
 id: "spin-o-sketch"
 title: "Spin-o-Sketch"
 years: "2014"

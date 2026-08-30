@@ -1,4 +1,5 @@
 ---
+layout: project
 id: 'hyperbolic-crochet'
 title: 'Making of Hyperbolic Crochet'
 years: '2021-2023'

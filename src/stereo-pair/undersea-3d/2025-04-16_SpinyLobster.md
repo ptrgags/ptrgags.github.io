@@ -1,4 +1,5 @@
 ---
+layout: stereo-photo
 id: '2025-04-16_SpinyLobster'
 title: 'Spiny Lobster'
 date: '2025-04-16'
