@@ -1,10 +1,10 @@
 ---
-id: 'math-notebook',
-title: 'Math Notebook',
-years: '2024',
-sort_key: '2024-10-30:01',
-github_repo: 'math-notebook',
-img_format: 'png',
+id: 'math-notebook'
+title: 'Math Notebook'
+years: '2024'
+sort_key: '2024-10-30:01'
+github_repo: 'math-notebook'
+img_format: 'png'
 ---
 <p>
     A Rust project for me to explore mathematical ideas with code.

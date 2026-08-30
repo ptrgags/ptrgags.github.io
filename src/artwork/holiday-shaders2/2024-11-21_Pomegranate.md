@@ -1,12 +1,12 @@
 ---
-id: '2024-11-21_Pomegranate',
-title: 'Shell - "Pomegranate"',
-date: '2024-11-21',
+id: '2024-11-21_Pomegranate'
+title: 'Shell - "Pomegranate"'
+date: '2024-11-21'
 timeline_desc:
-    'A twisty pattern in polar coordinates generated from the input text <kbd>Pomegranate</kbd>.',
-sort_key: '2024-11-21:02',
-project_id: 'holiday-shaders2',
-img_format: 'png',
+    'A twisty pattern in polar coordinates generated from the input text <kbd>Pomegranate</kbd>.'
+sort_key: '2024-11-21:02'
+project_id: 'holiday-shaders2'
+img_format: 'png'
 ---
 <p>
     This shader was a happy accident. I had originally intended to make

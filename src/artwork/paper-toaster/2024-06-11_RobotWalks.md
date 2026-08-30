@@ -1,18 +1,18 @@
 ---
-id: '2024-06-11_RobotWalks',
-title: 'Robot Walks',
-date: '2024-06-11',
-sort_key: '2024-06-11:01',
-project_id: 'paper-toaster',
+id: '2024-06-11_RobotWalks'
+title: 'Robot Walks'
+date: '2024-06-11'
+sort_key: '2024-06-11:01'
+project_id: 'paper-toaster'
 timeline_desc:
-    'I added a new artwork inspired by Project Euler puzzle <a href="https://projecteuler.net/problem=208">#208 Robot Walks</a>.',
-img_format: 'png',
+    'I added a new artwork inspired by Project Euler puzzle <a href="https://projecteuler.net/problem=208">#208 Robot Walks</a>.'
+img_format: 'png'
 ---
 <p>
     This artwork is inspired by Project Euler puzzle
     <a href="https://projecteuler.net/problem=208">#208 Robot Walks</a>.
     Project Euler is a website with many math puzzles that require
-    programming to solve. This one had an interesting visualization,
+    programming to solve. This one had an interesting visualization
     so I thought I'd use it to make art.
 </p>
 <p>

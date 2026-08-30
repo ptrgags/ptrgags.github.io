@@ -11,8 +11,8 @@ coral and jellyfish for art reference, and to take photos.
 
 
 In past months, I've been trying out stereo photography. By
-taking two photos with a slightly different camera position,
+taking two photos with a slightly different camera position
 you can trick the eye to perceiving it as a 3D scene. I finally
-got around to making a 3D photo viewer widget for this website,
+got around to making a 3D photo viewer widget for this website
 so I can share the results.
         

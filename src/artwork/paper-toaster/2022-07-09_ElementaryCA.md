@@ -1,11 +1,11 @@
 ---
-id: '2022-07-09_ElementaryCA',
-title: 'Elementary Cellular Automaton',
-date: '2022-07-09',
-sort_key: '2022-07-09:01',
-project_id: 'paper-toaster',
-img_format: 'png',
-timeline_desc: 'The classic cellular automaton, now in printable form',
+id: '2022-07-09_ElementaryCA'
+title: 'Elementary Cellular Automaton'
+date: '2022-07-09'
+sort_key: '2022-07-09:01'
+project_id: 'paper-toaster'
+img_format: 'png'
+timeline_desc: 'The classic cellular automaton, now in printable form'
 ---
 <p>
     Looking for more pattern ideas to make on my receipt printer, I returned to the classic

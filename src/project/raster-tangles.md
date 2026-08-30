@@ -3,14 +3,14 @@ id: 'raster-tangles'
 title: 'Raster Tangles'
 years: '2022, 2024-2025'
 sort_key: '2025-07-12:00'
-featured: true,
+featured: true
 github_repo: 'raster-tangles'
 img_format: 'png'
 updates:
     - title: 'Explainer'
       date: '2025-06-30'
       image: {
-        url: update_url('raster-tangles', '2025-06-30_ExplainerDoodle.png')
+        url: "update_url('raster-tangles', '2025-06-30_ExplainerDoodle.png')"
       }
       description: >
         <p>
@@ -23,7 +23,7 @@ updates:
     - title: 'Raster Tangles Classic'
       date: '2022'
       image: {
-        url: update_url('raster-tangles', '2022_RasterTanglesClassic.png')
+        url: "update_url('raster-tangles', '2022_RasterTanglesClassic.png')"
       }
       description: >
         <p>

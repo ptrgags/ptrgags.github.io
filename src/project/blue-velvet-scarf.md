@@ -1,57 +1,47 @@
 ---
-id: 'blue-velvet-scarf',
-title: 'Knitting a Blue Velvet Scarf',
-years: '2023-2024',
-sort_key: '2024-02-00:02',
-img_format: 'jpg',
-updates: [
-{
-    sort_key: '2023-12-18:01',
-    date: '2023-12-18',
-    title: 'Starting Out',
+id: 'blue-velvet-scarf'
+title: 'Knitting a Blue Velvet Scarf'
+years: '2023-2024'
+sort_key: '2024-02-00:02'
+img_format: 'jpg'
+updates:
+  - sort_key: '2023-12-18:01'
+    date: '2023-12-18'
+    title: 'Starting Out'
     image: {
-    url: update_url('blue-velvet-scarf', '2023-12-18_StartingOut.jpg'),
-    },
-    description: 'I started the scarf. I did 3 repeats in the first sitting.',
-},
-{
-    sort_key: '2023-12-29:01',
-    date: '2023-12-29',
-    title: '5/25 Pattern Repeats',
+        url: "update_url('blue-velvet-scarf', '2023-12-18_StartingOut.jpg')"
+    }
+    description: 'I started the scarf. I did 3 repeats in the first sitting.'
+  - sort_key: '2023-12-29:01'
+    date: '2023-12-29'
+    title: '5/25 Pattern Repeats'
     image: {
-    url: update_url('blue-velvet-scarf', '2023-12-29_AFewMoreRepeats.jpg'),
-    },
-    description: '',
-},
-{
-    sort_key: '2024-01-07:01',
-    date: '2024-01-07',
-    title: '7/25 Pattern Repeats',
+        url: "update_url('blue-velvet-scarf', '2023-12-29_AFewMoreRepeats.jpg')"
+    }
+    description: ''
+
+  - sort_key: '2024-01-07:01'
+    date: '2024-01-07'
+    title: '7/25 Pattern Repeats'
     image: {
-    url: update_url('blue-velvet-scarf', '2024-01-07_ABitLonger.jpg'),
-    },
-    description: '',
-},
-{
-    sort_key: '2024-01-31:01',
-    date: '2024-01-31',
-    title: '19/25 Pattern Repeats',
+        url: "update_url('blue-velvet-scarf', '2024-01-07_ABitLonger.jpg')"
+    }
+    description: ''
+  - sort_key: '2024-01-31:01'
+    date: '2024-01-31'
+    title: '19/25 Pattern Repeats'
     image: {
-    url: update_url('blue-velvet-scarf', '2024-01-31_AlmostDone.jpg'),
-    },
-    description: '',
-},
-{
-    sort_key: '2024-02-02:01',
-    date: '2024-02-02',
-    title: '23/25 Pattern Repeats',
+        url: "update_url('blue-velvet-scarf', '2024-01-31_AlmostDone.jpg')"
+    }
+    description: ''
+  - sort_key: '2024-02-02:01'
+    date: '2024-02-02'
+    title: '23/25 Pattern Repeats'
     image: {
-    url: update_url('blue-velvet-scarf', '2024-02-02_NearlyFinished.jpg'),
-    },
-    description:
-    'Nearly finished at 23/25 repeats. Here I folded the scarf in half and compared with another scarf I had made. The blue velvet scarf is a little shorter',
-},
-],
+        url: "update_url('blue-velvet-scarf', '2024-02-02_NearlyFinished.jpg')"
+    }
+    description: >
+        'Nearly finished at 23/25 repeats. Here I folded the scarf in half and compared with another scarf I had made. The blue velvet scarf is a little shorter'
 ---
 <p>
     This is the second scarf I've ever knit. This one used velvet

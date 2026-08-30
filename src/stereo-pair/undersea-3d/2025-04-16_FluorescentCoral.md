@@ -1,11 +1,11 @@
 ---
-id: '2025-04-16_FluorescentCoral',
-title: 'Fluorescent Coral',
-date: '2025-04-16',
-timeline_desc: 'Did you know corals glow various colors under black light?',
-sort_key: '2025-04-16:02',
-project_id: 'undersea-3d',
-img_format: 'jpg',
+id: '2025-04-16_FluorescentCoral'
+title: 'Fluorescent Coral'
+date: '2025-04-16'
+timeline_desc: 'Did you know corals glow various colors under black light?'
+sort_key: '2025-04-16:02'
+project_id: 'undersea-3d'
+img_format: 'jpg'
 ---
 <p>
     From witnessing this tank at the aquarium, I learned that corals are 

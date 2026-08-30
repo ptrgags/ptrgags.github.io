@@ -1,11 +1,11 @@
 ---
-id: 'stretchy-blocks',
-title: 'Stretchy Blocks',
-years: '2024',
-sort_key: '2024-02-00:03',
-img_format: 'png',
-github_repo: 'stretchy-blocks',
-demo_link: 'https://ptrgags.dev/stretchy-blocks',
+id: 'stretchy-blocks'
+title: 'Stretchy Blocks'
+years: '2024'
+sort_key: '2024-02-00:03'
+img_format: 'png'
+github_repo: 'stretchy-blocks'
+demo_link: 'https://ptrgags.dev/stretchy-blocks'
 ---
 <p>
     This project was a warm-up exercise to learn about <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGPU_API">WebGPU</a>.

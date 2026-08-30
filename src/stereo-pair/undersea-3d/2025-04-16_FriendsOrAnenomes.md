@@ -1,11 +1,11 @@
 ---
-id: '2025-04-16_FriendsOrAnenomes',
-title: 'Friend Or Anemone?',
-date: '2025-04-16',
-timeline_desc: 'Okay, that was a bad pun.',
-sort_key: '2025-04-16:03',
-project_id: 'undersea-3d',
-img_format: 'jpg',
+id: '2025-04-16_FriendsOrAnenomes'
+title: 'Friend Or Anemone?'
+date: '2025-04-16'
+timeline_desc: 'Okay, that was a bad pun.'
+sort_key: '2025-04-16:03'
+project_id: 'undersea-3d'
+img_format: 'jpg'
 ---
 <p>
 One tank at the aquarium had a handful of tiny sea anemones lurking

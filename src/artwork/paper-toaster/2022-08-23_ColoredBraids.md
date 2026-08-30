@@ -1,17 +1,17 @@
 ---
-id: '2022-08-23_ColoredBraids',
-title: 'Colored Braids',
-date: '2022-08-23',
-sort_key: '2022-08-23:01',
-project_id: 'paper-toaster',
-timeline_desc: 'Braids, now in technicolor!',
-img_format: 'png',
+id: '2022-08-23_ColoredBraids'
+title: 'Colored Braids'
+date: '2022-08-23'
+sort_key: '2022-08-23:01'
+project_id: 'paper-toaster'
+timeline_desc: 'Braids, now in technicolor!'
+img_format: 'png'
 ---
 <p>
-    After I had made the earlier artwork <a href="#/artwork/paper-toaster/2022-07-24_Braids">Braids</a>,
+    After I had made the earlier artwork <a href="#/artwork/paper-toaster/2022-07-24_Braids">Braids</a>
     a friend told me that it would look nice in color for fabric. So I
     made a different script to allow specifying a color palette and
-    other improvements. This one isn't designed for the receipt printer,
+    other improvements. This one isn't designed for the receipt printer
     as it will print it in grayscale.
 </p>
 <p>

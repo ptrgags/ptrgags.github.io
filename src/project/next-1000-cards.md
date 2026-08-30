@@ -39,7 +39,7 @@ updates:
     reached the big milestone of drawing 1000 cards for my binder!
 </p>
 <p>
-    After that, I put drawing on the shelf for a long while. However,
+    After that, I put drawing on the shelf for a long while. However
     a couple months ago I found myself using fountain pens again for
     journaling. I decied to doodle again, but more passively this time.
     I start most journaling sessions by making a doodle.
