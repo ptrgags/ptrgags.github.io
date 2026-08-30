@@ -11,7 +11,7 @@ const props = defineProps<{
   <div class="card-frame">
     <CardImage :image="props.card.thumbnail" />
     <div class="card-text center-text">
-      <RouterLink v-if="props.card.link" :to="props.card.link">{{ props.card.title }}</RouterLink>
+      <a v-if="props.card.link" :href="props.card.link">{{ props.card.title }}</a>
       <br />
       ({{ props.card.dates }})
     </div>

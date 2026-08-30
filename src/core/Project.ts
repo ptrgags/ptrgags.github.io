@@ -1,4 +1,4 @@
-import { BACKBLAZE_BUCKET } from '@/core/website_constants'
+import { BACKBLAZE_BUCKET } from '../core/website_constants'
 import type { TimelineEntry } from './TimelineEntry'
 import type { Image } from './Image'
 import type { Thumbnail } from './Thumbnail'
