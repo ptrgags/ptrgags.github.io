@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import CardImage from '@/components/CardImage.vue'
-import type { Thumbnail } from '@/core/Thumbnail'
+import CardImage from './CardImage.vue'
+import type { Thumbnail } from '../core/Thumbnail.ts'
 
 const props = defineProps<{
   card: Thumbnail
