@@ -83,6 +83,7 @@ p {
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
+  gap: 10px;
 }
 
 .horizontal {
@@ -91,6 +92,7 @@ p {
   flex-wrap: wrap;
   justify-content: center;
   align-items: flex-start;
+  gap: 10px;
 }
 
 /**
@@ -161,6 +163,8 @@ p {
   padding: 10px;
   background-color: var(--background-dark);
   border-radius: 8px;
+  max-width: 100px;
+  display: block;
 }
 
 .divider {
