@@ -20,7 +20,7 @@ const card: Image = {
       <CardImage :image="card" />
     </div>
     <div class="plaque half-column">
-      <h1>{{ frontmatter.title }} ({{ frontmatter.year }})</h1>
+      <h1>{{ frontmatter.title }} ({{ frontmatter.date }})</h1>
       <Content />
     </div>
   </div>

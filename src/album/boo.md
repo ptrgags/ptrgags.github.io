@@ -1,9 +1,9 @@
 ---
-id: 'boo',
-title: 'boo.',
-release_date: '2020-10-31',
-sort_key: '2020-10-31:00',
-play_style: 'advance',
+id: 'boo'
+title: 'boo.'
+release_date: '2020-10-31'
+sort_key: '2020-10-31:00'
+play_style: 'advance'
 tracks: [
 {
     filename: '01_2020-10-11_October.flac',
@@ -99,7 +99,7 @@ tracks: [
     date: '2020-10-23',
     description: 'Made with a Roland System-1.',
 },
-],
+]
 ---
 <p>
     This Halloween-themed album was my first time making music with
