@@ -1,5 +1,5 @@
-import { BACKBLAZE_BUCKET } from '@/core/website_constants'
-import type { TimelineEntry } from '@/core/TimelineEntry'
+import { BACKBLAZE_BUCKET } from './website_constants'
+import type { TimelineEntry } from './TimelineEntry'
 import type { Thumbnail } from './Thumbnail'
 import type { Image } from './Image'
 

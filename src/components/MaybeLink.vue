@@ -5,6 +5,6 @@ const props = defineProps<{
 </script>
 
 <template>
-  <RouterLink v-if="props.url" :to="props.url"><slot></slot></RouterLink>
+  <a v-if="props.url" :href="props.url"><slot></slot></a>
   <span v-else><slot></slot></span>
 </template>
