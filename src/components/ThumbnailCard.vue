@@ -12,6 +12,7 @@ const props = defineProps<{
     <CardImage :image="props.card.thumbnail" />
     <div class="card-text center-text">
       <a v-if="props.card.link" :href="props.card.link">{{ props.card.title }}</a>
+      <span v-else>{{ props.card.title }}</span>
       <br />
       ({{ props.card.dates }})
     </div>
