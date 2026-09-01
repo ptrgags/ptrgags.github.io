@@ -1,6 +1,6 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", ".vitepress/theme/NavbarHeader.vue"],
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", ".vitepress/theme/**/*.vue"],
   "exclude": ["src/**/__tests__/*"],
   "compilerOptions": {
     "composite": true,

@@ -2,6 +2,16 @@
 layout: article
 title: Music
 ---
+<script setup lang="ts">
+import {data as ALL_ALBUMS} from '../src/album/music_album.data'
+import {sort_reverse_chronological} from "./core/Sortable"
+import ThumbnailCard from '../src/components/ThumbnailCard.vue'
+import {MusicAlbum} from "../src/core/MusicAlbum"
+
+const all_albums = ALL_ALBUMS.map(x => new MusicAlbum(x.frontmatter as MusicAlbumDescriptor).thumbnail)
+    .filter(x => !x.hide).sort(sort_reverse_chronological)
+</script>
+
 My music stuff is scattered all over the place at the moment. I threw together this page to
 gather the links in one place.
 
