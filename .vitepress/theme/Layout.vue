@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import ArticleLayout from './ArticleLayout.vue'
 import ArtworkLayout from './ArtworkLayout.vue'
-import HomeLayout from './HomeLayout.vue'
 import MusicAlbumLayout from './MusicAlbumLayout.vue'
 import NavbarHeader from './NavbarHeader.vue'
 import ProjectLayout from './ProjectLayout.vue'
@@ -10,7 +9,7 @@ import { useData } from 'vitepress'
 import StereoPhotoLayout from './StereoPhotoLayout.vue'
 
 // https://vitepress.dev/reference/runtime-api#usedata
-const { site, frontmatter } = useData()
+const { frontmatter } = useData()
 </script>
 
 <template>
