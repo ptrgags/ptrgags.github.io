@@ -1,10 +1,32 @@
 <script setup lang="ts">
-import { Project, ProjectDescriptor } from '../../src/core/Project.ts'
+import { Project, type ProjectDescriptor } from '../../src/core/Project'
 import CardImage from '../../src/components/CardImage.vue'
+import ProjectTimeline from '../../src/components/ProjectTimeline.vue'
 import { useData } from 'vitepress'
+import { sort_reverse_chronological } from '../../src/core/Sortable'
+import { data as ALL_ARTWORKS } from '../../src/artwork/artwork.data'
+import { data as ALL_STEREO_PAIRS } from '../../src/stereo-pair/stereo-pair.data'
+import { Artwork, type ArtworkDescriptor } from '../../src/core/Artwork.ts'
+import { StereoPairArtwork } from '../../src/core/StereoPairArtwork.ts'
 
 const { frontmatter } = useData()
 const project = new Project(frontmatter.value as ProjectDescriptor)
+
+const artworks: Artwork[] = ALL_ARTWORKS.map(
+  (x) => new Artwork(x.frontmatter as ArtworkDescriptor),
+).filter((x) => x.project_id === project.id)
+const artwork_entries = artworks.map((x) => x.timeline_entry)
+
+const stereo_pairs: StereoPairArtwork[] = ALL_STEREO_PAIRS.map(
+  (x) => new StereoPairArtwork(x.frontmatter as ArtworkDescriptor),
+).filter((x) => x.project_id === project.id)
+const stereo_entries = stereo_pairs.map((x) => x.timeline_entry)
+
+const updates = project.updates
+
+const timeline_entries = [...artwork_entries, ...stereo_entries, ...updates].sort(
+  sort_reverse_chronological,
+)
 </script>
 
 <template>
@@ -23,8 +45,14 @@ const project = new Project(frontmatter.value as ProjectDescriptor)
       </div>
     </div>
     <div class="timeline-container">
-      <!--TODO: Timeline-->
-      <!--<ProjectTimeline :entries="timeline_entries" />-->
+      <ProjectTimeline :entries="timeline_entries" />
     </div>
   </div>
 </template>
+
+<style scoped>
+.timeline-container {
+  width: 2000px;
+  max-width: 90vw;
+}
+</style>

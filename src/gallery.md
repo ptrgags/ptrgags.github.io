@@ -9,11 +9,12 @@ import {data as ALL_STEREO_PAIRS} from "./stereo-pair/stereo-pair.data"
 import {sort_reverse_chronological} from "./core/Sortable"
 import ThumbnailCard from './components/ThumbnailCard.vue'
 import {Artwork} from './core/Artwork'
+import {StereoPairArtwork} from './core/StereoPairArtwork'
 
-const artworks_newest_first = [...ALL_ARTWORKS, ...ALL_STEREO_PAIRS].map(x => 
-    new Artwork(x.frontmatter as ArtworkDescriptor).thumbnail
-)
-    .filter(x => !x.hide)
+const artworks = ALL_ARTWORKS.map(x => new Artwork(x.frontmatter as ArtworkDescriptor).thumbnail).filter(x => !x.hide)
+const stereo_pairs = ALL_STEREO_PAIRS.map(x => new StereoPairArtwork(x.frontmatter as ArtworkDescriptor).thumbnail).filter(x => !x.hide)
+
+const artworks_newest_first = [...artworks, ...stereo_pairs]
     .sort(sort_reverse_chronological)
 </script>
 
