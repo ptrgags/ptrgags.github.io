@@ -9,4 +9,5 @@ github_repo: "spin-o-sketch"
 has_thumbnail: false
 has_card: false
 show: true
+hide: true
 ---

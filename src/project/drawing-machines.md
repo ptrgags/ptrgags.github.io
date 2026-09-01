@@ -9,4 +9,5 @@ demo_link: "https://ptrgags.dev/drawing-machines/"
 has_thumbnail: false
 has_card: false
 show: true
+hide: true
 ---

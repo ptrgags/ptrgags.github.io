@@ -8,4 +8,5 @@ github_repo: "holiday-eyecandy"
 has_thumbnail: false
 has_card: false
 show: true
+hide: true
 ---
