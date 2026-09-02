@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2024-12-24_BloodTree'
 title: 'Blood Tree'
 date: '2024-12-24'

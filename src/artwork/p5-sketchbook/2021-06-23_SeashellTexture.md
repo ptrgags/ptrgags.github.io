@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2021-06-23_SeashellTexture'
 title: 'Seashell Texture'
 date: '2021-06-23'

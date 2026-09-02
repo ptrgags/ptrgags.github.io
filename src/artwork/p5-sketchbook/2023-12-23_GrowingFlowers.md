@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2023-12-23_GrowingFlowers'
 title: 'Growing Flowers'
 date: '2023-12-23'

@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2025-07-03_PatchworkBubbles'
 title: 'Patchwork Bubbles'
 date: '2025-07-03'

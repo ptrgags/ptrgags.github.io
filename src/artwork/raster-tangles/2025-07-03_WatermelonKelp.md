@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2025-07-03_WatermelonKelp'
 title: 'Watermelon Kelp'
 date: '2025-07-03'

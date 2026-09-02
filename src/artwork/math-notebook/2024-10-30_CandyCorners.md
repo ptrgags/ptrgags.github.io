@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2024-10-30_CandyCorners'
 title: 'Candy Corners'
 date: '2024-10-30'

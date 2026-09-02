@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2024-10-30_GhostDoubleSpiral'
 title: 'Ghost Double Spiral'
 date: '2024-10-30'

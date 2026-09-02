@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2024-09-25_InfiniteSunflower'
 title: 'Infinite Sunflower'
 date: '2024-09-25'

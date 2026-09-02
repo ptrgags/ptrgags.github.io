@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2025-07-03_GildedCoral'
 title: 'Gilded Coral'
 date: '2025-07-03'

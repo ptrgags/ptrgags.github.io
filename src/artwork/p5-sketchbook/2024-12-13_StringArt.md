@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2024-12-13_StringArt'
 title: 'String Art'
 date: '2017, 2024-12'

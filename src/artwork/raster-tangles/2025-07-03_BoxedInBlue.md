@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2025-07-03_BoxedInBlue'
 title: 'Boxed in Blue'
 date: '2025-07-03'

@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2025-03-11_MosaicSlider'
 title: 'Mosaic Slider'
 date: '2025-03-11'

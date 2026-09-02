@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2024-12-23_MirroredDanceFloor'
 title: 'Mirrored Dance Floor'
 date: '2024-12-23'

@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2025-06-29_OrangeCreme'
 title: 'Orange Creme'
 date: '2025-06-29'

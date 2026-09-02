@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2024-04-05_OctoShock'
 title: 'Octo Shock'
 date: '2024-04-05'

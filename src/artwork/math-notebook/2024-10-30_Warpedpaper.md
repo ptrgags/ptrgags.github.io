@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2024-10-30_Warpedpaper'
 title: 'Warpedpaper'
 date: '2024-10-30'

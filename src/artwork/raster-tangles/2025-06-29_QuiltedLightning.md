@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2025-06-29_QuiltedLightning'
 title: 'Quilted Lighting'
 date: '2025-06-29'

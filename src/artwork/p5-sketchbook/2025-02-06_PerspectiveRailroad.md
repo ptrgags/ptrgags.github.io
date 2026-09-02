@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2025-02-06_PerspectiveRailroad'
 title: 'Perspective Railroad'
 date: '2025-02-06'

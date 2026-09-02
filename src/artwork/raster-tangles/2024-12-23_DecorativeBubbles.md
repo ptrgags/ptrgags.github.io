@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2024-12-23_DecorativeBubbles'
 title: 'Decorative Bubbles'
 date: '2024-12-23'

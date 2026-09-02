@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2024-12-23_ComicBook'
 title: 'Comic Book'
 date: '2024-12-23'

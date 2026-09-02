@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2025-07-03_Thunderstorm'
 title: 'Thunderstorm'
 date: '2025-07-08'

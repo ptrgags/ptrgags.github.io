@@ -12,7 +12,7 @@ import StereoPhotoLayout from './StereoPhotoLayout.vue'
 const { frontmatter } = useData()
 
 if (frontmatter.value.layout === undefined) {
-  console.log(frontmatter.value)
+  console.log('missing layout', frontmatter.value)
 }
 </script>
 

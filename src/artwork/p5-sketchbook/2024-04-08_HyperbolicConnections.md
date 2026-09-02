@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2024-04-09_HyperbolicConnections'
 title: 'Hyperbolic Connections'
 date: '2024-04-09'

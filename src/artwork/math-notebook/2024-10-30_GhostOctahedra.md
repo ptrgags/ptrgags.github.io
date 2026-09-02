@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2024-10-30_GhostOctahedral'
 title: 'Ghost Octahedral Tour'
 date: '2024-10-30'

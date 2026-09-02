@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2025-06-29_LavenderArcs'
 title: 'Lavender Arcs'
 date: '2025-06-29'

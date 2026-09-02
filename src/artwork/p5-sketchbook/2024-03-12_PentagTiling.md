@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2024-03-12_PentagTiling'
 title: 'Pentag Tiling'
 date: '2024-03-12'

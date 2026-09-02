@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2026-01-15_AnimatedTangle'
 title: 'Animated Tangle'
 date: '2025-12/2026-01'

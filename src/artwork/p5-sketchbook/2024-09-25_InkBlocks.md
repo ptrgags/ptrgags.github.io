@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2024-09-25_InkBlocks'
 title: 'Ink Blocks'
 date: '2024-09-25'

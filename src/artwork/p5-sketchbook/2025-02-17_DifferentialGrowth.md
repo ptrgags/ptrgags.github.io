@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2025-02-17_DifferentialGrowth'
 title: 'Differential Growth'
 date: '2021, 2025-02'

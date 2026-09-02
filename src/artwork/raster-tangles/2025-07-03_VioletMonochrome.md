@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2025-07-03_VioletMonochrome'
 title: 'Violet Monochrome'
 date: '2025-07-03'

@@ -1,4 +1,5 @@
 ---
+layout: artwork
 id: '2025-07-03_StealthQuilt'
 title: 'Stealth Quilt'
 date: '2025-07-03'
