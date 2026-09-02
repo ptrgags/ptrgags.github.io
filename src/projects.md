@@ -3,25 +3,13 @@ layout: article
 title: Projects
 ---
 <script setup lang="ts">
-import {data as ALL_PROJECTS} from './project/project.data'
-import {data as ALL_ALBUMS} from './album/music_album.data'
-import {Project} from './core/Project'
-import {MusicAlbum} from './core/MusicAlbum'
-import {sort_reverse_chronological} from "./core/Sortable"
+import {ALL_PROJECT_THUMBNAILS} from './data/thumbnails'
 import ThumbnailCard from './components/ThumbnailCard.vue'
-
-const albums = ALL_ALBUMS.map(x => new MusicAlbum(x.frontmatter as MusicAlbumDescriptor).thumbnail)
-const projects = ALL_PROJECTS.map(x => new Project(x.frontmatter as ProjectDescriptor).thumbnail)
-
-
-const projects_newest_first = [...albums, ...projects]
-    .filter(x => !x.hide)
-    .sort(sort_reverse_chronological)
 </script>
 
 
 <div class="horizontal">
-    <template v-for="thumbnail in projects_newest_first" :key="thumbnail.sort_key">
+    <template v-for="thumbnail in ALL_PROJECT_THUMBNAILS" :key="thumbnail.sort_key">
         <ThumbnailCard :card="thumbnail" />
     </template>
 </div>
