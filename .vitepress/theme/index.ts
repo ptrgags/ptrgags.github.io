@@ -5,10 +5,4 @@ import './style.css'
 
 export default {
   Layout,
-  async enhanceApp({ app, router, siteData }) {
-    if (!import.meta.env.SSR) {
-      const p5 = await import('p5')
-      app.use(p5)
-    }
-  },
 } satisfies Theme
