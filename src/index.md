@@ -37,7 +37,7 @@ const recent_projects = all_projects.filter(x => !x.featured).slice(0, 5)
     </template>
 </div>
 
-[All Projects >](/projects/)
+[All Projects >](./projects)
 
 <hr class="divider" width="60%" />
 
@@ -49,7 +49,7 @@ const recent_projects = all_projects.filter(x => !x.featured).slice(0, 5)
     </template>
 </div>
 
-[All Projects >](/projects/)
+[All Projects >](./projects)
 
 <hr class="divider" width="60%" />
 
@@ -61,7 +61,7 @@ const recent_projects = all_projects.filter(x => !x.featured).slice(0, 5)
 </template>
 </div>
 
-[Full Gallery >](/gallery/)
+[Full Gallery >](./gallery)
 
 <hr class="divider" width="60%" />
 
@@ -73,6 +73,6 @@ const recent_projects = all_projects.filter(x => !x.featured).slice(0, 5)
     </template>
 </div>
 
-[Full Gallery >](/gallery/)
+[Full Gallery >](./gallery)
 
 <hr class="divider" width="60%" />

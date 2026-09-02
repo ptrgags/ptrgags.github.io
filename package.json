@@ -15,8 +15,8 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@types/p5": "^1.7.6",
-    "p5": "^1.11.3"
+    "@types/p5": "^1.7.7",
+    "p5": "^2.3.2"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.11.0",

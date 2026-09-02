@@ -22,10 +22,12 @@ const project = ALL_PROJECTS.map((x) => new Project(x.frontmatter as ProjectDesc
         <h2>Project</h2>
         <a class="big-link" :href="project.url">{{ project.title }}</a>
       </div>
-      <StereoCard
-        :left_eye="artwork.left_card_url"
-        :right_eye="artwork.right_card_url"
-      ></StereoCard>
+      <ClientOnly>
+        <StereoCard
+          :left_eye="artwork.left_card_url"
+          :right_eye="artwork.right_card_url"
+        ></StereoCard>
+      </ClientOnly>
       <div v-html="artwork.description" class="narrow-column"></div>
     </div>
   </div>
