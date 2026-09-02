@@ -2,14 +2,16 @@
 import { useData } from 'vitepress'
 import CardImage from '../../src/components/CardImage.vue'
 import { Artwork, type ArtworkDescriptor } from '../../src/core/Artwork.ts'
-import { data as ALL_PROJECTS } from '../../src/project/project.data'
-import { Project, type ProjectDescriptor } from '../../src/core/Project.ts'
+import { ALL_PROJECTS } from '../../src/data/page_indices.ts'
 
 const { frontmatter } = useData()
 
 const artwork = new Artwork(frontmatter.value as ArtworkDescriptor)
-const project_metadata = ALL_PROJECTS.find((x) => x.frontmatter.id === artwork.project_id)
-const project = new Project(project_metadata.frontmatter as ProjectDescriptor)
+const project = ALL_PROJECTS.find((x) => x.id === artwork.project_id)
+if (project === undefined) {
+  console.log(frontmatter.value)
+  throw new Error(`missing project id ${frontmatter.value}`)
+}
 </script>
 
 <template>

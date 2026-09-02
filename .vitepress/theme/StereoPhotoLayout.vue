@@ -3,15 +3,17 @@ import StereoCard from '../../src/components/StereoCard.vue'
 import { useData } from 'vitepress'
 import type { ArtworkDescriptor } from '../../src/core/Artwork'
 import { StereoPairArtwork } from '../../src/core/StereoPairArtwork'
-import { data as ALL_PROJECTS } from '../../src/project/project.data'
 import { Project, type ProjectDescriptor } from '../../src/core/Project.ts'
+import { ALL_PROJECTS } from '../../src/data/page_indices.ts'
 
 const { frontmatter } = useData()
 
 const artwork = new StereoPairArtwork(frontmatter.value as ArtworkDescriptor)
-const project = ALL_PROJECTS.map((x) => new Project(x.frontmatter as ProjectDescriptor)).find(
-  (x) => x.id === artwork.project_id,
-)
+
+const project = ALL_PROJECTS.find((x) => x.id === artwork.project_id)
+if (project === undefined) {
+  throw new Error(`missing project id ${frontmatter.value}`)
+}
 </script>
 
 <template>
