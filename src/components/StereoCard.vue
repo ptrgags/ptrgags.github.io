@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import p5 from 'p5'
+import type p5 from 'p5'
 import { watch, onMounted, ref, type Ref } from 'vue'
 
 const props = defineProps<{ left_eye: string; right_eye: string }>()
@@ -113,18 +113,15 @@ class StereoSketch {
     return image
   }
 
-  wrap(parent: HTMLElement) {
+  wrap() {
     const sketch = (p: p5) => {
       let left_eye: p5.Image
       let right_eye: p5.Image
       let anaglyph: p5.Image
 
-      p.preload = () => {
-        left_eye = p.loadImage(this.left_eye_url)
-        right_eye = p.loadImage(this.right_eye_url)
-      }
-
-      p.setup = () => {
+      p.setup = async () => {
+        left_eye = await p.loadImage(this.left_eye_url)
+        right_eye = await p.loadImage(this.right_eye_url)
         p.createCanvas(2 * CARD_WIDTH, CARD_HEIGHT)
         anaglyph = this.make_anaglyph(p, left_eye, right_eye)
       }
@@ -154,17 +151,19 @@ class StereoSketch {
         }
       }
     }
-    return new p5(sketch, parent)
+    return sketch
   }
 }
 
 const viewer: Ref<HTMLElement | null> = ref(null)
 
 let stereo_sketch: StereoSketch
-onMounted(() => {
+onMounted(async () => {
+  const p5 = await import('p5')
+
   if (viewer.value) {
     stereo_sketch = new StereoSketch(props.left_eye, props.right_eye, stereo_mode.value)
-    stereo_sketch.wrap(viewer.value)
+    return new p5.default(stereo_sketch.wrap(), viewer.value)
   }
 })
 

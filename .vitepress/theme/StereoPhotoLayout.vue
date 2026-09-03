@@ -1,0 +1,44 @@
+<script setup lang="ts">
+import StereoCard from '../../src/components/StereoCard.vue'
+import { useData } from 'vitepress'
+import type { ArtworkDescriptor } from '../../src/core/Artwork'
+import { StereoPairArtwork } from '../../src/core/StereoPairArtwork'
+import { Project, type ProjectDescriptor } from '../../src/core/Project.ts'
+import { ALL_PROJECTS } from '../../src/data/page_indices.ts'
+
+const { frontmatter } = useData()
+
+const artwork = new StereoPairArtwork(frontmatter.value as ArtworkDescriptor)
+
+const project = ALL_PROJECTS.find((x) => x.id === artwork.project_id)
+if (project === undefined) {
+  throw new Error(`missing project id ${frontmatter.value}`)
+}
+</script>
+
+<template>
+  <div class="vertical">
+    <div v-if="artwork" class="plaque">
+      <h1 class="center-text">{{ artwork.title }} ({{ artwork.date }})</h1>
+      <div class="horizontal">
+        <span class="big">Project:</span>
+        <a class="big-link" :href="project.url">{{ project.title }}</a>
+      </div>
+      <ClientOnly>
+        <StereoCard
+          :left_eye="artwork.left_card_url"
+          :right_eye="artwork.right_card_url"
+        ></StereoCard>
+      </ClientOnly>
+      <div v-html="artwork.description" class="narrow-column"></div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.narrow-column {
+  width: 800px;
+  max-width: 70vw;
+  margin: 0 auto;
+}
+</style>

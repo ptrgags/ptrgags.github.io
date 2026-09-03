@@ -1,30 +1,58 @@
+# Based on https://vitepress.dev/guide/deploy#github-pages
+# note that I'm not using a docs/ subdirectory so I had to change a few things
+
 name: Deploy to GitHub Pages
 on:
   push:
     branches:
       - main
+  # run manually
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# allow only one concurrent deployment, skipping queued things
+# however, do not cancel in-progress runs!
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+      - name: Cache VitePress
+        uses: actions/cache@v4
+        with:
+          path: .vitepress/cache
+          key: ${{ runner.os }}-vitepress-${{ hashFiles('./**', 'package-lock.json', 'pnpm-lock.yaml', 'yarn.lock', 'bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-vitepress-
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
       - name: Install npm stuff
-        run: npm install
+        run: npm ci
       - name: Build the static site in dist/
         run: npm run build
-      - name: Upload static files
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/
+          path: .vitepress/dist
   deploy:
-    needs: build
-    permissions:
-      pages: write
-      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url}}
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to GitHub Pages

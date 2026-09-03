@@ -1,0 +1,186 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+
+  background-image: url('/assets/background.png');
+  background-color: rgba(0, 0, 0, 0.5);
+  background-blend-mode: multiply;
+  background-repeat: repeat;
+  font-family: sans-serif;
+
+  color: var(--color-text);
+}
+
+:root {
+  /** Color for all of the text */
+  --color-text: #ececec;
+
+  /** Accent colors for links, card frames, etc. */
+  --color-accent: #f7ad0e;
+  --color-accent-dark: #cf9009;
+  --color-accent2: #0eafaf;
+
+  --color-warning: #ecec0b;
+
+  /** Background colors for different purposes */
+  --background-text: #333333;
+  --background-dark: #111111;
+  --background-light: #555555;
+  --background-transparent: rgba(0, 0, 0, 0.5);
+}
+
+:root {
+  scrollbar-color: var(--color-accent-dark) var(--background-dark);
+}
+
+/* Style links consistently */
+a:link {
+  color: var(--color-accent);
+}
+
+a:visited {
+  color: var(--color-accent-dark);
+}
+
+a:hover {
+  color: var(--color-text);
+}
+
+a:active {
+  color: var(--color-accent2);
+}
+
+/* Make bullet lists look nice */
+li::marker {
+  color: var(--color-accent2);
+}
+
+li {
+  line-height: 1.5em;
+}
+
+kbd {
+  background-color: var(--background-dark);
+  padding: 4px;
+  border-radius: 3px;
+}
+
+p {
+  line-height: 1.5em;
+}
+
+/* Reusable classes */
+
+.center-text {
+  text-align: center;
+}
+
+.vertical {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+
+.horizontal {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.justify-left {
+  justify-content: left;
+}
+
+/**
+ * dark grey card with partially transparent dark border, for listing text
+ *
+ * By default, this does not set the side
+ */
+.plaque {
+  padding: 40px;
+  margin: 20px;
+  background-color: var(--background-text);
+  border-radius: 20px;
+
+  /** 
+    * Make a transparent border, and adjust clipping so you can see what's
+    * behind the details pane 
+    */
+  border: 10px solid var(--background-transparent);
+  background-clip: padding-box;
+}
+
+.plaque h1 {
+  color: var(--color-accent);
+}
+
+.one-column {
+  width: 1200px;
+  max-width: 80vw;
+}
+
+.half-column {
+  width: 600px;
+  max-width: 40vw;
+}
+
+/* Frame around a trading card */
+.card-frame {
+  border: 4px solid var(--color-accent);
+  border-radius: 12px;
+  margin: 10px 10px;
+  display: inline-block;
+}
+
+.card-frame img {
+  /* Fix the gap at the bottom of the image */
+  display: block;
+
+  /* Also round the image inside the frame */
+  border-radius: 8px;
+
+  /* Shrink the image if it's too wide for the screen */
+  max-width: 100%;
+  object-fit: cover;
+
+  background-color: var(--background-text);
+}
+
+.warning {
+  color: var(--color-warning);
+  border: 2px solid var(--color-warning);
+  border-radius: 10px;
+  background-color: var(--background-light);
+  margin: 8px;
+}
+
+.space-before {
+  margin-top: 10px;
+}
+
+.big {
+  font-size: 20px;
+  padding: 10px;
+  display: inline;
+}
+
+.big-link {
+  font-size: 20px;
+  padding: 10px;
+  background-color: var(--background-dark);
+  border-radius: 8px;
+  display: inline;
+}
+
+.divider {
+  margin: 20px auto;
+  border: 1px solid var(--color-accent);
+}

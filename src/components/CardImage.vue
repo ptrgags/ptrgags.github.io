@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import MaybeLink from './MaybeLink.vue'
-import type { Image } from '@/core/Image'
+import type { Image } from '../core/Image'
 
 const props = defineProps<{
   image: Image
