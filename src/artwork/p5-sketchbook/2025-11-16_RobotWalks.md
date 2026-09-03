@@ -10,3 +10,4 @@ project_id: 'p5-sketchbook'
 img_format: 'png'
 demo_link: https://ptrgags.github.io/p5-sketchbook/RobotWalks/
 ---
+Interactive robot that moves in circular arcs. It was based on a Project Euler puzzle.

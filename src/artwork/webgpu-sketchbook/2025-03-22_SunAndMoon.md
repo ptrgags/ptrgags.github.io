@@ -7,5 +7,6 @@ timeline_desc: 'TODO: Description'
 sort_key: '2025-03-22:01'
 project_id: webgpu-sketchbook
 img_format: png
-demo_link: https://ptrgags.dev/webgpu-sketchbook/#/sketch/sun-and-moon
+demo_link: https://ptrgags.dev/webgpu-sketchbook/sun-and-moon
 ---
+TODO: Description

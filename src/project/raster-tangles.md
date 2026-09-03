@@ -29,7 +29,7 @@ updates:
       description: >
         <p>
             The original prototype for Raster Tangles was made in a
-            different repo, <a href="#/project/p5-sketchbook">P5 Sketchbook</a>.
+            different repo, <a href="/project/p5-sketchbook">P5 Sketchbook</a>.
             The main difference is that it didn't have a concept of outline
             pixels, so the boundaries between regions are less clearly
             defined. This gives it a more fabric-like appearance.

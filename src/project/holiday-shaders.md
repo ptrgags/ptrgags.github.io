@@ -11,8 +11,8 @@ img_format: 'png'
 <p>
     In the middle of college, I found myself interested in graphics on
     the GPU. In particular, I found GLSL pixel shaders fascinating. I 
-    learned a lot from <a href="https://thebookofshaders.com/">The Book of Shaders</a>
-    <a href="https://www.shadertoy.com/">ShaderToy</a>
+    learned a lot from <a href="https://thebookofshaders.com/">The Book of Shaders</a>, 
+    <a href="https://www.shadertoy.com/">ShaderToy</a>, 
     <a href="https://iquilezles.org/articles/">Inigo Quilez's aticles</a>, 
     and other resources.
 </p>
@@ -22,5 +22,5 @@ img_format: 'png'
 </p>
 <p>
     The following year, I made a better version of this project.
-    See <a href="#/project/holiday-shaders2">Holiday Shaders 2</a>.
+    See <a href="/project/holiday-shaders2">Holiday Shaders 2</a>.
 </p>

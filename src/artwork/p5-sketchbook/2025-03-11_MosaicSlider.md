@@ -9,3 +9,4 @@ project_id: 'p5-sketchbook'
 img_format: 'png'
 demo_link: https://ptrgags.github.io/p5-sketchbook/MosaicSlider/
 ---
+A pixel art editor where you can only swap adjacent tiles.
