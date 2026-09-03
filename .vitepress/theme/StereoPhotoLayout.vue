@@ -21,7 +21,7 @@ if (project === undefined) {
     <div v-if="artwork" class="plaque">
       <h1 class="center-text">{{ artwork.title }} ({{ artwork.date }})</h1>
       <div class="horizontal">
-        <h2>Project</h2>
+        <span class="big">Project:</span>
         <a class="big-link" :href="project.url">{{ project.title }}</a>
       </div>
       <ClientOnly>

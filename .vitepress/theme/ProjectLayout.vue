@@ -30,7 +30,7 @@ const timeline_entries = [...artwork_entries, ...stereo_entries, ...updates].sor
       </div>
       <div class="plaque half-column">
         <h1>{{ frontmatter.title }} ({{ frontmatter.years }})</h1>
-        <div class="horizontal justify-left">
+        <div v-if="project.github_url || project.demo_url" class="horizontal justify-left">
           <span class="big">Links: </span>
           <a class="big-link" v-if="project.github_url" :href="project.github_url">GitHub</a>
           <a class="big-link" v-if="project.demo_url" :href="project.demo_url">Live Demo</a>
