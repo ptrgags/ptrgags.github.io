@@ -5,8 +5,8 @@ const { frontmatter } = useData()
 </script>
 
 <template>
-  <div class="one-column vertical">
-    <div class="plaque vertical">
+  <div class="vertical">
+    <div class="one-column plaque vertical">
       <h1>{{ frontmatter.title }}</h1>
       <Content />
     </div>
