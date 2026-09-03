@@ -8,5 +8,5 @@ timeline_desc: >
 sort_key: '2025-11-16:01'
 project_id: 'p5-sketchbook'
 img_format: 'png'
-demo_link: sketch_link('RobotWalks')
+demo_link: https://ptrgags.github.io/p5-sketchbook/RobotWalks/
 ---

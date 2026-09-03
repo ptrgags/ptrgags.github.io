@@ -9,7 +9,7 @@ project_id: 'p5-sketchbook'
 img_format: 'png'
 timeline_desc: >
     'A swirly pattern made in the hyperbolic plane. This was originally made in 2021, but I tweaked it a bit when cleaning up p5-sketchbook.'
-demo_link: sketch_link('HyperbolicConnections'),
+demo_link: https://ptrgags.github.io/p5-sketchbook/HyperbolicConnections/,
 ---
 A swirly pattern made on the Poincaré model of the hyperbolic plane.
 

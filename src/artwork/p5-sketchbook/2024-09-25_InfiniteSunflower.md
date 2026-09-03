@@ -7,7 +7,7 @@ sort_key: '2024-09-25:02'
 project_id: 'p5-sketchbook'
 img_format: 'png'
 timeline_desc: 'An artistic depiction of the growth of sunflower spirals.'
-demo_link: sketch_link('InfiniteSunflower')
+demo_link: https://ptrgags.github.io/p5-sketchbook/InfiniteSunflower/
 ---
 Recently I read about the math of spiral pyllotaxis, the spiral
 patterns of florets you see in sunflowers and other plants.

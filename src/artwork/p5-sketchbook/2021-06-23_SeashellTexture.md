@@ -7,7 +7,7 @@ sort_key: '2021-06-23:01'
 project_id: 'p5-sketchbook'
 img_format: 'png'
 timeline_desc: 'A sketch that simulates the patterns on certain cone snail shells'
-demo_link: sketch_link('SeashellTexture')
+demo_link: https://ptrgags.github.io/p5-sketchbook/SeashellTexture/
 ---
 A simulation of how the triangular pigmentation patterns on
 seashells are formed. This is based on the paper <a href="http://algorithmicbotany.org/papers/shells.sig92.pdf"><cite>Modeling Seashells</cite></a>

@@ -7,5 +7,5 @@ timeline_desc: 'A pixel art editor where you can only swap adjacent tiles.'
 sort_key: '2025-03-11:02'
 project_id: 'p5-sketchbook'
 img_format: 'png'
-demo_link: sketch_link('MosaicSlider')
+demo_link: https://ptrgags.github.io/p5-sketchbook/MosaicSlider/
 ---
