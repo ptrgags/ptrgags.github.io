@@ -17,7 +17,7 @@ tracks:
   - filename: '03_2020-10-24_OcarinaHaunt.flac '
     title: 'Ocarina Haunt'
     date: '2020-10-24'
-    description:
+    description: >
         Composed in MuseScore, played in Waveform Pro using Tracktion Collective Ocarina samples.
   - filename: '04_2020-10-11_WeekOldLeftovers.flac'
     title: 'Week Old Leftovers'
@@ -26,7 +26,7 @@ tracks:
   - filename: '05_2020-10-23_TheBoxThatPlaysSongsInTheNight.flac'
     title: 'The Box That Plays Songs in the Night'
     date: '2020-10-23'
-    description:
+    description: >
         Composed in MuseScore, converted to music box punch card and recorded with a contact mic.  
   - filename: '06_2020-10-24_Crosstalk.flac'
     title: 'Crosstalk'

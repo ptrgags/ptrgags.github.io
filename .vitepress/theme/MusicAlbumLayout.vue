@@ -76,7 +76,7 @@ function next_track() {
     </div>
     <div class="plaque half-column">
       <h1>{{ album.title }}<br />({{ album.years }})</h1>
-      <div v-html="album.description"></div>
+      <Content />
       <div v-if="album.play_style === 'loop'">
         <strong>🔂 Note:</strong> This album is a collection of background loops. The current track
         will repeat until you pause it or select a different track.
