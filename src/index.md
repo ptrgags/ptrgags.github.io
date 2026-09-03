@@ -1,8 +1,7 @@
 ---
 layout: article
-title: Peter Gagliardi
+title: Home
 ---
-
 <script setup lang="ts">
 import {ALL_ARTWORK_THUMBNAILS, ALL_PROJECT_THUMBNAILS} from "./data/thumbnails"
 import ThumbnailCard from './components/ThumbnailCard.vue'
@@ -15,48 +14,52 @@ const featured_projects = ALL_PROJECT_THUMBNAILS.filter(x => x.featured).slice(0
 const recent_projects = ALL_PROJECT_THUMBNAILS.filter(x => !x.featured).slice(0, 5)
 </script>
 
-## Featured Projects
+<h2 class="center-text">Featured Projects</h2>
 
-<div class="horizontal">
-    <template v-for="thumbnail in featured_projects" :key="thumbnail.sort_key">
-        <ThumbnailCard :card="thumbnail" />
-    </template>
+<div class="vertical">
+    <div class="horizontal">
+        <template v-for="thumbnail in featured_projects" :key="thumbnail.sort_key">
+            <ThumbnailCard :card="thumbnail" />
+        </template>
+    </div>
+    <a class="big-link" href="./projects">All Projects ></a>
 </div>
-
-[All Projects >](./projects)
 
 <hr class="divider" width="60%" />
 
-## Recent Projects
+<h2 class="center-text">Recent Projects</h2>
 
-<div class="horizontal">
-    <template v-for="thumbnail in recent_projects" :key="thumbnail.sort_key">
-        <ThumbnailCard :card="thumbnail" />
-    </template>
+<div class="vertical">
+    <div class="horizontal">
+        <template v-for="thumbnail in recent_projects" :key="thumbnail.sort_key">
+            <ThumbnailCard :card="thumbnail" />
+        </template>
+    </div>
+    <a class="big-link" href="./projects">All Projects ></a>
 </div>
-
-[All Projects >](./projects)
 
 <hr class="divider" width="60%" />
 
-## Featured Artworks
+<h2 class="center-text">Featured Artworks</h2>
 
-<div class="horizontal">
-<template v-for="thumbnail in featured_artworks" :key="thumbnail.sort_key">
-    <ThumbnailCard :card="thumbnail" />
-</template>
+<div class="vertical">
+    <div class="horizontal">
+        <template v-for="thumbnail in featured_artworks" :key="thumbnail.sort_key">
+            <ThumbnailCard :card="thumbnail" />
+        </template>
+    </div>
+    <a class="big-link" href="./gallery">Full Gallery ></a>
 </div>
-
-[Full Gallery >](./gallery)
 
 <hr class="divider" width="60%" />
 
-## Recent Artworks
+<h2 class="center-text">Recent Artworks</h2>
 
-<div class="horizontal">
-    <template v-for="thumbnail in recent_artworks" :key="thumbnail.sort_key">
-        <ThumbnailCard :card="thumbnail" />
-    </template>
+<div class="vertical">
+    <div class="horizontal">
+        <template v-for="thumbnail in recent_artworks" :key="thumbnail.sort_key">
+            <ThumbnailCard :card="thumbnail" />
+        </template>
+    </div>
+    <a class="big-link" href="./gallery">Full Gallery ></a>
 </div>
-
-[Full Gallery >](./gallery)

@@ -12,3 +12,9 @@ const { frontmatter } = useData()
     </div>
   </div>
 </template>
+
+<style scoped>
+h1 {
+  margin-top: 0;
+}
+</style>
