@@ -74,7 +74,7 @@ tracks:
     description: '<code>U n i v e r s e</code>'
 ---
 
-This album was released alongside <a href="#/album/improvised-vol1">Improvised Volume 1</a>
+This album was released alongside <a href="/album/improvised-vol1">Improvised Volume 1</a>
 on Halloween 2021.
 
 This second volume was almost completely recorded in the month of October.

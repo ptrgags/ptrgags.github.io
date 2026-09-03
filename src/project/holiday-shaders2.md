@@ -9,7 +9,7 @@ demo_link: 'https://holiday2.shaders.dev'
 img_format: 'png'
 ---
 <p>
-The year after making <a href="#/project/holiday-shaders">Holiday Shaders</a>
+The year after making <a href="/project/holiday-shaders">Holiday Shaders</a>
 I made this sequel. I added many new shaders, and a more polished UI.
 </p>
 <p>

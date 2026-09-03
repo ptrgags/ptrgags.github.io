@@ -78,10 +78,10 @@ tracks:
         [EDIT 2024: Wow, looking back at these liner notes from 2021 and the
         moody tracks of this album, I see how much the pandemic and lockdown
         was affecting my mental health at the time 😢. In comparison, 
-        my 2024 album <a href="#/album/loops">Loops</a> is a lot brighter
+        my 2024 album <a href="/album/loops">Loops</a> is a lot brighter
         and lively overall.]
 ---
-This album was released alongside <a href="#/album/improvised-vol2">Improvised Volume 2</a>
+This album was released alongside <a href="/album/improvised-vol2">Improvised Volume 2</a>
 on Halloween 2021.
 
 In the lockdown years, making music was a big hobby. I fell pretty far down the 

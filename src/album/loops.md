@@ -123,7 +123,7 @@ tracks:
 ---
 <p>
 It's been about two and a half years since I last made music (see
-<a href="#/album/improvised-vol2">Improvised Volume 2</a>).
+<a href="/album/improvised-vol2">Improvised Volume 2</a>).
 I wanted to get more comfortable writing music in
 a digital audio workstation (DAW), so I tried my hand at making background
 music loops. I used more synth presets so I could focus on composition.
