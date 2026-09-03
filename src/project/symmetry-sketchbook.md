@@ -13,7 +13,7 @@ updates:
     date: '2019-2020'
     title: 'Original Version'
     image: {
-        url: "update_url('symmetry-sketchbook', '2020-06-06_OldVersion.png')"
+        url: "https://assets.ptrgags.dev/file/ptrgags-website-assets/project-updates/symmetry-sketchbook/2020-06-06_OldVersion.png"
     }
     description: >
         <p>
@@ -84,7 +84,7 @@ updates:
         and had the rosette editor working. This image is an early
         screenshot, back when I was hard-coding the palette colors.
     image: {
-        url: "update_url('symmetry-sketchbook', '2024-02-24_ThreefoldSwirl.png')"
+        url: "https://assets.ptrgags.dev/file/ptrgags-website-assets/project-updates/symmetry-sketchbook/2024-02-24_ThreefoldSwirl.png"
     }
   - sort_key: '2024-02-24:02'
     date: '2024-02-24'
@@ -94,14 +94,14 @@ updates:
         inversions. I modified the color palette so points that land within
         the unit circle are shaded darker.
     image: {
-        url: "update_url('symmetry-sketchbook', '2024-02-24_InversionsThreefold.png')"
+        url: "https://assets.ptrgags.dev/file/ptrgags-website-assets/project-updates/symmetry-sketchbook/2024-02-24_InversionsThreefold.png"
     }
   - sort_key: '2024-02-24:03'
     date: '2024-02-24'
     title: 'Swirly Donut'
     description: ''
     image: {
-        url: "update_url('symmetry-sketchbook', '2024-02-25_SwirlyDonut.png')"
+        url: "https://assets.ptrgags.dev/file/ptrgags-website-assets/project-updates/symmetry-sketchbook/2024-02-25_SwirlyDonut.png"
     }
   - sort_key: '2024-02-26:01'
     date: '2024-02-26'
@@ -111,21 +111,21 @@ updates:
         you go around the color wheel. I also apply a gradient as you move
         away from the unit circle, this adds a lot of depth.
     image: {
-        url: "update_url('symmetry-sketchbook', '2024-02-26_Ghosty.png')"
+        url: "https://assets.ptrgags.dev/file/ptrgags-website-assets/project-updates/symmetry-sketchbook/2024-02-26_Ghosty.png"
     }
   - sort_key: '2024-02-27:01'
     date: '2024-02-27'
     title: 'Bestagon'
     description: ''
     image: {
-        url: "update_url('symmetry-sketchbook', '2024-02-27_Bestagon.png')"
+        url: "https://assets.ptrgags.dev/file/ptrgags-website-assets/project-updates/symmetry-sketchbook/2024-02-27_Bestagon.png"
     }
   - sort_key: '2024-02-27:02'
     date: '2024-02-27'
     title: 'HexGear'
     description: ''
     image: {
-        url: "update_url('symmetry-sketchbook', '2024-02-27_HexGear.png')"
+        url: "https://assets.ptrgags.dev/file/ptrgags-website-assets/project-updates/symmetry-sketchbook/2024-02-27_HexGear.png"
     }
   - sort_key: '2024-02-29:01'
     date: '2024-02-29'
@@ -135,7 +135,7 @@ updates:
         expands the artistic possibilities, while still keeping the colors
         simple.
     image: {
-        url: "update_url('symmetry-sketchbook', '2024-02-29_SecondaryColor.png')"
+        url: "https://assets.ptrgags.dev/file/ptrgags-website-assets/project-updates/symmetry-sketchbook/2024-02-29_SecondaryColor.png"
     }
   - sort_key: '2024-03-01:01'
     date: '2024-03-01'
@@ -145,14 +145,14 @@ updates:
         to the color palettes. This is partly to help the mathematically curious
         explore the patterns, but it also adds some artistic flair.
     image: {
-        url: "update_url('symmetry-sketchbook', '2024-03-01_BurningPropeller.png')"
+        url: "https://assets.ptrgags.dev/file/ptrgags-website-assets/project-updates/symmetry-sketchbook/2024-03-01_BurningPropeller.png"
     }
   - sort_key: '2024-03-01:02'
     date: '2024-03-01'
     title: 'Down the Drain'
     description: ''
     image: {
-        url: "update_url('symmetry-sketchbook', '2024-03-01_DownTheDrain.png')"
+        url: "https://assets.ptrgags.dev/file/ptrgags-website-assets/project-updates/symmetry-sketchbook/2024-03-01_DownTheDrain.png"
     }
   - sort_key: '2024-03-02:01'
     date: '2024-03-02'
@@ -160,7 +160,7 @@ updates:
     description: >
         'I ported the wallpaper patterns from my old shader. I found that simple striped palettes worked nicely.'
     image: {
-        url: "update_url('symmetry-sketchbook', '2024-03-02_HoldingHands.png')"
+        url: "https://assets.ptrgags.dev/file/ptrgags-website-assets/project-updates/symmetry-sketchbook/2024-03-02_HoldingHands.png"
     }
   - sort_key: '2024-03-04:01'
     date: '2024-03-04'
@@ -171,14 +171,14 @@ updates:
         technique since it's not very intuitive to use, but it did look
         cool.
     image: {
-        url: "update_url('symmetry-sketchbook', '2024-03-04_MultiplicationPalette.png')"
+        url: "https://assets.ptrgags.dev/file/ptrgags-website-assets/project-updates/symmetry-sketchbook/2024-03-04_MultiplicationPalette.png"
     }
   - sort_key: '2024-03-04:02'
     date: '2024-03-04'
     title: 'Oxygen'
     description: ''
     image: {
-        url: "update_url('symmetry-sketchbook', '2024-03-04_Oxygen.png')"
+        url: "https://assets.ptrgags.dev/file/ptrgags-website-assets/project-updates/symmetry-sketchbook/2024-03-04_Oxygen.png"
     }
   - sort_key: '2024-03-04:03'
     date: '2024-03-04'
@@ -189,14 +189,14 @@ updates:
         motion of a solar system from the perspective of an orbiting
         planet. I added it as a fun extra.
     image: {
-        url: "update_url('symmetry-sketchbook', '2024-03-04_OrbitalMotion.png')"
+        url: "https://assets.ptrgags.dev/file/ptrgags-website-assets/project-updates/symmetry-sketchbook/2024-03-04_OrbitalMotion.png"
     }
   - sort_key: '2024-03-18:01'
     date: '2024-03-18'
     title: 'A Little Offset'
     description: ''
     image: {
-        url: "update_url('symmetry-sketchbook', '2024-03-18_ALittleOffset.png')"
+        url: "https://assets.ptrgags.dev/file/ptrgags-website-assets/project-updates/symmetry-sketchbook/2024-03-18_ALittleOffset.png"
     }
   - sort_key: '2024-03-18:02'
     date: '2024-03-18'
@@ -206,7 +206,7 @@ updates:
         combine horizontal and vertical stripes into a plaid pattern. In
         practice it can be used to give wallpapers a dithered look. 
     image: {
-        url: "update_url('symmetry-sketchbook', '2024-03-18_PlaidWallpaper.png')"
+        url: "https://assets.ptrgags.dev/file/ptrgags-website-assets/project-updates/symmetry-sketchbook/2024-03-18_PlaidWallpaper.png"
     }
 ---
 <p>

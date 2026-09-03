@@ -11,7 +11,7 @@ updates:
     - title: 'Explainer'
       date: '2025-06-30'
       image: {
-        url: "update_url('raster-tangles', '2025-06-30_ExplainerDoodle.png')"
+        url: "https://assets.ptrgags.dev/file/ptrgags-website-assets/project-updates/raster-tangles/2025-06-30_ExplainerDoodle.png"
       }
       description: >
         <p>
@@ -24,7 +24,7 @@ updates:
     - title: 'Raster Tangles Classic'
       date: '2022'
       image: {
-        url: "update_url('raster-tangles', '2022_RasterTanglesClassic.png')"
+        url: "https://assets.ptrgags.dev/file/ptrgags-website-assets/project-updates/raster-tangles/2022_RasterTanglesClassic.png"
       }
       description: >
         <p>
