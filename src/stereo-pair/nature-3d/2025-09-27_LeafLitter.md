@@ -8,3 +8,4 @@ date: '2025-09-27'
 timeline_desc: "Fallen leaves in the Water Works' South Garden in Philadelphia, PA."
 sort_key: '2025-09-27:01'
 ---
+Fallen leaves in the Water Works' South Garden in Philadelphia, PA.

@@ -8,3 +8,4 @@ date: '2025-07-09'
 timeline_desc: 'Close-up of the same planter.'
 sort_key: '2025-07-09:05'
 ---
+Close-up of the same planter.

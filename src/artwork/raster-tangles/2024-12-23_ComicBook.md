@@ -8,3 +8,4 @@ sort_key: '2024-12-23:01'
 project_id: 'raster-tangles'
 img_format: 'png'
 ---
+I used black lines on a white background for a comic book vibe.

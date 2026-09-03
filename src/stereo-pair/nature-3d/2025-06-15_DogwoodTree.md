@@ -10,3 +10,5 @@ timeline_desc: >
     layering which looks great in 3D.
 sort_key: '2025-06-15:01'
 ---
+A dogwood tree in the suburbs of Philly. The branches had nice
+layering which looks great in 3D.

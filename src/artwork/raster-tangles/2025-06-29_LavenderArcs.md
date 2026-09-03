@@ -9,3 +9,4 @@ sort_key: '2025-06-29:02'
 project_id: 'raster-tangles'
 img_format: 'png'
 ---
+The color scheme for this one was inspired by some of my fountain pen ink colors.

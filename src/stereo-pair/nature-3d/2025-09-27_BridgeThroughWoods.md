@@ -8,3 +8,4 @@ date: '2025-09-27'
 timeline_desc: 'Bridge through the woods near Manayunk in Philadelphia, PA.'
 sort_key: '2025-09-27:02'
 ---
+Bridge through the woods near Manayunk in Philadelphia, PA.

@@ -11,3 +11,6 @@ timeline_desc: >
     This makes for a great 3D view!
 sort_key: '2025-07-09:04'
 ---
+A planter I saw outside a café in Swarthmore, PA. There are many layers 
+of leaves, and good contrast between bright leaf tops and areas in shadow. 
+This makes for a great 3D view!
