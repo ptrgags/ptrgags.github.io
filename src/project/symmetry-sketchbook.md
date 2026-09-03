@@ -158,7 +158,7 @@ updates:
     date: '2024-03-02'
     title: 'Wallpaper Basics'
     description: >
-        'I ported the wallpaper patterns from my old shader. I found that simple striped palettes worked nicely.'
+        I ported the wallpaper patterns from my old shader. I found that simple striped palettes worked nicely.
     image: {
         url: "https://assets.ptrgags.dev/file/ptrgags-website-assets/project-updates/symmetry-sketchbook/2024-03-02_HoldingHands.png"
     }

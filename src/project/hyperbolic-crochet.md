@@ -10,7 +10,7 @@ updates:
     date: '2021-07-26'
     title: 'Starting Out'
     description: >
-        'A picture after my first crocheting session. Here you can see the spool of crochet thread. My intent was to go through the entire spool.'
+        A picture after my first crocheting session. Here you can see the spool of crochet thread. My intent was to go through the entire spool.
     image: {
         url: "https://assets.ptrgags.dev/file/ptrgags-website-assets/project-updates/hyperbolic-crochet/2021-07-26_Update1.jpg",
         alt_text: 'Picture of a spool of crochet thread and the first couple rows of stitches'
@@ -32,8 +32,8 @@ updates:
   - sort_key: '2022-07-27'
     date: '2022-07-27'
     title: 'Update 4'
-    description:
-        'I put the project aside at the end of 2021, and only returned to it the next summer.'
+    description: >
+        I put the project aside at the end of 2021, and only returned to it the next summer.
     image: {
         url: "https://assets.ptrgags.dev/file/ptrgags-website-assets/project-updates/hyperbolic-crochet/2022-07-27_Update4.jpg",
         alt_text: ''
@@ -42,7 +42,7 @@ updates:
     date: '2023-01-25'
     title: 'Update 5'
     description: >
-        'Again, I put the project aside, and only picked it up again in early 2023. This time, I was more serious about seeing the project to completion, though it still would take months.'
+        Again, I put the project aside, and only picked it up again in early 2023. This time, I was more serious about seeing the project to completion, though it still would take months.
     image: {
         url: "https://assets.ptrgags.dev/file/ptrgags-website-assets/project-updates/hyperbolic-crochet/2023-01-25_Update5.jpg",
         alt_text: ''
@@ -75,7 +75,7 @@ updates:
     date: '2023-08-19'
     title: 'Last Blue Stitch'
     description: >
-        'This picture shows me stitching the last double crochet stitch in blue before I switched to orange.'
+        This picture shows me stitching the last double crochet stitch in blue before I switched to orange.
     image: {
         url: "https://assets.ptrgags.dev/file/ptrgags-website-assets/project-updates/hyperbolic-crochet/2023-08-19_Update9.jpg",
         alt_text: ''
@@ -84,33 +84,27 @@ updates:
     date: '2023-08-23'
     title: 'Update 10'
     description: >
-        'Here I am mid-way through the last row of orange stitches. Interestingly, though the orange section is only one stitch thick, it mostly obscures the blue stitches underneath. This is similar to how the grey matter of the brain covers the white matter underneath, despite there being much more white matter by volume.'
+        Here I am mid-way through the last row of orange stitches. Interestingly, though the orange section is only one stitch thick, it mostly obscures the blue stitches underneath. This is similar to how the grey matter of the brain covers the white matter underneath, despite there being much more white matter by volume.
     image: {
         url: "https://assets.ptrgags.dev/file/ptrgags-website-assets/project-updates/hyperbolic-crochet/2023-08-23_Update10.jpg",
         alt_text: ''
     }
 ---
-<p>
-        This crocheting project was inspired by the TED talk <a href="https://youtu.be/w1TBZhd-sN0?si=XsH01B6DCeU8LoqT">"Crocheting Hyperbolic Planes"</a>
-        by Daina Taimiņa. Hyperbolic crocheting is pretty simple, you just
-        keep doing increases and the fabric will naturally curl up into
-        organic-looking patterns. The video mentions using a slow growth
-        rate such as 11/10. However, I used a much faster growth rate of
-        2.
-    </p>
-    <p>
-        I kept my pattern very simple, essentially the same stitch over
-        and over. It was nice as a way to keep my hands busy when watching
-        or listening to something.
-    </p>
-    <ul>
-        <li>Row 0: Chain 10</li>
-        <li>Row 1, 2, ..., N-2: inc in every stitch</li>
-        <li>Row N-2: dc in every stitch.</li>
-        <li>Row N-1: sc in  different color</li>
-    </ul>
-    <p>
-        I worked on this project off and on over the span of a little over
-        2 years. Some months I would work on it often, other times I
-        wouldn't work on it at all.
-    </p>
+This crocheting project was inspired by the TED talk <a href="https://youtu.be/w1TBZhd-sN0?si=XsH01B6DCeU8LoqT">"Crocheting Hyperbolic Planes"</a>
+by Daina Taimiņa. Hyperbolic crocheting is pretty simple, you just
+keep doing increases and the fabric will naturally curl up into
+organic-looking patterns. The video mentions using a slow growth
+rate such as 11/10. However, I used a much faster growth rate of
+2.
+I kept my pattern very simple, essentially the same stitch over
+and over. It was nice as a way to keep my hands busy when watching
+or listening to something.
+
+- Row 0: Chain 10
+- Row 1, 2, ..., N-2: inc in every stitch
+- Row N-2: dc in every stitch.
+- Row N-1: sc in  different color
+
+I worked on this project off and on over the span of a little over
+2 years. Some months I would work on it often, other times I
+wouldn't work on it at all.

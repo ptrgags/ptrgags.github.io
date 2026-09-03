@@ -5,8 +5,8 @@ title: 'Robot Walks'
 date: '2024-06-11'
 sort_key: '2024-06-11:01'
 project_id: 'paper-toaster'
-timeline_desc:
-    'I added a new artwork inspired by Project Euler puzzle <a href="https://projecteuler.net/problem=208">#208 Robot Walks</a>.'
+timeline_desc: >
+    I added a new artwork inspired by Project Euler puzzle <a href="https://projecteuler.net/problem=208">#208 Robot Walks</a>.
 img_format: 'png'
 ---
 <p>

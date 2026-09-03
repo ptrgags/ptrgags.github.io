@@ -42,7 +42,7 @@ updates:
         url: "https://assets.ptrgags.dev/file/ptrgags-website-assets/project-updates/blue-velvet-scarf/2024-02-02_NearlyFinished.jpg"
     }
     description: >
-        'Nearly finished at 23/25 repeats. Here I folded the scarf in half and compared with another scarf I had made. The blue velvet scarf is a little shorter'
+        Nearly finished at 23/25 repeats. Here I folded the scarf in half and compared with another scarf I had made. The blue velvet scarf is a little shorter
 ---
 <p>
     This is the second scarf I've ever knit. This one used velvet
