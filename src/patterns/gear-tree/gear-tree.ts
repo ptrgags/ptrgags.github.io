@@ -13,7 +13,7 @@ export const gear_schematic = (p: p5) => {
     p.background(0)
 
     const t = p.frameCount / 1024
-    example_gear.phase = t
+    example_gear.angle = t
 
     p.stroke(255)
     p.noFill()
@@ -29,11 +29,14 @@ export const meshed_gears = (p: p5) => {
   const teeth2 = (2 * r2) / module
   const phase2 = 1 / (2 * teeth2)
 
-  const gear_tree = new GearTree(new GearSchematic({ radius: r1, teeth: teeth1 }), {
-    type: 'series',
-    angle: 0,
-    child: GearTree.gear({ radius: r2, teeth: teeth2, phase: phase2 }),
-  })
+  const gear_tree = new GearTree(
+    { radius: r1, teeth: teeth1 },
+    {
+      type: 'series',
+      angle: 0,
+      child: new GearTree({ radius: r2, teeth: teeth2, phase: phase2 }),
+    },
+  )
 
   p.setup = () => {
     p.createCanvas(200, 200)
@@ -54,10 +57,13 @@ export const meshed_gears = (p: p5) => {
 }
 
 export const coaxial_gears = (p: p5) => {
-  const gear_tree = new GearTree(new GearSchematic({ radius: 100, teeth: 48 }), {
-    type: 'parallel',
-    child: GearTree.gear({ radius: 50, teeth: 24 }),
-  })
+  const gear_tree = new GearTree(
+    { radius: 100, teeth: 48 },
+    {
+      type: 'parallel',
+      child: new GearTree({ radius: 50, teeth: 24 }),
+    },
+  )
 
   p.setup = () => {
     p.createCanvas(200, 200)
@@ -78,28 +84,34 @@ export const coaxial_gears = (p: p5) => {
 
 export const simple_gear_tree = (p: p5) => {
   const gear_tree = new GearTree(
-    new GearSchematic({ radius: 50, teeth: 24 }),
+    { radius: 50, teeth: 24 },
     {
       type: 'parallel',
-      child: new GearTree(new GearSchematic({ radius: 25, teeth: 12 }), {
-        type: 'series',
-        angle: -1 / 3,
-        child: GearTree.gear({ radius: 100, teeth: 45 }),
-      }),
+      child: new GearTree(
+        { radius: 25, teeth: 12 },
+        {
+          type: 'series',
+          angle: -1 / 3,
+          child: new GearTree({ radius: 100, teeth: 45 }),
+        },
+      ),
     },
     {
       type: 'series',
       angle: 0,
-      child: new GearTree(new GearSchematic({ radius: 50, teeth: 24 }), {
-        type: 'series',
-        angle: -0.25,
-        child: GearTree.gear({ radius: 25, teeth: 12 }),
-      }),
+      child: new GearTree(
+        { radius: 50, teeth: 24 },
+        {
+          type: 'series',
+          angle: -0.25,
+          child: new GearTree({ radius: 25, teeth: 12 }),
+        },
+      ),
     },
     {
       type: 'series',
       angle: -1 / 6,
-      child: GearTree.gear({ radius: 25, teeth: 12 }),
+      child: new GearTree({ radius: 25, teeth: 12 }),
     },
   )
 

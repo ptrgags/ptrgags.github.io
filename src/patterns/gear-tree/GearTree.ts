@@ -22,8 +22,8 @@ export class GearTree implements DrawP5 {
   gear: GearSchematic
   connections: GearConnection[]
 
-  constructor(gear: GearSchematic, ...connections: GearConnection[]) {
-    this.gear = gear
+  constructor(gear: GearSchematicOptions, ...connections: GearConnection[]) {
+    this.gear = new GearSchematic(gear)
     this.connections = connections
   }
 
@@ -71,14 +71,5 @@ export class GearTree implements DrawP5 {
     for (const connection of this.connections) {
       connection.child.draw_p5(p)
     }
-  }
-
-  /**
-   * Shorthand for creating a gear and wrapping as a GearTree
-   * @param options Options for constructing a gear
-   * @returns A gear wrapped in the gear
-   */
-  static gear(options: GearSchematicOptions): GearTree {
-    return new GearTree(new GearSchematic(options))
   }
 }
