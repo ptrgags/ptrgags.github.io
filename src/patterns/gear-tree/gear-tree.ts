@@ -12,7 +12,7 @@ export const gear_schematic = (p: p5) => {
   p.draw = () => {
     p.background(0)
 
-    const t = (p.frameCount / 1024) % 1.0
+    const t = p.frameCount / 1024
     example_gear.phase = t
 
     p.stroke(255)
@@ -44,7 +44,7 @@ export const meshed_gears = (p: p5) => {
   p.draw = () => {
     p.background(0)
 
-    const t = (p.frameCount / 1024) % 1.0
+    const t = p.frameCount / 1024
     gear_tree.angle = t
 
     p.stroke(255)
@@ -67,7 +67,51 @@ export const coaxial_gears = (p: p5) => {
   p.draw = () => {
     p.background(0)
 
-    const t = (p.frameCount / 1024) % 1.0
+    const t = p.frameCount / 1024
+    gear_tree.angle = t
+
+    p.stroke(255)
+    p.noFill()
+    gear_tree.draw_p5(p)
+  }
+}
+
+export const simple_gear_tree = (p: p5) => {
+  const gear_tree = new GearTree(
+    new GearSchematic({ radius: 50, teeth: 24 }),
+    {
+      type: 'parallel',
+      child: new GearTree(new GearSchematic({ radius: 25, teeth: 12 }), {
+        type: 'series',
+        angle: -1 / 3,
+        child: GearTree.gear({ radius: 100, teeth: 45 }),
+      }),
+    },
+    {
+      type: 'series',
+      angle: 0,
+      child: new GearTree(new GearSchematic({ radius: 50, teeth: 24 }), {
+        type: 'series',
+        angle: -0.25,
+        child: GearTree.gear({ radius: 25, teeth: 12 }),
+      }),
+    },
+    {
+      type: 'series',
+      angle: -1 / 6,
+      child: GearTree.gear({ radius: 25, teeth: 12 }),
+    },
+  )
+
+  p.setup = () => {
+    p.createCanvas(200, 200)
+    gear_tree.position_gears({ x: 50, y: 50 })
+  }
+
+  p.draw = () => {
+    p.background(0)
+
+    const t = p.frameCount / 1024
     gear_tree.angle = t
 
     p.stroke(255)

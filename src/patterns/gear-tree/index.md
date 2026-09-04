@@ -4,7 +4,7 @@ title: Gear Tree
 ---
 <script setup lang="ts">
 import SketchP5 from '../../components/SketchP5.vue'
-import {gear_schematic, meshed_gears, coaxial_gears} from './gear-tree'
+import {gear_schematic, meshed_gears, coaxial_gears, simple_gear_tree} from './gear-tree'
 </script>
 
 ::: warning TODO
@@ -74,6 +74,8 @@ The main property here is that the gears turn through the same _angle_ and same 
 $$\theta_2 = \theta_1$$
 
 ## Making a Tree
+
+<SketchP5 :sketch="simple_gear_tree" />
 
 ::: warning TODO explain how to organize these into a tree data structure
 :::
