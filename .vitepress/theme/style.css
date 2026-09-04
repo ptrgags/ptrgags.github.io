@@ -184,3 +184,11 @@ p {
   margin: 20px auto;
   border: 1px solid var(--color-accent);
 }
+
+/** Custom containers */
+
+.custom-block.warning {
+  padding: 10px;
+  color: black;
+  background-color: oklch(73.437% 0.14649 81.595);
+}
