@@ -4,7 +4,7 @@ title: Gear Tree
 ---
 <script setup lang="ts">
 import SketchP5 from '../../components/SketchP5.vue'
-import {gear_schematic} from './gear-tree'
+import {gear_schematic, meshed_gears, coaxial_gears} from './gear-tree'
 </script>
 
 ::: warning TODO
@@ -37,8 +37,7 @@ gear Gear 2.
 We can take two gears and mesh the teeth together, forming the beginning of
 a chain of gears.
 
-::: warning TODO animate a pair of meshed gears of two different radii
-:::
+<SketchP5 :sketch="meshed_gears" />
 
 Since the gears are meshed together, both gears will turn through the same _distance_ along their circumference. However, they turn in opposite directions. So we can say that gears 1 and 2 have arc lengths related as follows:
 
@@ -66,14 +65,15 @@ $$
 ### Coaxial Gears (Parallel)
 
 We can also take two gears and mount them on the same axle so they turn
-together. 
+together. This is like the gears on a multi-speed bike
 
-::: warning TODO make a diagram of two coaxial gears
-:::
+<SketchP5 :sketch="coaxial_gears" />
 
 The main property here is that the gears turn through the same _angle_ and same _direction_, i.e.
 
 $$\theta_2 = \theta_1$$
 
-
 ## Making a Tree
+
+::: warning TODO explain how to organize these into a tree data structure
+:::

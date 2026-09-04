@@ -20,5 +20,5 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div id="sketch" ref="sketch_container"></div>
+  <div id="sketch" ref="sketch_container" class="vertical"></div>
 </template>

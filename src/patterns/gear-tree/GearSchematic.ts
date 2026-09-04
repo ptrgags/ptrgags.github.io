@@ -41,7 +41,7 @@ export class GearSchematic implements DrawP5 {
 
     // Draw tick marks for the teeth
     const r1 = this.pitch_radius
-    const r2 = this.pitch_radius * 1.25
+    const r2 = this.pitch_radius * 0.75
 
     for (let i = 0; i < this.num_teeth; i++) {
       const angle = i / this.num_teeth + this.phase
@@ -50,7 +50,7 @@ export class GearSchematic implements DrawP5 {
       p.line(x + r1 * c, y + r1 * s, x + r2 * c, y + r2 * s)
     }
 
-    const r3 = this.pitch_radius * 0.5
+    const r3 = this.pitch_radius * 0.25
     const angle = this.phase
     const c = Math.cos(2.0 * Math.PI * angle)
     const s = -Math.sin(2.0 * Math.PI * angle)
