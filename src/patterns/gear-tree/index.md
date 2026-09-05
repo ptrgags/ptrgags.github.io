@@ -8,7 +8,11 @@ import {SKETCHES} from './gear-tree'
 </script>
 
 ::: warning TODO
-Finished Diagram
+Elaborate gear tree shaped like a tree. 
+
+Start at the bottom, with a small gear train that goes up to a big central gear
+The central gear will have a few gears in parallel (like bike gears) and those in turn
+branch out into trains for the branches of the tree
 :::
 
 ## Gear Schematic
@@ -169,6 +173,11 @@ r_2\theta_2 &= -r_1\theta_1 \\
 $$
 :::
 
+#### Positioning Meshed Gears
+
+:::warning TODO: mention this implementation detail once I figure it out.
+:::
+
 ### Coaxial Gears (Parallel)
 
 We can also take two gears and mount them on the same axle so they turn
@@ -185,7 +194,7 @@ $$\theta_2 = \theta_1$$
 We can organize this into a tree data structure. 
 
 ```
-// Tree of gears. The root of the tree is the driving gear
+// Tree of gears. The root of the tree is the driving gear.
 GearTree:
     // gear for this node of the tree
     gear: Gear
@@ -193,7 +202,9 @@ GearTree:
     connections: (SeriesGear | ParallelGear)[]
 
 SeriesGear:
-    // When the
+    // When the parent gear is at zero phase (i.e. the first tooth is pointing 
+    // to the right) at what tooth number (counting CCW) will the child gear
+    // appear?
     tooth: number
     child: GearTree
 
@@ -201,8 +212,12 @@ ParallelGear:
     child: GearTree
 ```
 
+Here's a simple GearTree that connects a center driving gear that is connected
+to two different gears in series and a third in parallel:
+
+:::warning TODO redo this diagram
+:::
 
 <SketchP5 :sketch="SKETCHES.simple_tree" />
 
-::: warning TODO explain how to organize these into a tree data structure
-:::
+For a more elaborate example, see the diagram at the top of this page.
