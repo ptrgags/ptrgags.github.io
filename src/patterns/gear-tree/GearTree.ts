@@ -5,7 +5,7 @@ import type { Pointlike } from '../../primitives/Pointlike.ts'
 
 export interface SeriesGear {
   type: 'series'
-  // tooth number of the parent gear where the series gear will be meshed.
+  // Tooth number of the parent gear where the series gear will be meshed.
   // This is used for computing the child gear's initial phase for correct
   // meshing.
   tooth: number
@@ -49,7 +49,7 @@ export class GearTree implements DrawP5 {
 
         // Rotate the child gear so tooth 0 is facing
         const tip_phase = Math.PI + connection_angle
-        // but now we need to rotate the child gear by half a tooth for them
+        // ...but now we need to rotate the child gear by half a tooth for them
         // to mesh
         const half_tooth_angle = Math.PI / connection.child.gear.num_teeth
 
@@ -71,7 +71,7 @@ export class GearTree implements DrawP5 {
     this.gear.angle = value
 
     for (const connection of this.connections) {
-      // parallel gears are mounted on the same axle so turn the same
+      // Parallel gears are mounted on the same axle so turn the same
       // angle. Series gears turn proportional to the gear ratio, but in
       // the opposite direction
       let child_angle = value

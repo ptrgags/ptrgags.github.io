@@ -61,7 +61,7 @@ export class GearSchematic implements DrawP5 {
   angle: number = 0
 
   /**
-   * Style for drawing the gear. This adjusts a couple things in the
+   * Style for drawing the gear. This adjusts a couple of things in the
    * draw function
    */
   gear_style: GearStyle

@@ -94,7 +94,7 @@ SIMPLE_TREE.position_gears({ x: 100, y: 100 })
 const ELABORATE_TREE = new GearTree(gear(24), {
   type: 'series',
   tooth: 6,
-  // a train of gears that forms the "trunk" of the tree
+  // A train of gears that forms the "trunk" of the tree
   child: new GearTree(gear(16), {
     type: 'series',
     tooth: 4,
@@ -128,7 +128,7 @@ const ELABORATE_TREE = new GearTree(gear(24), {
         { type: 'parallel', child: new GearTree(gear(20)) },
         {
           type: 'parallel',
-          // The smallest gear on the center axle drives a train of smol gears
+          // The smallest gear on the center axle drives a train of small gears
           // because why not
           child: new GearTree(
             gear(12),
@@ -165,7 +165,7 @@ const ELABORATE_TREE = new GearTree(gear(24), {
             ),
           ),
         },
-        // two gear trains on the sides that each have two branches
+        // Two gear trains on the sides that each have two branches
         series(
           0,
           new GearTree(
