@@ -1,19 +1,12 @@
 ---
 layout: article
 title: Gear Tree
+date: 2026-09-05
 ---
 <script setup lang="ts">
 import SketchP5 from '../../components/SketchP5.vue'
 import {SKETCHES} from './gear-tree'
 </script>
-
-::: warning TODO
-Elaborate gear tree shaped like a tree. 
-
-Start at the bottom, with a small gear train that goes up to a big central gear
-The central gear will have a few gears in parallel (like bike gears) and those in turn
-branch out into trains for the branches of the tree
-:::
 
 <SketchP5 :sketch="SKETCHES.elaborate_tree" />
 
