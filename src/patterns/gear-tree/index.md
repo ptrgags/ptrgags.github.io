@@ -13,8 +13,8 @@ Finished Diagram
 
 ## Gear Schematic
 
-Drawing an accurate gear shape is something I want to explore separately, so
-for now let's make a schematic of a gear. This will include:
+Drawing an accurate gear shape is something I want to explore separately. For 
+now, let's draw a schematic of a gear. This will include:
 
 - A circle that represents the pitch circle (the circle where the teeth make contact)
 - A number of tick marks that represent where the teeth go
@@ -23,6 +23,113 @@ for now let's make a schematic of a gear. This will include:
 For an example, here is a single gear with 24 teeth:
 
 <SketchP5 :sketch="SKETCHES.gear_schematic" />
+
+### Note on Gear Dimensions
+
+Though the shape of gears is beyond the scope of this page, we still need to
+nail down a few key dimensions so gears mesh properly in the animation. The video [🎞 Geometry of Involute Gears](https://www.youtube.com/watch?v=_C8hu5aZjCA) by tec-science on YouTube gives an overview of the terminology. The following dimensions
+are most relevant to these animations:
+
+- $m$ is the module size. This is how much each tooth extends past the reference pitch circle.
+- $Z$ is the number of teeth
+- $d_0 = mZ$ is the diameter of the reference pitch circle.
+
+I'm more used to describing circular shapes in terms of radius, not diameter, so
+let's define the radius of the pitch circle $r_0 = \frac{1}{2}d_0 = \frac{1}{2}mZ$
+
+I find the video linked above doesn't adequately emphasize _why_ gears are sized
+this way. The key principle is that the spacing between teeth is _constant_
+(in terms of arc length), regardless of the size of the gear. This means no
+matter how much a pair of gears is rotated, the teeth will always interleave
+like a zipper.
+
+::::details ❓ Curiosity: What happens when the tooth spacing does not match?
+
+
+Most of the time, the teeth will eventually collide as in the following
+examples
+```
+v v v v v v Gear 1
+ ^  ^  ^  ^ Gear 2 (3/2x spacing)
+    x     x Collisions
+```
+
+```
+v   v   v   v   v   v  Gear 1
+ v    v    v    v    v Gear 2 (5/4x spacing)
+                x 
+```
+
+However, not always! Here are some examples where the spacing of one
+gear is an integer multiple of the other, these would interleave properly.
+
+```
+v v v v v v Gear 1
+ ^   ^   ^  Gear 2 (2x spacing)
+```
+
+```
+v v v v v v v v Gear 1
+ ^     ^     ^  Gear 2 (3x spacing)
+```
+
+❓ What's the overall pattern here?
+
+:::details 🔗 Connection: Walking up Stairs
+Imagine you are in a hurry and walk up a staircase with longer strides.
+It's possible to take stairs two at a time without issue.
+
+However, if your stride length is a little too long or too short, you may
+eventually trip.
+:::
+
+:::details 🔗 Connection: Drum Rhythms
+In music, this is like playing simultaneous rhythms. If the spacing is
+the same or an integer multiple, then you can interleave the rhythms
+without overlap. For example, a common drum rhythm:
+```
+kick:  x.x.x.x.
+snare: .x.x.x.x
+```
+You could even slow down the snare and it would still work:
+```
+kick:  x.x.x.x.
+snare: .x...x..
+```
+
+However, other rhythms may eventually overlap even if it starts staggered.
+This will be common in polyrhyhtms like this one:
+
+kick:  x..x..x..x
+snare: .x...x...x
+                ^--overlap
+:::
+
+::::
+
+### Pseudocode for Gear
+
+Here's how I'm representing a gear in the animations for this page:
+
+```
+Gear:
+    // Center of the gear
+    center: Point
+    // Module length as described in the previous section. This must
+    // be the same for gears that mesh together.
+    module: number
+    // Number of teeth
+    teeth: number
+    // Initial phase angle of the gear in radians. This is used to rotate gears
+    // slightly so the teeth mesh correctly
+    phase: number
+
+    // Angle the gear has turned in radians for animation purposes
+    angle: number
+
+    // The radius is proportional to the number of teeth
+    get radius = 0.5 * module * teeth
+```
 
 ## Gear Connections
 
@@ -74,6 +181,26 @@ The main property here is that the gears turn through the same _angle_ and same 
 $$\theta_2 = \theta_1$$
 
 ## Making a Tree
+
+We can organize this into a tree data structure. 
+
+```
+// Tree of gears. The root of the tree is the driving gear
+GearTree:
+    // gear for this node of the tree
+    gear: Gear
+    // List of 0 or more connections to other gears
+    connections: (SeriesGear | ParallelGear)[]
+
+SeriesGear:
+    // When the
+    tooth: number
+    child: GearTree
+
+ParallelGear:
+    child: GearTree
+```
+
 
 <SketchP5 :sketch="SKETCHES.simple_tree" />
 
