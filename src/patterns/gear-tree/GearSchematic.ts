@@ -57,12 +57,16 @@ export class GearSchematic implements DrawP5 {
 
   draw_p5(p: p5): void {
     const { x, y } = this.center
+
     // draw the pitch circle
     p.circle(x, y, 2 * this.radius)
 
+    // root circle
+    // p.circle(x, y, 2 * (this.radius - 1.25 * this.module))
+
     // Draw tick marks for the teeth
-    const r1 = this.radius
-    const r2 = this.radius * 0.75
+    const r1 = this.radius + this.module
+    const r2 = this.radius - 1.25 * this.module //* 0.75
     const start_angle = this.phase + this.angle
 
     for (let i = 0; i < this.num_teeth; i++) {
