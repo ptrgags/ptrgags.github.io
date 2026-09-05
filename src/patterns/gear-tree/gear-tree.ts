@@ -39,6 +39,16 @@ const MESHED_GEARS = new GearTree(
 )
 MESHED_GEARS.position_gears({ x: 75, y: 100 })
 
+const MESHED_AT_ANGLE = new GearTree(
+  { module: MODULE, teeth: 35 },
+  {
+    type: 'series',
+    tooth: 5,
+    child: new GearTree({ module: MODULE, teeth: 10 }),
+  },
+)
+MESHED_AT_ANGLE.position_gears({ x: 75, y: 100 })
+
 const COAXIAL_GEARS = new GearTree(
   { module: MODULE, teeth: 48 },
   {
@@ -49,29 +59,15 @@ const COAXIAL_GEARS = new GearTree(
 COAXIAL_GEARS.position_gears({ x: 100, y: 100 })
 
 const SIMPLE_TREE = new GearTree(
-  { module: MODULE, teeth: 24 },
+  { module: MODULE, teeth: 30 },
   {
     type: 'parallel',
-    child: new GearTree(
-      { module: MODULE, teeth: 12 },
-      {
-        type: 'series',
-        tooth: -5,
-        child: new GearTree({ module: MODULE, teeth: 45 }),
-      },
-    ),
+    child: new GearTree({ module: MODULE, teeth: 18 }),
   },
   {
     type: 'series',
-    tooth: 0,
-    child: new GearTree(
-      { module: MODULE, teeth: 24 },
-      {
-        type: 'series',
-        tooth: -6,
-        child: new GearTree({ module: MODULE, teeth: 10 }),
-      },
-    ),
+    tooth: 10,
+    child: new GearTree({ module: MODULE, teeth: 50 }),
   },
   {
     type: 'series',
@@ -79,13 +75,14 @@ const SIMPLE_TREE = new GearTree(
     child: new GearTree({ module: MODULE, teeth: 15 }),
   },
 )
-SIMPLE_TREE.position_gears({ x: 50, y: 50 })
+SIMPLE_TREE.position_gears({ x: 100, y: 100 })
 
 export const SKETCHES = {
   gear_schematic: make_gear_sketch(
     new GearSchematic({ center: { x: 100, y: 100 }, module: MODULE, teeth: 24 }),
   ),
   meshed_gears: make_gear_sketch(MESHED_GEARS),
+  meshed_at_angle: make_gear_sketch(MESHED_AT_ANGLE),
   coaxial_gears: make_gear_sketch(COAXIAL_GEARS),
   simple_tree: make_gear_sketch(SIMPLE_TREE),
 }

@@ -146,7 +146,7 @@ gear Gear 2.
 ### Meshed Gears (Series)
 
 We can take two gears and mesh the teeth together, forming the beginning of
-a chain of gears.
+a gear train.
 
 <SketchP5 :sketch="SKETCHES.meshed_gears" />
 
@@ -175,8 +175,12 @@ $$
 
 #### Positioning Meshed Gears
 
-:::warning TODO: mention this implementation detail once I figure it out.
-:::
+When connecting gears in series, we have the option of where to place the
+driven gear. I like to express this in number of teeth counterclockwise from the right.
+For example, here is the same pair of meshed gears with the driven gear
+moved 5 teeth CCW
+
+<SketchP5 :sketch="SKETCHES.meshed_at_angle" />
 
 ### Coaxial Gears (Parallel)
 
@@ -214,9 +218,6 @@ ParallelGear:
 
 Here's a simple GearTree that connects a center driving gear that is connected
 to two different gears in series and a third in parallel:
-
-:::warning TODO redo this diagram
-:::
 
 <SketchP5 :sketch="SKETCHES.simple_tree" />
 
