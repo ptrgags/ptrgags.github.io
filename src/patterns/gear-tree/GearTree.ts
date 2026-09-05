@@ -29,22 +29,42 @@ export class GearTree implements DrawP5 {
   }
 
   position_gears(center: Pointlike) {
+    console.log(this.gear)
     this.gear.center = center
 
     for (const connection of this.connections) {
       let child_center = center
+      let child_phase = this.gear.phase
       if (connection.type === 'series') {
         const { x, y } = center
-        const angle = (2.0 * Math.PI * connection.tooth) / this.gear.num_teeth
-        const c = Math.cos(angle)
-        const s = -Math.sin(angle)
+
+        const connection_angle = (2.0 * Math.PI * connection.tooth) / this.gear.num_teeth
+        console.log(connection.tooth, '/', this.gear.num_teeth, connection_angle)
+        const c = Math.cos(connection_angle)
+        const s = -Math.sin(connection_angle)
         const r = this.gear.radius + connection.child.gear.radius
         child_center = {
           x: x + r * c,
           y: y + r * s,
         }
+
+        // Rotate the child gear so tooth 0 is facing
+        const tip_phase = Math.PI + connection_angle
+        // but now we need to rotate the child gear by half a tooth for them
+        // to mesh
+        const half_tooth_angle = Math.PI / connection.child.gear.num_teeth
+
+        // If the parent gear was rotated, the child gear must also
+        // rotate through the same arc length using the usual series
+        // gear angle math (see set angle())
+        const ratio = this.gear.radius / connection.child.gear.radius
+        const phase_adjustment = this.gear.phase * -ratio
+
+        child_phase = tip_phase + half_tooth_angle + phase_adjustment
       }
 
+      console.log('child phase', child_phase)
+      connection.child.gear.phase = child_phase
       connection.child.position_gears(child_center)
     }
   }

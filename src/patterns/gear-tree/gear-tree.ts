@@ -2,7 +2,7 @@ import p5 from 'p5'
 import { GearSchematic } from './GearSchematic.ts'
 import { GearTree } from './GearTree.ts'
 
-const PAUSE = true
+const PAUSE = false
 
 const MODULE = 4
 
@@ -19,7 +19,7 @@ function make_gear_sketch(gears: GearSchematic | GearTree) {
       p.background(0)
 
       const t = PAUSE ? 0 : p.frameCount / FRAMES_PER_TURN
-      gears.angle = t
+      gears.angle = 2.0 * Math.PI * t
 
       p.stroke(255)
       p.strokeWeight(2)
@@ -30,11 +30,11 @@ function make_gear_sketch(gears: GearSchematic | GearTree) {
 }
 
 const MESHED_GEARS = new GearTree(
-  { module: MODULE, teeth: 40 },
+  { module: MODULE, teeth: 35 },
   {
     type: 'series',
     tooth: 0,
-    child: new GearTree({ module: MODULE, teeth: 5 }),
+    child: new GearTree({ module: MODULE, teeth: 10 }),
   },
 )
 MESHED_GEARS.position_gears({ x: 75, y: 100 })
@@ -69,14 +69,14 @@ const SIMPLE_TREE = new GearTree(
       {
         type: 'series',
         tooth: -6,
-        child: new GearTree({ module: MODULE, teeth: 12 }),
+        child: new GearTree({ module: MODULE, teeth: 10 }),
       },
     ),
   },
   {
     type: 'series',
     tooth: -4,
-    child: new GearTree({ module: MODULE, teeth: 12 }),
+    child: new GearTree({ module: MODULE, teeth: 15 }),
   },
 )
 SIMPLE_TREE.position_gears({ x: 50, y: 50 })
