@@ -19,6 +19,7 @@ export interface GearSchematicOptions {
   teeth: number
   center?: Pointlike
   phase?: number
+  gear_style?: GearStyle
 }
 
 /**
@@ -27,9 +28,6 @@ export interface GearSchematicOptions {
  * NOTE: the tick marks are drawn _inside_ the pitch circle
  */
 export class GearSchematic implements DrawP5 {
-  // Style for drawing gears. Override this to change appearance
-  static gear_style = GearStyle.PSEUDO_GEAR
-
   /**
    * Center of the gear. You can swap this out to move the gear around without
    * needing to wrap in a transform
@@ -62,12 +60,19 @@ export class GearSchematic implements DrawP5 {
    */
   angle: number = 0
 
+  /**
+   * Style for drawing the gear. This adjusts a couple things in the
+   * draw function
+   */
+  gear_style: GearStyle
+
   constructor(options: GearSchematicOptions) {
     this.center = options.center ?? { x: 0, y: 0 }
     this.module = options.module
     this.num_teeth = options.teeth
     this.radius = 0.5 * options.module * options.teeth
     this.phase = options.phase ?? 0
+    this.gear_style = options.gear_style ?? GearStyle.PSEUDO_GEAR
   }
 
   draw_p5(p: p5): void {
@@ -77,21 +82,18 @@ export class GearSchematic implements DrawP5 {
     const root_radius = pitch_radius - 1.25 * this.module
     const tip_radius = pitch_radius + this.module
 
-    // draw the pitch circle
-
-    if (GearSchematic.gear_style === GearStyle.PSEUDO_GEAR) {
+    // Draw a circle for the body of the gear
+    const gear_style = this.gear_style
+    if (gear_style === GearStyle.PSEUDO_GEAR) {
       p.circle(x, y, 2 * root_radius)
-    } else if (GearSchematic.gear_style !== GearStyle.NO_CIRCLE) {
+    } else if (gear_style !== GearStyle.NO_CIRCLE) {
       p.circle(x, y, 2 * pitch_radius)
     }
-
-    // root circle
-    // p.circle(x, y, 2 * (this.radius - 1.25 * this.module))
 
     // Draw tick marks for the teeth
     let r1 = root_radius
     let r2 = tip_radius
-    if (GearSchematic.gear_style === GearStyle.INSIDE_PITCH_CIRCLE) {
+    if (gear_style === GearStyle.INSIDE_PITCH_CIRCLE) {
       // Exaggerate the root to show it more clearly
       r1 = pitch_radius - 2 * this.module
       r2 = pitch_radius
