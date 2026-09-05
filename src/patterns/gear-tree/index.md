@@ -15,6 +15,8 @@ The central gear will have a few gears in parallel (like bike gears) and those i
 branch out into trains for the branches of the tree
 :::
 
+<SketchP5 :sketch="SKETCHES.elaborate_tree" />
+
 ## Gear Schematic
 
 Drawing an accurate gear shape is something I want to explore separately. For 

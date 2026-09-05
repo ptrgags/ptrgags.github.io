@@ -3,7 +3,7 @@ import type { DrawP5 } from '../../primitives/DrawP5.ts'
 import { GearSchematic, type GearSchematicOptions } from './GearSchematic.ts'
 import type { Pointlike } from '../../primitives/Pointlike.ts'
 
-interface SeriesGear {
+export interface SeriesGear {
   type: 'series'
   // tooth number of the parent gear where the series gear will be meshed.
   // This is used for computing the child gear's initial phase for correct
@@ -12,16 +12,17 @@ interface SeriesGear {
   child: GearTree
 }
 
-interface ParallelGear {
+export interface ParallelGear {
   type: 'parallel'
   child: GearTree
 }
 
-type GearConnection = SeriesGear | ParallelGear
+export type GearConnection = SeriesGear | ParallelGear
 
 export class GearTree implements DrawP5 {
   gear: GearSchematic
   connections: GearConnection[]
+  is_root: boolean = false
 
   constructor(gear: GearSchematicOptions, ...connections: GearConnection[]) {
     this.gear = new GearSchematic(gear)
@@ -29,7 +30,6 @@ export class GearTree implements DrawP5 {
   }
 
   position_gears(center: Pointlike) {
-    console.log(this.gear)
     this.gear.center = center
 
     for (const connection of this.connections) {
@@ -39,7 +39,6 @@ export class GearTree implements DrawP5 {
         const { x, y } = center
 
         const connection_angle = (2.0 * Math.PI * connection.tooth) / this.gear.num_teeth
-        console.log(connection.tooth, '/', this.gear.num_teeth, connection_angle)
         const c = Math.cos(connection_angle)
         const s = -Math.sin(connection_angle)
         const r = this.gear.radius + connection.child.gear.radius
@@ -63,7 +62,6 @@ export class GearTree implements DrawP5 {
         child_phase = tip_phase + half_tooth_angle + phase_adjustment
       }
 
-      console.log('child phase', child_phase)
       connection.child.gear.phase = child_phase
       connection.child.position_gears(child_center)
     }
@@ -87,6 +85,11 @@ export class GearTree implements DrawP5 {
   }
 
   draw_p5(p: p5): void {
+    if (this.is_root) {
+      p.stroke(255, 0, 0)
+    } else {
+      p.stroke(255)
+    }
     this.gear.draw_p5(p)
 
     for (const connection of this.connections) {
