@@ -5,9 +5,10 @@ import type { Pointlike } from '../../primitives/Pointlike.ts'
 
 interface SeriesGear {
   type: 'series'
-  // angle of the axis between the two gears measured relative
-  // to the parent gear in
-  angle: number
+  // tooth number of the parent gear where the series gear will be meshed.
+  // This is used for computing the child gear's initial phase for correct
+  // meshing.
+  tooth: number
   child: GearTree
 }
 
@@ -34,9 +35,9 @@ export class GearTree implements DrawP5 {
       let child_center = center
       if (connection.type === 'series') {
         const { x, y } = center
-        const angle = connection.angle
-        const c = Math.cos(2 * Math.PI * angle)
-        const s = -Math.sin(2 * Math.PI * angle)
+        const angle = (2.0 * Math.PI * connection.tooth) / this.gear.num_teeth
+        const c = Math.cos(angle)
+        const s = -Math.sin(angle)
         const r = this.gear.radius + connection.child.gear.radius
         child_center = {
           x: x + r * c,

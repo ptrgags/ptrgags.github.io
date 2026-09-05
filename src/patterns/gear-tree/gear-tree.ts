@@ -2,6 +2,8 @@ import p5 from 'p5'
 import { GearSchematic } from './GearSchematic.ts'
 import { GearTree } from './GearTree.ts'
 
+const PAUSE = true
+
 const MODULE = 4
 
 const SWATCH_SIZE = { w: 200, h: 200 }
@@ -16,7 +18,7 @@ function make_gear_sketch(gears: GearSchematic | GearTree) {
     p.draw = () => {
       p.background(0)
 
-      const t = p.frameCount / FRAMES_PER_TURN
+      const t = PAUSE ? 0 : p.frameCount / FRAMES_PER_TURN
       gears.angle = t
 
       p.stroke(255)
@@ -27,23 +29,15 @@ function make_gear_sketch(gears: GearSchematic | GearTree) {
   }
 }
 
-function make_meshed_gears() {
-  const teeth1 = 40
-  const teeth2 = 5
-
-  const tree = new GearTree(
-    { module: MODULE, teeth: teeth1 },
-    {
-      type: 'series',
-      angle: 0,
-      child: new GearTree({ module: MODULE, teeth: teeth2 }),
-    },
-  )
-  tree.position_gears({ x: 75, y: 100 })
-  return tree
-}
-
-const MESHED_GEARS = make_meshed_gears()
+const MESHED_GEARS = new GearTree(
+  { module: MODULE, teeth: 40 },
+  {
+    type: 'series',
+    tooth: 0,
+    child: new GearTree({ module: MODULE, teeth: 5 }),
+  },
+)
+MESHED_GEARS.position_gears({ x: 75, y: 100 })
 
 const COAXIAL_GEARS = new GearTree(
   { module: MODULE, teeth: 48 },
@@ -62,26 +56,26 @@ const SIMPLE_TREE = new GearTree(
       { module: MODULE, teeth: 12 },
       {
         type: 'series',
-        angle: -1 / 3,
+        tooth: -5,
         child: new GearTree({ module: MODULE, teeth: 45 }),
       },
     ),
   },
   {
     type: 'series',
-    angle: 0,
+    tooth: 0,
     child: new GearTree(
       { module: MODULE, teeth: 24 },
       {
         type: 'series',
-        angle: -0.25,
+        tooth: -6,
         child: new GearTree({ module: MODULE, teeth: 12 }),
       },
     ),
   },
   {
     type: 'series',
-    angle: -1 / 6,
+    tooth: -4,
     child: new GearTree({ module: MODULE, teeth: 12 }),
   },
 )
