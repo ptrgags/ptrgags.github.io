@@ -3,7 +3,7 @@ import type { DrawP5 } from '../../primitives/DrawP5.ts'
 import type { Pointlike } from '../../primitives/Pointlike.ts'
 
 export interface GearSchematicOptions {
-  radius: number
+  module: number
   teeth: number
   center?: Pointlike
   phase?: number
@@ -21,12 +21,19 @@ export class GearSchematic implements DrawP5 {
    */
   center: Pointlike
   /**
-   * The pitch radius, i.e. the radius at which the gears mesh
+   * The length of the tooth from pitch circle to tip. This must match
+   * for all gears meshed together in series
+   */
+  readonly module: number
+  /**
+   * Number of teeth
+   */
+  readonly num_teeth: number
+  /**
+   * The pitch radius, i.e. the radius at which the gears mesh. This is
+   * computed from module and number of teeth
    */
   readonly radius: number
-  private readonly radius_short: number
-  private readonly radius_long: number
-  readonly num_teeth: number
   /**
    * Initial Phase angle in _turns_, not radians. This is used for rotating
    * gears slightly so they mesh.
@@ -42,10 +49,9 @@ export class GearSchematic implements DrawP5 {
 
   constructor(options: GearSchematicOptions) {
     this.center = options.center ?? { x: 0, y: 0 }
-    this.radius = options.radius
-    this.radius_short = 1.1 * this.radius
-    this.radius_long = 0.5 * this.radius
+    this.module = options.module
     this.num_teeth = options.teeth
+    this.radius = 0.5 * options.module * options.teeth
     this.phase = options.phase ?? 0
   }
 

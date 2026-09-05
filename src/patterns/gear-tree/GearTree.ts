@@ -6,7 +6,7 @@ import type { Pointlike } from '../../primitives/Pointlike.ts'
 interface SeriesGear {
   type: 'series'
   // angle of the axis between the two gears measured relative
-  // to the parent gear. Angle is specified in _turns_
+  // to the parent gear in
   angle: number
   child: GearTree
 }
