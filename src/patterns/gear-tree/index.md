@@ -15,7 +15,7 @@ import {SKETCHES} from './gear-tree'
 Drawing an accurate gear shape is something I want to explore separately. For 
 now, let's draw a schematic of a gear. This will include:
 
-- A circle for the overall shape of the tooth
+- A circle for the overall shape of the gear
 - A number of tick marks that represent where the teeth go
 - The first tooth tick mark will be drawn a bit longer to show the overall rotation of the gear
 
