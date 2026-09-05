@@ -2,6 +2,18 @@ import type p5 from 'p5'
 import type { DrawP5 } from '../../primitives/DrawP5.ts'
 import type { Pointlike } from '../../primitives/Pointlike.ts'
 
+export enum GearStyle {
+  // Draw the teeth inside the pitch circle. This is the original style
+  INSIDE_PITCH_CIRCLE,
+  // Draw the pitch circle and the teeth crossing the pitch circle like hash marks
+  HASH_MARKS,
+  // Like HASH_MARKS but draw the root circle instead of the pitch circle. This
+  // looks the most like the final gear
+  PSEUDO_GEAR,
+  // Draw just the teeth, no pitch circle
+  NO_CIRCLE,
+}
+
 export interface GearSchematicOptions {
   module: number
   teeth: number
@@ -15,6 +27,9 @@ export interface GearSchematicOptions {
  * NOTE: the tick marks are drawn _inside_ the pitch circle
  */
 export class GearSchematic implements DrawP5 {
+  // Style for drawing gears. Override this to change appearance
+  static gear_style = GearStyle.PSEUDO_GEAR
+
   /**
    * Center of the gear. You can swap this out to move the gear around without
    * needing to wrap in a transform
@@ -58,15 +73,30 @@ export class GearSchematic implements DrawP5 {
   draw_p5(p: p5): void {
     const { x, y } = this.center
 
+    const pitch_radius = this.radius
+    const root_radius = pitch_radius - 1.25 * this.module
+    const tip_radius = pitch_radius + this.module
+
     // draw the pitch circle
-    p.circle(x, y, 2 * this.radius)
+
+    if (GearSchematic.gear_style === GearStyle.PSEUDO_GEAR) {
+      p.circle(x, y, 2 * root_radius)
+    } else if (GearSchematic.gear_style !== GearStyle.NO_CIRCLE) {
+      p.circle(x, y, 2 * pitch_radius)
+    }
 
     // root circle
     // p.circle(x, y, 2 * (this.radius - 1.25 * this.module))
 
     // Draw tick marks for the teeth
-    const r1 = this.radius + this.module
-    const r2 = this.radius - 1.25 * this.module //* 0.75
+    let r1 = root_radius
+    let r2 = tip_radius
+    if (GearSchematic.gear_style === GearStyle.INSIDE_PITCH_CIRCLE) {
+      // Exaggerate the root to show it more clearly
+      r1 = pitch_radius - 2 * this.module
+      r2 = pitch_radius
+    }
+
     const start_angle = this.phase + this.angle
 
     for (let i = 0; i < this.num_teeth; i++) {

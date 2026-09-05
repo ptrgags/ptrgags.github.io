@@ -6,18 +6,11 @@ const PAUSE = false
 
 const MODULE = 4
 
-// shorthand for reducing boilerplate
+// shorthand for reducing boilerplate ============================
 function gear(teeth: number): GearSchematicOptions {
   return {
     module: MODULE,
     teeth,
-  }
-}
-
-function parallel(child: GearTree): ParallelGear {
-  return {
-    type: 'parallel',
-    child,
   }
 }
 
@@ -28,7 +21,6 @@ function series(tooth: number, child: GearTree): SeriesGear {
     child,
   }
 }
-
 // ===========================================================
 
 const SIZE_SWATCH = { w: 200, h: 200 }

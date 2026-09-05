@@ -15,7 +15,7 @@ import {SKETCHES} from './gear-tree'
 Drawing an accurate gear shape is something I want to explore separately. For 
 now, let's draw a schematic of a gear. This will include:
 
-- A circle that represents the pitch circle (the circle where the teeth make contact)
+- A circle for the overall shape of the tooth
 - A number of tick marks that represent where the teeth go
 - The first tooth tick mark will be drawn a bit longer to show the overall rotation of the gear
 
@@ -29,9 +29,9 @@ Though the shape of gears is beyond the scope of this page, we still need to
 nail down a few key dimensions so gears mesh properly in the animation. The video [🎞 Geometry of Involute Gears](https://www.youtube.com/watch?v=_C8hu5aZjCA) by tec-science on YouTube gives an overview of the terminology. The following dimensions
 are most relevant to these animations:
 
-- $m$ is the module size. This is how much each tooth extends past the reference pitch circle.
+- $m$ is the module size. This is the length of each tooth outside the reference pitch circle
 - $Z$ is the number of teeth
-- $d_0 = mZ$ is the diameter of the reference pitch circle.
+- $d_0 = mZ$ is the diameter of the **reference pitch circle**, i.e. the circle where the teeth make contact.
 
 I'm more used to describing circular shapes in terms of radius, not diameter, so
 let's define the radius of the pitch circle $r_0 = \frac{1}{2}d_0 = \frac{1}{2}mZ$
@@ -149,7 +149,7 @@ Since the gears are meshed together, both gears will turn through the same _dist
 
 $$s_2 = -s_1$$
 
-Since the gears will often be of different sizes, the angle each gear turns will be different. In particular, the angles are related by the ratio of the gears' radii: 
+Since the gears will often be of different sizes, the angle each gear turns will be different. In particular, the angles are related by the ratio of the gears' (reference pitch) radii: 
 
 $$\theta_2 = -\frac{r_1}{r_2}\theta_1$$
 
@@ -184,7 +184,7 @@ together. This is like the gears on a multi-speed bike
 
 <SketchP5 :sketch="SKETCHES.coaxial_gears" />
 
-The main property here is that the gears turn through the same _angle_ and same _direction_, i.e.
+The main property here is that the gears turn through the same angle _and_ direction, i.e.
 
 $$\theta_2 = \theta_1$$
 
