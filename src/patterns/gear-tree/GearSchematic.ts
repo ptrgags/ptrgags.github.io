@@ -1,5 +1,5 @@
 import type p5 from 'p5'
-import type { DrawP5 } from '../../primitives/DrawP5.ts'
+import type { DrawP5 } from '../../p5-helpers/DrawP5.ts'
 import type { Pointlike } from '../../primitives/Pointlike.ts'
 
 export enum GearStyle {
