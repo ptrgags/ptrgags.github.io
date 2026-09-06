@@ -11,6 +11,6 @@ const posts = data.map(x => {return {...x.frontmatter, url: x.url}}).sort(sort_r
 
 <ul>
 <template v-for="post in posts" :key="post.sort_key">
-    <li><a :href="post.url">{{post.title}}</a></li>
+    <li><a :href="post.url">{{post.title}}</a>: {{post.summary}}</li>
 </template>
 </ul>
