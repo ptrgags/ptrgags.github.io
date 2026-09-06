@@ -19,6 +19,9 @@
           <a href="/music">Music</a>
         </li>
         <li>
+          <a href="/blog">Blog</a>
+        </li>
+        <li>
           <a href="https://github.com/ptrgags"
             ><img width="24px" src="/assets/github-mark-white.svg"
           /></a>
