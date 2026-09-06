@@ -6,7 +6,7 @@ title: Blog
 import {data} from './update/update.data'
 import {sort_reverse_chronological} from './core/Sortable'
 
-const posts = data.map(x => {return {...x.frontmatter, url: x.url}}).sort(sort_reverse_chronological)
+const posts = data.map(x => {return {...x.frontmatter, url: x.url}}).sort(sort_reverse_chronological).slice(0, 5)
 </script>
 
 <template v-for="post in posts" :key="post.sort_key">
@@ -15,3 +15,5 @@ const posts = data.map(x => {return {...x.frontmatter, url: x.url}}).sort(sort_r
         <p>{{post.summary}}</p>
     </div>
 </template>
+
+[Full Archive >](./blog-archive)
