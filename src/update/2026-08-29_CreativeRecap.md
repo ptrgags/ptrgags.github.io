@@ -3,7 +3,7 @@ layout: article
 title: Creative Recap for 2026-08-16/29
 sort_key: '2026-08-29'
 summary: >
-    embroidery editor in a fantasy game console -- first attempt at visualizing 80s synth patches -- learning to draw involute gears
+    Embroidery editor in a fantasy game console -- learning to draw involute gears -- first attempt at visualizing 80s synth patches 
 ---
 
 ## PICO-8: Hitomezashi Editor

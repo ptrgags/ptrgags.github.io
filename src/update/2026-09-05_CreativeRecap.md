@@ -7,20 +7,21 @@ summary: >
 ---
 ## Gear Tree
 
-See [Gear Tree](../pattern/gear-tree/) page on this website
+See [Gear Tree](../pattern/gear-tree/) page on this website.
 
-I want to add a section of my website that documents math patterns in my art, music, and code. For the first example, I made a page to explain the mathematics of gears, and how to connect them into a tree structure.
+I am adding a section of my website that documents math patterns in my art, music, and code. 
+For the first example, I made a page to explain the mathematics of gears, and how to connect them into a tree data structure.
 
 ## LEGO Mosaics
 
-See [Bluesky thread](https://bsky.app/profile/ptrgags.bsky.social/post/3muew5hqmfc24) for photos
+See [Bluesky thread](https://bsky.app/profile/ptrgags.bsky.social/post/3muew5hqmfc24) for photos.
 
 I have a set of LEGO tiles and base plates I gathered for the purpose of 
 decorating my walls with pixel art. The intent was to have art that I can 
 customize and change easily. However, I was a couple of years overdue in changing
 the designs. 
 
-This time, I built some tools to make the process easier. Last year I made
+This time, I built some tools to make the design process easier. Last year I made
 [Mosaic Slider](https://ptrgags.dev/p5-sketchbook/MosaicSlider/), an interactive
 pixel art editor designed for the constraints of these mosaics. I took the
 results, turned it into a mini zine printout (see Bluesky thread for photos)

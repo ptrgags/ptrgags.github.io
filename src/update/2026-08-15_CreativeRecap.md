@@ -15,14 +15,15 @@ of a piano keyboard in WebGPU.
 
 ## Shiny Art Trading Cards
 
-See [Bluesky thread](https://bsky.app/profile/ptrgags.bsky.social/post/3msnu5upllc24) for photos
+See [Bluesky thread](https://bsky.app/profile/ptrgags.bsky.social/post/3msnu5upllc24) for photos.
 
 Here I tried using holographic laminate sheets as a new material for my art doodles.
 This adds a shiny, rainbow layer on top of the art. 
 
 ## PICO-8 Animation: REW/FFWD Album Cover
 
-See [Bluesky thread](https://bsky.app/profile/ptrgags.bsky.social/post/3mswb6c6d4k2y) for the full story
-See my [`pico8-carts`](https://github.com/ptrgags/pico8-carts/blob/main/lab/0006-rew-ffwd.p8) repo for the cartridge
+See [Bluesky thread](https://bsky.app/profile/ptrgags.bsky.social/post/3mswb6c6d4k2y) for the full story.
 
-I've been starting to experiment with [PICO-8](https://www.lexaloffle.com/pico-8.php). Here I made an animation of a cassette player, inspired by my [REW/FFWD](../album/rewind-and-ffwd.md) album cover
+See my [`pico8-carts`](https://github.com/ptrgags/pico8-carts/blob/main/lab/0006-rew-ffwd.p8) repo for the PICO-8 cartridge.
+
+I've been starting to experiment with [PICO-8](https://www.lexaloffle.com/pico-8.php). Here I made an animation of a cassette player, inspired by my [REW/FFWD](../album/rewind-and-ffwd.md) album cover.
