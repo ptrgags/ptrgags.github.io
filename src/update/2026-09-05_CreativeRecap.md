@@ -7,7 +7,7 @@ summary: >
 ---
 ## Gear Tree
 
-See [Gear Tree](../patterns/gear-tree/) page on this website
+See [Gear Tree](../pattern/gear-tree/) page on this website
 
 I want to add a section of my website that documents math patterns in my art, music, and code. For the first example, I made a page to explain the mathematics of gears, and how to connect them into a tree structure.
 
