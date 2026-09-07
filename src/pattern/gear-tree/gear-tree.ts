@@ -1,6 +1,7 @@
 import p5 from 'p5'
 import { GearSchematic, type GearSchematicOptions } from './GearSchematic.ts'
 import { GearTree, type GearConnection, type ParallelGear, type SeriesGear } from './GearTree.ts'
+import { DrawP5 } from '../../lib/p5-helpers/DrawP5.ts'
 
 const PAUSE = false
 
@@ -29,6 +30,7 @@ const FRAMES_PER_TURN = 512
 
 function make_gear_sketch(gears: GearSchematic | GearTree, size = SIZE_SWATCH) {
   return (p: p5) => {
+    const lib = new DrawP5(p)
     p.setup = () => {
       p.createCanvas(size.w, size.h)
 
@@ -46,7 +48,7 @@ function make_gear_sketch(gears: GearSchematic | GearTree, size = SIZE_SWATCH) {
       p.stroke(255, 0, 0)
       p.strokeWeight(2)
       p.noFill()
-      gears.draw_p5(p)
+      gears.draw(lib)
     }
   }
 }

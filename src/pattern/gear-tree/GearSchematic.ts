@@ -1,6 +1,6 @@
-import type p5 from 'p5'
-import type { DrawP5 } from '../../p5-helpers/DrawP5.ts'
-import type { Pointlike } from '../../primitives/Pointlike.ts'
+import type { Pointlike } from '../../lib/primitives/Pointlike.ts'
+import type { Drawable } from '../../lib/primitives/Drawable.ts'
+import type { DrawingLibrary } from '../../lib/primitives/DrawingLibrary.ts'
 
 export enum GearStyle {
   // Draw the teeth inside the pitch circle. This is the original style
@@ -27,7 +27,7 @@ export interface GearSchematicOptions {
  *
  * NOTE: the tick marks are drawn _inside_ the pitch circle
  */
-export class GearSchematic implements DrawP5 {
+export class GearSchematic implements Drawable {
   /**
    * Center of the gear. You can swap this out to move the gear around without
    * needing to wrap in a transform
@@ -75,7 +75,7 @@ export class GearSchematic implements DrawP5 {
     this.gear_style = options.gear_style ?? GearStyle.PSEUDO_GEAR
   }
 
-  draw_p5(p: p5): void {
+  draw(lib: DrawingLibrary): void {
     const { x, y } = this.center
 
     const pitch_radius = this.radius
@@ -85,9 +85,9 @@ export class GearSchematic implements DrawP5 {
     // Draw a circle for the body of the gear
     const gear_style = this.gear_style
     if (gear_style === GearStyle.PSEUDO_GEAR) {
-      p.circle(x, y, 2 * root_radius)
+      lib.circle(x, y, root_radius)
     } else if (gear_style !== GearStyle.NO_CIRCLE) {
-      p.circle(x, y, 2 * pitch_radius)
+      lib.circle(x, y, pitch_radius)
     }
 
     // Draw tick marks for the teeth
@@ -105,12 +105,12 @@ export class GearSchematic implements DrawP5 {
       const angle = start_angle + (2 * Math.PI * i) / this.num_teeth
       const c = Math.cos(angle)
       const s = -Math.sin(angle)
-      p.line(x + r1 * c, y + r1 * s, x + r2 * c, y + r2 * s)
+      lib.segment(x + r1 * c, y + r1 * s, x + r2 * c, y + r2 * s)
     }
 
     const r3 = this.radius * 0.25
     const c = Math.cos(start_angle)
     const s = -Math.sin(start_angle)
-    p.line(x + r1 * c, y + r1 * s, x + r3 * c, y + r3 * s)
+    lib.segment(x + r1 * c, y + r1 * s, x + r3 * c, y + r3 * s)
   }
 }
