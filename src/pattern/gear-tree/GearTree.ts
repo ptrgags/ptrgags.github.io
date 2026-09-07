@@ -90,11 +90,8 @@ export class GearTree implements Drawable {
   }
 
   draw(lib: DrawingLibrary): void {
-    if (this.is_root) {
-      lib.apply_style(STYLE_DRIVING_GEAR)
-    } else {
-      lib.apply_style(STYLE_GEAR)
-    }
+    const style = this.is_root ? STYLE_DRIVING_GEAR : STYLE_GEAR
+    lib.apply_style(style)
     this.gear.draw(lib)
 
     for (const connection of this.connections) {
