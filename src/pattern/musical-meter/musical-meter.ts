@@ -9,6 +9,7 @@ import { Rect } from '../../lib/primitives/Rect.ts'
 import { DrawP5 } from '../../lib/p5-helpers/DrawP5.ts'
 import { Clock } from '../../lib/animation/Clock.ts'
 import { Tempo } from '../../lib/music/Tempo.ts'
+import { Text } from '../../lib/primitives/Text.ts'
 
 const SIZE_TIMELINE = {
   width: 400,
@@ -42,6 +43,8 @@ function make_sketch(scene: SceneP5) {
 }
 
 const STYLE_LINES = Style.lines(Color.WHITE, 2)
+const STYLE_TEXT = Style.flat(Color.WHITE)
+
 const MEASURES_WIDE = 5
 const PIXELS_PER_BEAT = 20
 
@@ -50,6 +53,7 @@ class BasicPulse implements SceneP5 {
   cursor: LineSegment
   gridlines: Gridlines
   clock: Clock
+  beat_label: Text
 
   constructor() {
     this.clock = new Clock()
@@ -62,6 +66,7 @@ class BasicPulse implements SceneP5 {
       x_axis: { spacing: PIXELS_PER_BEAT, phase: 0 },
       draw_bounds: false,
     })
+    this.beat_label = new Text('0', { x: 0, y: 10 })
   }
 
   setup(p: p5): void {
@@ -70,9 +75,12 @@ class BasicPulse implements SceneP5 {
 
   update(p: p5): void {
     const t = this.clock.elapsed_time
-    const measures = Tempo.sec_to_measures(t, 128)
+    const measures = Tempo.sec_to_measures(t, 128) % 5
+    const beats = measures * 4
 
-    const cursor_x = (measures % 5) * PIXELS_PER_BEAT * 4
+    this.beat_label.text = `Beat ${Math.floor(beats)}`
+
+    const cursor_x = beats * PIXELS_PER_BEAT
     this.cursor.start = { x: cursor_x, y: 0 }
     this.cursor.end = { x: cursor_x, y: SIZE_TIMELINE.height }
   }
@@ -81,6 +89,9 @@ class BasicPulse implements SceneP5 {
     lib.apply_style(STYLE_LINES)
     this.gridlines.draw(lib)
     this.cursor.draw(lib)
+
+    lib.apply_style(STYLE_TEXT)
+    this.beat_label.draw(lib)
   }
 }
 

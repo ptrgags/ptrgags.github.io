@@ -33,6 +33,15 @@ export interface DrawingLibrary {
   rect(x: number, y: number, width: number, height: number): void
 
   /**
+   * Draw text at (x, y). The interpretation of the coordinates
+   * depends on the text style, but defaults to top left
+   * @param value The text to display
+   * @param x x-coordinate of the text
+   * @param y y-coordinate of the text
+   */
+  text(value: string, x: number, y: number): void
+
+  /**
    * Apply 2D styling, this includes stroke color, stroke width, and fill
    * color.
    * @param style The style to apply

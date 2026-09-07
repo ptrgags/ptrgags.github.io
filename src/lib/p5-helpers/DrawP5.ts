@@ -26,6 +26,10 @@ export class DrawP5 implements DrawingLibrary {
     this.p.rect(x, y, width, height)
   }
 
+  text(value: string, x: number, y: number): void {
+    this.p.text(value, x, y)
+  }
+
   apply_style(style: Style): void {
     const p = this.p
     if (style.stroke && !is_nearly(style.stroke.a, 0)) {
