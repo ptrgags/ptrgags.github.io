@@ -31,3 +31,6 @@ coverage
 
 .vitepress/dist
 .vitepress/cache
+
+# dunno what's creating these files with context_hashes
+%*%

@@ -1,7 +1,7 @@
-import type p5 from 'p5'
-import type { DrawP5 } from '../../p5-helpers/DrawP5.ts'
 import { GearSchematic, type GearSchematicOptions } from './GearSchematic.ts'
-import type { Pointlike } from '../../primitives/Pointlike.ts'
+import type { Pointlike } from '../../lib/primitives/Pointlike.ts'
+import type { DrawingLibrary } from '../../lib/primitives/DrawingLibrary.ts'
+import type { Drawable } from '../../lib/primitives/Drawable.ts'
 
 export interface SeriesGear {
   type: 'series'
@@ -19,7 +19,7 @@ export interface ParallelGear {
 
 export type GearConnection = SeriesGear | ParallelGear
 
-export class GearTree implements DrawP5 {
+export class GearTree implements Drawable {
   gear: GearSchematic
   connections: GearConnection[]
   is_root: boolean = false
@@ -84,16 +84,16 @@ export class GearTree implements DrawP5 {
     }
   }
 
-  draw_p5(p: p5): void {
+  draw(lib: DrawingLibrary): void {
     if (this.is_root) {
       p.stroke(255, 0, 0)
     } else {
       p.stroke(255)
     }
-    this.gear.draw_p5(p)
+    this.gear.draw(lib)
 
     for (const connection of this.connections) {
-      connection.child.draw_p5(p)
+      connection.child.draw(lib)
     }
   }
 }
