@@ -186,3 +186,7 @@ SongMeter:
 
 :::warning TODO: Make a diagram of mixed meters with the current measure number labeled
 :::
+
+:::warning TODO: add sections for visualizing meters
+this one will require `GridLines`
+:::
