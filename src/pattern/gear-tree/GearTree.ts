@@ -2,6 +2,8 @@ import { GearSchematic, type GearSchematicOptions } from './GearSchematic.ts'
 import type { Pointlike } from '../../lib/primitives/Pointlike.ts'
 import type { DrawingLibrary } from '../../lib/primitives/DrawingLibrary.ts'
 import type { Drawable } from '../../lib/primitives/Drawable.ts'
+import { Style } from '../../lib/styling/Style.ts'
+import { Color } from '../../lib/styling/Color.ts'
 
 export interface SeriesGear {
   type: 'series'
@@ -18,6 +20,9 @@ export interface ParallelGear {
 }
 
 export type GearConnection = SeriesGear | ParallelGear
+
+const STYLE_GEAR = Style.lines(Color.WHITE, 2)
+const STYLE_DRIVING_GEAR = Style.lines(Color.RED, 2)
 
 export class GearTree implements Drawable {
   gear: GearSchematic
@@ -86,9 +91,9 @@ export class GearTree implements Drawable {
 
   draw(lib: DrawingLibrary): void {
     if (this.is_root) {
-      p.stroke(255, 0, 0)
+      lib.apply_style(STYLE_DRIVING_GEAR)
     } else {
-      p.stroke(255)
+      lib.apply_style(STYLE_GEAR)
     }
     this.gear.draw(lib)
 

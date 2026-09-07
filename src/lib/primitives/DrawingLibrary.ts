@@ -1,3 +1,5 @@
+import type { Style } from '../styling/Style.ts'
+
 /**
  * Generic 2D graphics drawing library
  *
@@ -19,5 +21,12 @@ export interface DrawingLibrary {
    * @param y1 x-coordinate of second point
    * @param y2 y-coordinate of second point
    */
-  segment(x1: number, x2: number, y1: number, y2: number): void
+  segment(x1: number, y1: number, x2: number, y2: number): void
+
+  /**
+   * Apply 2D styling, this includes stroke color, stroke width, and fill
+   * color.
+   * @param style The style to apply
+   */
+  apply_style(style: Style): void
 }
