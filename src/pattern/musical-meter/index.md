@@ -17,17 +17,13 @@ time for some math rock
 
 <SketchP5 :sketch="SKETCHES.pulse" />
 
-:::warning TODO
-- single line of beats
-- number them 0, 1, 2, 3
-- animated cursor 
-:::
-
 - Even when representing mixed meters, we need a common way to measure in time
 - so we start with a steady pulse of **beats**
 - number the beats starting with 0. This may seem a bit strange (in music we count starting from 1), but it will make some of the math that follows simpler.
 
 ## Measures
+
+<SketchP5 :sketch="SKETCHES.common_time" />
 
 :::warning TODO
 - Two rows: top is the line of beats

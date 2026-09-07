@@ -9,7 +9,7 @@ export class Meter {
   readonly subdivisions_per_measure: number
   readonly subdivision: number
   readonly start_beat: number
-  private readonly measure_length_beats: number
+  readonly measure_length_beats: number
 
   constructor(subdivisions_per_measure: number, subdivision: number, start_beat: number) {
     this.subdivisions_per_measure = subdivisions_per_measure
