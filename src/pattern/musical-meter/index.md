@@ -4,11 +4,18 @@ title: Musical Meter
 date: '2026-09-07'
 patterns_lurking: true
 ---
+<script setup lang="ts">
+import SketchP5 from '../../components/SketchP5.vue'
+import {SKETCHES} from './musical-meter'
+</script>
+
 :::warning TODO
 time for some math rock
 :::
 
 ## Steady Beats
+
+<SketchP5 :sketch="SKETCHES.pulse" />
 
 :::warning TODO
 - single line of beats
