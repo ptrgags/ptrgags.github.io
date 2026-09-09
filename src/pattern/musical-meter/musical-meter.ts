@@ -1,10 +1,8 @@
 import p5 from 'p5'
 
 import type { Dimensionlike } from '../../lib/primitives/Dimensionlike.ts'
-import { Gridlines } from '../../lib/primitives/Gridlines.ts'
 import { Style } from '../../lib/styling/Style.ts'
 import { Color } from '../../lib/styling/Color.ts'
-import { LineSegment } from '../../lib/primitives/LineSegment.ts'
 import { Rect } from '../../lib/primitives/Rect.ts'
 import { DrawP5 } from '../../lib/p5-helpers/DrawP5.ts'
 import { Clock } from '../../lib/animation/Clock.ts'
@@ -52,7 +50,7 @@ const STYLE_TEXT = Style.flat(Color.WHITE)
 
 const MEASURE_COUNT = 5
 const BEAT_COUNT = 4 * MEASURE_COUNT
-const PIXELS_PER_BEAT = 16
+const PIXELS_PER_BEAT = 18
 
 class BasicPulse implements SceneP5 {
   canvas_size = SIZE_TIMELINE
@@ -101,24 +99,29 @@ class BasicPulse implements SceneP5 {
 
 class CommonTime implements SceneP5 {
   canvas_size = { width: SIZE_TIMELINE.width, height: 2 * SIZE_TIMELINE.height }
-  cursor: LineSegment
-  beat_lines: Gridlines
+  cursor: TimelineCursor
   clock: Clock
   beat_label: Text
-  common_time_lines: MeterPrimitive
+  pulse: PulsePrimitive
+  common_time: MeterPrimitive
 
   constructor() {
     this.clock = new Clock()
-    this.cursor = new LineSegment({ x: 0, y: 0 }, { x: 0, y: SIZE_TIMELINE.height })
-    this.beat_lines = new Gridlines({
-      bounds: new Rect(
-        { x: 0, y: 0.25 * SIZE_TIMELINE.height },
-        { width: SIZE_TIMELINE.width, height: 0.5 * SIZE_TIMELINE.height },
-      ),
-      x_spacing: PIXELS_PER_BEAT,
-      draw_bounds: false,
+
+    const START_X = 10
+
+    this.cursor = new TimelineCursor(
+      { x: START_X, y: SIZE_TIMELINE.height },
+      SIZE_TIMELINE.height,
+      PIXELS_PER_BEAT,
+    )
+    this.pulse = new PulsePrimitive({
+      position: { x: START_X, y: 0.5 * SIZE_TIMELINE.height },
+      radius: 0.25 * SIZE_TIMELINE.height,
+      beat_count: BEAT_COUNT,
+      spacing: PIXELS_PER_BEAT,
     })
-    this.common_time_lines = new MeterPrimitive(
+    this.common_time = new MeterPrimitive(
       new Meter(4, 4, 0),
       new Rect({ x: 0, y: SIZE_TIMELINE.height }, SIZE_TIMELINE),
       4,
@@ -135,19 +138,15 @@ class CommonTime implements SceneP5 {
     const measures = Tempo.sec_to_measures(t, 128) % 5
     const beats = measures * 4
 
+    this.cursor.update(beats)
     this.beat_label.text = `Beat ${Math.floor(beats)}`
-
-    const cursor_x = beats * PIXELS_PER_BEAT
-    this.cursor.start = { x: cursor_x, y: 0 }
-    this.cursor.end = { x: cursor_x, y: 2 * SIZE_TIMELINE.height }
   }
 
   draw(lib: DrawP5): void {
     lib.apply_style(STYLE_LINES)
-    this.beat_lines.draw(lib)
+    this.pulse.draw(lib)
     this.cursor.draw(lib)
-
-    this.common_time_lines.draw(lib)
+    this.common_time.draw(lib)
 
     lib.apply_style(STYLE_TEXT)
     this.beat_label.draw(lib)
