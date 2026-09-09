@@ -128,9 +128,10 @@ class CommonTime implements SceneP5 {
     this.common_time = new MeterPrimitive({
       meter: this.meter,
       measure_count: MEASURE_COUNT,
-      position: { x: START_X, y: 1.5 * SIZE_TIMELINE.height },
-      radius: 0.5 * SIZE_TIMELINE.height,
+      position: { x: START_X, y: 1.25 * SIZE_TIMELINE.height },
+      radius: 0.25 * SIZE_TIMELINE.height,
       beat_spacing: PIXELS_PER_BEAT,
+      show_time_signature: false,
     })
     this.beat_label = new Text('', { x: 0, y: 10 })
     this.measure_label = new Text('', { x: 0, y: 175 })
