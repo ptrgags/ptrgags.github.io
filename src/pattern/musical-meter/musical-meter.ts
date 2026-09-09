@@ -13,6 +13,7 @@ import { Text } from '../../lib/primitives/Text.ts'
 import { MeterPrimitive } from './MeterPrimitive.ts'
 import { Meter } from './Meter.ts'
 import { TimelineCursor } from './TimelineCursor.ts'
+import { PulsePrimitive } from './PulsePrimitive.ts'
 
 const SIZE_TIMELINE = {
   width: 400,
@@ -49,30 +50,27 @@ function make_sketch(scene: SceneP5) {
 const STYLE_LINES = Style.lines(Color.WHITE, 2)
 const STYLE_TEXT = Style.flat(Color.WHITE)
 
-const MEASURES_WIDE = 5
-const PIXELS_PER_BEAT = 20
+const MEASURE_COUNT = 5
+const BEAT_COUNT = 4 * MEASURE_COUNT
+const PIXELS_PER_BEAT = 16
 
 class BasicPulse implements SceneP5 {
   canvas_size = SIZE_TIMELINE
   cursor: TimelineCursor
-  gridlines: Gridlines
+  pulse: PulsePrimitive
   clock: Clock
   beat_label: Text
 
   constructor() {
     this.clock = new Clock()
-    this.cursor = new TimelineCursor(
-      { x: 0, y: 0.5 * SIZE_TIMELINE.height },
-      0.5 * SIZE_TIMELINE.height,
-      PIXELS_PER_BEAT,
-    )
-    this.gridlines = new Gridlines({
-      bounds: new Rect(
-        { x: 0, y: 0.25 * SIZE_TIMELINE.height },
-        { width: SIZE_TIMELINE.width, height: 0.5 * SIZE_TIMELINE.height },
-      ),
-      x_spacing: PIXELS_PER_BEAT,
-      draw_bounds: false,
+    const timeline_start = { x: 10, y: 0.5 * SIZE_TIMELINE.height }
+
+    this.cursor = new TimelineCursor(timeline_start, 0.5 * SIZE_TIMELINE.height, PIXELS_PER_BEAT)
+    this.pulse = new PulsePrimitive({
+      position: timeline_start,
+      radius: 0.25 * SIZE_TIMELINE.height,
+      beat_count: BEAT_COUNT,
+      spacing: PIXELS_PER_BEAT,
     })
     this.beat_label = new Text('0', { x: 0, y: 10 })
   }
@@ -93,7 +91,7 @@ class BasicPulse implements SceneP5 {
 
   draw(lib: DrawP5): void {
     lib.apply_style(STYLE_LINES)
-    this.gridlines.draw(lib)
+    this.pulse.draw(lib)
     this.cursor.draw(lib)
 
     lib.apply_style(STYLE_TEXT)
