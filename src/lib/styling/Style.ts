@@ -34,11 +34,6 @@ export class Style {
   stroke_width: number
   width: any
 
-  static INVISIBLE = new Style({})
-  static DEFAULT_STROKE = Style.lines(Color.WHITE, 1)
-  static DEFAULT_FILL: Readonly<Style>
-  static DEFAULT_STROKE_FILL: any
-
   /**
    * Constructor
    * @param {StyleDescriptor} options The options for the style
@@ -70,4 +65,8 @@ export class Style {
   static flat(color: Color | Oklch | string): Style {
     return new Style({ fill: color })
   }
+
+  static INVISIBLE = new Style({})
+  static DEFAULT_LINES = Style.lines(Color.WHITE, 2)
+  static DEFAULT_FLAT = Style.flat(Color.WHITE)
 }
