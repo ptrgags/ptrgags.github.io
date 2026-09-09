@@ -58,6 +58,8 @@ export class MeterPrimitive implements Drawable {
       dimensions,
     )
 
+    const subdivision_scale = 4 / this.meter.subdivision
+
     const measure_lines = new Gridlines({
       bounds,
       x_spacing: measure_beats * options.beat_spacing,
@@ -70,7 +72,7 @@ export class MeterPrimitive implements Drawable {
         'left',
         'center',
       ),
-      x_spacing: options.beat_spacing,
+      x_spacing: options.beat_spacing * subdivision_scale,
     })
 
     const lines = style(Style.DEFAULT_LINES, beat_lines, measure_lines)
