@@ -11,6 +11,8 @@ import { MeterPrimitive } from './MeterPrimitive.ts'
 import { Meter } from './Meter.ts'
 import { TimelineCursor } from './TimelineCursor.ts'
 import { PulsePrimitive } from './PulsePrimitive.ts'
+import type { Drawable } from '../../lib/primitives/Drawable.ts'
+import { group, style } from '../../lib/primitives/shorthand.ts'
 
 const SIZE_TIMELINE = {
   width: 400,
@@ -163,7 +165,63 @@ class CommonTime implements SceneP5 {
   }
 }
 
+class TimeSignatures implements SceneP5 {
+  cursor: TimelineCursor
+  clock: Clock
+  canvas_size = { width: SIZE_TIMELINE.width, height: 5 * SIZE_TIMELINE.height }
+  meters = [new Meter(4, 4, 3), new Meter(2, 2, 3), new Meter(3, 4, 3), new Meter(12, 8, 3)]
+  meter_diagrams: MeterPrimitive[]
+  primitive: Drawable
+
+  constructor() {
+    const start_x = 10 + 3 * PIXELS_PER_BEAT
+
+    this.clock = new Clock()
+
+    this.cursor = new TimelineCursor(
+      { x: 10, y: 2.5 * SIZE_TIMELINE.height },
+      2.5 * SIZE_TIMELINE.height,
+      PIXELS_PER_BEAT,
+    )
+
+    const pulse = new PulsePrimitive({
+      position: { x: 10, y: 0.5 * SIZE_TIMELINE.height },
+      radius: 0.25 * SIZE_TIMELINE.height,
+      beat_count: BEAT_COUNT,
+      spacing: PIXELS_PER_BEAT,
+    })
+    this.meter_diagrams = this.meters.map(
+      (x, i) =>
+        new MeterPrimitive({
+          meter: x,
+          measure_count: 2,
+          position: { x: start_x, y: (i + 1.5) * SIZE_TIMELINE.height },
+          radius: 0.5 * SIZE_TIMELINE.height,
+          beat_spacing: PIXELS_PER_BEAT,
+        }),
+    )
+
+    this.primitive = group(...this.meter_diagrams, style(STYLE_LINES, pulse, this.cursor))
+  }
+
+  setup(p: p5): void {
+    this.clock.reset()
+  }
+
+  update(p: p5): void {
+    const t = this.clock.elapsed_time
+    const measures = Tempo.sec_to_measures(t, 128) % 5
+    const beats = measures * 4
+
+    this.cursor.update(beats)
+  }
+  draw(lib: DrawP5): void {
+    this.primitive.draw(lib)
+  }
+}
+
 export const SKETCHES = {
   pulse: make_sketch(new BasicPulse()),
   common_time: make_sketch(new CommonTime()),
+  time_signatures: make_sketch(new TimeSignatures()),
 }

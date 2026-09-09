@@ -74,6 +74,8 @@ There are more patterns related to this one:
 - draw the time signatures in this and following animations
 :::
 
+<SketchP5 :sketch="SKETCHES.time_signatures" />
+
 ## Numbering Measures
 
 We want to number measures according to the following rules:
@@ -91,6 +93,9 @@ The next few sections will build a data structure that helps translate between a
 As a building block, let's make a data structure that acts as a ruler for 
 a single time signature. It will be anchored at a specific beat of the
 constant pulse and compute `(measures, beats)` relative to that anchor point.
+
+:::warning TODO: revisit this now that the code is implemented
+:::
 
 ```
 Meter:
@@ -121,9 +126,6 @@ Meter:
         return full_measures * measure_length_beats + beats
         
 ```
-
-:::warning TODO: this class definitely needs unit tests
-:::
 
 ::: warning TODO
 Show a single meter with measure numbers listed
