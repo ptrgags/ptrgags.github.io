@@ -24,12 +24,14 @@ function make_time_signature(
   top: number,
   bottom: number,
 ): Drawable {
+  const text_origin = { x: position.x - 2, y: position.y }
+
   const text_size = 0.75 * radius
   const text_style_top = new TextStyle(text_size, 'right', 'bottom')
   const text_style_bottom = new TextStyle(text_size, 'right', 'top')
 
-  const text_top = new Text(`${top}`, position)
-  const text_bottom = new Text(`${bottom}`, position)
+  const text_top = new Text(`${top}`, text_origin)
+  const text_bottom = new Text(`${bottom}`, text_origin)
 
   return group(
     style({ text_style: text_style_top, style: Style.DEFAULT_FLAT }, text_top),
@@ -49,10 +51,12 @@ export class MeterPrimitive implements Drawable {
     const total_beats = options.measure_count * measure_beats
     const dimensions = { width: total_beats * options.beat_spacing, height: 2 * options.radius }
 
+    const pickup_offset = this.meter.start_beat * options.beat_spacing
+
     const { x, y } = options.position
     const bounds = new Rect(
       {
-        x: x,
+        x: x + pickup_offset,
         y: y - options.radius,
       },
       dimensions,
@@ -66,7 +70,6 @@ export class MeterPrimitive implements Drawable {
     })
 
     const beat_lines = new Gridlines({
-      // This could be expressed as `bounds.align({width, height/2}, 'left')` when that's available
       bounds: bounds.align(
         { width: dimensions.width, height: 0.5 * dimensions.height },
         'left',
@@ -80,7 +83,7 @@ export class MeterPrimitive implements Drawable {
     const show_time_signature = options.show_time_signature ?? true
     if (show_time_signature) {
       const time_sig = make_time_signature(
-        options.position,
+        { x: x + pickup_offset, y },
         options.radius,
         this.meter.subdivisions_per_measure,
         this.meter.subdivision,

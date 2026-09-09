@@ -130,6 +130,7 @@ Meter:
 ::: warning TODO
 Show a single meter with measure numbers listed
 :::
+<SketchP5 :sketch="SKETCHES.measure_numbers" />
 
 ::: details 🔍 I see more patterns lurking here...
 The math of measures/beats is just like converting between a 1D and 2D array index!

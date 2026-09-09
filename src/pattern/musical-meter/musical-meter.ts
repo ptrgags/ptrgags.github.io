@@ -171,22 +171,23 @@ class TimeSignatures implements SceneP5 {
   clock: Clock
   canvas_size = { width: SIZE_TIMELINE.width, height: 5 * SIZE_TIMELINE.height }
   meters = [new Meter(4, 4, 3), new Meter(2, 2, 3), new Meter(3, 4, 3), new Meter(12, 8, 3)]
+  measure_counts = [4, 4, 5, 3]
   meter_diagrams: MeterPrimitive[]
   primitive: Drawable
 
   constructor() {
-    const start_x = 10 + 3 * PIXELS_PER_BEAT
+    const START_X = 10
 
     this.clock = new Clock()
 
     this.cursor = new TimelineCursor(
-      { x: 10, y: 2.5 * SIZE_TIMELINE.height },
+      { x: START_X, y: 2.5 * SIZE_TIMELINE.height },
       2.5 * SIZE_TIMELINE.height,
       PIXELS_PER_BEAT,
     )
 
     const pulse = new PulsePrimitive({
-      position: { x: 10, y: 0.5 * SIZE_TIMELINE.height },
+      position: { x: START_X, y: 0.5 * SIZE_TIMELINE.height },
       radius: 0.25 * SIZE_TIMELINE.height,
       beat_count: BEAT_COUNT,
       spacing: PIXELS_PER_BEAT,
@@ -195,8 +196,8 @@ class TimeSignatures implements SceneP5 {
       (x, i) =>
         new MeterPrimitive({
           meter: x,
-          measure_count: 2,
-          position: { x: start_x, y: (i + 1.5) * SIZE_TIMELINE.height },
+          measure_count: this.measure_counts[i],
+          position: { x: START_X, y: (i + 1.5) * SIZE_TIMELINE.height },
           radius: 0.5 * SIZE_TIMELINE.height,
           beat_spacing: PIXELS_PER_BEAT,
         }),
@@ -221,8 +222,62 @@ class TimeSignatures implements SceneP5 {
   }
 }
 
+class MeasureNumbers implements SceneP5 {
+  cursor: TimelineCursor
+  clock: Clock
+  meter: Meter
+  canvas_size = { width: SIZE_TIMELINE.width, height: 2 * SIZE_TIMELINE.height }
+  primitive: Drawable
+
+  constructor() {
+    const START_X = 25
+    this.clock = new Clock()
+    this.meter = new Meter(3, 4, 2)
+    this.cursor = new TimelineCursor(
+      { x: START_X, y: SIZE_TIMELINE.height },
+      SIZE_TIMELINE.height,
+      PIXELS_PER_BEAT,
+    )
+
+    const pulse = new PulsePrimitive({
+      position: { x: START_X, y: 0.5 * SIZE_TIMELINE.height },
+      radius: 0.25 * SIZE_TIMELINE.height,
+      beat_count: BEAT_COUNT,
+      spacing: PIXELS_PER_BEAT,
+    })
+
+    const time_signature = new MeterPrimitive({
+      meter: this.meter,
+      measure_count: MEASURE_COUNT,
+      position: { x: START_X, y: 1.25 * SIZE_TIMELINE.height },
+      radius: 0.25 * SIZE_TIMELINE.height,
+      beat_spacing: PIXELS_PER_BEAT,
+      show_time_signature: true,
+    })
+
+    this.primitive = group(time_signature, style(STYLE_LINES, this.cursor, pulse), time_signature)
+  }
+
+  setup(p: p5): void {
+    this.clock.reset()
+  }
+
+  update(p: p5): void {
+    const t = this.clock.elapsed_time
+    const measures = Tempo.sec_to_measures(t, 128) % 5
+    const beats = measures * 4
+
+    this.cursor.update(beats)
+  }
+
+  draw(lib: DrawP5): void {
+    this.primitive.draw(lib)
+  }
+}
+
 export const SKETCHES = {
   pulse: make_sketch(new BasicPulse()),
   common_time: make_sketch(new CommonTime()),
   time_signatures: make_sketch(new TimeSignatures()),
+  measure_numbers: make_sketch(new MeasureNumbers()),
 }
