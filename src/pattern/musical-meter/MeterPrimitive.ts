@@ -1,38 +1,53 @@
 import type { Drawable } from '../../lib/primitives/Drawable.ts'
 import type { DrawingLibrary } from '../../lib/primitives/DrawingLibrary.ts'
 import { Gridlines } from '../../lib/primitives/Gridlines.ts'
+import type { Pointlike } from '../../lib/primitives/Pointlike.ts'
 import { Rect } from '../../lib/primitives/Rect.ts'
 import type { Meter } from './Meter.ts'
 
+export interface MeterPrimitiveOptions {
+  meter: Meter
+  position: Pointlike
+  radius: number
+  measure_count: number
+  beat_spacing: number
+}
+
 export class MeterPrimitive implements Drawable {
   meter: Meter
-  bounds: Rect
-  measure_count: number
   measure_lines: Gridlines
   beat_lines: Gridlines
 
-  constructor(meter: Meter, bounds: Rect, measure_count: number) {
-    this.meter = meter
-    this.bounds = bounds
-    this.measure_count = measure_count
+  constructor(options: MeterPrimitiveOptions) {
+    this.meter = options.meter
 
-    const pixels_per_measure = bounds.dimensions.width / this.measure_count
+    const measure_beats = this.meter.measure_length_beats
+
+    const total_beats = options.measure_count * measure_beats
+    const dimensions = { width: total_beats * options.beat_spacing, height: options.radius }
+
+    const { x, y } = options.position
+    const bounds = new Rect(
+      {
+        x: x,
+        y: y - options.radius,
+      },
+      dimensions,
+    )
 
     this.measure_lines = new Gridlines({
       bounds,
-      x_spacing: pixels_per_measure,
+      x_spacing: measure_beats * options.beat_spacing,
     })
 
     this.beat_lines = new Gridlines({
       // This could be expressed as `bounds.align({width, height/2}, 'left')` when that's available
-      bounds: new Rect(
-        {
-          x: bounds.position.x,
-          y: bounds.position.y + 0.25 * bounds.dimensions.height,
-        },
-        { width: bounds.dimensions.width, height: 0.5 * bounds.dimensions.height },
+      bounds: bounds.align(
+        { width: dimensions.width, height: 0.5 * dimensions.height },
+        'left',
+        'center',
       ),
-      x_spacing: pixels_per_measure / 4,
+      x_spacing: options.beat_spacing,
     })
   }
 

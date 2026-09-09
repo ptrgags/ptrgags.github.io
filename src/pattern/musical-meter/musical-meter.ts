@@ -3,7 +3,6 @@ import p5 from 'p5'
 import type { Dimensionlike } from '../../lib/primitives/Dimensionlike.ts'
 import { Style } from '../../lib/styling/Style.ts'
 import { Color } from '../../lib/styling/Color.ts'
-import { Rect } from '../../lib/primitives/Rect.ts'
 import { DrawP5 } from '../../lib/p5-helpers/DrawP5.ts'
 import { Clock } from '../../lib/animation/Clock.ts'
 import { Tempo } from '../../lib/music/Tempo.ts'
@@ -99,11 +98,13 @@ class BasicPulse implements SceneP5 {
 
 class CommonTime implements SceneP5 {
   canvas_size = { width: SIZE_TIMELINE.width, height: 2 * SIZE_TIMELINE.height }
+  meter: Meter
   cursor: TimelineCursor
   clock: Clock
   beat_label: Text
   pulse: PulsePrimitive
   common_time: MeterPrimitive
+  measure_label: Text
 
   constructor() {
     this.clock = new Clock()
@@ -121,12 +122,16 @@ class CommonTime implements SceneP5 {
       beat_count: BEAT_COUNT,
       spacing: PIXELS_PER_BEAT,
     })
-    this.common_time = new MeterPrimitive(
-      new Meter(4, 4, 0),
-      new Rect({ x: 0, y: SIZE_TIMELINE.height }, SIZE_TIMELINE),
-      4,
-    )
-    this.beat_label = new Text('0', { x: 0, y: 10 })
+    this.meter = new Meter(4, 4, 0)
+    this.common_time = new MeterPrimitive({
+      meter: this.meter,
+      measure_count: MEASURE_COUNT,
+      position: { x: START_X, y: 1.5 * SIZE_TIMELINE.height },
+      radius: 0.5 * SIZE_TIMELINE.height,
+      beat_spacing: PIXELS_PER_BEAT,
+    })
+    this.beat_label = new Text('', { x: 0, y: 10 })
+    this.measure_label = new Text('', { x: 0, y: 175 })
   }
 
   setup(p: p5): void {
@@ -140,6 +145,10 @@ class CommonTime implements SceneP5 {
 
     this.cursor.update(beats)
     this.beat_label.text = `Beat ${Math.floor(beats)}`
+
+    const { measures: measures44, subdivisions: beats44 } = this.meter.beats_to_offset(beats)
+
+    this.measure_label.text = `Measure ${measures44 + 1}, Beat ${Math.floor(beats44) + 1}`
   }
 
   draw(lib: DrawP5): void {
@@ -150,6 +159,7 @@ class CommonTime implements SceneP5 {
 
     lib.apply_style(STYLE_TEXT)
     this.beat_label.draw(lib)
+    this.measure_label.draw(lib)
   }
 }
 

@@ -25,13 +25,6 @@ time for some math rock
 
 <SketchP5 :sketch="SKETCHES.common_time" />
 
-:::warning TODO
-- Two rows: top is the line of beats
-- bottom row is measures of 4/4
-- display beat number next to `measures.beats`
-- Don't draw time signature yet
-:::
-
 - We tend to perceive music not in beats, but in larger groups called **measures**
 - The first beat in a measure is emphasized as stronger, this makes it a **meter**, not just a **pulse**
 - The most common grouping is **common time**, where one measure is 4 beats.
