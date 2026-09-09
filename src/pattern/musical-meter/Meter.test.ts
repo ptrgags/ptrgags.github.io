@@ -11,7 +11,7 @@ describe('Meter', () => {
 
       const expected = {
         measures: 0,
-        beats: 0,
+        subdivisions: 0,
       }
       expect(result).toEqual(expected)
     })
@@ -23,7 +23,7 @@ describe('Meter', () => {
 
       const expected = {
         measures: 3,
-        beats: 3,
+        subdivisions: 3,
       }
       expect(result).toEqual(expected)
     })
@@ -37,7 +37,7 @@ describe('Meter', () => {
       // -1 measure, +1 beat
       const expected = {
         measures: -1,
-        beats: 1,
+        subdivisions: 1,
       }
       expect(result).toEqual(expected)
     })
@@ -49,7 +49,7 @@ describe('Meter', () => {
 
       const expected = {
         measures: 5,
-        beats: 0,
+        subdivisions: 0,
       }
       expect(result).toEqual(expected)
     })
@@ -65,11 +65,57 @@ describe('Meter', () => {
       // 11 % 7 = 4
       const expected = {
         measures: 1,
-        beats: 4,
+        subdivisions: 4,
       }
       expect(result).toEqual(expected)
     })
   })
 
-  describe('offset_to_beats', () => {})
+  describe('offset_to_beats', () => {
+    it('with 4/4 and 0 offset returns start beat', () => {
+      const start_beat = 5
+      const meter = new Meter(4, 4, start_beat)
+
+      const result = meter.offset_to_beats({ measures: 0, subdivisions: 0 })
+
+      const expected = start_beat
+      expect(result).toEqual(expected)
+    })
+
+    it('with 4/4 and offset after start time returns correct beat', () => {
+      const meter = new Meter(4, 4, 5)
+
+      const result = meter.offset_to_beats({ measures: 3, subdivisions: 3 })
+
+      const expected = 20
+      expect(result).toEqual(expected)
+    })
+
+    it('with 4/4 and offset before start returns correct beat', () => {
+      const meter = new Meter(4, 4, 5)
+
+      const result = meter.offset_to_beats({ measures: -1, subdivisions: 1 })
+
+      const expected = 2
+      expect(result).toEqual(expected)
+    })
+
+    it('with 3/4 time computes correct beat', () => {
+      const meter = new Meter(3, 4, 5)
+
+      const result = meter.offset_to_beats({ measures: 5, subdivisions: 0 })
+
+      const expected = 20
+      expect(result).toEqual(expected)
+    })
+
+    it('with 7/8 time computes correct beat', () => {
+      const meter = new Meter(7, 8, 5)
+
+      const result = meter.offset_to_beats({ measures: 1, subdivisions: 4 })
+
+      const expected = 10.5
+      expect(result).toEqual(expected)
+    })
+  })
 })
