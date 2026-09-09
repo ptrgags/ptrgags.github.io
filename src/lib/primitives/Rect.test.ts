@@ -10,7 +10,7 @@ describe('Rect', () => {
     it('aligns smaller rectangle top-left', () => {
       const container = make_container()
 
-      const result = container.align({ width: 25, height: 25 }, 'top', 'left')
+      const result = container.align({ width: 25, height: 25 }, 'left', 'top')
 
       const expected = new Rect({ x: 0, y: 0 }, { width: 25, height: 25 })
 
@@ -29,7 +29,7 @@ describe('Rect', () => {
     it('aligns smaller rectangle bottom-center', () => {
       const container = make_container()
 
-      const result = container.align({ width: 50, height: 50 }, 'bottom', 'center')
+      const result = container.align({ width: 50, height: 50 }, 'center', 'bottom')
 
       const expected = new Rect({ x: 25, y: 50 }, { width: 50, height: 50 })
       expect(result).toEqual(expected)
@@ -38,7 +38,7 @@ describe('Rect', () => {
     it('aligns smaller rectangle by percents', () => {
       const container = make_container()
 
-      const result = container.align({ width: 50, height: 50 }, 0.25, 0.75)
+      const result = container.align({ width: 50, height: 50 }, 0.75, 0.25)
 
       // margin is (50, 50)
       // (0.75, 0.25) * margin = (37.5, 12.5)
@@ -49,7 +49,7 @@ describe('Rect', () => {
     it('aligns larger rectangle top-left correctly', () => {
       const container = make_container()
 
-      const result = container.align({ width: 400, height: 400 }, 'top', 'left')
+      const result = container.align({ width: 400, height: 400 }, 'left', 'top')
 
       const expected = new Rect({ x: 0, y: 0 }, { width: 400, height: 400 })
       expect(result).toEqual(expected)
@@ -67,7 +67,7 @@ describe('Rect', () => {
     it('aligns larger rectangle center-right', () => {
       const container = make_container()
 
-      const result = container.align({ width: 400, height: 400 }, 'center', 'right')
+      const result = container.align({ width: 400, height: 400 }, 'right', 'center')
 
       const expected = new Rect({ x: -300, y: -150 }, { width: 400, height: 400 })
       expect(result).toEqual(expected)
@@ -76,7 +76,7 @@ describe('Rect', () => {
     it('aligns larger rectangle by percents', () => {
       const container = make_container()
 
-      const result = container.align({ width: 400, height: 400 }, 0.25, 0.75)
+      const result = container.align({ width: 400, height: 400 }, 0.75, 0.25)
 
       const expected = new Rect({ x: -225, y: -75 }, { width: 400, height: 400 })
       expect(result).toEqual(expected)

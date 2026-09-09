@@ -41,8 +41,8 @@ export class Rect implements Drawable {
 
   align(
     other_dimensions: Dimensionlike,
-    vertical_align: RectVerticalAlign,
     horizontal_align: RectHorizontalAlign,
+    vertical_align: RectVerticalAlign,
   ): Rect {
     const { width, height } = this.dimensions
     const { width: other_width, height: other_height } = other_dimensions
