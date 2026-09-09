@@ -20,8 +20,9 @@ export class MeterPrimitive implements Drawable {
 
     this.measure_lines = new Gridlines({
       bounds,
-      x_axis: { spacing: pixels_per_measure, phase: 0 },
+      x_spacing: pixels_per_measure,
     })
+
     this.beat_lines = new Gridlines({
       // This could be expressed as `bounds.align({width, height/2}, 'left')` when that's available
       bounds: new Rect(
@@ -31,7 +32,7 @@ export class MeterPrimitive implements Drawable {
         },
         { width: bounds.dimensions.width, height: 0.5 * bounds.dimensions.height },
       ),
-      x_axis: { spacing: pixels_per_measure / 4, phase: 0 },
+      x_spacing: pixels_per_measure / 4,
     })
   }
 

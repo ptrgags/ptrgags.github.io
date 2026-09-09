@@ -71,7 +71,7 @@ class BasicPulse implements SceneP5 {
         { x: 0, y: 0.25 * SIZE_TIMELINE.height },
         { width: SIZE_TIMELINE.width, height: 0.5 * SIZE_TIMELINE.height },
       ),
-      x_axis: { spacing: PIXELS_PER_BEAT, phase: 0 },
+      x_spacing: PIXELS_PER_BEAT,
       draw_bounds: false,
     })
     this.beat_label = new Text('0', { x: 0, y: 10 })
@@ -117,7 +117,7 @@ class CommonTime implements SceneP5 {
         { x: 0, y: 0.25 * SIZE_TIMELINE.height },
         { width: SIZE_TIMELINE.width, height: 0.5 * SIZE_TIMELINE.height },
       ),
-      x_axis: { spacing: PIXELS_PER_BEAT, phase: 0 },
+      x_spacing: PIXELS_PER_BEAT,
       draw_bounds: false,
     })
     this.common_time_lines = new MeterPrimitive(
