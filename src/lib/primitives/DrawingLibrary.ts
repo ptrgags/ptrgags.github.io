@@ -1,4 +1,5 @@
 import type { Style } from '../styling/Style.ts'
+import type { TextStyle } from '../styling/TextStyle.ts'
 
 /**
  * Generic 2D graphics drawing library
@@ -47,4 +48,10 @@ export interface DrawingLibrary {
    * @param style The style to apply
    */
   apply_style(style: Style): void
+
+  /**
+   * Apply text styling, including font size and alignment
+   * @param text_style The style to apply
+   */
+  apply_text_style(text_style: TextStyle): void
 }

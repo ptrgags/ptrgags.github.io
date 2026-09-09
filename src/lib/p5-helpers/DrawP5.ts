@@ -2,6 +2,43 @@ import type p5 from 'p5'
 import type { DrawingLibrary } from '../primitives/DrawingLibrary.ts'
 import type { Style } from '../styling/Style.ts'
 import { is_nearly } from '../math/is_nearly.ts'
+import type { HorizontalTextAlign, TextStyle, VerticalTextAlign } from '../styling/TextStyle.ts'
+
+/**
+ * Convert string align values to p5.js constants
+ * @param p p5.js library
+ * @param h_align The horizontal align value
+ * @returns the corresponding p5.js constant
+ */
+function get_horizontal_align(p: p5, h_align: HorizontalTextAlign) {
+  switch (h_align) {
+    case 'center':
+      return p.CENTER
+    case 'right':
+      return p.RIGHT
+    default:
+      return p.LEFT
+  }
+}
+
+/**
+ * Convert string align values to p5.js constants
+ * @param p p5.js library
+ * @param  v_align The vertical align value
+ * @returns The corresponding p5.js constant
+ */
+function get_vertical_align(p: p5, v_align: VerticalTextAlign) {
+  switch (v_align) {
+    case 'center':
+      return p.CENTER
+    case 'top':
+      return p.TOP
+    case 'baseline':
+      return p.BASELINE
+    default:
+      return p.BOTTOM
+  }
+}
 
 export class DrawP5 implements DrawingLibrary {
   /**
@@ -47,5 +84,13 @@ export class DrawP5 implements DrawingLibrary {
     } else {
       p.noFill()
     }
+  }
+
+  apply_text_style(text_style: TextStyle): void {
+    this.p.textSize(text_style.size)
+
+    const h_align = get_horizontal_align(this.p, text_style.h_align)
+    const v_align = get_vertical_align(this.p, text_style.v_align)
+    this.p.textAlign(h_align, v_align)
   }
 }
