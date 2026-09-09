@@ -10,9 +10,9 @@ export interface DrawingLibrary {
    * Draw a circle with center (cx, cy) and radius r
    * @param cx x-coordinate of center
    * @param cy y-coordinate of center
-   * @param r radius
+   * @param radius radius
    */
-  circle(cx: number, cy: number, r: number): void
+  circle(cx: number, cy: number, radius: number): void
 
   /**
    * Draw a line segment
@@ -22,6 +22,24 @@ export interface DrawingLibrary {
    * @param y2 y-coordinate of second point
    */
   segment(x1: number, y1: number, x2: number, y2: number): void
+
+  /**
+   * Draw a rectangle
+   * @param x x-coordinate of top left corner
+   * @param y y-coordinate of top left corner
+   * @param width width
+   * @param height height
+   */
+  rect(x: number, y: number, width: number, height: number): void
+
+  /**
+   * Draw text at (x, y). The interpretation of the coordinates
+   * depends on the text style, but defaults to top left
+   * @param value The text to display
+   * @param x x-coordinate of the text
+   * @param y y-coordinate of the text
+   */
+  text(value: string, x: number, y: number): void
 
   /**
    * Apply 2D styling, this includes stroke color, stroke width, and fill
