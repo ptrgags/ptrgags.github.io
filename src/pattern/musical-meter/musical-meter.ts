@@ -13,6 +13,7 @@ import { TimelineCursor } from './TimelineCursor.ts'
 import { PulsePrimitive } from './PulsePrimitive.ts'
 import type { Drawable } from '../../lib/primitives/Drawable.ts'
 import { group, style } from '../../lib/primitives/shorthand.ts'
+import { TextStyle } from '../../lib/styling/TextStyle.ts'
 
 const SIZE_TIMELINE = {
   width: 400,
@@ -228,6 +229,7 @@ class MeasureNumbers implements SceneP5 {
   meter: Meter
   canvas_size = { width: SIZE_TIMELINE.width, height: 2 * SIZE_TIMELINE.height }
   primitive: Drawable
+  measure_label: Text
 
   constructor() {
     const START_X = 25
@@ -248,14 +250,20 @@ class MeasureNumbers implements SceneP5 {
 
     const time_signature = new MeterPrimitive({
       meter: this.meter,
-      measure_count: MEASURE_COUNT,
+      measure_count: 6,
       position: { x: START_X, y: 1.25 * SIZE_TIMELINE.height },
       radius: 0.25 * SIZE_TIMELINE.height,
       beat_spacing: PIXELS_PER_BEAT,
       show_time_signature: true,
     })
 
-    this.primitive = group(time_signature, style(STYLE_LINES, this.cursor, pulse), time_signature)
+    this.measure_label = new Text('', { x: 0, y: 175 })
+
+    this.primitive = group(
+      style(STYLE_LINES, this.cursor, pulse),
+      time_signature,
+      style({ style: STYLE_TEXT, text_style: TextStyle.DEFAULT }, this.measure_label),
+    )
   }
 
   setup(p: p5): void {
@@ -268,6 +276,12 @@ class MeasureNumbers implements SceneP5 {
     const beats = measures * 4
 
     this.cursor.update(beats)
+
+    const { measures: measures34, subdivisions: beats34 } = this.meter.beats_to_offset(beats)
+
+    const pickup = measures34 < 0 ? ' (pickup measure)' : ''
+
+    this.measure_label.text = `Measure ${measures34 + 1}.${Math.floor(beats34) + 1}${pickup}`
   }
 
   draw(lib: DrawP5): void {
