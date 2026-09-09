@@ -12,6 +12,7 @@ import { Tempo } from '../../lib/music/Tempo.ts'
 import { Text } from '../../lib/primitives/Text.ts'
 import { MeterPrimitive } from './MeterPrimitive.ts'
 import { Meter } from './Meter.ts'
+import { TimelineCursor } from './TimelineCursor.ts'
 
 const SIZE_TIMELINE = {
   width: 400,
@@ -53,14 +54,18 @@ const PIXELS_PER_BEAT = 20
 
 class BasicPulse implements SceneP5 {
   canvas_size = SIZE_TIMELINE
-  cursor: LineSegment
+  cursor: TimelineCursor
   gridlines: Gridlines
   clock: Clock
   beat_label: Text
 
   constructor() {
     this.clock = new Clock()
-    this.cursor = new LineSegment({ x: 0, y: 0 }, { x: 0, y: SIZE_TIMELINE.height })
+    this.cursor = new TimelineCursor(
+      { x: 0, y: 0.5 * SIZE_TIMELINE.height },
+      0.5 * SIZE_TIMELINE.height,
+      PIXELS_PER_BEAT,
+    )
     this.gridlines = new Gridlines({
       bounds: new Rect(
         { x: 0, y: 0.25 * SIZE_TIMELINE.height },
@@ -83,9 +88,7 @@ class BasicPulse implements SceneP5 {
 
     this.beat_label.text = `Beat ${Math.floor(beats)}`
 
-    const cursor_x = beats * PIXELS_PER_BEAT
-    this.cursor.start = { x: cursor_x, y: 0 }
-    this.cursor.end = { x: cursor_x, y: SIZE_TIMELINE.height }
+    this.cursor.update(beats)
   }
 
   draw(lib: DrawP5): void {
