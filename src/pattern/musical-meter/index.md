@@ -184,7 +184,3 @@ SongMeter:
 :::
 
 <SketchP5 :sketch="SKETCHES.mixed_meters" />
-
-:::warning TODO: add sections for visualizing meters
-this one will require `GridLines`
-:::
