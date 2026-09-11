@@ -36,6 +36,14 @@ export class SongMeter {
     )
   }
 
+  /**
+   * Get pairs of (meter, measure_count). This is mainly used for rendering
+   * in SongMeterPrimitive
+   */
+  get meter_lengths(): [Meter, number][] {
+    return this.meters.map((x, i) => [x, this.measure_starts[i]])
+  }
+
   pulses_to_measures(pulses: number): MeasureNumber {
     const after_index = this.meters.findIndex((x) => x.start_beat > pulses)
 
