@@ -72,6 +72,14 @@ describe('Meter', () => {
   })
 
   describe('offset_to_beats', () => {
+    it('with invalid measure number  throws error', () => {
+      const meter = new Meter(3, 4, 5)
+
+      expect(() => {
+        return meter.offset_to_beats({ measures: 1, subdivisions: 3 })
+      }).toThrow('blah blah blah')
+    })
+
     it('with 4/4 and 0 offset returns start beat', () => {
       const start_beat = 5
       const meter = new Meter(4, 4, start_beat)

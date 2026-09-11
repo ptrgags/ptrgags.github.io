@@ -1,4 +1,5 @@
-import type { MeasureNumber } from './MeasureNumber.ts'
+import { cumsum } from '../../lib/math/cumsum.ts'
+import { MeasureNumber } from './MeasureNumber.ts'
 import { Meter } from './Meter.ts'
 
 export interface SongMeterOptions {
@@ -23,15 +24,57 @@ function make_meters(pickup_beats: number, time_signatures: [number, number, num
 
 export class SongMeter {
   meters: Meter[]
+  measure_starts: number[]
   constructor(options: SongMeterOptions) {
+    if (options.time_signatures.length < 1) {
+      throw new Error('options.time_signatures must have at least one entry')
+    }
+
     this.meters = make_meters(options.pickup_beats ?? 0, options.time_signatures)
+    this.measure_starts = cumsum(
+      options.time_signatures.map(([, , measure_count]) => measure_count),
+    )
   }
 
-  beats_to_measures(beats: number): MeasureNumber {
-    throw new Error('not implemented')
+  pulses_to_measures(pulses: number): MeasureNumber {
+    const after_index = this.meters.findIndex((x) => x.start_beat > pulses)
+
+    let meter_index: number
+    if (after_index === 0) {
+      // pulse is a pickup beat, so use the first meter
+      meter_index = 0
+    } else if (after_index === -1) {
+      // Pulse is after start of last meter, so use that one
+      meter_index = this.meters.length - 1
+    } else {
+      // Otherwise, we want the meter just before the one we found
+      meter_index = after_index - 1
+    }
+
+    const meter = this.meters[meter_index]
+    const start_measure = this.measure_starts[meter_index]
+
+    const { measures, subdivisions } = meter.beats_to_offset(pulses)
+    return new MeasureNumber(start_measure + measures, subdivisions)
   }
 
-  measures_to_beats(measures: MeasureNumber): number {
-    throw new Error('not implemented')
+  measures_to_pulses(measures: MeasureNumber): number {
+    const after_index = this.measure_starts.findIndex((x) => x > measures.measures)
+
+    let meter_index: number
+    if (after_index === 0) {
+      meter_index = 0
+    } else if (after_index === -1) {
+      meter_index = this.meters.length - 1
+    } else {
+      meter_index = after_index - 1
+    }
+    const start_measure = this.measure_starts[meter_index]
+    const meter = this.meters[meter_index]
+
+    return meter.offset_to_beats({
+      measures: measures.measures - start_measure,
+      subdivisions: measures.beats,
+    })
   }
 }
