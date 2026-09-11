@@ -25,15 +25,15 @@ function make_meters(pickup_beats: number, time_signatures: [number, number, num
 export class SongMeter {
   meters: Meter[]
   measure_starts: number[]
+  measure_lengths: number[]
   constructor(options: SongMeterOptions) {
     if (options.time_signatures.length < 1) {
       throw new Error('options.time_signatures must have at least one entry')
     }
 
     this.meters = make_meters(options.pickup_beats ?? 0, options.time_signatures)
-    this.measure_starts = cumsum(
-      options.time_signatures.map(([, , measure_count]) => measure_count),
-    )
+    this.measure_lengths = options.time_signatures.map(([, , measure_count]) => measure_count)
+    this.measure_starts = cumsum(this.measure_lengths)
   }
 
   /**
@@ -41,7 +41,7 @@ export class SongMeter {
    * in SongMeterPrimitive
    */
   get meter_lengths(): [Meter, number][] {
-    return this.meters.map((x, i) => [x, this.measure_starts[i]])
+    return this.meters.map((x, i) => [x, this.measure_lengths[i]])
   }
 
   pulses_to_measures(pulses: number): MeasureNumber {

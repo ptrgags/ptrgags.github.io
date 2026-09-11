@@ -183,8 +183,7 @@ SongMeter:
 :::warning TODO: this class definitely needs unit tests
 :::
 
-:::warning TODO: Make a diagram of mixed meters with the current measure number labeled
-:::
+<SketchP5 :sketch="SKETCHES.mixed_meters" />
 
 :::warning TODO: add sections for visualizing meters
 this one will require `GridLines`

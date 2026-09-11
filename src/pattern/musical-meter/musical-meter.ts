@@ -14,6 +14,8 @@ import { PulsePrimitive } from './PulsePrimitive.ts'
 import type { Drawable } from '../../lib/primitives/Drawable.ts'
 import { group, style } from '../../lib/primitives/shorthand.ts'
 import { TextStyle } from '../../lib/styling/TextStyle.ts'
+import { SongMeter } from './SongMeter.ts'
+import { SongMeterPrimitive } from './SongMeterPrimitive.ts'
 
 const SIZE_TIMELINE = {
   width: 400,
@@ -289,9 +291,83 @@ class MeasureNumbers implements SceneP5 {
   }
 }
 
+class MixedMeter implements SceneP5 {
+  canvas_size = { width: SIZE_TIMELINE.width, height: 2 * SIZE_TIMELINE.height }
+
+  clock: Clock
+  cursor: TimelineCursor
+  meter: SongMeter
+  measure_label: Text
+  primitive: Drawable
+
+  constructor() {
+    const START_X = 10
+
+    this.clock = new Clock()
+    this.cursor = new TimelineCursor(
+      { x: START_X, y: SIZE_TIMELINE.height },
+      SIZE_TIMELINE.height,
+      PIXELS_PER_BEAT,
+    )
+
+    const pulse = new PulsePrimitive({
+      position: { x: START_X, y: 0.5 * SIZE_TIMELINE.height },
+      radius: 0.25 * SIZE_TIMELINE.height,
+      beat_count: BEAT_COUNT,
+      spacing: PIXELS_PER_BEAT,
+    })
+
+    this.meter = new SongMeter({
+      pickup_beats: 1,
+      time_signatures: [
+        [4, 4, 3],
+        [3, 4, 1],
+        [7, 8, 1],
+      ],
+    })
+
+    const meter_primitive = new SongMeterPrimitive({
+      meter: this.meter,
+      position: { x: START_X, y: 1.25 * SIZE_TIMELINE.height },
+      radius: 0.25 * SIZE_TIMELINE.height,
+      pulse_spacing: PIXELS_PER_BEAT,
+      show_time_signature: true,
+    })
+
+    this.measure_label = new Text('', { x: 0, y: 175 })
+
+    this.primitive = group(
+      style(STYLE_LINES, pulse, this.cursor),
+      meter_primitive,
+      style({ style: STYLE_TEXT, text_style: TextStyle.DEFAULT }, this.measure_label),
+    )
+  }
+
+  setup(p: p5): void {
+    this.clock.reset()
+  }
+
+  update(p: p5): void {
+    const t = this.clock.elapsed_time
+    const measures = Tempo.sec_to_measures(t, 128) % 5
+    const beats = measures * 4
+
+    this.cursor.update(beats)
+
+    const measures_beats = this.meter.pulses_to_measures(beats)
+    const pickup = measures_beats.is_pickup ? ' (pickup measure)' : ''
+    this.measure_label.text = `${measures_beats.measure_number}${pickup}`
+  }
+
+  draw(lib: DrawP5): void {
+    this.primitive.draw(lib)
+  }
+}
+
 export const SKETCHES = {
   pulse: make_sketch(new BasicPulse()),
   common_time: make_sketch(new CommonTime()),
   time_signatures: make_sketch(new TimeSignatures()),
   measure_numbers: make_sketch(new MeasureNumbers()),
+  mixed_meters: make_sketch(new MixedMeter()),
 }
