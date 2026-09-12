@@ -98,7 +98,11 @@ function time_pulses(t: number) {
 }
 
 const STYLE_LINES = Style.lines(Color.WHITE, 2)
-const STYLE_TEXT = { style: Style.flat(Color.WHITE), text_style: new TextStyle() }
+const STYLE_TEXT_TOP = { style: Style.DEFAULT_FLAT, text_style: new TextStyle(16, 'left', 'top') }
+const STYLE_TEXT_BOTTOM = {
+  style: Style.DEFAULT_FLAT,
+  text_style: new TextStyle(16, 'left', 'bottom'),
+}
 
 const PULSES = style(
   STYLE_LINES,
@@ -121,11 +125,11 @@ class BasicPulse implements SceneP5 {
     this.clock = new Clock()
     this.cursor = make_cursor(1)
 
-    this.beat_label = new Text('0', { x: 0, y: 10 })
+    this.beat_label = new Text('0', { x: 0, y: 0 })
     this.primitive = group(
       PULSES,
       style(STYLE_LINES, this.cursor),
-      style(STYLE_TEXT, this.beat_label),
+      style(STYLE_TEXT_TOP, this.beat_label),
     )
   }
 
@@ -151,7 +155,7 @@ class CommonTime implements SceneP5 {
   meter: Meter
   cursor: TimelineCursor
   clock: Clock
-  beat_label: Text
+  pulse_label: Text
   common_time: MeterPrimitive
   measure_label: Text
   primitive: Drawable
@@ -169,14 +173,15 @@ class CommonTime implements SceneP5 {
       beat_spacing: PIXELS_PER_PULSE,
       show_time_signature: false,
     })
-    this.beat_label = new Text('', { x: 0, y: 10 })
-    this.measure_label = new Text('', { x: 0, y: 175 })
+    this.pulse_label = new Text('', { x: 0, y: 0 })
+    this.measure_label = new Text('', { x: 0, y: this.canvas_size.height })
 
     this.primitive = group(
       PULSES,
       this.common_time,
       style(STYLE_LINES, this.cursor),
-      style(STYLE_TEXT, this.beat_label, this.measure_label),
+      style(STYLE_TEXT_TOP, this.pulse_label),
+      style(STYLE_TEXT_BOTTOM, this.measure_label),
     )
   }
 
@@ -189,7 +194,7 @@ class CommonTime implements SceneP5 {
 
     this.cursor.update(pulses)
 
-    this.beat_label.text = `Pulse ${Math.floor(pulses)}`
+    this.pulse_label.text = `Pulse ${Math.floor(pulses)}`
 
     const { measures: measures44, beats: beats44 } = this.meter.pulses_to_measures(pulses)
     this.measure_label.text = `Measure ${measures44 + 1}, Beat ${Math.floor(beats44) + 1}`
@@ -250,13 +255,13 @@ class MeasureNumbers implements SceneP5 {
       show_time_signature: true,
     })
 
-    this.measure_label = new Text('', { x: 0, y: 175 })
+    this.measure_label = new Text('', { x: 0, y: this.canvas_size.height })
 
     this.primitive = group(
       PULSES,
       time_signature,
       style(STYLE_LINES, this.cursor),
-      style(STYLE_TEXT, this.measure_label),
+      style(STYLE_TEXT_BOTTOM, this.measure_label),
     )
   }
 
@@ -305,13 +310,13 @@ class MixedMeter implements SceneP5 {
       show_time_signature: true,
     })
 
-    this.measure_label = new Text('', { x: 0, y: 175 })
+    this.measure_label = new Text('', { x: 0, y: this.canvas_size.height })
 
     this.primitive = group(
       meter_primitive,
       PULSES,
       style(STYLE_LINES, this.cursor),
-      style(STYLE_TEXT, this.measure_label),
+      style(STYLE_TEXT_BOTTOM, this.measure_label),
     )
   }
 
