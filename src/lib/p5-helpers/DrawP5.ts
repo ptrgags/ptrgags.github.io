@@ -3,7 +3,6 @@ import type { DrawingLibrary } from '../primitives/DrawingLibrary.ts'
 import type { Style } from '../styling/Style.ts'
 import { is_nearly } from '../math/is_nearly.ts'
 import type { HorizontalTextAlign, TextStyle, VerticalTextAlign } from '../styling/TextStyle.ts'
-import type { Color } from '../styling/Color.ts'
 
 /**
  * Convert string align values to p5.js constants

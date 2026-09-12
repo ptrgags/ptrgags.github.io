@@ -1,4 +1,3 @@
-import { Color } from '../styling/Color.ts'
 import type { Style } from '../styling/Style.ts'
 import type { TextStyle } from '../styling/TextStyle.ts'
 
