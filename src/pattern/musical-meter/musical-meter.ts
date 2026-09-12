@@ -17,6 +17,7 @@ import { TextStyle } from '../../lib/styling/TextStyle.ts'
 import { SongMeter } from './SongMeter.ts'
 import { SongMeterPrimitive } from './SongMeterPrimitive.ts'
 import { Rect } from '../../lib/primitives/Rect.ts'
+import type { Pointlike } from '../../lib/primitives/Pointlike.ts'
 
 interface SceneP5 {
   canvas_size: Dimensionlike
@@ -82,16 +83,21 @@ function make_cursor(rows: number): TimelineCursor {
   return new TimelineCursor({ x: x, y: y + r }, r, PIXELS_PER_PULSE)
 }
 
+function meter_start(row: number): Pointlike {
+  const { x, y } = BOUNDS_TIMELINE.position
+  return {
+    x: x,
+    y: row * ROW_SIZE.height + y + 0.5 * TIMELINE_SIZE.height,
+  }
+}
+
 const STYLE_LINES = Style.lines(Color.WHITE, 2)
 const STYLE_TEXT = { style: Style.flat(Color.WHITE), text_style: new TextStyle() }
 
 const PULSES = style(
   STYLE_LINES,
   new PulsePrimitive({
-    position: {
-      x: BOUNDS_TIMELINE.position.x,
-      y: BOUNDS_TIMELINE.position.y + 0.5 * TIMELINE_SIZE.height,
-    },
+    position: meter_start(0),
     radius: 0.5 * TIMELINE_SIZE.height,
     beat_count: PULSE_COUNT,
     spacing: PIXELS_PER_PULSE,
@@ -149,14 +155,12 @@ class CommonTime implements SceneP5 {
   constructor() {
     this.clock = new Clock()
 
-    const START_X = 10
-
     this.cursor = make_cursor(2)
     this.meter = new Meter(4, 4, 0)
     this.common_time = new MeterPrimitive({
       meter: this.meter,
       measure_count: MEASURE_COUNT,
-      position: { x: START_X, y: 1.25 * ROW_SIZE.height },
+      position: meter_start(1),
       radius: 0.25 * ROW_SIZE.height,
       beat_spacing: PIXELS_PER_PULSE,
       show_time_signature: false,
@@ -202,13 +206,12 @@ class TimeSignatures implements SceneP5 {
   primitive: Drawable
 
   constructor() {
-    const START_X = 10
     this.meter_diagrams = this.meters.map(
       (x, i) =>
         new MeterPrimitive({
           meter: x,
           measure_count: this.measure_counts[i],
-          position: { x: START_X, y: (i + 1.5) * ROW_SIZE.height },
+          position: meter_start(i + 1),
           radius: 0.5 * ROW_SIZE.height,
           beat_spacing: PIXELS_PER_PULSE,
         }),
@@ -232,7 +235,6 @@ class MeasureNumbers implements SceneP5 {
   measure_label: Text
 
   constructor() {
-    const START_X = 25
     this.clock = new Clock()
     this.meter = new Meter(3, 4, 2)
     this.cursor = make_cursor(2)
@@ -240,7 +242,7 @@ class MeasureNumbers implements SceneP5 {
     const time_signature = new MeterPrimitive({
       meter: this.meter,
       measure_count: 6,
-      position: { x: START_X, y: 1.25 * ROW_SIZE.height },
+      position: meter_start(1),
       radius: 0.25 * ROW_SIZE.height,
       beat_spacing: PIXELS_PER_PULSE,
       show_time_signature: true,
@@ -285,8 +287,6 @@ class MixedMeter implements SceneP5 {
   primitive: Drawable
 
   constructor() {
-    const START_X = 10
-
     this.clock = new Clock()
     this.cursor = make_cursor(2)
 
@@ -301,7 +301,7 @@ class MixedMeter implements SceneP5 {
 
     const meter_primitive = new SongMeterPrimitive({
       meter: this.meter,
-      position: { x: START_X, y: 1.25 * ROW_SIZE.height },
+      position: meter_start(1),
       radius: 0.25 * ROW_SIZE.height,
       pulse_spacing: PIXELS_PER_PULSE,
       show_time_signature: true,
