@@ -24,7 +24,7 @@ const SIZE_TIMELINE = {
 
 interface SceneP5 {
   canvas_size: Dimensionlike
-  setup(lib: DrawP5): void
+  // No setup() function, just use the constructor!
   update(p: p5): void
   draw(lib: DrawP5): void
 }
@@ -36,11 +36,28 @@ function make_sketch(scene: SceneP5) {
       const { width, height } = scene.canvas_size
       p.createCanvas(width, height)
       p.pixelDensity(1)
-
-      scene.setup(lib)
     }
 
     p.draw = () => {
+      p.background(0)
+      scene.update(p)
+      scene.draw(lib)
+    }
+  }
+}
+
+// like make_sketch but for a sketch that will only render once
+function make_static_sketch(scene: SceneP5) {
+  return (p: p5) => {
+    const lib = new DrawP5(p)
+    p.setup = () => {
+      const { width, height } = scene.canvas_size
+      p.createCanvas(width, height)
+      p.pixelDensity(1)
+      p.noLoop()
+
+      // Only render once
+      p.background(0)
       scene.update(p)
       scene.draw(lib)
     }
@@ -90,7 +107,6 @@ class BasicPulse implements SceneP5 {
   }
 
   draw(lib: DrawP5): void {
-    lib.background()
     lib.apply_style(STYLE_LINES)
     this.pulse.draw(lib)
     this.cursor.draw(lib)
@@ -157,7 +173,6 @@ class CommonTime implements SceneP5 {
   }
 
   draw(lib: DrawP5): void {
-    lib.background()
     lib.apply_style(STYLE_LINES)
     this.pulse.draw(lib)
     this.cursor.draw(lib)
@@ -199,13 +214,10 @@ class TimeSignatures implements SceneP5 {
     this.primitive = group(...this.meter_diagrams, style(STYLE_LINES, pulse))
   }
 
-  setup(lib: DrawP5): void {
-    lib.background(Color.BLACK)
+  update(p: p5): void {}
+  draw(lib: DrawP5): void {
     this.primitive.draw(lib)
   }
-
-  update(p: p5): void {}
-  draw(lib: DrawP5): void {}
 }
 
 class MeasureNumbers implements SceneP5 {
@@ -251,10 +263,6 @@ class MeasureNumbers implements SceneP5 {
     )
   }
 
-  setup(lib: DrawP5): void {
-    this.clock.reset()
-  }
-
   update(p: p5): void {
     const t = this.clock.elapsed_time
     const measures = Tempo.sec_to_measures(t, 128) % 5
@@ -270,7 +278,6 @@ class MeasureNumbers implements SceneP5 {
   }
 
   draw(lib: DrawP5): void {
-    lib.background()
     this.primitive.draw(lib)
   }
 }
@@ -327,10 +334,6 @@ class MixedMeter implements SceneP5 {
     )
   }
 
-  setup(lib: DrawP5): void {
-    this.clock.reset()
-  }
-
   update(p: p5): void {
     const t = this.clock.elapsed_time
     const measures = Tempo.sec_to_measures(t, 128) % 5
@@ -344,7 +347,6 @@ class MixedMeter implements SceneP5 {
   }
 
   draw(lib: DrawP5): void {
-    lib.background()
     this.primitive.draw(lib)
   }
 }
@@ -352,7 +354,7 @@ class MixedMeter implements SceneP5 {
 export const SKETCHES = {
   pulse: make_sketch(new BasicPulse()),
   common_time: make_sketch(new CommonTime()),
-  time_signatures: make_sketch(new TimeSignatures()),
+  time_signatures: make_static_sketch(new TimeSignatures()),
   measure_numbers: make_sketch(new MeasureNumbers()),
   mixed_meters: make_sketch(new MixedMeter()),
 }

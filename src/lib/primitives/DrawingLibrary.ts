@@ -9,12 +9,6 @@ import type { TextStyle } from '../styling/TextStyle.ts'
  */
 export interface DrawingLibrary {
   /**
-   * Fill the background with a solid color
-   * @param color Background color. Only the RGB values will be used. If not specified, black will be used
-   */
-  background(color?: Color): void
-
-  /**
    * Draw a circle with center (cx, cy) and radius r
    * @param cx x-coordinate of center
    * @param cy y-coordinate of center

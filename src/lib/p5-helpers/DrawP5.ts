@@ -51,14 +51,6 @@ export class DrawP5 implements DrawingLibrary {
     this.p = p
   }
 
-  background(color?: Color): void {
-    if (color) {
-      this.p.background(color.r, color.g, color.b)
-    } else {
-      this.p.background(0)
-    }
-  }
-
   circle(cx: number, cy: number, r: number): void {
     // p5 defines a circle in terms of diameter for some reason
     this.p.circle(cx, cy, 2 * r)
