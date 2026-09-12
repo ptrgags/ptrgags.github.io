@@ -318,7 +318,7 @@ class MixedMeter implements SceneP5 {
     })
 
     this.meter = new SongMeter({
-      pickup_beats: 1,
+      pickup_pulses: 1,
       time_signatures: [
         [4, 4, 3],
         [3, 4, 1],

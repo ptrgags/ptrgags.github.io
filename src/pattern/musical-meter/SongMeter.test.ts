@@ -4,7 +4,7 @@ import { MeasureNumber } from './MeasureNumber.ts'
 
 function make_meter(): SongMeter {
   return new SongMeter({
-    pickup_beats: 2,
+    pickup_pulses: 2,
     // Start times in measures from start
     // 4/4: 0
     // 3/4: 4 = 0 + 4

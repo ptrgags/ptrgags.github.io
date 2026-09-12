@@ -3,13 +3,13 @@ import { MeasureNumber } from './MeasureNumber.ts'
 import { Meter } from './Meter.ts'
 
 export interface SongMeterOptions {
-  pickup_beats?: number
+  pickup_pulses?: number
   // (top, bottom, measure_count)
   time_signatures: [number, number, number][]
 }
 
-function make_meters(pickup_beats: number, time_signatures: [number, number, number][]): Meter[] {
-  let next_start = pickup_beats
+function make_meters(pickup_pulses: number, time_signatures: [number, number, number][]): Meter[] {
+  let next_start = pickup_pulses
   const result = []
   for (const [top, bottom, measure_count] of time_signatures) {
     const meter = new Meter(top, bottom, next_start)
@@ -31,7 +31,7 @@ export class SongMeter {
       throw new Error('options.time_signatures must have at least one entry')
     }
 
-    this.meters = make_meters(options.pickup_beats ?? 0, options.time_signatures)
+    this.meters = make_meters(options.pickup_pulses ?? 0, options.time_signatures)
     this.measure_lengths = options.time_signatures.map(([, , measure_count]) => measure_count)
     this.measure_starts = cumsum([0, ...this.measure_lengths.slice(0, -1)])
   }

@@ -27,17 +27,17 @@ export class Meter {
   }
 
   /**
-   * Convert beats to offset
+   * Convert quarter notes pulses to measure number
    * @param pulses Beat number relative to the common 4/4 pulse
    * @returns Offset as a measure number object
    */
   pulses_to_measures(pulses: number): MeasureNumber {
     const from_start = pulses - this.start_pulse
     const measures = Math.floor(from_start / this.measure_length_pulses)
-    const remaining_beats = mod(from_start, this.measure_length_pulses)
-    // `remaining_beats` is in 4/4 time, but we're in A/B time. The scale factor
+    const remaining_pulses = mod(from_start, this.measure_length_pulses)
+    // `remaining_pulses` is in 4/4 time, but we're in A/B time. The scale factor
     // is B/4
-    const subdivisions = (remaining_beats * this.bottom) / 4
+    const subdivisions = (remaining_pulses * this.bottom) / 4
 
     return new MeasureNumber(measures, subdivisions)
   }
