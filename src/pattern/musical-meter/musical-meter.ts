@@ -24,7 +24,7 @@ const SIZE_TIMELINE = {
 
 interface SceneP5 {
   canvas_size: Dimensionlike
-  setup(p: p5): void
+  setup(lib: DrawP5): void
   update(p: p5): void
   draw(lib: DrawP5): void
 }
@@ -37,12 +37,10 @@ function make_sketch(scene: SceneP5) {
       p.createCanvas(width, height)
       p.pixelDensity(1)
 
-      scene.setup(p)
+      scene.setup(lib)
     }
 
     p.draw = () => {
-      p.background(0)
-
       scene.update(p)
       scene.draw(lib)
     }
@@ -77,7 +75,7 @@ class BasicPulse implements SceneP5 {
     this.beat_label = new Text('0', { x: 0, y: 10 })
   }
 
-  setup(p: p5): void {
+  setup(lib: DrawP5): void {
     this.clock.reset()
   }
 
@@ -92,6 +90,7 @@ class BasicPulse implements SceneP5 {
   }
 
   draw(lib: DrawP5): void {
+    lib.background()
     lib.apply_style(STYLE_LINES)
     this.pulse.draw(lib)
     this.cursor.draw(lib)
@@ -140,7 +139,7 @@ class CommonTime implements SceneP5 {
     this.measure_label = new Text('', { x: 0, y: 175 })
   }
 
-  setup(p: p5): void {
+  setup(lib: DrawP5): void {
     this.clock.reset()
   }
 
@@ -158,6 +157,7 @@ class CommonTime implements SceneP5 {
   }
 
   draw(lib: DrawP5): void {
+    lib.background()
     lib.apply_style(STYLE_LINES)
     this.pulse.draw(lib)
     this.cursor.draw(lib)
@@ -170,8 +170,6 @@ class CommonTime implements SceneP5 {
 }
 
 class TimeSignatures implements SceneP5 {
-  cursor: TimelineCursor
-  clock: Clock
   canvas_size = { width: SIZE_TIMELINE.width, height: 5 * SIZE_TIMELINE.height }
   meters = [new Meter(4, 4, 3), new Meter(2, 2, 3), new Meter(3, 4, 3), new Meter(12, 8, 3)]
   measure_counts = [4, 4, 5, 3]
@@ -180,14 +178,6 @@ class TimeSignatures implements SceneP5 {
 
   constructor() {
     const START_X = 10
-
-    this.clock = new Clock()
-
-    this.cursor = new TimelineCursor(
-      { x: START_X, y: 2.5 * SIZE_TIMELINE.height },
-      2.5 * SIZE_TIMELINE.height,
-      PIXELS_PER_BEAT,
-    )
 
     const pulse = new PulsePrimitive({
       position: { x: START_X, y: 0.5 * SIZE_TIMELINE.height },
@@ -206,23 +196,16 @@ class TimeSignatures implements SceneP5 {
         }),
     )
 
-    this.primitive = group(...this.meter_diagrams, style(STYLE_LINES, pulse, this.cursor))
+    this.primitive = group(...this.meter_diagrams, style(STYLE_LINES, pulse))
   }
 
-  setup(p: p5): void {
-    this.clock.reset()
-  }
-
-  update(p: p5): void {
-    const t = this.clock.elapsed_time
-    const measures = Tempo.sec_to_measures(t, 128) % 5
-    const beats = measures * 4
-
-    this.cursor.update(beats)
-  }
-  draw(lib: DrawP5): void {
+  setup(lib: DrawP5): void {
+    lib.background(Color.BLACK)
     this.primitive.draw(lib)
   }
+
+  update(p: p5): void {}
+  draw(lib: DrawP5): void {}
 }
 
 class MeasureNumbers implements SceneP5 {
@@ -268,7 +251,7 @@ class MeasureNumbers implements SceneP5 {
     )
   }
 
-  setup(p: p5): void {
+  setup(lib: DrawP5): void {
     this.clock.reset()
   }
 
@@ -287,6 +270,7 @@ class MeasureNumbers implements SceneP5 {
   }
 
   draw(lib: DrawP5): void {
+    lib.background()
     this.primitive.draw(lib)
   }
 }
@@ -343,7 +327,7 @@ class MixedMeter implements SceneP5 {
     )
   }
 
-  setup(p: p5): void {
+  setup(lib: DrawP5): void {
     this.clock.reset()
   }
 
@@ -360,6 +344,7 @@ class MixedMeter implements SceneP5 {
   }
 
   draw(lib: DrawP5): void {
+    lib.background()
     this.primitive.draw(lib)
   }
 }

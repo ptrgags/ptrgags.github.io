@@ -3,6 +3,7 @@ import type { DrawingLibrary } from '../primitives/DrawingLibrary.ts'
 import type { Style } from '../styling/Style.ts'
 import { is_nearly } from '../math/is_nearly.ts'
 import type { HorizontalTextAlign, TextStyle, VerticalTextAlign } from '../styling/TextStyle.ts'
+import type { Color } from '../styling/Color.ts'
 
 /**
  * Convert string align values to p5.js constants
@@ -48,6 +49,14 @@ export class DrawP5 implements DrawingLibrary {
 
   constructor(p: p5) {
     this.p = p
+  }
+
+  background(color?: Color): void {
+    if (color) {
+      this.p.background(color.r, color.g, color.b)
+    } else {
+      this.p.background(0)
+    }
   }
 
   circle(cx: number, cy: number, r: number): void {

@@ -1,3 +1,4 @@
+import { Color } from '../styling/Color.ts'
 import type { Style } from '../styling/Style.ts'
 import type { TextStyle } from '../styling/TextStyle.ts'
 
@@ -7,6 +8,12 @@ import type { TextStyle } from '../styling/TextStyle.ts'
  * Coordinates are always specified y-down in pixels. Implementations
  */
 export interface DrawingLibrary {
+  /**
+   * Fill the background with a solid color
+   * @param color Background color. Only the RGB values will be used. If not specified, black will be used
+   */
+  background(color?: Color): void
+
   /**
    * Draw a circle with center (cx, cy) and radius r
    * @param cx x-coordinate of center
