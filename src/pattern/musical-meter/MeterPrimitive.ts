@@ -8,6 +8,9 @@ import { TextStyle } from '../../lib/styling/TextStyle.ts'
 import type { Meter } from './Meter.ts'
 import { Text } from '../../lib/primitives/Text.ts'
 import { Style } from '../../lib/styling/Style.ts'
+import { Oklch } from '../../lib/styling/Oklch.ts'
+
+const STYLE_PICKUP = Style.lines(Oklch.grey(0.5), 2)
 
 export interface MeterPrimitiveOptions {
   meter: Meter
@@ -16,6 +19,7 @@ export interface MeterPrimitiveOptions {
   measure_count: number
   beat_spacing: number
   show_time_signature?: boolean
+  show_pickup_beats?: boolean
 }
 
 function make_time_signature(
@@ -45,19 +49,25 @@ export class MeterPrimitive implements Drawable {
 
   constructor(options: MeterPrimitiveOptions) {
     this.meter = options.meter
+    const beat_spacing = options.beat_spacing
+    const r = options.radius
+    const position = options.position
+    const measure_count = options.measure_count
+    const show_pickup_beats = options.show_pickup_beats ?? false
+    const show_time_signature = options.show_time_signature ?? true
 
     const measure_pulses = this.meter.measure_length_pulses
 
-    const total_pulses = options.measure_count * measure_pulses
-    const dimensions = { width: total_pulses * options.beat_spacing, height: 2 * options.radius }
+    const total_pulses = measure_count * measure_pulses
+    const dimensions = { width: total_pulses * beat_spacing, height: 2 * r }
 
-    const pickup_offset = this.meter.start_pulse * options.beat_spacing
+    const pickup_offset = this.meter.start_pulse * beat_spacing
 
-    const { x, y } = options.position
+    const { x, y } = position
     const bounds = new Rect(
       {
         x: x + pickup_offset,
-        y: y - options.radius,
+        y: y - r,
       },
       dimensions,
     )
@@ -66,7 +76,7 @@ export class MeterPrimitive implements Drawable {
 
     const measure_lines = new Gridlines({
       bounds,
-      x_spacing: measure_pulses * options.beat_spacing,
+      x_spacing: measure_pulses * beat_spacing,
     })
 
     const beat_lines = new Gridlines({
@@ -75,23 +85,36 @@ export class MeterPrimitive implements Drawable {
         'left',
         'center',
       ),
-      x_spacing: options.beat_spacing * subdivision_scale,
+      x_spacing: beat_spacing * subdivision_scale,
     })
 
     const lines = style(Style.DEFAULT_LINES, beat_lines, measure_lines)
 
-    const show_time_signature = options.show_time_signature ?? true
+    const group_pickup_lines = group()
+    if (show_pickup_beats) {
+      const pickup_beats = this.meter.start_pulse
+      const width = beat_spacing * pickup_beats
+
+      const pickup_lines = new Gridlines({
+        bounds: new Rect({ x, y: y - 0.5 * r }, { width, height: 0.5 * dimensions.height }),
+        x_spacing: beat_spacing * subdivision_scale,
+      })
+
+      group_pickup_lines.regroup(style(STYLE_PICKUP, pickup_lines))
+    }
+
+    const group_time_signature = group()
     if (show_time_signature) {
       const time_sig = make_time_signature(
         { x: x + pickup_offset, y },
-        options.radius,
+        r,
         this.meter.top,
         this.meter.bottom,
       )
-      this.primitive = group(lines, time_sig)
-    } else {
-      this.primitive = lines
+      group_time_signature.regroup(time_sig)
     }
+
+    this.primitive = group(group_pickup_lines, lines, group_time_signature)
   }
 
   draw(lib: DrawingLibrary): void {

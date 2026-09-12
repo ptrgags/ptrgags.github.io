@@ -221,6 +221,7 @@ class TimeSignatures implements SceneP5 {
           position: meter_start(i + 1),
           radius: METER_RADIUS,
           beat_spacing: PIXELS_PER_PULSE,
+          show_pickup_beats: true,
         }),
     )
 
@@ -253,6 +254,7 @@ class MeasureNumbers implements SceneP5 {
       radius: METER_RADIUS,
       beat_spacing: PIXELS_PER_PULSE,
       show_time_signature: true,
+      show_pickup_beats: true,
     })
 
     this.measure_label = new Text('', { x: 0, y: this.canvas_size.height })

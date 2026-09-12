@@ -18,7 +18,8 @@ export class SongMeterPrimitive implements Drawable {
   primitive: Drawable
   constructor(options: SongMeterPrimitiveOptions) {
     this.meter = options.meter
-    const meters = options.meter.meter_lengths.map(([meter, measure_count]) => {
+    const meters = options.meter.meter_lengths.map(([meter, measure_count], i) => {
+      const show_pickup_beats = i === 0
       return new MeterPrimitive({
         meter: meter,
         // Since each `MeterPrimitive` handles its start beat, we pass
@@ -28,6 +29,7 @@ export class SongMeterPrimitive implements Drawable {
         measure_count,
         beat_spacing: options.pulse_spacing,
         show_time_signature: options.show_time_signature,
+        show_pickup_beats,
       })
     })
 
