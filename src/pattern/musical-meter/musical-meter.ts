@@ -16,6 +16,7 @@ import { group, style } from '../../lib/primitives/shorthand.ts'
 import { TextStyle } from '../../lib/styling/TextStyle.ts'
 import { SongMeter } from './SongMeter.ts'
 import { SongMeterPrimitive } from './SongMeterPrimitive.ts'
+import { Rect } from '../../lib/primitives/Rect.ts'
 
 interface SceneP5 {
   canvas_size: Dimensionlike
@@ -60,6 +61,12 @@ function make_static_sketch(scene: SceneP5) {
 }
 
 const ROW_SIZE = { width: 400, height: 100 }
+const TIMELINE_SIZE = { width: 360, height: 50 }
+const BOUNDS_ROW = new Rect({ x: 0, y: 0 }, ROW_SIZE)
+const BOUNDS_TIMELINE = BOUNDS_ROW.align(TIMELINE_SIZE, 'center', 'center')
+const PULSE_COUNT = 24
+const MEASURE_COUNT = PULSE_COUNT / 4
+const PIXELS_PER_PULSE = TIMELINE_SIZE.width / PULSE_COUNT
 
 function make_size(rows: number): Dimensionlike {
   return {
@@ -68,32 +75,46 @@ function make_size(rows: number): Dimensionlike {
   }
 }
 
-const STYLE_LINES = Style.lines(Color.WHITE, 2)
-const STYLE_TEXT = Style.flat(Color.WHITE)
+function make_cursor(rows: number): TimelineCursor {
+  const { x, y } = BOUNDS_ROW.position
+  const r = 0.5 * rows * ROW_SIZE.height
 
-const MEASURE_COUNT = 5
-const BEAT_COUNT = 4 * MEASURE_COUNT
-const PIXELS_PER_BEAT = 18
+  return new TimelineCursor({ x: x, y: y + r }, r, PIXELS_PER_PULSE)
+}
+
+const STYLE_LINES = Style.lines(Color.WHITE, 2)
+const STYLE_TEXT = { style: Style.flat(Color.WHITE), text_style: new TextStyle() }
+
+const PULSES = style(
+  STYLE_LINES,
+  new PulsePrimitive({
+    position: {
+      x: BOUNDS_TIMELINE.position.x,
+      y: BOUNDS_TIMELINE.position.y + 0.5 * TIMELINE_SIZE.height,
+    },
+    radius: 0.5 * TIMELINE_SIZE.height,
+    beat_count: PULSE_COUNT,
+    spacing: PIXELS_PER_PULSE,
+  }),
+)
 
 class BasicPulse implements SceneP5 {
   canvas_size = make_size(1)
   cursor: TimelineCursor
-  pulse: PulsePrimitive
   clock: Clock
   beat_label: Text
+  primitive: Drawable
 
   constructor() {
     this.clock = new Clock()
-    const timeline_start = { x: 10, y: 0.5 * ROW_SIZE.height }
+    this.cursor = make_cursor(1)
 
-    this.cursor = new TimelineCursor(timeline_start, 0.5 * ROW_SIZE.height, PIXELS_PER_BEAT)
-    this.pulse = new PulsePrimitive({
-      position: timeline_start,
-      radius: 0.25 * ROW_SIZE.height,
-      beat_count: BEAT_COUNT,
-      spacing: PIXELS_PER_BEAT,
-    })
     this.beat_label = new Text('0', { x: 0, y: 10 })
+    this.primitive = group(
+      PULSES,
+      style(STYLE_LINES, this.cursor),
+      style(STYLE_TEXT, this.beat_label),
+    )
   }
 
   setup(lib: DrawP5): void {
@@ -111,12 +132,7 @@ class BasicPulse implements SceneP5 {
   }
 
   draw(lib: DrawP5): void {
-    lib.apply_style(STYLE_LINES)
-    this.pulse.draw(lib)
-    this.cursor.draw(lib)
-
-    lib.apply_style(STYLE_TEXT)
-    this.beat_label.draw(lib)
+    this.primitive.draw(lib)
   }
 }
 
@@ -126,37 +142,34 @@ class CommonTime implements SceneP5 {
   cursor: TimelineCursor
   clock: Clock
   beat_label: Text
-  pulse: PulsePrimitive
   common_time: MeterPrimitive
   measure_label: Text
+  primitive: Drawable
 
   constructor() {
     this.clock = new Clock()
 
     const START_X = 10
 
-    this.cursor = new TimelineCursor(
-      { x: START_X, y: ROW_SIZE.height },
-      ROW_SIZE.height,
-      PIXELS_PER_BEAT,
-    )
-    this.pulse = new PulsePrimitive({
-      position: { x: START_X, y: 0.5 * ROW_SIZE.height },
-      radius: 0.25 * ROW_SIZE.height,
-      beat_count: BEAT_COUNT,
-      spacing: PIXELS_PER_BEAT,
-    })
+    this.cursor = make_cursor(2)
     this.meter = new Meter(4, 4, 0)
     this.common_time = new MeterPrimitive({
       meter: this.meter,
       measure_count: MEASURE_COUNT,
       position: { x: START_X, y: 1.25 * ROW_SIZE.height },
       radius: 0.25 * ROW_SIZE.height,
-      beat_spacing: PIXELS_PER_BEAT,
+      beat_spacing: PIXELS_PER_PULSE,
       show_time_signature: false,
     })
     this.beat_label = new Text('', { x: 0, y: 10 })
     this.measure_label = new Text('', { x: 0, y: 175 })
+
+    this.primitive = group(
+      PULSES,
+      this.common_time,
+      style(STYLE_LINES, this.cursor),
+      style(STYLE_TEXT, this.beat_label, this.measure_label),
+    )
   }
 
   setup(lib: DrawP5): void {
@@ -177,14 +190,7 @@ class CommonTime implements SceneP5 {
   }
 
   draw(lib: DrawP5): void {
-    lib.apply_style(STYLE_LINES)
-    this.pulse.draw(lib)
-    this.cursor.draw(lib)
-    this.common_time.draw(lib)
-
-    lib.apply_style(STYLE_TEXT)
-    this.beat_label.draw(lib)
-    this.measure_label.draw(lib)
+    this.primitive.draw(lib)
   }
 }
 
@@ -197,13 +203,6 @@ class TimeSignatures implements SceneP5 {
 
   constructor() {
     const START_X = 10
-
-    const pulse = new PulsePrimitive({
-      position: { x: START_X, y: 0.5 * ROW_SIZE.height },
-      radius: 0.25 * ROW_SIZE.height,
-      beat_count: BEAT_COUNT,
-      spacing: PIXELS_PER_BEAT,
-    })
     this.meter_diagrams = this.meters.map(
       (x, i) =>
         new MeterPrimitive({
@@ -211,11 +210,11 @@ class TimeSignatures implements SceneP5 {
           measure_count: this.measure_counts[i],
           position: { x: START_X, y: (i + 1.5) * ROW_SIZE.height },
           radius: 0.5 * ROW_SIZE.height,
-          beat_spacing: PIXELS_PER_BEAT,
+          beat_spacing: PIXELS_PER_PULSE,
         }),
     )
 
-    this.primitive = group(...this.meter_diagrams, style(STYLE_LINES, pulse))
+    this.primitive = group(...this.meter_diagrams, PULSES)
   }
 
   update(p: p5): void {}
@@ -236,34 +235,24 @@ class MeasureNumbers implements SceneP5 {
     const START_X = 25
     this.clock = new Clock()
     this.meter = new Meter(3, 4, 2)
-    this.cursor = new TimelineCursor(
-      { x: START_X, y: ROW_SIZE.height },
-      ROW_SIZE.height,
-      PIXELS_PER_BEAT,
-    )
-
-    const pulse = new PulsePrimitive({
-      position: { x: START_X, y: 0.5 * ROW_SIZE.height },
-      radius: 0.25 * ROW_SIZE.height,
-      beat_count: BEAT_COUNT,
-      spacing: PIXELS_PER_BEAT,
-    })
+    this.cursor = make_cursor(2)
 
     const time_signature = new MeterPrimitive({
       meter: this.meter,
       measure_count: 6,
       position: { x: START_X, y: 1.25 * ROW_SIZE.height },
       radius: 0.25 * ROW_SIZE.height,
-      beat_spacing: PIXELS_PER_BEAT,
+      beat_spacing: PIXELS_PER_PULSE,
       show_time_signature: true,
     })
 
     this.measure_label = new Text('', { x: 0, y: 175 })
 
     this.primitive = group(
-      style(STYLE_LINES, this.cursor, pulse),
+      PULSES,
       time_signature,
-      style({ style: STYLE_TEXT, text_style: TextStyle.DEFAULT }, this.measure_label),
+      style(STYLE_LINES, this.cursor),
+      style(STYLE_TEXT, this.measure_label),
     )
   }
 
@@ -299,18 +288,7 @@ class MixedMeter implements SceneP5 {
     const START_X = 10
 
     this.clock = new Clock()
-    this.cursor = new TimelineCursor(
-      { x: START_X, y: ROW_SIZE.height },
-      ROW_SIZE.height,
-      PIXELS_PER_BEAT,
-    )
-
-    const pulse = new PulsePrimitive({
-      position: { x: START_X, y: 0.5 * ROW_SIZE.height },
-      radius: 0.25 * ROW_SIZE.height,
-      beat_count: BEAT_COUNT,
-      spacing: PIXELS_PER_BEAT,
-    })
+    this.cursor = make_cursor(2)
 
     this.meter = new SongMeter({
       pickup_pulses: 1,
@@ -325,16 +303,17 @@ class MixedMeter implements SceneP5 {
       meter: this.meter,
       position: { x: START_X, y: 1.25 * ROW_SIZE.height },
       radius: 0.25 * ROW_SIZE.height,
-      pulse_spacing: PIXELS_PER_BEAT,
+      pulse_spacing: PIXELS_PER_PULSE,
       show_time_signature: true,
     })
 
     this.measure_label = new Text('', { x: 0, y: 175 })
 
     this.primitive = group(
-      style(STYLE_LINES, pulse, this.cursor),
       meter_primitive,
-      style({ style: STYLE_TEXT, text_style: TextStyle.DEFAULT }, this.measure_label),
+      PULSES,
+      style(STYLE_LINES, this.cursor),
+      style(STYLE_TEXT, this.measure_label),
     )
   }
 
