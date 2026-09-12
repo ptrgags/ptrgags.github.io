@@ -77,10 +77,10 @@ function make_size(rows: number): Dimensionlike {
 }
 
 function make_cursor(rows: number): TimelineCursor {
-  const { x, y } = BOUNDS_ROW.position
+  const { x } = BOUNDS_TIMELINE.position
   const r = 0.5 * rows * ROW_SIZE.height
 
-  return new TimelineCursor({ x: x, y: y + r }, r, PIXELS_PER_PULSE)
+  return new TimelineCursor({ x, y: r }, r, PIXELS_PER_PULSE)
 }
 
 function meter_start(row: number): Pointlike {
@@ -89,6 +89,11 @@ function meter_start(row: number): Pointlike {
     x: x,
     y: row * ROW_SIZE.height + y + 0.5 * TIMELINE_SIZE.height,
   }
+}
+
+function time_pulses(t: number) {
+  const pulse = Tempo.sec_to_beats(t, 128)
+  return pulse % PULSE_COUNT
 }
 
 const STYLE_LINES = Style.lines(Color.WHITE, 2)
@@ -128,13 +133,11 @@ class BasicPulse implements SceneP5 {
   }
 
   update(p: p5): void {
-    const t = this.clock.elapsed_time
-    const measures = Tempo.sec_to_measures(t, 128) % 5
-    const beats = measures * 4
+    const pulses = time_pulses(this.clock.elapsed_time)
 
-    this.beat_label.text = `Beat ${Math.floor(beats)}`
+    this.beat_label.text = `Pulse ${Math.floor(pulses)}`
 
-    this.cursor.update(beats)
+    this.cursor.update(pulses)
   }
 
   draw(lib: DrawP5): void {
@@ -181,15 +184,13 @@ class CommonTime implements SceneP5 {
   }
 
   update(p: p5): void {
-    const t = this.clock.elapsed_time
-    const measures = Tempo.sec_to_measures(t, 128) % 5
-    const beats = measures * 4
+    const pulses = time_pulses(this.clock.elapsed_time)
 
-    this.cursor.update(beats)
-    this.beat_label.text = `Beat ${Math.floor(beats)}`
+    this.cursor.update(pulses)
 
-    const { measures: measures44, beats: beats44 } = this.meter.pulses_to_measures(beats)
+    this.beat_label.text = `Pulse ${Math.floor(pulses)}`
 
+    const { measures: measures44, beats: beats44 } = this.meter.pulses_to_measures(pulses)
     this.measure_label.text = `Measure ${measures44 + 1}, Beat ${Math.floor(beats44) + 1}`
   }
 
@@ -259,16 +260,12 @@ class MeasureNumbers implements SceneP5 {
   }
 
   update(p: p5): void {
-    const t = this.clock.elapsed_time
-    const measures = Tempo.sec_to_measures(t, 128) % 5
-    const beats = measures * 4
+    const pulses = time_pulses(this.clock.elapsed_time)
 
-    this.cursor.update(beats)
+    this.cursor.update(pulses)
 
-    const { measures: measures34, beats: beats34 } = this.meter.pulses_to_measures(beats)
-
+    const { measures: measures34, beats: beats34 } = this.meter.pulses_to_measures(pulses)
     const pickup = measures34 < 0 ? ' (pickup measure)' : ''
-
     this.measure_label.text = `Measure ${measures34 + 1}.${Math.floor(beats34) + 1}${pickup}`
   }
 
@@ -318,13 +315,11 @@ class MixedMeter implements SceneP5 {
   }
 
   update(p: p5): void {
-    const t = this.clock.elapsed_time
-    const measures = Tempo.sec_to_measures(t, 128) % 5
-    const beats = measures * 4
+    const pulses = time_pulses(this.clock.elapsed_time)
 
-    this.cursor.update(beats)
+    this.cursor.update(pulses)
 
-    const measures_beats = this.meter.pulses_to_measures(beats)
+    const measures_beats = this.meter.pulses_to_measures(pulses)
     const pickup = measures_beats.is_pickup ? ' (pickup measure)' : ''
     this.measure_label.text = `${measures_beats.measure_number}${pickup}`
   }
