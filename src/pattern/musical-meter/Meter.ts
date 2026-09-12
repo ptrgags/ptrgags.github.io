@@ -1,9 +1,5 @@
 import { mod } from '../../lib/math/mod.ts'
-
-export interface MeterOffset {
-  measures: number
-  subdivisions: number
-}
+import { MeasureNumber } from './MeasureNumber.ts'
 
 export class Meter {
   readonly subdivisions_per_measure: number
@@ -21,9 +17,9 @@ export class Meter {
   /**
    * Convert beats to offset
    * @param beats Beat number relative to the common 4/4 pulse
-   * @returns Offset in (measures, subdivision)
+   * @returns Offset as a measure number object
    */
-  beats_to_offset(beats: number): MeterOffset {
+  pulses_to_measures(beats: number): MeasureNumber {
     const from_start = beats - this.start_beat
     const measures = Math.floor(from_start / this.measure_length_beats)
     const remaining_beats = mod(from_start, this.measure_length_beats)
@@ -31,7 +27,7 @@ export class Meter {
     // is B/4
     const subdivisions = (remaining_beats * this.subdivision) / 4
 
-    return { measures, subdivisions }
+    return new MeasureNumber(measures, subdivisions)
   }
 
   get time_signature(): string {
@@ -43,15 +39,15 @@ export class Meter {
    * @param offset (measures, subdivision)
    * @returns The beat number relative to the common 4/4 pulse
    */
-  offset_to_beats(offset: MeterOffset): number {
-    if (offset.subdivisions >= this.subdivisions_per_measure) {
+  measures_to_pulses(offset: MeasureNumber): number {
+    if (offset.beats >= this.subdivisions_per_measure) {
       throw new Error(
-        `invalid measure ${offset.measures + 1}.${Math.floor(offset.subdivisions) + 1} for meter in ${this.time_signature} time`,
+        `invalid measure ${offset.measures + 1}.${Math.floor(offset.beats) + 1} for meter in ${this.time_signature} time`,
       )
     }
 
-    const { measures, subdivisions } = offset
-    const beats = (subdivisions * 4) / this.subdivision
-    return this.start_beat + this.measure_length_beats * measures + beats
+    const { measures, beats } = offset
+    const pulses = (beats * 4) / this.subdivision
+    return this.start_beat + this.measure_length_beats * measures + pulses
   }
 }

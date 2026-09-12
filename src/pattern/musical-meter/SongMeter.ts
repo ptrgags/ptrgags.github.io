@@ -17,7 +17,7 @@ function make_meters(pickup_beats: number, time_signatures: [number, number, num
 
     // Count out the specified number of complete measures away from the start time,
     // this is where the next meter will start
-    next_start = meter.offset_to_beats({ measures: measure_count, subdivisions: 0 })
+    next_start = meter.measures_to_pulses(new MeasureNumber(measure_count, 0))
   }
   return result
 }
@@ -62,8 +62,8 @@ export class SongMeter {
     const meter = this.meters[meter_index]
     const start_measure = this.measure_starts[meter_index]
 
-    const { measures, subdivisions } = meter.beats_to_offset(pulses)
-    return new MeasureNumber(start_measure + measures, subdivisions)
+    const { measures, beats } = meter.pulses_to_measures(pulses)
+    return new MeasureNumber(start_measure + measures, beats)
   }
 
   measures_to_pulses(measures: MeasureNumber): number {
@@ -81,10 +81,9 @@ export class SongMeter {
 
     const meter = this.meters[meter_index]
     try {
-      return meter.offset_to_beats({
-        measures: measures.measures - start_measure,
-        subdivisions: measures.beats,
-      })
+      return meter.measures_to_pulses(
+        new MeasureNumber(measures.measures - start_measure, measures.beats),
+      )
     } catch (e) {
       if (e instanceof Error && e.message.startsWith('invalid measure')) {
         throw new Error(

@@ -152,7 +152,7 @@ class CommonTime implements SceneP5 {
     this.cursor.update(beats)
     this.beat_label.text = `Beat ${Math.floor(beats)}`
 
-    const { measures: measures44, subdivisions: beats44 } = this.meter.beats_to_offset(beats)
+    const { measures: measures44, beats: beats44 } = this.meter.pulses_to_measures(beats)
 
     this.measure_label.text = `Measure ${measures44 + 1}, Beat ${Math.floor(beats44) + 1}`
   }
@@ -279,7 +279,7 @@ class MeasureNumbers implements SceneP5 {
 
     this.cursor.update(beats)
 
-    const { measures: measures34, subdivisions: beats34 } = this.meter.beats_to_offset(beats)
+    const { measures: measures34, beats: beats34 } = this.meter.pulses_to_measures(beats)
 
     const pickup = measures34 < 0 ? ' (pickup measure)' : ''
 
