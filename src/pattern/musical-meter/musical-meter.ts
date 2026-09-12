@@ -235,7 +235,7 @@ class TimeSignatures implements SceneP5 {
 }
 
 class MeasureNumbers implements SceneP5 {
-  canvas_size = make_size(2)
+  canvas_size = make_size(1)
   cursor: TimelineCursor
   clock: Clock
   meter: Meter
@@ -245,12 +245,12 @@ class MeasureNumbers implements SceneP5 {
   constructor() {
     this.clock = new Clock()
     this.meter = new Meter(3, 4, 2)
-    this.cursor = make_cursor(2)
+    this.cursor = make_cursor(1)
 
     const time_signature = new MeterPrimitive({
       meter: this.meter,
       measure_count: 7,
-      position: meter_start(1),
+      position: meter_start(0),
       radius: METER_RADIUS,
       beat_spacing: PIXELS_PER_PULSE,
       show_time_signature: true,
@@ -260,7 +260,6 @@ class MeasureNumbers implements SceneP5 {
     this.measure_label = new Text('', { x: 0, y: this.canvas_size.height })
 
     this.primitive = group(
-      PULSES,
       time_signature,
       style(STYLE_LINES, this.cursor),
       style(STYLE_TEXT_BOTTOM, this.measure_label),

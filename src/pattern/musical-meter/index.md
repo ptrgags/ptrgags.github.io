@@ -11,7 +11,11 @@ import {SKETCHES} from './musical-meter'
 
 <SketchP5 :sketch="SKETCHES.showcase" />
 
-## Steady Beats
+- Let's explore how to represent musical meter with math
+- we'll start with the basics and build up to more complicated examples
+- like the mixed meter pattern you see above.
+
+## Steady Pulse
 
 <SketchP5 :sketch="SKETCHES.pulse" />
 
@@ -67,11 +71,6 @@ There are more patterns related to this one:
 - A single piece may change time signatures!
   - Some genres do this often. E.g. progressive rock, math rock, boss music in video games
 
-::: warning TODO: diagram
-- show 4 rows, one for each of the time signature listed above so you can compare the lengths
-- draw the time signatures in this and following animations
-:::
-
 <SketchP5 :sketch="SKETCHES.time_signatures" />
 
 ## Numbering Measures
@@ -92,7 +91,7 @@ As a building block, let's make a data structure that acts as a ruler for
 a single time signature. It will be anchored at a specific beat of the
 constant pulse and compute `(measures, beats)` relative to that anchor point.
 
-:::warning TODO: revisit this now that the code is implemented
+:::warning TODO: revisit this, make the explanation a bit simpler.
 :::
 
 ```
@@ -124,10 +123,6 @@ Meter:
         return full_measures * measure_length_beats + beats
         
 ```
-
-::: warning TODO
-Show a single meter with measure numbers listed
-:::
 <SketchP5 :sketch="SKETCHES.measure_numbers" />
 
 ::: details 🔍 I see more patterns lurking here...
@@ -141,6 +136,10 @@ Geometrically, we're enumerating cells of an N-D array in lexicographical order.
 ## Song Meter Data Structure
 
 We can combine one or more meters into one big meter for a whole song!
+
+:::warning TODO
+again, redo this to be simpler
+:::
 
 ```
 // Measure
@@ -177,8 +176,5 @@ SongMeter:
     measures_to_beats(measure: MeasureNumber): beats
         // TODO: implement first, summarize once I get it working
 ```
-
-:::warning TODO: this class definitely needs unit tests
-:::
 
 <SketchP5 :sketch="SKETCHES.mixed_meters" />
