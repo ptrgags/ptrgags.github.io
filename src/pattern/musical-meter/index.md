@@ -9,9 +9,7 @@ import SketchP5 from '../../components/SketchP5.vue'
 import {SKETCHES} from './musical-meter'
 </script>
 
-:::warning TODO
-time for some math rock
-:::
+<SketchP5 :sketch="SKETCHES.showcase" />
 
 ## Steady Beats
 

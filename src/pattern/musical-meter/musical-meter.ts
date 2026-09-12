@@ -335,10 +335,49 @@ class MixedMeter implements SceneP5 {
   }
 }
 
+class Showcase implements SceneP5 {
+  canvas_size = make_size(1)
+
+  clock: Clock
+  cursor: TimelineCursor
+  primitive: Drawable
+
+  constructor() {
+    this.clock = new Clock()
+    this.cursor = make_cursor(2)
+
+    const meter_primitive = new SongMeterPrimitive({
+      meter: new SongMeter({
+        time_signatures: [
+          [4, 4, 2],
+          [3, 4, 4],
+          [2, 4, 2],
+        ],
+      }),
+      position: meter_start(0),
+      radius: METER_RADIUS,
+      pulse_spacing: PIXELS_PER_PULSE,
+      show_time_signature: true,
+    })
+
+    this.primitive = group(meter_primitive, style(STYLE_LINES, this.cursor))
+  }
+  update(p: p5): void {
+    const pulses = time_pulses(this.clock.elapsed_time)
+
+    this.cursor.update(pulses)
+  }
+
+  draw(lib: DrawP5): void {
+    this.primitive.draw(lib)
+  }
+}
+
 export const SKETCHES = {
   pulse: make_sketch(new BasicPulse()),
   common_time: make_sketch(new CommonTime()),
   time_signatures: make_static_sketch(new TimeSignatures()),
   measure_numbers: make_sketch(new MeasureNumbers()),
   mixed_meters: make_sketch(new MixedMeter()),
+  showcase: make_sketch(new Showcase()),
 }
