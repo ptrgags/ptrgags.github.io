@@ -34,12 +34,22 @@ export class Meter {
     return { measures, subdivisions }
   }
 
+  get time_signature(): string {
+    return `${this.subdivisions_per_measure}/${this.subdivision}`
+  }
+
   /**
    * Convert an offset from the start of the meter to a beat number
    * @param offset (measures, subdivision)
    * @returns The beat number relative to the common 4/4 pulse
    */
   offset_to_beats(offset: MeterOffset): number {
+    if (offset.subdivisions >= this.subdivisions_per_measure) {
+      throw new Error(
+        `invalid measure ${offset.measures + 1}.${Math.floor(offset.subdivisions) + 1} for meter in ${this.time_signature} time`,
+      )
+    }
+
     const { measures, subdivisions } = offset
     const beats = (subdivisions * 4) / this.subdivision
     return this.start_beat + this.measure_length_beats * measures + beats

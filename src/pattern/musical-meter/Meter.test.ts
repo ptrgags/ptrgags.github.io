@@ -77,7 +77,7 @@ describe('Meter', () => {
 
       expect(() => {
         return meter.offset_to_beats({ measures: 1, subdivisions: 3 })
-      }).toThrow('blah blah blah')
+      }).toThrow('invalid measure 2.4 for meter in 3/4 time')
     })
 
     it('with 4/4 and 0 offset returns start beat', () => {

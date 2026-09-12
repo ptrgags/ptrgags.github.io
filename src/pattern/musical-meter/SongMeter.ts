@@ -33,7 +33,7 @@ export class SongMeter {
 
     this.meters = make_meters(options.pickup_beats ?? 0, options.time_signatures)
     this.measure_lengths = options.time_signatures.map(([, , measure_count]) => measure_count)
-    this.measure_starts = cumsum(this.measure_lengths)
+    this.measure_starts = cumsum([0, ...this.measure_lengths.slice(0, -1)])
   }
 
   /**
@@ -78,11 +78,21 @@ export class SongMeter {
       meter_index = after_index - 1
     }
     const start_measure = this.measure_starts[meter_index]
-    const meter = this.meters[meter_index]
 
-    return meter.offset_to_beats({
-      measures: measures.measures - start_measure,
-      subdivisions: measures.beats,
-    })
+    const meter = this.meters[meter_index]
+    try {
+      return meter.offset_to_beats({
+        measures: measures.measures - start_measure,
+        subdivisions: measures.beats,
+      })
+    } catch (e) {
+      if (e instanceof Error && e.message.startsWith('invalid measure')) {
+        throw new Error(
+          `invalid measure ${measures.measure_number} for measure in ${meter.time_signature} time`,
+        )
+      } else {
+        throw e
+      }
+    }
   }
 }
