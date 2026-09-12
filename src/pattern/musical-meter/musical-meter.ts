@@ -68,6 +68,7 @@ const BOUNDS_TIMELINE = BOUNDS_ROW.align(TIMELINE_SIZE, 'center', 'center')
 const PULSE_COUNT = 24
 const MEASURE_COUNT = PULSE_COUNT / 4
 const PIXELS_PER_PULSE = TIMELINE_SIZE.width / PULSE_COUNT
+const METER_RADIUS = (5 / 8) * TIMELINE_SIZE.height
 
 function make_size(rows: number): Dimensionlike {
   return {
@@ -103,7 +104,7 @@ const PULSES = style(
   STYLE_LINES,
   new PulsePrimitive({
     position: meter_start(0),
-    radius: 0.5 * TIMELINE_SIZE.height,
+    radius: METER_RADIUS,
     beat_count: PULSE_COUNT,
     spacing: PIXELS_PER_PULSE,
   }),
@@ -164,7 +165,7 @@ class CommonTime implements SceneP5 {
       meter: this.meter,
       measure_count: MEASURE_COUNT,
       position: meter_start(1),
-      radius: 0.25 * ROW_SIZE.height,
+      radius: METER_RADIUS,
       beat_spacing: PIXELS_PER_PULSE,
       show_time_signature: false,
     })
@@ -213,7 +214,7 @@ class TimeSignatures implements SceneP5 {
           meter: x,
           measure_count: this.measure_counts[i],
           position: meter_start(i + 1),
-          radius: 0.5 * ROW_SIZE.height,
+          radius: METER_RADIUS,
           beat_spacing: PIXELS_PER_PULSE,
         }),
     )
@@ -242,9 +243,9 @@ class MeasureNumbers implements SceneP5 {
 
     const time_signature = new MeterPrimitive({
       meter: this.meter,
-      measure_count: 6,
+      measure_count: 7,
       position: meter_start(1),
-      radius: 0.25 * ROW_SIZE.height,
+      radius: METER_RADIUS,
       beat_spacing: PIXELS_PER_PULSE,
       show_time_signature: true,
     })
@@ -292,14 +293,14 @@ class MixedMeter implements SceneP5 {
       time_signatures: [
         [4, 4, 3],
         [3, 4, 1],
-        [7, 8, 1],
+        [7, 8, 2],
       ],
     })
 
     const meter_primitive = new SongMeterPrimitive({
       meter: this.meter,
       position: meter_start(1),
-      radius: 0.25 * ROW_SIZE.height,
+      radius: METER_RADIUS,
       pulse_spacing: PIXELS_PER_PULSE,
       show_time_signature: true,
     })
@@ -321,7 +322,7 @@ class MixedMeter implements SceneP5 {
 
     const measures_beats = this.meter.pulses_to_measures(pulses)
     const pickup = measures_beats.is_pickup ? ' (pickup measure)' : ''
-    this.measure_label.text = `${measures_beats.measure_number}${pickup}`
+    this.measure_label.text = `Measure ${measures_beats.measure_number}${pickup}`
   }
 
   draw(lib: DrawP5): void {
