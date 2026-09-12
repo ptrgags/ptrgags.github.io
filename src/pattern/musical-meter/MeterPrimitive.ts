@@ -46,12 +46,12 @@ export class MeterPrimitive implements Drawable {
   constructor(options: MeterPrimitiveOptions) {
     this.meter = options.meter
 
-    const measure_beats = this.meter.measure_length_beats
+    const measure_beats = this.meter.measure_length_pulses
 
     const total_beats = options.measure_count * measure_beats
     const dimensions = { width: total_beats * options.beat_spacing, height: 2 * options.radius }
 
-    const pickup_offset = this.meter.start_beat * options.beat_spacing
+    const pickup_offset = this.meter.start_pulse * options.beat_spacing
 
     const { x, y } = options.position
     const bounds = new Rect(
@@ -62,7 +62,7 @@ export class MeterPrimitive implements Drawable {
       dimensions,
     )
 
-    const subdivision_scale = 4 / this.meter.subdivision
+    const subdivision_scale = 4 / this.meter.bottom
 
     const measure_lines = new Gridlines({
       bounds,
@@ -85,8 +85,8 @@ export class MeterPrimitive implements Drawable {
       const time_sig = make_time_signature(
         { x: x + pickup_offset, y },
         options.radius,
-        this.meter.subdivisions_per_measure,
-        this.meter.subdivision,
+        this.meter.top,
+        this.meter.bottom,
       )
       this.primitive = group(lines, time_sig)
     } else {

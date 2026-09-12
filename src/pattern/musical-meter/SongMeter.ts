@@ -45,7 +45,7 @@ export class SongMeter {
   }
 
   pulses_to_measures(pulses: number): MeasureNumber {
-    const after_index = this.meters.findIndex((x) => x.start_beat > pulses)
+    const after_index = this.meters.findIndex((x) => x.start_pulse > pulses)
 
     let meter_index: number
     if (after_index === 0) {
