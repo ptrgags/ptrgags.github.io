@@ -244,7 +244,7 @@ SongMeter:
     //   within the overall song
     // Also, remember that each Meter stores a start_pulse. Again this labels
     //   the start of each meter, just in pulses rather than measures.
-    meters: (Meter, number, number)[]
+    meters: (Meter, number)[]
 
     pulses_to_measures(pulses: number): MeasureNumber
         // Do an array search comparing the pulse number with
@@ -253,7 +253,7 @@ SongMeter:
         // - If pulses is before the start of the first meter, use the first meter.
         //   negative offsets will be interpreted as pickup beats
         // - If pulses is after the end of the last 
-        meter, measure_start = find_meter_by_start_pulse(meters, pulses)
+        meter, start_measure = find_meter_by_start_pulse(meters, pulses)
 
         // Compute the elapsed measures/beats relative to the start of
         // the specific meter
@@ -266,13 +266,13 @@ SongMeter:
     measures_to_pulses(measure_number: MeasureNumber): number
         // Again we do an array search, but this time by start measure
         // rather than start pulse. Again, I'm glossing over some minutia
-        meter = find_meter_by_start_measure(meters, measure_number.measures) 
+        meter, start_measure = find_meter_by_start_measure(meters, measure_number.measures) 
 
         // Adjust the measure number for the selected meter
-        measure_number = new MeasureNumber(measure_number.measures - start_measures, measures.beats)
+        local_measures = new MeasureNumber(measure_number.measures - start_measure, measures.beats)
 
         // Delegate to the meter to compute the overall pulse number!
-        return meter.measures_to_pulses(measure_number)
+        return meter.measures_to_pulses(local_measure)
 ```
 Here's an example of `SongMeter` in action:
 
