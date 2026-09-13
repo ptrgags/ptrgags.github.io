@@ -155,6 +155,20 @@ and count the elapsed measures and beats relative to this anchor point.
 Here is some pseudocode for how I implemented it:
 
 ```
+// Simple data structure for storing and formatting measure numbers
+MeasureNumber:
+    // These values are stored numbered from 0, not 1!
+    measures: number
+    beats: number
+
+    // Format as a human-readable measure number where the values are
+    // numbered from 1. E.g. 2.1 or 3.3.
+    // note that this rounds the beat number down to an integer
+    format(): string
+        display_measures = measures + 1
+        display_beats = floor(beats) + 1
+        return `${display_measures}.${display_beats}`
+
 Meter:
     // Pulse number where the first full measure starts
     start_pulse: number
@@ -188,15 +202,11 @@ Meter:
         // time signature
         beats = remaining_pulses / pulses_per_beat
 
-        // Simple data structure that stores the measures and beats.
-        // Note that it stores values starting at 0, but it can be formatted
-        // as a human-readable string where these are numbered from 1.
         return new MeasureNumber(measures, beats)
     
     // Invers: convert (measures, beats) to pulse number
     measures_to_pulses(measure_number: MeasureNumber): number
-        // Again, these values are numbered from 0 in memory. They are
-        // only numbered from 1 when displaying to the screen
+        // Remember, these values are numbered from 0
         measures, beats = measure_number;
 
         // undo the steps we did in pulses_to_measures above
@@ -222,46 +232,48 @@ Geometrically, we're enumerating cells of an N-D array in lexicographical order.
 
 ## Song Meter Data Structure
 
-We can combine one or more meters into one big meter for a whole song!
-
-:::warning TODO
-again, redo this to be simpler
-:::
+If a song only uses one time signature, `Meter` is enough for calculations.
+If we need multiple time signatures, we'll need a new data structure. 
+We can build a `SongMeter` from several `Meter` objects, plus a few extra
+details for book-keeping.
 
 ```
-// Measure
-MeasureNumber = (measure, beats)
-
 SongMeter:
-    // list of meters, subject to the following constraints (enforced in constructor)
-    // - There must be at least one meter
-    // - Their start_beats MUST be listed in sorted order
-    // - The first meter's start_beat must be in [0, first_meter.measure_length_beats)
-    //   If non-zero, this indicates a pickup measure
-    // - meter[i].start_beat must be exactly at the start of a measure relative to meter[i - 1]
-    meters: Meter[]
+    // pairs of (Meter, start_measure)
+    // start_measure labels the start of each meter with the measure number
+    //   within the overall song
+    // Also, remember that each Meter stores a start_pulse. Again this labels
+    //   the start of each meter, just in pulses rather than measures.
+    meters: (Meter, number, number)[]
 
-    // (automatically computed in constructor), for each entry in meters, 
-    // the measure number for the start of the given meter. This is done
-    // by a cumulative sum of measures of meter[i] relative to meter [i - 1], starting at 1.
-    start_measures: number[]
+    pulses_to_measures(pulses: number): MeasureNumber
+        // Do an array search comparing the pulse number with
+        // meter[i].start_pulse to find the relevant meter. Corner cases:
+        //
+        // - If pulses is before the start of the first meter, use the first meter.
+        //   negative offsets will be interpreted as pickup beats
+        // - If pulses is after the end of the last 
+        meter, measure_start = find_meter_by_start_pulse(meters, pulses)
 
-    
-    // Convert 
-    beats_to_measures(beat: number): MeasureNumber
-        // binary search the array for the last meter with a start_beat <= beat
-        (i, closest_meter) = find_meter_by_beat(meters, beat)
-        start_measure = start_measures[i]
+        // Compute the elapsed measures/beats relative to the start of
+        // the specific meter
+        local_measures, beats = meter.pulses_to_measures(pulses)
 
-        (measure_offset, beat_offset) = measure
+        // Now all that's left is to shift this to start at start_measure
+        // instead of 0
+        return new MeasureNumber(start_measure + local_measures, beats)
 
-        // beats are displayed 
-        return MeasureNumber(start_measure + measure_offset, beat_offset + 1)
+    measures_to_pulses(measure_number: MeasureNumber): number
+        // Again we do an array search, but this time by start measure
+        // rather than start pulse. Again, I'm glossing over some minutia
+        meter = find_meter_by_start_measure(meters, measure_number.measures) 
 
-    // convert a measure number to number of quarter note beats since the 
-    // beginning of the song. 
-    measures_to_beats(measure: MeasureNumber): beats
-        // TODO: implement first, summarize once I get it working
+        // Adjust the measure number for the selected meter
+        measure_number = new MeasureNumber(measure_number.measures - start_measures, measures.beats)
+
+        // Delegate to the meter to compute the overall pulse number!
+        return meter.measures_to_pulses(measure_number)
 ```
+Here's an example of `SongMeter` in action:
 
 <SketchP5 :sketch="SKETCHES.mixed_meters" />
