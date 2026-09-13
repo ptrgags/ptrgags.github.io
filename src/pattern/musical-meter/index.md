@@ -264,8 +264,8 @@ SongMeter:
         return new MeasureNumber(start_measure + local_measures, beats)
 
     measures_to_pulses(measure_number: MeasureNumber): number
-        // Again we do an array search, but this time by start measure
-        // rather than start pulse. Again, I'm glossing over some minutia
+        // We do a similar array search, but this time by start measure
+        // rather than start pulse.
         meter, start_measure = find_meter_by_start_measure(meters, measure_number.measures) 
 
         // Adjust the measure number for the selected meter
