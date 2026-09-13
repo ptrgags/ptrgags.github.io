@@ -19,11 +19,18 @@ export class Meter {
    */
   readonly measure_length_pulses: number
 
-  constructor(subdivisions_per_measure: number, subdivision: number, start_pulse: number) {
-    this.top = subdivisions_per_measure
-    this.bottom = subdivision
-    this.measure_length_pulses = (4 * subdivisions_per_measure) / subdivision
+  constructor(top: number, bottom: number, start_pulse: number) {
+    this.top = top
+    this.bottom = bottom
+    this.measure_length_pulses = (4 * top) / bottom
     this.start_pulse = start_pulse
+  }
+
+  /**
+   * @returns top/bottom
+   */
+  get time_signature(): string {
+    return `${this.top}/${this.bottom}`
   }
 
   /**
@@ -37,16 +44,9 @@ export class Meter {
     const remaining_pulses = mod(from_start, this.measure_length_pulses)
     // `remaining_pulses` is in 4/4 time, but we're in A/B time. The scale factor
     // is B/4
-    const subdivisions = (remaining_pulses * this.bottom) / 4
+    const beats = (remaining_pulses * this.bottom) / 4
 
-    return new MeasureNumber(measures, subdivisions)
-  }
-
-  /**
-   * @returns top/bottom
-   */
-  get time_signature(): string {
-    return `${this.top}/${this.bottom}`
+    return new MeasureNumber(measures, beats)
   }
 
   /**
@@ -64,7 +64,8 @@ export class Meter {
     }
 
     const { measures, beats } = offset
-    const pulses = (beats * 4) / this.bottom
-    return this.start_pulse + this.measure_length_pulses * measures + pulses
+    const remaining_pulses = (beats * 4) / this.bottom
+    const from_start = this.measure_length_pulses * measures + remaining_pulses
+    return this.start_pulse + from_start
   }
 }

@@ -125,57 +125,92 @@ Furthermore, here is a diagram of the meters that these time signatures represen
 
 <SketchP5 :sketch="SKETCHES.time_signatures" />
 
+In practice, a single song may change time-signature. Sometimes this happens
+infrequently (e.g. only at the start of a new section). However, some styles
+of music may change time signatures as frequently as every measure or two!
+Math rock, progressive rock, and video game boss music are some places where
+you may see this.
+
 ## Numbering Measures
 
-We want to number measures according to the following rules:
+How do we locate a specific instant in time in a way that works across different
+meters? We'd like a numbering system that obeys the following rules:
 
-- The first full measure is numbered 1
-- Sometimes there is a partial measure that leads into the first measure. This **pickup** measure is usually unnumbered, but labeling it measure 0 is convenient when programming
-- Every time we reach the start of a new measure, we increment the measure number. This must work even when we chain measures of different time signatures
-- Time signature changes always happen at the end of a full measure, this will save some headaches
-- Beat numbers are also numbered from 1 instead of 0. Musicians count 1-2-3-4, not 0-1-2-3 like a programmer
+- The first full measure is numbered 1.
+- Sometimes a song begins with a **pickup measure** - a partial measure that leads into the first measure. On a page, this measure is usually unlabeled, but when programming it's convenient to label this measure 0
+- Every time we reach the start of a new measure, we increment the measure number. 
+- Even when we chain measures of different time signatures together, the measures are counted 1, 2, 3, ...
+- Beat numbers within a specific measure are numbered 1, 2, 3, ..., N where `N` is the top number of the relevant time signature. For example, in 4/4 time the beats would be labeled 1, 2, 3, 4. In 5/8 time, the beats would be numbered 1, 2, 3, 4, 5.
+- To avoid some headaches, let's require that time signature changes can happen only at the end of a full measure.
 
-The next few sections will build a data structure that helps translate between a constant pulse (convenient for programming) and human-readable measure numbers following the rules above.
+
+The next few sections will build a data structure that helps translate between the steady pulse (more convenient for programming) and the human-readable measure numbers that follow the rules above.
 
 ## Meter Data Structure
 
-As a building block, let's make a data structure that acts as a ruler for 
-a single time signature. It will be anchored at a specific beat of the
-constant pulse and compute `(measures, beats)` relative to that anchor point.
+As a building block, let's make a data structure that acts as a "ruler" for 
+a single time signature. It will be anchored at a specific pulse number
+and count the elapsed measures and beats relative to this anchor point.
 
-:::warning TODO: revisit this, make the explanation a bit simpler.
-:::
+Here is some pseudocode for how I implemented it:
 
 ```
 Meter:
-    // top number of time signature
-    // to avoid confusion, i'll use "subdivision" here for which note gets
-    // the beat. "beat" will be reserved for the underlying quarter note pulse.
-    subdivisions_per_measure: number
-    // bottom number of time signature. This is a power of 2, usually 2, 4, or 8
-    subdivision: number
+    // Pulse number where the first full measure starts
+    start_pulse: number
 
-    // The calculations
-    measure_length_beats = 4 * subdivisions_per_measure / subdivision
+    // Time signature for this meter
+    top: number
+    bottom: number
 
-    // 0-indexed beat number that represents where this meter starts in time.
-    start_beat: number
+    // How long is one beat in this time signature?
+    // in x/4 time, this is 1
+    // in x/8 time, this is 1/2
+    // in x/2 time, this is 2
+    pulses_per_beat = 4 / bottom
 
-    // Relative to the start of this meter, how many measures and beats
-    // is this time?. Note that values may be negative for pickup measures!
-    beats_to_offset(beats): (full_measures, beats)
-        from_start = beats - this.start_beat
-        full_measures = from_start // measure_length_beats
-        beats = from_start % measure_length_beats
-        return (full_measures, beats)
+    // In common time, a measure is 4 pulses long. However, 
+    // we need to scale this according to the time signature.
+    measure_length_pulses = 4 * (top/bottom)
 
-    // Inverse - given a measure/beat offset, convert it to beats since
-    // the start time.
-    offset_to_beats((full_measures, beats)): beats
-        return full_measures * measure_length_beats + beats
-        
+
+    // Convert a pulse number to (measures, beats)
+    pulses_to_measures(pulses: number): MeasureNumber
+        // Measure elapsed pulses from the start time.
+        // Note that this may be negative! Such cases indicate pickup
+        // beats before the start of measure 1
+        pulses_from_start = pulses - start_pulse
+
+        // Divide the pulses into full measures and leftover pulses.
+        measures, remaining_pulses = div_mod(pulses_from_start, measure_length_pulses)
+
+        // Scale the remainder based on the length of a beat in this
+        // time signature
+        beats = remaining_pulses / pulses_per_beat
+
+        // Simple data structure that stores the measures and beats.
+        // Note that it stores values starting at 0, but it can be formatted
+        // as a human-readable string where these are numbered from 1.
+        return new MeasureNumber(measures, beats)
+    
+    // Invers: convert (measures, beats) to pulse number
+    measures_to_pulses(measure_number: MeasureNumber): number
+        // Again, these values are numbered from 0 in memory. They are
+        // only numbered from 1 when displaying to the screen
+        measures, beats = measure_number;
+
+        // undo the steps we did in pulses_to_measures above
+        remaining_pulses = beats * pulses_per_beat
+        pulses_from_start = measures * measure_length_pulses + remaining_pulses
+        return start_pulse + pulses_from_start
 ```
+
+Here is a visualization of the above. Here I made a `Meter` in 3/4 time
+with a two-beat long pickup measure.
+
 <SketchP5 :sketch="SKETCHES.measure_numbers" />
+
+<br />
 
 ::: details 🔍 I see more patterns lurking here...
 The math of measures/beats is just like converting between a 1D and 2D array index!
