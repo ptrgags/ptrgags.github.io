@@ -71,6 +71,19 @@ p {
   line-height: 1.5em;
 }
 
+table {
+  background-color: var(--background-dark);
+}
+
+th {
+  color: var(--color-accent);
+  padding: 4px;
+}
+
+td {
+  padding: 4px;
+}
+
 /* Reusable classes */
 
 .center-text {

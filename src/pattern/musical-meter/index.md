@@ -11,34 +11,72 @@ import {SKETCHES} from './musical-meter'
 
 <SketchP5 :sketch="SKETCHES.showcase" />
 
-- Let's explore how to represent musical meter with math
-- we'll start with the basics and build up to more complicated examples
-- like the mixed meter pattern you see above.
+In music, we measure time by counting in repeating patterns. Often
+this is as simple as counting to 4 over and over. Other times, the pattern
+changes mid-song. Let's explore the math of these patterns. We'll start
+with the basics and build up to more intricate examples like the one
+you see above.
 
 ## Steady Pulse
 
-<SketchP5 :sketch="SKETCHES.pulse" />
+We begin by establishing a common timeline for measuring elapsed time. Start
+with a sequence of evenly-spaced **pulses**. We will number them `0, 1, 2, ...`
+as in the animation below. This gives us a way to uniquely identify points in time.
 
-- Even when representing mixed meters, we need a common way to measure in time
-- so we start with a steady pulse of **beats**
-- number the beats starting with 0. This may seem a bit strange (in music we count starting from 1), but it will make some of the math that follows simpler.
+<SketchP5 :sketch="SKETCHES.pulse" />
+<br />
+
+:::details Note on terminology
+You could refer to the pulses as beats. For example, tempo is described in
+"beats per minute" (BPM). However, we will also use the word "beats" another
+way in sections below. To avoid confusion, I will use "pulses" when I'm 
+referring to this steady sequence of pulses
+:::
+
+:::details ❓ Curiosity: What if the pulses are not equally spaced?
+In practice, pulses are not always spaced evenly like this! Some examples:
+
+- A song may change tempo for some sections. This means the pulses speed up (get closer together) or slow down (spread further apart)
+- Some styles of music involve swing - some pulses are longer or shorter than others as in the diagram below:
+
+```
+straight: x-x-x-x-x-x-x-x-
+   swing: x--xx--xx--xx--x
+```
+
+These variations can be achieved by adjusting the playback speed of the song
+while it's playing. 
+
+Further details are beyond the scope of this article. For simplicity, this
+document assumes a constant tempo for the whole song.
+:::
 
 ## Measures
 
+Counting pulses may be mathematically useful, but it is unweildy. Imagine
+trying to count out loud `1283, 1284, 1285, 1286, ...`! Instead, we group
+pulses into larger groups called **measures**, divided into smaller units
+called **beats**. Furthermore, the
+first beat in a measure is emphasized stronger than the other beats. This
+makes this grouping a **meter** not just a pulse.
+
+The most common grouping is **common time**, where one measure is 4 beats long
+as in the following diagram. Here, one beat equals one pulse.
+
 <SketchP5 :sketch="SKETCHES.common_time" />
 
-- We tend to perceive music not in beats, but in larger groups called **measures**
-- The first beat in a measure is emphasized as stronger, this makes it a **meter**, not just a **pulse**
-- The most common grouping is **common time**, where one measure is 4 beats.
-- This is only one possible meter. We'll discuss more further down the page.
+If you were to count this out loud, you would say "ONE-2-3-4, TWO-2-3-4, THREE-2-3-4", and so on.
 
-### Subdividing a Measure
+This is only one possible meter. Others may have more or less beats, and
+each beat may be longer or shorter than a pulse. We'll see more examples
+in later sections.
 
-:::warning TODO
-diagram of dividing a measure into two half notes, 4 quarter notes, 8 eighth notes, etc.
-:::
+## Note durations
 
-Terminology for note durations assumes common time, even when the meter is different.
+Terminology for note durations assumes common time, even in other meters!
+A beat in common time is called a "quarter note", because it is a quarter
+of a measure. Other durations like half notes or eighth notes are similar.
+The following table gives an overview of the pattern:
 
 | Note Name      | Fraction of a measure | Beats |
 | -------------- | --------------------- | ----- |
@@ -50,6 +88,8 @@ Terminology for note durations assumes common time, even when the meter is diffe
 | …              | …                     | …     |
 | N-th Note      | 1/N                   | 4/N   |
 
+<br />
+
 :::details 🔍 I see more patterns lurking here...
 There are more patterns related to this one:
 
@@ -57,19 +97,31 @@ There are more patterns related to this one:
 - Triplets: 2/3 the duration
 :::
 
-### Time Signatures
+## Time Signatures
 
-- now that we have terminology, we can describe a meter using a time signature
-- two numbers: bottom number is what subdivision is considered the "beat" in this meter. E.g. x/4 means a beat is a quarter note. x/8 means the eighth note is the beat
-- top number is how many "beats" are in a single measure
-- In sheet music, the numbers are drawn on top of each other, but in text, it's easier to write it like a fraction.
-- In fact, it _is_ a fraction! A time signature describes the length of a measure in this meter as a fraction of a measure of 4/4 time at the same tempo.
-  - 4/4=1 is a full measure
-  - **cut time** 2/2=1 is the same length, it's just grouped differently.
-  - 3/4 is shorter than a measure
-  - A measure of 12/8=3/2 is 1.5 times the length of 4/4
-- A single piece may change time signatures!
-  - Some genres do this often. E.g. progressive rock, math rock, boss music in video games
+A **time signature** is a two-number label that describes how pulses are grouped
+into measures. In sheet music (and the diagrams on this page), these numbers are 
+stacked vertically, but in text it's often written with a slash like `top/bottom`.
+
+The bottom number describes the duration of a beat. For example, time signatures
+of the form x/4 have a beat every 1/4 (i.e. quarter) note. Meanwhile in x/8 time,
+each beat is an eighth note. Meanwhile, The top number determines how many of 
+these beats are grouped into a measure.
+
+The slash notation may look similar to fractions. In fact, it _is_ a fraction.
+A time signature can be interpreted as the length of a measure as a fraction of
+a measure of common time! This assumes the same tempo.
+
+Here are some example time signatures:
+
+| Time Signature | Beat length        | Measure length (fraction of 4/4 measure) | Other Notes          |
+| -------------- | ------------------ | ---------------------------------------- | -------------------- |
+| 4/4            | 1/4 (quarter note) | 4/4 = 1x                                 | a.k.a. "common time" |
+| 2/2            | 1/2 (half note)    | 2/2 = 1x                                 | a.k.a. "cut time"    |
+| 3/4            | 1/4 (quarter note) | 3/4 = 0.75x                              |                      |
+| 12/8           | 1/8 (eighth note)  | 12/8 = 1.5x                              |                      |
+
+Furthermore, here is a diagram of the meters that these time signatures represent. Notice that 2/2 time has beats spaced further apart, but 12/8 time has them closer together. 2/2 has the same measure length as 4/4, but 3/4 is shorter and 12/8 is longer.
 
 <SketchP5 :sketch="SKETCHES.time_signatures" />
 

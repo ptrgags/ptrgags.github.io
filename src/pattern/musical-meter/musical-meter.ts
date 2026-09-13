@@ -206,9 +206,9 @@ class CommonTime implements SceneP5 {
 }
 
 class TimeSignatures implements SceneP5 {
-  canvas_size = make_size(5)
-  meters = [new Meter(4, 4, 3), new Meter(2, 2, 3), new Meter(3, 4, 3), new Meter(12, 8, 3)]
-  measure_counts = [4, 4, 5, 3]
+  canvas_size = make_size(4)
+  meters = [new Meter(4, 4, 1), new Meter(2, 2, 1), new Meter(3, 4, 1), new Meter(12, 8, 1)]
+  measure_counts = [6, 6, 8, 4]
   meter_diagrams: MeterPrimitive[]
   primitive: Drawable
 
@@ -218,14 +218,14 @@ class TimeSignatures implements SceneP5 {
         new MeterPrimitive({
           meter: x,
           measure_count: this.measure_counts[i],
-          position: meter_start(i + 1),
+          position: meter_start(i),
           radius: METER_RADIUS,
           beat_spacing: PIXELS_PER_PULSE,
-          show_pickup_beats: true,
+          show_pickup_beats: false,
         }),
     )
 
-    this.primitive = group(...this.meter_diagrams, PULSES)
+    this.primitive = group(...this.meter_diagrams)
   }
 
   update(p: p5): void {}
