@@ -73,6 +73,7 @@ p {
 
 table {
   background-color: var(--background-dark);
+  margin: 0 auto;
 }
 
 th {

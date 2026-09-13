@@ -12,7 +12,7 @@ import {SKETCHES} from './musical-meter'
 <SketchP5 :sketch="SKETCHES.showcase" />
 
 In music, we measure time by counting in repeating patterns. Often
-this is as simple as counting to 4 over and over. Other times, the pattern
+this is as simple as counting to 4 over and over ("ONE-2-3-4, TWO-2-3-4, …"). Other times, the pattern
 changes mid-song. Let's explore the math of these patterns. We'll start
 with the basics and build up to more intricate examples like the one
 you see above.
@@ -20,7 +20,7 @@ you see above.
 ## Steady Pulse
 
 We begin by establishing a common timeline for measuring elapsed time. Start
-with a sequence of evenly-spaced **pulses**. We will number them `0, 1, 2, ...`
+with a sequence of evenly-spaced **pulses**. We will number them 0, 1, 2, …
 as in the animation below. This gives us a way to uniquely identify points in time.
 
 <SketchP5 :sketch="SKETCHES.pulse" />
@@ -30,14 +30,14 @@ as in the animation below. This gives us a way to uniquely identify points in ti
 You could refer to the pulses as beats. For example, tempo is described in
 "beats per minute" (BPM). However, we will also use the word "beats" another
 way in sections below. To avoid confusion, I will use "pulses" when I'm 
-referring to this steady sequence of pulses
+referring to this steady sequence of pulses.
 :::
 
 :::details ❓ Curiosity: What if the pulses are not equally spaced?
 In practice, pulses are not always spaced evenly like this! Some examples:
 
 - A song may change tempo for some sections. This means the pulses speed up (get closer together) or slow down (spread further apart)
-- Some styles of music involve swing - some pulses are longer or shorter than others as in the diagram below:
+- Some styles of music involve swing. Some pulses are longer and others are shorter in alternating fashion. This gives the music more bounce.
 
 ```
 straight: x-x-x-x-x-x-x-x-
@@ -53,12 +53,12 @@ document assumes a constant tempo for the whole song.
 
 ## Measures
 
-Counting pulses may be mathematically useful, but it is unweildy. Imagine
-trying to count out loud `1283, 1284, 1285, 1286, ...`! Instead, we group
-pulses into larger groups called **measures**, divided into smaller units
-called **beats**. Furthermore, the
-first beat in a measure is emphasized stronger than the other beats. This
-makes this grouping a **meter** not just a pulse.
+Counting pulses may be mathematically useful, but also unwieldy. Imagine
+trying to count out loud "1283, 1284, 1285, 1286, …," that would be ridiculous! 
+Instead, we group pulses into larger groups called **measures**, divided into 
+smaller units called **beats**. The
+first beat in a measure is emphasized, e.g. by making it louder than the other beats. This
+makes this grouping a **meter**, not just a pulse.
 
 The most common grouping is **common time**, where one measure is 4 beats long
 as in the following diagram. Here, one beat equals one pulse.
@@ -71,10 +71,10 @@ This is only one possible meter. Others may have more or less beats, and
 each beat may be longer or shorter than a pulse. We'll see more examples
 in later sections.
 
-## Note durations
+## Note Durations
 
-Terminology for note durations assumes common time, even in other meters!
-A beat in common time is called a "quarter note", because it is a quarter
+The duration of musical notes are described relative to common time, even in
+other meters! A beat in common time is also called a "quarter note", because it is a quarter
 of a measure. Other durations like half notes or eighth notes are similar.
 The following table gives an overview of the pattern:
 
@@ -90,7 +90,7 @@ The following table gives an overview of the pattern:
 
 <br />
 
-:::details 🔍 I see more patterns lurking here...
+:::details 🔍 I see more patterns lurking here…
 There are more patterns related to this one:
 
 - Dotted notes, 3/2 the duration (really `(1 + 1/2 = 3/2)x`. You can chain more dots to get durations like `(1 + 1/2 + 1/4 = 7/4)x`)
@@ -100,7 +100,7 @@ There are more patterns related to this one:
 ## Time Signatures
 
 A **time signature** is a two-number label that describes how pulses are grouped
-into measures. In sheet music (and the diagrams on this page), these numbers are 
+into measures. In sheet music (and the diagrams below), these numbers are 
 stacked vertically, but in text it's often written with a slash like `top/bottom`.
 
 The bottom number describes the duration of a beat. For example, time signatures
@@ -125,11 +125,9 @@ Furthermore, here is a diagram of the meters that these time signatures represen
 
 <SketchP5 :sketch="SKETCHES.time_signatures" />
 
-In practice, a single song may change time-signature. Sometimes this happens
-infrequently (e.g. only at the start of a new section). However, some styles
-of music may change time signatures as frequently as every measure or two!
-Math rock, progressive rock, and video game boss music are some places where
-you may see this.
+In practice, the time signature may change in the middle of the song. Sometimes this happens
+infrequently (e.g. only at the start of a new section). Other times, it may change as frequently
+as every measure or two. Math rock, progressive rock, and video game boss music are some styles of music where frequent measure changes are common.
 
 ## Numbering Measures
 
@@ -139,9 +137,9 @@ meters? We'd like a numbering system that obeys the following rules:
 - The first full measure is numbered 1.
 - Sometimes a song begins with a **pickup measure** - a partial measure that leads into the first measure. On a page, this measure is usually unlabeled, but when programming it's convenient to label this measure 0
 - Every time we reach the start of a new measure, we increment the measure number. 
-- Even when we chain measures of different time signatures together, the measures are counted 1, 2, 3, ...
-- Beat numbers within a specific measure are numbered 1, 2, 3, ..., N where `N` is the top number of the relevant time signature. For example, in 4/4 time the beats would be labeled 1, 2, 3, 4. In 5/8 time, the beats would be numbered 1, 2, 3, 4, 5.
-- To avoid some headaches, let's require that time signature changes can happen only at the end of a full measure.
+- Even when we chain measures of different time signatures together, the measures are counted 1, 2, 3, …
+- Beat numbers within a specific measure are numbered 1, 2, 3, …, N where `N` is the top number of the relevant time signature. For example, in 4/4 time the beats would be labeled 1, 2, 3, 4. In 5/8 time, the beats would be numbered 1, 2, 3, 4, 5.
+- To avoid some headaches, let's also require that time signature changes can happen only at the end of a full measure.
 
 
 The next few sections will build a data structure that helps translate between the steady pulse (more convenient for programming) and the human-readable measure numbers that follow the rules above.
@@ -152,10 +150,11 @@ As a building block, let's make a data structure that acts as a "ruler" for
 a single time signature. It will be anchored at a specific pulse number
 and count the elapsed measures and beats relative to this anchor point.
 
-Here is some pseudocode for how I implemented it:
+Here is some pseudocode for the data structure including how to convert between
+pulses and measure numbers:
 
 ```
-// Simple data structure for storing and formatting measure numbers
+// Helper data structure for storing and formatting measure numbers
 MeasureNumber:
     // These values are stored numbered from 0, not 1!
     measures: number
@@ -204,7 +203,7 @@ Meter:
 
         return new MeasureNumber(measures, beats)
     
-    // Invers: convert (measures, beats) to pulse number
+    // Inverse: convert (measures, beats) to pulse number
     measures_to_pulses(measure_number: MeasureNumber): number
         // Remember, these values are numbered from 0
         measures, beats = measure_number;
@@ -222,7 +221,7 @@ with a two-beat long pickup measure.
 
 <br />
 
-::: details 🔍 I see more patterns lurking here...
+::: details 🔍 I see more patterns lurking here…
 The math of measures/beats is just like converting between a 1D and 2D array index!
 
 other forms: hierarchical addresses, numbers in a base
@@ -235,7 +234,7 @@ Geometrically, we're enumerating cells of an N-D array in lexicographical order.
 If a song only uses one time signature, `Meter` is enough for calculations.
 If we need multiple time signatures, we'll need a new data structure. 
 We can build a `SongMeter` from several `Meter` objects, plus a few extra
-details for book-keeping.
+details for bookkeeping.
 
 ```
 SongMeter:
