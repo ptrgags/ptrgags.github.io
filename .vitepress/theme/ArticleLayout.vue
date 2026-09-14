@@ -6,7 +6,7 @@ const { frontmatter } = useData()
 
 <template>
   <div class="vertical">
-    <div class="one-column plaque vertical">
+    <div class="vertical">
       <h1>{{ frontmatter.title }}</h1>
       <Content />
     </div>
