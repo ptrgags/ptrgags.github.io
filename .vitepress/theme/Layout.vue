@@ -32,7 +32,7 @@ function toggle_menu() {
     <header class="banner">
       <button class="burger" @click="toggle_menu">🍔</button><WebsiteBanner />
     </header>
-    <nav id="menu" class="sidebar-nav panel collapsed">
+    <nav id="menu" class="sidebar-nav collapsed">
       <ul class="link-list">
         <li>
           <a href="/gallery">Gallery</a>
@@ -59,7 +59,7 @@ function toggle_menu() {
         </li>
       </ul>
     </nav>
-    <main class="content panel">
+    <main class="content">
       <template v-if="frontmatter.layout === 'article'">
         <ArticleLayout></ArticleLayout>
       </template>
@@ -77,6 +77,14 @@ function toggle_menu() {
       </template>
       <template v-else>
         <h2>--- 404 Not Found ---</h2>
+        <div>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+          ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+          ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+          sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+          est laborum.
+        </div>
       </template>
     </main>
   </div>
@@ -89,17 +97,19 @@ function toggle_menu() {
     'banner'
     'sidebar'
     'main';
-  grid-template-rows: auto, minmax(100px, auto), minmax(300px, auto);
 }
 
 .banner {
   grid-area: banner;
   background-color: var(--color-main-dark);
+  display: flex;
+  flex-direction: row;
 }
 
 .sidebar-nav {
   grid-area: sidebar;
   background-color: var(--color-main-med-dark);
+  padding: 20px;
 }
 
 .collapsed {
@@ -109,6 +119,7 @@ function toggle_menu() {
 .content {
   grid-area: main;
   background-color: var(--color-main-med);
+  padding: 40px;
 }
 
 .footer {
@@ -155,7 +166,6 @@ nav ul {
     grid-template-areas:
       'banner banner'
       'sidebar main';
-    grid-template-rows: minmax(40px, auto) minmax(400px, auto);
   }
 
   nav ul {

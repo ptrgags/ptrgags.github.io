@@ -34,6 +34,8 @@ body {
 
   color: var(--color-text);
   font-family: sans-serif;
+
+  box-sizing: border-box;
 }
 
 /* Style links consistently */
@@ -113,11 +115,6 @@ td {
 
 .justify-left {
   justify-content: left;
-}
-
-.panel {
-  background-color: var(--background-text);
-  padding: 40px;
 }
 
 /**
@@ -220,7 +217,29 @@ td {
   background-color: var(--background-dark);
 }
 
+/* Fix Markdown styling */
+
 /** For now, hide the copy button on text areas */
 button.copy {
   display: none;
+}
+
+/* Prevent code-blocks from overflowing parent*/
+pre {
+  background-color: var(--color-accent1-dark);
+  max-width: 65vw;
+  overflow-x: auto;
+  padding: 10px;
+}
+
+@media screen and (800px <= width <= 1000px) {
+  pre {
+    max-width: 50vw;
+  }
+}
+
+@media screen and (width >= 1000px) {
+  pre {
+    max-width: 600px;
+  }
 }

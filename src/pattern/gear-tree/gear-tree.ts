@@ -33,6 +33,7 @@ function make_gear_sketch(gears: GearSchematic | GearTree, size = SIZE_SWATCH) {
     const lib = new DrawP5(p)
     p.setup = () => {
       p.createCanvas(size.w, size.h)
+      p.pixelDensity(1)
 
       if (gears instanceof GearTree) {
         gears.is_root = true
