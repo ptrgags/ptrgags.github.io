@@ -78,9 +78,11 @@ function toggle_menu() {
 
 .banner {
   grid-area: banner;
+  height: 60px;
   background-color: var(--color-main-dark);
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .sidebar-nav {
