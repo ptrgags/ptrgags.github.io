@@ -8,7 +8,7 @@ import SketchP5 from '../../components/SketchP5.vue'
 import {SKETCHES} from './gear-tree'
 </script>
 
-<!--<SketchP5 :sketch="SKETCHES.elaborate_tree" />-->
+<SketchP5 :sketch="SKETCHES.elaborate_tree" />
 
 ## Gear Schematic
 
@@ -21,7 +21,7 @@ now, let's draw a schematic of a gear. This will include:
 
 For example, here is a single gear with 24 teeth:
 
-<!--<SketchP5 :sketch="SKETCHES.gear_schematic" />-->
+<SketchP5 :sketch="SKETCHES.gear_schematic" />
 
 ### Note on Gear Dimensions
 
@@ -145,7 +145,7 @@ gear Gear 2.
 We can take two gears and mesh the teeth together, forming the beginning of
 a gear train.
 
-<!--<SketchP5 :sketch="SKETCHES.meshed_gears" />-->
+<SketchP5 :sketch="SKETCHES.meshed_gears" />
 
 Since the gears are meshed together, both gears will turn through the same _distance_ along their circumference. However, they turn in opposite directions. So we can say that gears 1 and 2 have arc lengths related as follows:
 
@@ -177,14 +177,14 @@ driven gear. I like to express this in number of teeth counterclockwise from the
 For example, here is the same pair of meshed gears with the driven gear
 moved 5 teeth counterclockwise:
 
-<!--<SketchP5 :sketch="SKETCHES.meshed_at_angle" />-->
+<SketchP5 :sketch="SKETCHES.meshed_at_angle" />
 
 ### Coaxial Gears (Parallel)
 
 We can also take two gears and mount them on the same axle so they turn
 together. This is like the gears on a multi-speed bike.
 
-<!--<SketchP5 :sketch="SKETCHES.coaxial_gears" />-->
+<SketchP5 :sketch="SKETCHES.coaxial_gears" />
 
 The main property here is that the gears turn through the same angle _and_ direction, i.e.
 
@@ -220,6 +220,6 @@ ParallelGear:
 Here's a simple `GearTree` that connects a center driving gear that is connected
 to two different gears in series and a third in parallel:
 
-<!--<SketchP5 :sketch="SKETCHES.simple_tree" />-->
+<SketchP5 :sketch="SKETCHES.simple_tree" />
 
 For a more elaborate example, see the animation at the top of this page.
