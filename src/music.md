@@ -17,11 +17,9 @@ description and liner notes for each track.
 
 Out of all these albums, I'm most proud of Loops!
 
-<div class="vertical">
 <template v-for="thumbnail in ALL_ALBUM_THUMBNAILS" :key="thumbnail.sort_key">
     <ThumbnailCard :card="thumbnail" />
 </template>
-</div>
 
 
 ## Music Experiments (p5.js + ToneJS)
