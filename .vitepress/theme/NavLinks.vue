@@ -38,6 +38,10 @@
 
 nav ul {
   list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
 }
 
 .link-list li {
@@ -48,14 +52,5 @@ nav ul {
 
 .link-list li.no-border {
   border: none;
-}
-
-@media (width >=800px) {
-  nav ul {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 10px;
-  }
 }
 </style>
