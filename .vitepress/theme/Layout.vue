@@ -2,13 +2,13 @@
 import ArticleLayout from './ArticleLayout.vue'
 import ArtworkLayout from './ArtworkLayout.vue'
 import MusicAlbumLayout from './MusicAlbumLayout.vue'
-import NavbarHeader from './NavbarHeader.vue'
 import ProjectLayout from './ProjectLayout.vue'
 
 import { Content, useData } from 'vitepress'
 import StereoPhotoLayout from './StereoPhotoLayout.vue'
 import WebsiteBanner from './WebsiteBanner.vue'
 import NavLinks from './NavLinks.vue'
+import BurgerIcon from './BurgerIcon.vue'
 
 // https://vitepress.dev/reference/runtime-api#usedata
 const { frontmatter } = useData()
@@ -31,7 +31,9 @@ function toggle_menu() {
 <template>
   <div class="wrapper">
     <header class="banner">
-      <button class="burger" @click="toggle_menu">🍔</button><WebsiteBanner />
+      <button class="burger" @click="toggle_menu">
+        <BurgerIcon /></button
+      ><WebsiteBanner />
     </header>
     <nav id="menu" class="sidebar-nav collapsed">
       <NavLinks />
@@ -74,6 +76,12 @@ function toggle_menu() {
     'banner'
     'sidebar'
     'main';
+}
+
+.burger {
+  background-color: var(--color-accent1-med-dark);
+  border: 2px solid var(--color-accent1-dark);
+  border-radius: 4px;
 }
 
 .banner {
