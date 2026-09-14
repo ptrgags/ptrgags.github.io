@@ -32,6 +32,7 @@ body {
   padding: 0;
   height: 100vh;
 
+  background-color: var(--color-accent1-dark);
   color: var(--color-text);
   font-family: sans-serif;
 
@@ -211,7 +212,7 @@ canvas.p5Canvas {
 
 .custom-block.warning {
   color: black;
-  background-color: var(--color-warning);
+  background-color: var(--color-accent2-med);
 }
 
 .custom-block.info {
