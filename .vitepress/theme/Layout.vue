@@ -8,6 +8,7 @@ import ProjectLayout from './ProjectLayout.vue'
 import { Content, useData } from 'vitepress'
 import StereoPhotoLayout from './StereoPhotoLayout.vue'
 import WebsiteBanner from './WebsiteBanner.vue'
+import NavLinks from './NavLinks.vue'
 
 // https://vitepress.dev/reference/runtime-api#usedata
 const { frontmatter } = useData()
@@ -33,31 +34,7 @@ function toggle_menu() {
       <button class="burger" @click="toggle_menu">🍔</button><WebsiteBanner />
     </header>
     <nav id="menu" class="sidebar-nav collapsed">
-      <ul class="link-list">
-        <li>
-          <a href="/gallery">Gallery</a>
-        </li>
-        <li>
-          <a href="/projects">Projects</a>
-        </li>
-        <li>
-          <a href="/music">Music</a>
-        </li>
-        <li>
-          <a href="/blog">Blog</a>
-        </li>
-        <li>
-          <a href="">Placeholder</a>
-        </li>
-        <li class="no-border">
-          <ul class="sub-list">
-            <li>Subcategory1</li>
-            <li>Subcategory2</li>
-            <li>Subcategory3</li>
-            <li>Subcategory4</li>
-          </ul>
-        </li>
-      </ul>
+      <NavLinks />
     </nav>
     <main class="content">
       <template v-if="frontmatter.layout === 'article'">
@@ -131,26 +108,6 @@ function toggle_menu() {
   align-items: center;
 }
 
-.link-list {
-  list-style: none;
-  background-color: var(--background-text);
-  padding: 0;
-}
-
-nav ul {
-  list-style: none;
-}
-
-.link-list li {
-  background-color: var(--color-main-dark);
-  border-radius: 5px;
-  padding: 10px;
-}
-
-.link-list li.no-border {
-  border: none;
-}
-
 @media (width >= 800px) {
   .burger {
     display: none;
@@ -166,13 +123,6 @@ nav ul {
     grid-template-areas:
       'banner banner'
       'sidebar main';
-  }
-
-  nav ul {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 10px;
   }
 }
 </style>
