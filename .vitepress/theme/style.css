@@ -141,8 +141,7 @@ td {
   display: block;
 
   /* Also round the image inside the frame */
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+  border-radius: 8px;
 
   /* Shrink the image if it's too wide for the screen */
   max-width: 100%;

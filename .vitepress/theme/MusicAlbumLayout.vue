@@ -143,10 +143,11 @@ audio {
 .track-header {
   font-weight: bold;
   color: var(--color-accent2-med-light);
+  background-color: var(--color-accent1-dark);
 }
 
 .track-selected {
-  color: var(--color-accent1-med-light);
+  color: var(--color-accent1-light);
 }
 
 .track-loop::after {

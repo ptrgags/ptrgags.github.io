@@ -30,4 +30,9 @@ const props = defineProps<{
 
   padding: 4px;
 }
+
+.card-frame img {
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
 </style>
