@@ -47,6 +47,6 @@ const timeline_entries = [...artwork_entries, ...stereo_entries, ...updates].sor
 <style scoped>
 .timeline-container {
   width: 2000px;
-  max-width: 90vw;
+  max-width: 80vw;
 }
 </style>
