@@ -175,32 +175,30 @@ export class MIDIMessage {
 MIDIMessage.DEFAULT_VELOCITY = Velocity.MF
 
 /**
- * @enum {number}
  */
-export const MIDIMetaType = {
-  SEQUENCE_NUMBER: 0x00,
-  TEXT: 0x01,
-  COPYRIGHT: 0x02,
-  TRACK_NAME: 0x03,
-  LYRIC: 0x05,
-  MARKER: 0x06,
-  CUE_POINT: 0x07,
-  CHANNEL_PREFIX: 0x20,
-  END_OF_TRACK: 0x2f,
-  SET_TEMPO: 0x51,
-  SMPTE_OFFSET: 0x54,
-  TIME_SIGNATURE: 0x58,
-  KEY_SIGNATURE: 0x59,
-  SEQUENCER_SPECIFIC: 0x7f,
+export enum MIDIMetaType {
+  SEQUENCE_NUMBER = 0x00,
+  TEXT = 0x01,
+  COPYRIGHT = 0x02,
+  TRACK_NAME = 0x03,
+  LYRIC = 0x05,
+  MARKER = 0x06,
+  CUE_POINT = 0x07,
+  CHANNEL_PREFIX = 0x20,
+  END_OF_TRACK = 0x2f,
+  SET_TEMPO = 0x51,
+  SMPTE_OFFSET = 0x54,
+  TIME_SIGNATURE = 0x58,
+  KEY_SIGNATURE = 0x59,
+  SEQUENCER_SPECIFIC = 0x7f,
 }
-Object.freeze(MIDIMetaType)
 
 /**
  * Type for all MIDI meta events (aside from sysex)
  * @implements {MIDIEvent}
  */
 export class MIDIMetaEvent {
-  meta_type: number
+  meta_type: MIDIMetaType
   data: Uint8Array<ArrayBufferLike>
   static MAGIC: any
   static MICROSEC_PER_MIN: any
@@ -210,7 +208,7 @@ export class MIDIMetaEvent {
    * @param {number} meta_type MIDIMetaType
    * @param {Uint8Array} data Raw bytes of message
    */
-  constructor(meta_type: number, data: Uint8Array) {
+  constructor(meta_type: MIDIMetaType, data: Uint8Array) {
     this.meta_type = meta_type
     this.data = data
   }

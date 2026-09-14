@@ -3,8 +3,7 @@ layout: article
 title: MIDI File Summary
 ---
 <script setup lang="ts">
-import MIDIFilePicker from "./MIDIFilePicker.vue"
+import MIDIFileSummary from "./MIDIFileSummary.vue"
 </script>
 
-<MIDIFilePicker @load="console.log"/>
-
+<MIDIFileSummary />
