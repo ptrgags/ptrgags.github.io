@@ -16,5 +16,6 @@ const { frontmatter } = useData()
 <style scoped>
 h1 {
   margin-top: 0;
+  color: var(--color-accent2-light);
 }
 </style>

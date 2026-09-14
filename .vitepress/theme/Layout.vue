@@ -79,7 +79,6 @@ function toggle_menu() {
         <h2>--- 404 Not Found ---</h2>
       </template>
     </main>
-    <footer class="footer"><div>Footer</div></footer>
   </div>
 </template>
 
@@ -89,17 +88,18 @@ function toggle_menu() {
   grid-template-areas:
     'banner'
     'sidebar'
-    'main'
-    'footer';
-  grid-template-rows: auto, minmax(100px, auto), minmax(300px, auto), minmax(40px, auto);
+    'main';
+  grid-template-rows: auto, minmax(100px, auto), minmax(300px, auto);
 }
 
 .banner {
   grid-area: banner;
+  background-color: var(--color-main-dark);
 }
 
 .sidebar-nav {
   grid-area: sidebar;
+  background-color: var(--color-main-med-dark);
 }
 
 .collapsed {
@@ -108,6 +108,7 @@ function toggle_menu() {
 
 .content {
   grid-area: main;
+  background-color: var(--color-main-med);
 }
 
 .footer {
@@ -130,7 +131,7 @@ nav ul {
 }
 
 .link-list li {
-  border: 2px solid var(--color-accent);
+  background-color: var(--color-main-dark);
   border-radius: 5px;
   padding: 10px;
 }
@@ -153,9 +154,8 @@ nav ul {
     grid-template-columns: 1fr 4fr;
     grid-template-areas:
       'banner banner'
-      'sidebar main'
-      'footer footer';
-    grid-template-rows: minmax(40px, auto) minmax(400px, auto) minmax(40px, auto);
+      'sidebar main';
+    grid-template-rows: minmax(40px, auto) minmax(400px, auto);
   }
 
   nav ul {

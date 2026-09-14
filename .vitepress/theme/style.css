@@ -1,68 +1,70 @@
+:root {
+  /* Color palette made at https://paletton.com/#uid=33l0U0kkgnu9SAafbsEoKj3uddu */
+  --color-main-dark: #053a42;
+  --color-main-med-dark: #16545d;
+  --color-main-med: #2b6a73;
+  --color-main-med-light: #4b848c;
+  --color-main-light: #78a6ac;
+
+  /* Beet red */
+  --color-accent1-dark: #5a052d;
+  --color-accent1-med-dark: #7f1d4b;
+  --color-accent1-med: #9c3968;
+  --color-accent1-med-light: #be648f;
+  --color-accent1-light: #dc98b8;
+
+  /** Yellow */
+  --color-accent2-dark: #6b5a06;
+  --color-accent2-med-dark: #988422;
+  --color-accent2-med: #bba745;
+  --color-accent2-med-light: #e4d278;
+  --color-accent2-light: #fff2b0;
+
+  /** Color for all of the text */
+  --color-text: #ececec;
+
+  scrollbar-color: var(--color-accent2-med) var(--color-main-dark);
+}
+
 html,
 body {
   margin: 0;
   padding: 0;
   height: 100vh;
 
-  background-image: url('/assets/background.png');
-  background-color: rgba(0, 0, 0, 0.5);
-  background-blend-mode: multiply;
-  background-repeat: repeat;
-  font-family: sans-serif;
-
   color: var(--color-text);
-}
-
-:root {
-  /** Color for all of the text */
-  --color-text: #ececec;
-
-  /** Accent colors for links, card frames, etc. */
-  --color-accent: #f7ad0e;
-  --color-accent-dark: #cf9009;
-  --color-accent2: #0eafaf;
-
-  --color-warning: oklch(73.437% 0.14649 81.595);
-
-  /** Background colors for different purposes */
-  --background-text: #333333;
-  --background-dark: #111111;
-  --background-light: #555555;
-  --background-transparent: rgba(0, 0, 0, 0.5);
-}
-
-:root {
-  scrollbar-color: var(--color-accent-dark) var(--background-dark);
+  font-family: sans-serif;
 }
 
 /* Style links consistently */
 a:link {
-  color: var(--color-accent);
+  color: var(--color-accent2-med-light);
 }
 
 a:visited {
-  color: var(--color-accent-dark);
+  color: var(--color-accent2-med);
 }
 
 a:hover {
-  color: var(--color-text);
+  color: var(--color-accent1-med-light);
 }
 
 a:active {
-  color: var(--color-accent2);
+  color: var(--color-accent1-light);
 }
 
-/* Make bullet lists look nice */
+/* Make bullet lists look nicer */
 li::marker {
-  color: var(--color-accent2);
+  color: var(--color-accent1-med-dark);
 }
 
 li {
   line-height: 1.5em;
 }
 
+/* Inline code */
 kbd {
-  background-color: var(--background-dark);
+  background-color: var(--color-main-dark);
   padding: 4px;
   border-radius: 3px;
 }
@@ -72,7 +74,7 @@ p {
 }
 
 table {
-  background-color: var(--background-dark);
+  background-color: var(--color-main-dark);
   margin: 0 auto;
 }
 
