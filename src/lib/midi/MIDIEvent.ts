@@ -21,21 +21,16 @@ export interface MIDIEvent {
   encode(data_view: DataView, offset: number): number
 }
 
-/**
- * @enum {number}
- */
-export const MIDIMessageType = {
-  NOTE_OFF: 0b1000,
-  NOTE_ON: 0b1001,
-  POLY_AFTERTOUCH: 0b1010,
-  CONTROL_CHANGE: 0b1011,
-  PROGRAM_CHANGE: 0b1100,
-  CHANNEL_AFTERTOUCH: 0b1101,
-  PITCH_BEND: 0b1110,
-  CHANNEL_MODE: 0b1011,
-  SYSTEM: 0b1111,
+export enum MIDIMessageType {
+  NOTE_OFF = 0b1000,
+  NOTE_ON = 0b1001,
+  POLY_AFTERTOUCH = 0b1010,
+  CONTROL_CHANGE = 0b1011,
+  PROGRAM_CHANGE = 0b1100,
+  CHANNEL_AFTERTOUCH = 0b1101,
+  PITCH_BEND = 0b1110,
+  SYSTEM = 0b1111,
 }
-Object.freeze(MIDIMessageType)
 
 /**
  * Get the length of a MIDI message (not including meta or sysex events)
@@ -49,7 +44,6 @@ export function get_data_length(message_type: number): 0 | 1 | 2 {
     case MIDIMessageType.POLY_AFTERTOUCH:
     case MIDIMessageType.CONTROL_CHANGE:
     case MIDIMessageType.PITCH_BEND:
-    case MIDIMessageType.CHANNEL_MODE:
       return 2
     case MIDIMessageType.PROGRAM_CHANGE:
     case MIDIMessageType.CHANNEL_AFTERTOUCH:
@@ -64,7 +58,7 @@ export function get_data_length(message_type: number): 0 | 1 | 2 {
  * @implements {MIDIEvent}
  */
 export class MIDIMessage {
-  message_type: number
+  message_type: MIDIMessageType
   channel: number
   data: Uint8Array<ArrayBufferLike>
   static DEFAULT_VELOCITY: number
@@ -75,7 +69,7 @@ export class MIDIMessage {
    * @param channel The channel number 0-15
    * @param data 1-3 data bytes as a u8 array
    */
-  constructor(message_type: number, channel: number, data: Uint8Array) {
+  constructor(message_type: MIDIMessageType, channel: number, data: Uint8Array) {
     this.message_type = message_type
     this.channel = channel
     this.data = data
@@ -167,12 +161,55 @@ export class MIDIMessage {
     const data_length = get_data_length(message_type)
     const data = new Uint8Array(data_view.buffer, data_view.byteOffset + offset, data_length)
 
-    const msg = new MIDIMessage(message_type, channel, data)
+    let msg: MIDIMessage
+    switch (message_type) {
+      case MIDIMessageType.NOTE_OFF:
+      case MIDIMessageType.NOTE_ON:
+        msg = new MIDINoteMessage(message_type, channel, data)
+      case MIDIMessageType.PROGRAM_CHANGE:
+        msg = new MIDIProgramChangeMessage(message_type, channel, data)
+      case MIDIMessageType.PITCH_BEND:
+        msg = new MIDIPitchWheelMessage(message_type, channel, data)
+      default:
+        msg = new MIDIMessage(message_type, channel, data)
+    }
     const after_offset = offset + data_length
     return [msg, after_offset]
   }
 }
 MIDIMessage.DEFAULT_VELOCITY = Velocity.MF
+
+export class MIDINoteMessage extends MIDIMessage {
+  get pitch(): number {
+    return this.data[0]
+  }
+
+  get velocity(): number {
+    return this.data[1]
+  }
+}
+
+export class MIDICCMessage extends MIDIMessage {
+  get controller(): number {
+    return this.data[0]
+  }
+
+  get value(): number {
+    return this.data[1]
+  }
+}
+
+export class MIDIProgramChangeMessage extends MIDIMessage {
+  get program_number(): number {
+    return this.data[0]
+  }
+}
+
+export class MIDIPitchWheelMessage extends MIDIMessage {
+  get value(): number {
+    return (this.data[1] << 7) | this.data[0]
+  }
+}
 
 /**
  */
@@ -302,10 +339,7 @@ MIDIMetaEvent.END_OF_TRACK = Object.freeze(
   new MIDIMetaEvent(MIDIMetaType.END_OF_TRACK, new Uint8Array(0)),
 )
 
-/**
- * @implements {MIDIEvent}
- */
-export class MIDISysex {
+export class MIDISysex implements MIDIEvent {
   data: Uint8Array<ArrayBufferLike>
   /**
    * Constructor

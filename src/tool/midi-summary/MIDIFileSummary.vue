@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { MIDIMetaEvent, MIDIMetaType, MIDISysex } from '../../lib/midi/MIDIEvent.ts'
+import {
+  MIDICCMessage,
+  MIDIMessage,
+  MIDIMetaEvent,
+  MIDIMetaType,
+  MIDINoteMessage,
+  MIDISysex,
+} from '../../lib/midi/MIDIEvent.ts'
 import type { MIDIFile } from '../../lib/midi/MIDIFile.ts'
 import type { RelativeTimingTrack } from '../../lib/midi/MIDITrack.ts'
 import { Meter } from '../../pattern/musical-meter/Meter.ts'
@@ -9,6 +16,39 @@ interface MessageSummary {
   time: string
   type: string
   description: string
+}
+
+class ChannelStats {
+  channel: number
+  pitch_range = { min: 127, max: 0 }
+  note_count = 0
+  ccs_used: Set<number> = new Set()
+  cc_count = 0
+
+  constructor(channel: number) {
+    this.channel = channel
+  }
+
+  update_pitch_range(pitch: number) {
+    this.pitch_range.min = Math.min(this.pitch_range.min, pitch)
+    this.pitch_range.max = Math.max(this.pitch_range.max, pitch)
+  }
+
+  process_message(message: MIDIMessage) {
+    if (message instanceof MIDINoteMessage) {
+      this.update_pitch_range(message.pitch)
+      this.note_count += 1
+    } else if (message instanceof MIDICCMessage) {
+      this.ccs_used.add(message.controller)
+    } else {
+      throw new Error('not implemented')
+    }
+  }
+
+  get summary(): MessageSummary {
+    const description = `Notes: ${this.note_count} [${this.pitch_range.min}, ${this.pitch_range.max}], CCs: ${this.cc_count}, [${this.ccs_used}]`
+    return { time: '---', type: `Channel ${this.channel}`, description }
+  }
 }
 
 const MIDI_METER = new Meter(4, 4, 0)
@@ -41,6 +81,8 @@ function make_summary(file: MIDIFile<RelativeTimingTrack>) {
         type: event_type,
         description: event.data.toString(),
       })
+    } else if (event instanceof MIDIMessage) {
+      throw new Error('not implemented')
     }
   }
 
