@@ -218,14 +218,8 @@ pre {
   padding: 10px;
 }
 
-@media screen and (800px <= width <= 1000px) {
+@media screen and (width >= 800px) {
   pre {
     max-width: 50vw;
-  }
-}
-
-@media screen and (width >= 1000px) {
-  pre {
-    max-width: 600px;
   }
 }
