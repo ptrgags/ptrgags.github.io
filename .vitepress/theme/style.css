@@ -118,29 +118,6 @@ td {
   justify-content: left;
 }
 
-/**
- * dark grey card with partially transparent dark border, for listing text
- *
- * By default, this does not set the side
- */
-.plaque {
-  padding: 40px;
-  margin: 20px;
-  background-color: var(--background-text);
-  border-radius: 20px;
-
-  /** 
-    * Make a transparent border, and adjust clipping so you can see what's
-    * behind the details pane 
-    */
-  border: 10px solid var(--background-transparent);
-  background-clip: padding-box;
-}
-
-.plaque h1 {
-  color: var(--color-accent);
-}
-
 .one-column {
   width: 1200px;
   max-width: 80vw;
@@ -187,9 +164,10 @@ td {
 .big-link {
   font-size: 20px;
   padding: 10px;
-  background-color: var(--background-dark);
+  background-color: var(--color-accent1-dark);
   border-radius: 8px;
   display: inline;
+  border: 2px solid var(--color-accent1-med-light);
 }
 
 .divider {
