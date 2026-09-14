@@ -26,6 +26,5 @@ const posts = data.map(x => {return {...x.frontmatter, url: x.url}}).sort(sort_r
     padding: 10px;
     border-radius: 20px;
     margin-bottom: 20px;
-    /*border: 2px solid var(--color-accent2-med-light);*/
 }
 </style>
