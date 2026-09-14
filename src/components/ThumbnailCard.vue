@@ -22,7 +22,7 @@ const props = defineProps<{
 <style>
 .card-text {
   height: 40px;
-  background-color: var(--background-text);
+  background-color: var(--color-accent1-med-dark);
 
   /* Round the bottom */
   border-bottom-left-radius: 8px;
