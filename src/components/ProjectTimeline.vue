@@ -41,14 +41,14 @@ function entry_class(index: number) {
   position: relative;
   max-width: 80%;
   margin: 0 auto;
-  background-color: var(--background-transparent);
+  background-color: var(--color-main-dark);
 }
 
 /* Draw the actual timeline */
 .timeline::after {
   content: '';
   position: absolute;
-  background-color: var(--background-text);
+  background-color: var(--color-accent1-dark);
 
   /* make a long, thin rectangle */
   top: 0px;
@@ -73,7 +73,7 @@ function entry_class(index: number) {
   align-items: center;
   position: relative;
   border-radius: 20px;
-  background-color: #333333;
+  background-color: var(--color-main-med-dark);
 }
 
 .entry-left .entry-content {
@@ -100,7 +100,7 @@ function entry_class(index: number) {
 
   /* Set a rounded border except on the left side */
   border-width: 10px 0px 10px 10px;
-  border-color: var(--background-text);
+  border-color: var(--color-main-med-dark);
   border-style: solid;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
@@ -122,7 +122,7 @@ function entry_class(index: number) {
 
   /* Same idea as for .entry-left::before, but the opposite direction */
   border-width: 10px 10px 10px 0px;
-  border-color: var(--background-text);
+  border-color: var(--color-main-med-dark);
   border-style: solid;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
@@ -137,7 +137,7 @@ function entry_class(index: number) {
   content: '';
   position: absolute;
   z-index: 1;
-  background-color: var(--color-accent);
+  background-color: var(--color-accent1-med);
   width: 20px;
   height: 20px;
   top: 10px;
@@ -168,7 +168,7 @@ function entry_class(index: number) {
 }
 
 .entry-description h3 {
-  color: var(--color-accent);
+  color: var(--color-accent2-light);
 }
 
 /* For medium-sized screens, start stacking the content vertically */
