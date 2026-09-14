@@ -15,6 +15,10 @@ const { frontmatter } = useData()
 if (frontmatter.value.layout === undefined) {
   console.log('missing layout', frontmatter.value)
 }
+
+function toggle_menu() {
+  document.querySelector('#menu')?.classList.toggle('collapsed')
+}
 </script>
 
 <!--
@@ -25,8 +29,10 @@ if (frontmatter.value.layout === undefined) {
 -->
 <template>
   <div class="wrapper">
-    <header class="banner"><WebsiteBanner /></header>
-    <nav class="sidebar-nav panel">
+    <header class="banner">
+      <button class="burger" @click="toggle_menu">🍔</button><WebsiteBanner />
+    </header>
+    <nav id="menu" class="sidebar-nav panel collapsed">
       <ul class="link-list">
         <li>
           <a href="/gallery">Gallery</a>
@@ -85,7 +91,7 @@ if (frontmatter.value.layout === undefined) {
     'sidebar'
     'main'
     'footer';
-  grid-template-rows: minmax(40px, auto) minmax(100px, auto) minmax(300px, auto) minmax(40px, auto);
+  grid-template-rows: auto, minmax(100px, auto), minmax(300px, auto), minmax(40px, auto);
 }
 
 .banner {
@@ -94,6 +100,10 @@ if (frontmatter.value.layout === undefined) {
 
 .sidebar-nav {
   grid-area: sidebar;
+}
+
+.collapsed {
+  display: none;
 }
 
 .content {
@@ -129,7 +139,16 @@ nav ul {
   border: none;
 }
 
-@media (width >= 500px) {
+@media (width >= 800px) {
+  .burger {
+    display: none;
+  }
+
+  /* navbar is always visible on large screens */
+  .collapsed {
+    display: block;
+  }
+
   .wrapper {
     grid-template-columns: 1fr 4fr;
     grid-template-areas:
