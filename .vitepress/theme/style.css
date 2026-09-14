@@ -79,10 +79,12 @@ p {
 table {
   background-color: var(--color-main-dark);
   margin: 0 auto;
+  border-collapse: collapse;
 }
 
 th {
-  color: var(--color-accent);
+  color: var(--color-accent2-med-light);
+  background-color: var(--color-accent1-med-dark);
   padding: 4px;
 }
 
