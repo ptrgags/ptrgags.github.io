@@ -1,68 +1,73 @@
+:root {
+  /* Color palette made at https://paletton.com/#uid=33l0U0kkgnu9SAafbsEoKj3uddu */
+  --color-main-dark: #053a42;
+  --color-main-med-dark: #16545d;
+  --color-main-med: #2b6a73;
+  --color-main-med-light: #4b848c;
+  --color-main-light: #78a6ac;
+
+  /* Beet red */
+  --color-accent1-dark: #5a052d;
+  --color-accent1-med-dark: #7f1d4b;
+  --color-accent1-med: #9c3968;
+  --color-accent1-med-light: #be648f;
+  --color-accent1-light: #dc98b8;
+
+  /** Yellow */
+  --color-accent2-dark: #a06000;
+  --color-accent2-med-dark: #a06000;
+  --color-accent2-med: #ff9900;
+  --color-accent2-med-light: #ffa827;
+  --color-accent2-light: #ffbb56;
+
+  /** Color for all of the text */
+  --color-text: #ececec;
+
+  scrollbar-color: var(--color-accent2-med) var(--color-main-dark);
+}
+
 html,
 body {
   margin: 0;
   padding: 0;
   height: 100vh;
 
-  background-image: url('/assets/background.png');
-  background-color: rgba(0, 0, 0, 0.5);
-  background-blend-mode: multiply;
-  background-repeat: repeat;
+  background-color: var(--color-accent1-dark);
+  color: var(--color-text);
   font-family: sans-serif;
 
-  color: var(--color-text);
-}
-
-:root {
-  /** Color for all of the text */
-  --color-text: #ececec;
-
-  /** Accent colors for links, card frames, etc. */
-  --color-accent: #f7ad0e;
-  --color-accent-dark: #cf9009;
-  --color-accent2: #0eafaf;
-
-  --color-warning: oklch(73.437% 0.14649 81.595);
-
-  /** Background colors for different purposes */
-  --background-text: #333333;
-  --background-dark: #111111;
-  --background-light: #555555;
-  --background-transparent: rgba(0, 0, 0, 0.5);
-}
-
-:root {
-  scrollbar-color: var(--color-accent-dark) var(--background-dark);
+  box-sizing: border-box;
 }
 
 /* Style links consistently */
 a:link {
-  color: var(--color-accent);
+  color: var(--color-accent2-med-light);
 }
 
 a:visited {
-  color: var(--color-accent-dark);
+  color: var(--color-accent2-med);
 }
 
 a:hover {
-  color: var(--color-text);
+  color: var(--color-accent1-med-light);
 }
 
 a:active {
-  color: var(--color-accent2);
+  color: var(--color-accent1-light);
 }
 
-/* Make bullet lists look nice */
+/* Make bullet lists look nicer */
 li::marker {
-  color: var(--color-accent2);
+  color: var(--color-accent1-med-dark);
 }
 
 li {
   line-height: 1.5em;
 }
 
+/* Inline code */
 kbd {
-  background-color: var(--background-dark);
+  background-color: var(--color-main-dark);
   padding: 4px;
   border-radius: 3px;
 }
@@ -72,12 +77,14 @@ p {
 }
 
 table {
-  background-color: var(--background-dark);
+  background-color: var(--color-main-dark);
   margin: 0 auto;
+  border-collapse: collapse;
 }
 
 th {
-  color: var(--color-accent);
+  color: var(--color-accent2-light);
+  background-color: var(--color-accent1-med-dark);
   padding: 4px;
 }
 
@@ -113,29 +120,6 @@ td {
   justify-content: left;
 }
 
-/**
- * dark grey card with partially transparent dark border, for listing text
- *
- * By default, this does not set the side
- */
-.plaque {
-  padding: 40px;
-  margin: 20px;
-  background-color: var(--background-text);
-  border-radius: 20px;
-
-  /** 
-    * Make a transparent border, and adjust clipping so you can see what's
-    * behind the details pane 
-    */
-  border: 10px solid var(--background-transparent);
-  background-clip: padding-box;
-}
-
-.plaque h1 {
-  color: var(--color-accent);
-}
-
 .one-column {
   width: 1200px;
   max-width: 80vw;
@@ -148,7 +132,7 @@ td {
 
 /* Frame around a trading card */
 .card-frame {
-  border: 4px solid var(--color-accent);
+  border: 4px solid var(--color-accent1-dark);
   border-radius: 12px;
   margin: 10px 10px;
   display: inline-block;
@@ -165,7 +149,7 @@ td {
   max-width: 100%;
   object-fit: cover;
 
-  background-color: var(--background-text);
+  background-color: var(--color-accent1-med-dark);
 }
 
 .space-before {
@@ -181,14 +165,21 @@ td {
 .big-link {
   font-size: 20px;
   padding: 10px;
-  background-color: var(--background-dark);
+  background-color: var(--color-accent1-dark);
   border-radius: 8px;
   display: inline;
+  border: 2px solid var(--color-accent1-med-light);
 }
 
 .divider {
   margin: 20px auto;
   border: 1px solid var(--color-accent);
+}
+
+canvas.p5Canvas {
+  object-fit: contain;
+  max-width: 80vw;
+  max-height: 90vh;
 }
 
 /** Vitepress Custom containers */
@@ -200,7 +191,7 @@ td {
 
 .custom-block.warning {
   color: black;
-  background-color: var(--color-warning);
+  background-color: var(--color-accent2-med);
 }
 
 .custom-block.info {
@@ -212,7 +203,23 @@ td {
   background-color: var(--background-dark);
 }
 
+/* Fix Markdown styling */
+
 /** For now, hide the copy button on text areas */
 button.copy {
   display: none;
+}
+
+/* Prevent code-blocks from overflowing parent*/
+pre {
+  background-color: var(--color-accent1-dark);
+  max-width: 65vw;
+  overflow-x: auto;
+  padding: 10px;
+}
+
+@media screen and (width >= 800px) {
+  pre {
+    max-width: 50vw;
+  }
 }

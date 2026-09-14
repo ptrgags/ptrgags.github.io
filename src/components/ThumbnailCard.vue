@@ -22,12 +22,17 @@ const props = defineProps<{
 <style>
 .card-text {
   height: 40px;
-  background-color: var(--background-text);
+  background-color: var(--color-accent1-med-dark);
 
   /* Round the bottom */
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
 
   padding: 4px;
+}
+
+.card-frame img {
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 </style>

@@ -6,14 +6,25 @@ title: Blog
 import {data} from './update/update.data'
 import {sort_reverse_chronological} from './core/Sortable'
 
-const posts = data.map(x => {return {...x.frontmatter, url: x.url}}).sort(sort_reverse_chronological).slice(0, 5)
+const posts = data.map(x => {return {...x.frontmatter, url: x.url}}).filter(x => !x.hide).sort(sort_reverse_chronological).slice(0, 5)
 </script>
 
 <template v-for="post in posts" :key="post.sort_key">
-    <div class="plaque">
+    <div class="blog-card">
         <h2><a :href="post.url">{{post.title}}</a></h2>
         <p>{{post.summary}}</p>
     </div>
 </template>
 
-[Full Archive >](./blog-archive)
+<div class="vertical">
+<a class="big-link" href="./blog-archive">Full Archive ></a>
+</div>
+
+<style>
+.blog-card {
+    background-color: var(--color-main-med-dark);
+    padding: 10px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+</style>

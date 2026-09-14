@@ -135,17 +135,19 @@ audio {
 
 .track {
   box-sizing: border-box;
-  background-color: var(--background-dark);
+  background-color: var(--color-main-dark);
   padding: 10px;
   min-height: 40px;
 }
 
 .track-header {
   font-weight: bold;
+  color: var(--color-accent2-med-light);
+  background-color: var(--color-accent1-dark);
 }
 
 .track-selected {
-  color: var(--color-accent);
+  color: var(--color-accent1-light);
 }
 
 .track-loop::after {

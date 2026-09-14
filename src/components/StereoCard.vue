@@ -223,16 +223,9 @@ watch(stereo_mode, (value) => {
   </details>
 </template>
 
-<style>
-/** The canvas is created dynamically, so a scoped block won't affect it */
-canvas {
-  object-fit: contain;
-  max-width: 80vw;
-  max-height: 90vh;
-}
-</style>
-
 <style scoped>
+/* Scoped styles won't work for dynamically created elements like p5 canvases. See the main stylesheet */
+
 .viewer {
   width: 100%;
   padding: 0;

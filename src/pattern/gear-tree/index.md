@@ -198,7 +198,8 @@ represents a gear and series/parallel connections to other gear trees. In
 pseudocode:
 
 ```
-// Tree of gears. The root of the tree (drawn in red in these animations) is the driving gear.
+// Tree of gears. The root of the tree (drawn in red in these animations) is 
+// the driving gear.
 GearTree:
     // gear for this node of the tree
     gear: Gear
