@@ -42,7 +42,7 @@ export function get_data_length(message_type: number): 0 | 1 | 2 {
     case MIDIMessageType.NOTE_ON:
     case MIDIMessageType.POLY_AFTERTOUCH:
     case MIDIMessageType.CONTROL_CHANGE:
-    case MIDIMessageType.PITCH_BEND:
+    case MIDIMessageType.PITCH_WHEEL_CHANGE:
       return 2
     case MIDIMessageType.PROGRAM_CHANGE:
     case MIDIMessageType.CHANNEL_AFTERTOUCH:
@@ -169,7 +169,7 @@ export class MIDIMessage {
       case MIDIMessageType.PROGRAM_CHANGE:
         msg = new MIDIProgramChangeMessage(message_type, channel, data)
         break
-      case MIDIMessageType.PITCH_BEND:
+      case MIDIMessageType.PITCH_WHEEL_CHANGE:
         msg = new MIDIPitchWheelMessage(message_type, channel, data)
         break
       case MIDIMessageType.CONTROL_CHANGE:
