@@ -89,7 +89,7 @@ function make_summary(file: MIDIFile<RelativeTimingTrack>): SummaryTable[] {
       return { title: `Channel ${x.channel + 1}`, summaries: x.summaries }
     })
 
-  return [{ title: 'General', summaries: general_summaries }, ...channel_summaries]
+  return [{ title: 'General Messages', summaries: general_summaries }, ...channel_summaries]
 }
 
 const tables: Ref<SummaryTable[]> = ref([])
