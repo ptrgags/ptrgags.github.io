@@ -5,6 +5,7 @@ import {
   MIDIMetaEvent,
   MIDIMetaTextEvent,
   MIDIMetaType,
+  MIDISetTempoEvent,
   MIDISysex,
 } from '../../lib/midi/MIDIEvent.ts'
 import type { MIDIFile } from '../../lib/midi/MIDIFile.ts'
@@ -18,6 +19,10 @@ const MIDI_METER = new Meter(4, 4, 0)
 interface SummaryTable {
   title: string
   summaries: MessageSummary[]
+}
+
+function format_bytes(bytes: Uint8Array): string {
+  return [...bytes].map((x) => x.toString(16)).join(',')
 }
 
 function make_summary(file: MIDIFile<RelativeTimingTrack>): SummaryTable[] {
@@ -50,13 +55,20 @@ function make_summary(file: MIDIFile<RelativeTimingTrack>): SummaryTable[] {
         type: event_type,
         description: event.text,
       })
-    } else if (event instanceof MIDIMetaEvent) {
+    } else if (event instanceof MIDISetTempoEvent) {
       const event_type = MIDIMetaType[event.meta_type]
-      const event_bytes = [...event.data].map((x) => x.toString(16)).join(',')
       general_summaries.push({
         time: measure_number.measure_number,
         type: event_type,
-        description: event_bytes,
+        description: `${event.bpm} BPM`,
+      })
+    } else if (event instanceof MIDIMetaEvent) {
+      const event_type = MIDIMetaType[event.meta_type]
+
+      general_summaries.push({
+        time: measure_number.measure_number,
+        type: event_type,
+        description: format_bytes(event.data),
       })
     } else if (event instanceof MIDIMessage) {
       const channel = event.channel

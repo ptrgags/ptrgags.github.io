@@ -343,6 +343,8 @@ export class MIDIMetaEvent {
     let message
     if (is_text_event(meta_type)) {
       message = new MIDIMetaTextEvent(meta_type, body)
+    } else if (meta_type === MIDIMetaType.SET_TEMPO) {
+      message = new MIDISetTempoEvent(meta_type, body)
     } else {
       message = new MIDIMetaEvent(meta_type, body)
     }
@@ -360,6 +362,15 @@ export class MIDIMetaEvent {
 export class MIDIMetaTextEvent extends MIDIMetaEvent {
   get text(): string {
     return String.fromCodePoint(...this.data)
+  }
+}
+
+export class MIDISetTempoEvent extends MIDIMetaEvent {
+  get bpm(): number {
+    const [hi, mid, lo] = this.data
+    const microsec_per_quarter = (hi << 16) | (mid << 8) | lo
+
+    return Math.round(MIDIMetaEvent.MICROSEC_PER_MIN / microsec_per_quarter)
   }
 }
 
