@@ -8,7 +8,7 @@ import {
   MIDISetTempoEvent,
   MIDISysex,
 } from '../../lib/midi/MIDIEvent.ts'
-import { MIDIFormat, type MIDIFile, type MIDIHeader } from '../../lib/midi/MIDIFile.ts'
+import { type MIDIFile, type MIDIHeader } from '../../lib/midi/MIDIFile.ts'
 import type { RelativeTimingTrack } from '../../lib/midi/MIDITrack.ts'
 import { Meter } from '../../pattern/musical-meter/Meter.ts'
 import { ChannelStats, type MessageSummary } from './ChannelStats.ts'
