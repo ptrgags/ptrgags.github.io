@@ -63,7 +63,7 @@ function make_summary(file: MIDIFile<RelativeTimingTrack>): SummaryTable[] {
       if (!stats_by_channel[channel]) {
         stats_by_channel[channel] = new ChannelStats(channel)
       }
-      stats_by_channel[channel].process_message(event)
+      stats_by_channel[channel].process_message(measure_number, event)
     } else {
       console.error(event)
       throw new Error(`impossible!`)
@@ -73,7 +73,8 @@ function make_summary(file: MIDIFile<RelativeTimingTrack>): SummaryTable[] {
   const channel_summaries: SummaryTable[] = stats_by_channel
     .filter((x) => x !== undefined)
     .map((x) => {
-      return { title: `Channel ${x.channel}`, summaries: x.summaries }
+      x.finalize()
+      return { title: `Channel ${x.channel + 1}`, summaries: x.summaries }
     })
 
   return [{ title: 'General', summaries: general_summaries }, ...channel_summaries]
