@@ -231,6 +231,9 @@ export enum MIDIMetaType {
   CUE_POINT = 0x07,
   // ---------------------------
   CHANNEL_PREFIX = 0x20,
+  // Not in the spec, but it seems to be a MIDI port message
+  // see https://mido.readthedocs.io/en/stable/meta_message_types.html
+  MIDI_PORT = 0x21,
   END_OF_TRACK = 0x2f,
   SET_TEMPO = 0x51,
   SMPTE_OFFSET = 0x54,

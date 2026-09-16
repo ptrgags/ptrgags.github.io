@@ -65,7 +65,6 @@ function make_summary(file: MIDIFile<RelativeTimingTrack>): SummaryTable[] {
       })
     } else if (event instanceof MIDIMetaEvent) {
       const event_type = MIDIMetaType[event.meta_type]
-
       general_summaries.push({
         time: measure_number.measure_number,
         type: event_type,
