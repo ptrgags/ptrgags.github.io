@@ -22,7 +22,8 @@ interface SummaryTable {
 }
 
 function format_bytes(bytes: Uint8Array): string {
-  return [...bytes].map((x) => x.toString(16)).join(',')
+  const bytes_hex = [...bytes].map((x) => x.toString(16).padStart(2, '0')).join(',')
+  return `${bytes_hex} (hex)`
 }
 
 function make_summary(file: MIDIFile<RelativeTimingTrack>): SummaryTable[] {
@@ -46,7 +47,7 @@ function make_summary(file: MIDIFile<RelativeTimingTrack>): SummaryTable[] {
       general_summaries.push({
         time: measure_number.measure_number,
         type: 'SYSEX',
-        description: event.data.toString(),
+        description: format_bytes(event.data),
       })
     } else if (event instanceof MIDIMetaTextEvent) {
       const event_type = MIDIMetaType[event.meta_type]
