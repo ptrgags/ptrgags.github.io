@@ -8,7 +8,7 @@ import {
   MIDISetTempoEvent,
   MIDISysex,
 } from '../../lib/midi/MIDIEvent.ts'
-import type { MIDIFile } from '../../lib/midi/MIDIFile.ts'
+import { MIDIFormat, type MIDIFile, type MIDIHeader } from '../../lib/midi/MIDIFile.ts'
 import type { RelativeTimingTrack } from '../../lib/midi/MIDITrack.ts'
 import { Meter } from '../../pattern/musical-meter/Meter.ts'
 import { ChannelStats, type MessageSummary } from './ChannelStats.ts'
@@ -94,13 +94,29 @@ function make_summary(file: MIDIFile<RelativeTimingTrack>): SummaryTable[] {
 
 const tables: Ref<SummaryTable[]> = ref([])
 
-function update_tables(file: MIDIFile<RelativeTimingTrack>) {
+const header: Ref<MIDIHeader | undefined> = ref(undefined)
+
+function load_file(file: MIDIFile<RelativeTimingTrack>) {
   tables.value = make_summary(file)
+  header.value = file.header
 }
+
+const FORMATS = [
+  '0: Single Track',
+  '1: Multiple Tracks (Parallel)',
+  '2: Multiple Tracks (Sequential)',
+]
 </script>
 
 <template>
-  <MIDIFilePicker @load="update_tables" />
+  <MIDIFilePicker @load="load_file" />
+
+  <div v-if="header">
+    <h2>MIDI File Info</h2>
+    Format: {{ FORMATS[header.format] }} <br />
+    Tracks: {{ header.num_tracks }} <br />
+    Ticks per quarter note: {{ header.ticks_per_quarter }} <br />
+  </div>
 
   <template v-for="table in tables" :key="table.title">
     <h2>{{ table.title }}</h2>
