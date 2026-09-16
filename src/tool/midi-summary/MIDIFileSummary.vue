@@ -2,6 +2,7 @@
 import {
   MIDICCMessage,
   MIDIMessage,
+  MIDIMessageType,
   MIDIMetaEvent,
   MIDIMetaType,
   MIDINoteMessage,
@@ -41,6 +42,7 @@ class ChannelStats {
     } else if (message instanceof MIDICCMessage) {
       this.ccs_used.add(message.controller)
     } else {
+      console.log(MIDIMessageType[message.message_type], message)
       throw new Error('not implemented')
     }
   }
@@ -64,6 +66,8 @@ function make_summary(file: MIDIFile<RelativeTimingTrack>) {
 
   const summaries: MessageSummary[] = []
 
+  const stats_by_channel: ChannelStats[] = new Array(16)
+
   for (const [t, event] of all_sorted_events) {
     const pulses = t / ticks_per_quarter
     const measure_number = MIDI_METER.pulses_to_measures(pulses)
@@ -82,6 +86,13 @@ function make_summary(file: MIDIFile<RelativeTimingTrack>) {
         description: event.data.toString(),
       })
     } else if (event instanceof MIDIMessage) {
+      const channel = event.channel
+      if (!stats_by_channel[channel]) {
+        stats_by_channel[channel] = new ChannelStats(channel)
+      }
+      stats_by_channel[channel].process_message(event)
+    } else {
+      console.error(event)
       throw new Error('not implemented')
     }
   }
