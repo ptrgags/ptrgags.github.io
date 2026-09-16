@@ -348,6 +348,8 @@ export class MIDIMetaEvent {
       message = new MIDIMetaTextEvent(meta_type, body)
     } else if (meta_type === MIDIMetaType.SET_TEMPO) {
       message = new MIDISetTempoEvent(meta_type, body)
+    } else if (meta_type === MIDIMetaType.TIME_SIGNATURE) {
+      message = new MIDITimeSignatureEvent(meta_type, body)
     } else {
       message = new MIDIMetaEvent(meta_type, body)
     }
@@ -374,6 +376,28 @@ export class MIDISetTempoEvent extends MIDIMetaEvent {
     const microsec_per_quarter = (hi << 16) | (mid << 8) | lo
 
     return Math.round(MIDIMetaEvent.MICROSEC_PER_MIN / microsec_per_quarter)
+  }
+}
+
+export class MIDITimeSignatureEvent extends MIDIMetaEvent {
+  get numerator(): number {
+    const [num] = this.data
+    return num
+  }
+
+  get denominator(): number {
+    const [, power] = this.data
+    return 1 << power
+  }
+
+  get clocks_per_metronome_click(): number {
+    const [, , cpc] = this.data
+    return cpc
+  }
+
+  get notes32_per_midi_quarter(): number {
+    const [, , , n] = this.data
+    return n
   }
 }
 

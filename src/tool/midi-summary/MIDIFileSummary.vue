@@ -7,6 +7,7 @@ import {
   MIDIMetaType,
   MIDISetTempoEvent,
   MIDISysex,
+  MIDITimeSignatureEvent,
 } from '../../lib/midi/MIDIEvent.ts'
 import { type MIDIFile, type MIDIHeader } from '../../lib/midi/MIDIFile.ts'
 import type { RelativeTimingTrack } from '../../lib/midi/MIDITrack.ts'
@@ -62,6 +63,13 @@ function make_summary(file: MIDIFile<RelativeTimingTrack>): SummaryTable[] {
         time: measure_number.measure_number,
         type: event_type,
         description: `${event.bpm} BPM`,
+      })
+    } else if (event instanceof MIDITimeSignatureEvent) {
+      const event_type = MIDIMetaType[event.meta_type]
+      general_summaries.push({
+        time: measure_number.measure_number,
+        type: event_type,
+        description: `${event.numerator}/${event.denominator}`,
       })
     } else if (event instanceof MIDIMetaEvent) {
       const event_type = MIDIMetaType[event.meta_type]
