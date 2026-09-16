@@ -4,6 +4,7 @@ import {
   MIDIMessage,
   MIDIMessageType,
   MIDIMetaEvent,
+  MIDIMetaTextEvent,
   MIDIMetaType,
   MIDINoteMessage,
   MIDISysex,
@@ -25,6 +26,8 @@ class ChannelStats {
   note_count = 0
   ccs_used: Set<number> = new Set()
   cc_count = 0
+
+  summaries: MessageSummary[] = []
 
   constructor(channel: number) {
     this.channel = channel
@@ -64,7 +67,7 @@ function make_summary(file: MIDIFile<RelativeTimingTrack>) {
     .flatMap((t) => t.events)
     .sort((a, b) => a[0] - b[0])
 
-  const summaries: MessageSummary[] = []
+  const general_summaries: MessageSummary[] = []
 
   const stats_by_channel: ChannelStats[] = new Array(16)
 
@@ -73,17 +76,25 @@ function make_summary(file: MIDIFile<RelativeTimingTrack>) {
     const measure_number = MIDI_METER.pulses_to_measures(pulses)
 
     if (event instanceof MIDISysex) {
-      summaries.push({
+      general_summaries.push({
         time: measure_number.measure_number,
         type: 'SYSEX',
         description: event.data.toString(),
       })
-    } else if (event instanceof MIDIMetaEvent) {
+    } else if (event instanceof MIDIMetaTextEvent) {
       const event_type = MIDIMetaType[event.meta_type]
-      summaries.push({
+      general_summaries.push({
         time: measure_number.measure_number,
         type: event_type,
-        description: event.data.toString(),
+        description: event.text,
+      })
+    } else if (event instanceof MIDIMetaEvent) {
+      const event_type = MIDIMetaType[event.meta_type]
+      const event_bytes = [...event.data].map((x) => x.toString(16)).join(',')
+      general_summaries.push({
+        time: measure_number.measure_number,
+        type: event_type,
+        description: event_bytes,
       })
     } else if (event instanceof MIDIMessage) {
       const channel = event.channel
@@ -97,7 +108,8 @@ function make_summary(file: MIDIFile<RelativeTimingTrack>) {
     }
   }
 
-  console.log(summaries)
+  console.log(general_summaries)
+  console.log(stats_by_channel)
 }
 </script>
 

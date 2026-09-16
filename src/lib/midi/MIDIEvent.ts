@@ -166,12 +166,19 @@ export class MIDIMessage {
       case MIDIMessageType.NOTE_OFF:
       case MIDIMessageType.NOTE_ON:
         msg = new MIDINoteMessage(message_type, channel, data)
+        break
       case MIDIMessageType.PROGRAM_CHANGE:
         msg = new MIDIProgramChangeMessage(message_type, channel, data)
+        break
       case MIDIMessageType.PITCH_BEND:
         msg = new MIDIPitchWheelMessage(message_type, channel, data)
+        break
+      case MIDIMessageType.CONTROL_CHANGE:
+        msg = new MIDICCMessage(message_type, channel, data)
+        break
       default:
         msg = new MIDIMessage(message_type, channel, data)
+        break
     }
     const after_offset = offset + data_length
     return [msg, after_offset]
@@ -215,12 +222,15 @@ export class MIDIPitchWheelMessage extends MIDIMessage {
  */
 export enum MIDIMetaType {
   SEQUENCE_NUMBER = 0x00,
+  // Text events -------------------
   TEXT = 0x01,
   COPYRIGHT = 0x02,
   TRACK_NAME = 0x03,
+  INSTRUMENT_NAME = 0x04,
   LYRIC = 0x05,
   MARKER = 0x06,
   CUE_POINT = 0x07,
+  // ---------------------------
   CHANNEL_PREFIX = 0x20,
   END_OF_TRACK = 0x2f,
   SET_TEMPO = 0x51,
@@ -230,6 +240,12 @@ export enum MIDIMetaType {
   SEQUENCER_SPECIFIC = 0x7f,
 }
 
+function is_text_event(type: MIDIMetaType): boolean {
+  // Conveniently, the events that store text are listed contiguously
+  // from 0x01 to 0x07
+  return MIDIMetaType.TEXT <= type && type <= MIDIMetaType.CUE_POINT
+}
+
 /**
  * Type for all MIDI meta events (aside from sysex)
  * @implements {MIDIEvent}
@@ -237,9 +253,6 @@ export enum MIDIMetaType {
 export class MIDIMetaEvent {
   meta_type: MIDIMetaType
   data: Uint8Array<ArrayBufferLike>
-  static MAGIC: any
-  static MICROSEC_PER_MIN: any
-  static END_OF_TRACK: Readonly<MIDIMetaEvent>
   /**
    * Constructor
    * @param {number} meta_type MIDIMetaType
@@ -328,16 +341,28 @@ export class MIDIMetaEvent {
       length,
     )
 
-    const message = new MIDIMetaEvent(meta_type, body)
+    let message
+    if (is_text_event(meta_type)) {
+      message = new MIDIMetaTextEvent(meta_type, body)
+    } else {
+      message = new MIDIMetaEvent(meta_type, body)
+    }
+
     const after_offset = offset + 1 + length_length + length
     return [message, after_offset]
   }
+
+  static readonly MICROSEC_PER_MIN = 60e6
+  static readonly MAGIC = 0xff
+  static readonly END_OF_TRACK = new MIDIMetaEvent(MIDIMetaType.END_OF_TRACK, new Uint8Array(0))
 }
-MIDIMetaEvent.MICROSEC_PER_MIN = 60e6
-MIDIMetaEvent.MAGIC = 0xff
-MIDIMetaEvent.END_OF_TRACK = Object.freeze(
-  new MIDIMetaEvent(MIDIMetaType.END_OF_TRACK, new Uint8Array(0)),
-)
+
+// Several of the events store a string of ASCII characters.
+export class MIDIMetaTextEvent extends MIDIMetaEvent {
+  get text(): string {
+    return String.fromCodePoint(...this.data)
+  }
+}
 
 export class MIDISysex implements MIDIEvent {
   data: Uint8Array<ArrayBufferLike>
