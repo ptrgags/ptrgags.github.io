@@ -7,79 +7,186 @@ import SketchP5 from '../../components/SketchP5.vue'
 import {SKETCHES} from './circular-arc'
 </script>
 
-
-
 :::warning TODO: doodle with circular arcs
 :::
 
-## The Concept
+## Definitions
 
-Conceptually, a circular arc is a contiguous slice out of a circle.
-
-:::warning TODO: Show a circle with an arc highlighted
-:::
+A circular arc is a contiguous slice out of a circle.
 
 <SketchP5 :sketch="SKETCHES.concept" />
 
-Sounds simple, right?
+We can define it as a circle plus a set of angles.
 
-## Trickier than It Looks
+```
+Arc = (Circle, Angles)
+```
 
-Defining a circle is the easy part. A circle can be defined by a center
-point and a radius. $(C, r)$
+The angles can be described in a number of ways. The following sections
+will go into more detail.
 
-Defining what portion of the circle is sliced out is trickier. 
+## Angles as Start, End, and Orientation
 
-Often we define intervals with a start and end point. However, on a circle
-this isn't enough. If you define points $A$ and $B$ on the circle (identified by angles $a$ and $b$ respectively), there
-are two possible paths from $A$ to $B$, one clockwise and one counterclockwise
-as in the diagram below
 
-:::warning TODO: diagram of the ambiguity
+:::warning TODO: diagram of this representation
 :::
 
-### Use Two Angles and an Orientation
+$\text{Angles} = (\alpha, \beta, o)$ where $\alpha, \beta$ are any angles and $o \in \{+, -\}$ is an orientation, either
+$+$ for positive or $-$ for negative.
 
-We can define the arc by using two angles $(a, b)$, plus a marker indicating either clockwise or counterclockwise.
-
-:::warning TODO: diagram of angles and orientation
+:::warning TODO: explain angle conventions
 :::
 
-- 2D graphics libraries often use this (or something similar)
+In this repo, this is the implementation I use. I chose this one because it's
+the most similar to the 2D graphics libraries I use. See the [Drawing Undirected Arcs](#drawing-undirected-arcs) section
+for more details
 
-### Use Three Angles
+:::details 🔍 I see more patterns lurking...
+This definition + the ones are analagous to the different ways of defining an
+interval
 
-Instead, we could specify not two but _three_ angles, $(a, b, c)$. If you
-travel from `a -> b -> c` in that order, this nails down the orientation of
-the arc.
+- Start and end
+- Start and length
+- center +/- radius (or "tolerance" in some contexts)
 
-:::warning TODO: animation of three points moving around the circle at
-different speeds. An arc is always drawn in the direction from  a -> b -> c
+And similarly for rectangles:
+
+- two diagonally opposite corners
+- corner, dimensions
+- center +/- radii (handy in game dev for hitboxes)
 :::
 
-### Start Angle, Angular Displacement
+### Angles as Start and Angular Displacement
 
-Another way is to specify two angles $(a, b)$, however the interpretation
-is different:
+$(\theta, \Delta\theta)$, with the orientation implied by the sign of the
+angular displacement
 
-- $a$ is the start angle
-- $b$ is the angular displacement from $a$. The sign of $b$ determines which direction the arc travels.
+This can be converted to $(\alpha, \beta, o)$ with the following formulas:
 
-This is analogous to defining an interval by `(start, length)` rather than
-`(a, b)`.
+- $\alpha = \theta$
+- $\beta = \theta + \Delta\theta$
+- $o = \text{sign}(\Delta\theta)$
 
-:::warning TODO: diagram of start angle and displacement
+### Angles as Center Angle and Angular Displacement
+
+$(\gamma, \phi, o)$
+
+Conversion formulas:
+
+- $\alpha = \gamma - \phi$ TODO: need to factor in $o$
+- $\beta = \gamma + \phi$
+- $o = o$
+
+### Three Angles
+
+$(a, b, c)$, with the arc defined in the direction $a, b, c$
+
+Conversion Algorithm:
+
+- Convert the three angles to points on the unit circle `A, B, C`
+- $o = \text{sign}((B - A) \wedge (C - A))$
+- $\alpha = a$
+- $\beta = c$
+
+### Directed and Undirected Arcs
+
+- Since the definitions above rely on an orientation to distinguish the two possible paths around the circle, the basic definition is "directed"
+- However, in contexts where the selected arc traced from `a -> b` is indistinguishable from the same arc but traced from `a <- b`, we can call it an "undirected" arc.
+- A more formal definition will follow in [a section below](#undirected-arcs-as-an-equivalence-relation)
+
+## Transformations
+
+### Transforming Angles
+
+:::warning TODO: flesh out these definitions
 :::
 
-- This time I'm using this implementation
+- swap angles
+- complement of angles
+- reverse orientation
+- phase shift
 
-### Constrain One of the Angles
+### Transforming Arcs
 
-Another approach is to apply some constraints to the angles to avoid
-ambiguity. In the past, I've used something like this:
+:::warning TODO: flesh out these definitions
+:::
 
-- Angle $a$ must be reduced between 0 and 360 degrees (0 and $2 \pi$ radians).
-- Angle $b$ must be reduced within a full circle of $a$. In other words, it must be in the range $a \pm 2\pi$
+- translation
+- rotation
+- (uniform) scale
+- mirrors
+- circle inversion (mark as TODO)
+- Complement (other arc in same direction)
+- Reverse (same arc but backwards)
+- `Other path = complement o reverse`
 
-:::warning TODO: animation of the constraints
-:::end
+### Undirected Arcs as an Equivalence Relation
+
+- In terms of arc transforms: `A ~ B when A = B or A = reverse(B)`
+- In terms of angle transforms: `A ~ B when A = B or A = swap * reverse_orientation`
+- So `Undirected = Directed / ~`
+
+## Symmetries
+
+### Symmetries of Arcs
+
+- Directed Arcs: only rotations by multiples of 360 degrees
+- Undirected Arcs: those rotations and reverse 
+
+### Connecting Angle Transformations to Arc Transformations
+
+| Angle Transformation         | Arc Transformation                  |
+| ---------------------------- | ----------------------------------- |
+| `phase_shift(delta)`         | `rotation(delta)`                   |
+| `swap`                       | `complement`                        |
+| `complement`                 | `mirror(y)`                         |
+| `reverse_orientation`        | `other_path = complement * reverse` |
+| `swap * reverse_orientation` | `reverse`                           |
+
+## Drawing Undirected Arcs
+
+### Drawing Arcs In `p5.js`
+
+- positive arcs = clockwise: `arc(center_x, center_y, 2 * radius, 2 * radius, start_angle, end_angle, OPEN)`
+
+### Drawing Arcs in SVG
+
+:::warning TODO: check how I did this in `math-notebook`
+:::
+
+:::warning 🚧 not yet implemented: SVG rendering
+:::
+
+
+### Drawing Arcs in PDF
+
+:::warning ❓ How to approximate an arc with bezier curves?
+The short of it is that you need to approximate this with bezier curves:
+
+I've done this with drawing circles as 4 quarter arcs. I need to check how
+to generalize this to arcs smaller than a quarter circle
+:::
+
+### Drawing Arcs in PostScript
+
+:::warning TODO: check how I did this in `PostScript`
+:::
+
+### Drawing Arcs with Parametric Curves
+
+:::warning 🚧 not yet implemented
+:::
+
+### Drawing Arcs with Signed Distance Fields
+
+:::warning ❓ How to do this?
+I presume it's similar to an SDF for a capsule, but using distance to circle
+instead of distance to line
+:::
+
+## Drawing Directed Arcs
+
+- Tangent space definition
+- Arrows are drawn as lines within a box in tangent space
+- ❓ How to determine sizing?
+- Optional: you could also draw line segments along the normal to make the boundaries clearer
