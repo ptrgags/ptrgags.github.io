@@ -2,6 +2,7 @@
 layout: article
 title: Creative Recap for 2026-08-16/29
 sort_key: '2026-08-29'
+blog_date: '2026-08-29'
 summary: >
     Embroidery editor in a fantasy game console -- learning to draw involute gears -- first attempt at visualizing 80s synth patches 
 ---

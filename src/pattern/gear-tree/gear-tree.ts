@@ -1,6 +1,6 @@
 import p5 from 'p5'
 import { GearSchematic, type GearSchematicOptions } from './GearSchematic.ts'
-import { GearTree, type GearConnection, type ParallelGear, type SeriesGear } from './GearTree.ts'
+import { GearTree, type SeriesGear } from './GearTree.ts'
 import { DrawP5 } from '../../lib/p5-helpers/DrawP5.ts'
 
 const PAUSE = false

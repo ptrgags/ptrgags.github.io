@@ -2,6 +2,7 @@
 layout: article
 title: Creative Recap for 2026-08-09/15
 sort_key: '2026-08-15'
+blog_date: '2026-08-15'
 summary: >
     A visual pun -- shiny art trading cards -- an album cover brought to life
 ---

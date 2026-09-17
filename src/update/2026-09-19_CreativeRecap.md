@@ -2,6 +2,7 @@
 layout: article
 title: Creative Recap for 2026-09-06/19
 sort_key: '2026-09-19'
+blog_date: '2026-09-19'
 summary: >
     A fresh coat of paint -- counting time but with more steps
 hide: true

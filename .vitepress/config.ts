@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress'
+import { writeFileSync } from 'node:fs'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -27,5 +28,12 @@ export default defineConfig({
   },
   markdown: {
     math: true,
+  },
+  async buildEnd(siteConfig) {
+    const { make_feed } = await import('./generate_feed')
+    const atom = await make_feed()
+
+    const filename = `${siteConfig.outDir}/feed.xml`
+    writeFileSync(filename, atom)
   },
 })

@@ -2,6 +2,7 @@
 layout: article
 title: Creative Recap for 2026-08-30/09-05
 sort_key: '2026-09-05'
+blog_date: '2026-09-05'
 summary: >
     The gears are turning in this one -- long overdue LEGO wall mosaics -- rebuilding website
 ---
