@@ -55,6 +55,21 @@ export class DrawP5 implements DrawingLibrary {
     this.p.circle(cx, cy, 2 * r)
   }
 
+  arc(
+    cx: number,
+    cy: number,
+    radius: number,
+    angle1: number,
+    angle2: number,
+    orientation: 1 | -1,
+  ): void {
+    if (orientation === -1) {
+      ;[angle1, angle2] = [angle2, angle1]
+    }
+
+    this.p.arc(cx, cy, radius * 2, radius * 2, angle1, angle2, this.p.OPEN)
+  }
+
   segment(x1: number, y1: number, x2: number, y2: number): void {
     this.p.line(x1, y1, x2, y2)
   }
