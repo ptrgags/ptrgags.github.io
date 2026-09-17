@@ -31,11 +31,8 @@ changes or when there's a pickup measure.
 See the [MIDI File Summary](../tool/midi-summary/) page on this website.
 
 I was trying to match up some MIDI files with unlabeled instruments in a
-SoundFont file. I figured it would be helpful to have a way to print out
-the file contents including program numbers (i.e. instruments), tempo, time 
-signature, and other metadata. See [the MIDI spec](https://midimusic.github.io/tech/midispec.html) 
-for more information.
-
-I ported the MIDI parsing code from `p5-sketchbook` 
-(Used in [Sound Test](https://ptrgags.github.io/p5-sketchbook/SoundTest/)) to 
-this website. Vue components were handy for formatting the tables.
+SoundFont file. I wanted to inspect the program numbers (i.e. instruments) in 
+the MIDI files, so I made this tool. I ported the MIDI parsing code from `p5-sketchbook` 
+(Used in [Sound Test](https://ptrgags.github.io/p5-sketchbook/SoundTest/)) and 
+formatted the results nicely in tabular format. It includes common song metadata like 
+tempo, time signatures and program numbers. It also includes a brief summary of note data.
