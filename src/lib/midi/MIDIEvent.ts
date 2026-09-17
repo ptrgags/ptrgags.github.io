@@ -114,12 +114,12 @@ export class MIDIMessage {
     channel: number,
     pitch: number,
     velocity: number = MIDIMessage.DEFAULT_VELOCITY,
-  ): MIDIMessage {
+  ): MIDINoteMessage {
     // Note on with velocity 0 is the same as a note off. See the
     // MIDI 1.0 Detailed Specification
     const message_type = velocity === 0 ? MIDIMessageType.NOTE_OFF : MIDIMessageType.NOTE_ON
 
-    return new MIDIMessage(message_type, channel, new Uint8Array([pitch, velocity]))
+    return new MIDINoteMessage(message_type, channel, new Uint8Array([pitch, velocity]))
   }
 
   /**
@@ -129,8 +129,8 @@ export class MIDIMessage {
    * @param velocity MIDI velocity 0-127
    * @returns The note event
    */
-  static note_off(channel: number, pitch: number, velocity: number = 0): MIDIMessage {
-    return new MIDIMessage(MIDIMessageType.NOTE_OFF, channel, new Uint8Array([pitch, velocity]))
+  static note_off(channel: number, pitch: number, velocity: number = 0): MIDINoteMessage {
+    return new MIDINoteMessage(MIDIMessageType.NOTE_OFF, channel, new Uint8Array([pitch, velocity]))
   }
 
   /**
@@ -138,8 +138,12 @@ export class MIDIMessage {
    * @param channel
    * @param instrument Instrument number
    */
-  static program_change(channel: number, instrument: number): MIDIMessage {
-    return new MIDIMessage(MIDIMessageType.PROGRAM_CHANGE, channel, new Uint8Array([instrument]))
+  static program_change(channel: number, instrument: number): MIDIProgramChangeMessage {
+    return new MIDIProgramChangeMessage(
+      MIDIMessageType.PROGRAM_CHANGE,
+      channel,
+      new Uint8Array([instrument]),
+    )
   }
 
   /**
@@ -305,15 +309,15 @@ export class MIDIMetaEvent {
    * Track Name event
    * @param track_name Track name. This method only supports ASCII characters
    */
-  static track_name(track_name: string) {
+  static track_name(track_name: string): MIDIMetaTextEvent {
     const encoded_name = new Uint8Array(track_name.length)
     for (let i = 0; i < track_name.length; i++) {
       encoded_name[i] = track_name.charCodeAt(i)
     }
-    return new MIDIMetaEvent(MIDIMetaType.TRACK_NAME, encoded_name)
+    return new MIDIMetaTextEvent(MIDIMetaType.TRACK_NAME, encoded_name)
   }
 
-  static set_tempo(bpm: number) {
+  static set_tempo(bpm: number): MIDISetTempoEvent {
     const microsec_per_quarter = Math.round(MIDIMetaEvent.MICROSEC_PER_MIN / bpm)
 
     const data = new Uint8Array([
@@ -322,7 +326,7 @@ export class MIDIMetaEvent {
       microsec_per_quarter & 0xff,
     ])
 
-    return new MIDIMetaEvent(MIDIMetaType.SET_TEMPO, data)
+    return new MIDISetTempoEvent(MIDIMetaType.SET_TEMPO, data)
   }
 
   /**

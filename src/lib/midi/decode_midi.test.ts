@@ -2,7 +2,13 @@ import { describe, it, expect } from 'vitest'
 import { decode_midi } from './decode_midi.js'
 import { MIDIFile, MIDIHeader } from './MIDIFile.js'
 import { RelativeTimingTrack } from './MIDITrack.js'
-import { MIDIMessage, MIDIMetaEvent, MIDIMetaType } from './MIDIEvent'
+import {
+  MIDIMessage,
+  MIDIMetaEvent,
+  MIDIMetaType,
+  MIDISetTempoEvent,
+  MIDITimeSignatureEvent,
+} from './MIDIEvent'
 import { C3, C4, E5, G4 } from '../music/pitches.js'
 
 const PPQ = MIDIHeader.DEFAULT_TICKS_PER_QUARTER
@@ -51,8 +57,20 @@ describe('decode_midi', () => {
     const header = MIDIHeader.DEFAULT_FORMAT0
     const track = new RelativeTimingTrack([
       [0, MIDIMetaEvent.track_name('')],
-      [0, new MIDIMetaEvent(MIDIMetaType.TIME_SIGNATURE, new Uint8Array([0x04, 0x02, 0x24, 0x08]))],
-      [0, new MIDIMetaEvent(MIDIMetaType.TIME_SIGNATURE, new Uint8Array([0x04, 0x02, 0x24, 0x08]))],
+      [
+        0,
+        new MIDITimeSignatureEvent(
+          MIDIMetaType.TIME_SIGNATURE,
+          new Uint8Array([0x04, 0x02, 0x24, 0x08]),
+        ),
+      ],
+      [
+        0,
+        new MIDITimeSignatureEvent(
+          MIDIMetaType.TIME_SIGNATURE,
+          new Uint8Array([0x04, 0x02, 0x24, 0x08]),
+        ),
+      ],
     ])
     const expected = new MIDIFile(header, [track])
     expect(result).toStrictEqual(expected)
@@ -191,8 +209,14 @@ describe('decode_midi', () => {
 
     const header = MIDIHeader.DEFAULT_FORMAT0
     const track = new RelativeTimingTrack([
-      [0, new MIDIMetaEvent(MIDIMetaType.TIME_SIGNATURE, new Uint8Array([0x04, 0x02, 0x18, 0x08]))],
-      [0, new MIDIMetaEvent(MIDIMetaType.SET_TEMPO, new Uint8Array([0x07, 0xa1, 0x20]))],
+      [
+        0,
+        new MIDITimeSignatureEvent(
+          MIDIMetaType.TIME_SIGNATURE,
+          new Uint8Array([0x04, 0x02, 0x18, 0x08]),
+        ),
+      ],
+      [0, new MIDISetTempoEvent(MIDIMetaType.SET_TEMPO, new Uint8Array([0x07, 0xa1, 0x20]))],
       [0, MIDIMessage.program_change(0, 5)],
       [0, MIDIMessage.program_change(1, 46)],
       [0, MIDIMessage.program_change(2, 70)],
