@@ -28,7 +28,8 @@ export async function make_feed(): Promise<string> {
   })
 
   const updates = await blog_data.load()
-  for (const item of updates) {
+  const visible_only = updates.filter((x) => x.frontmatter.hide !== true)
+  for (const item of visible_only) {
     feed.addItem({
       title: item.frontmatter.title,
       id: `${SITE_ROOT}${item.url}`,
