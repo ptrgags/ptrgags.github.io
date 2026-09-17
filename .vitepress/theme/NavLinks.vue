@@ -13,6 +13,9 @@
       <a href="/patterns">Patterns</a>
     </li>
     <li>
+      <a href="/tools">Tools</a>
+    </li>
+    <li>
       <a href="/blog">Blog</a>
     </li>
     <!-- Reference if I need this in the future -->
