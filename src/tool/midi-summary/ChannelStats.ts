@@ -6,6 +6,7 @@ import {
   MIDIMessageType,
   MIDIPitchWheelMessage,
 } from '../../lib/midi/MIDIEvent.ts'
+import { MIDIPitch } from '../../lib/midi/MIDIPitch.ts'
 import { MeasureNumber } from '../../pattern/musical-meter/MeasureNumber.ts'
 
 export interface MessageSummary {
@@ -89,7 +90,7 @@ export class ChannelStats {
   finalize() {
     if (this.note_count > 0) {
       const { min, max } = this.pitch_range
-      const pitch_range = `[${min}, ${max}]`
+      const pitch_range = `[${MIDIPitch.format_pitch(min)}, ${MIDIPitch.format_pitch(max)}]`
       const { first, last } = this.note_times
       this.summaries.push({
         time: `${first?.measure_number}-${last?.measure_number}`,
