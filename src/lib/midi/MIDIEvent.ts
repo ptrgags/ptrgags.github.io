@@ -134,15 +134,50 @@ export class MIDIMessage {
   }
 
   /**
-   *
-   * @param channel
+   * Shorthand for Control Change message
+   * @param channel Channel number 0-15
+   * @param controller Controller number 0-127
+   * @param value Value 0-127
+   * @returns The CC event
+   */
+  static cc(channel: number, controller: number, value: number): MIDICCMessage {
+    return new MIDICCMessage(
+      MIDIMessageType.CONTROL_CHANGE,
+      channel,
+      new Uint8Array([controller, value]),
+    )
+  }
+
+  /**
+   * Shorthand for Program Change message
+   * @param channel Channel number 0-15
    * @param instrument Instrument number
+   * @returns Program change message
    */
   static program_change(channel: number, instrument: number): MIDIProgramChangeMessage {
     return new MIDIProgramChangeMessage(
       MIDIMessageType.PROGRAM_CHANGE,
       channel,
       new Uint8Array([instrument]),
+    )
+  }
+
+  /**
+   * Short hand for a Pitch Wheel Change message
+   * @param channel Channel number 0-15
+   * @param value signed pitch value.
+   * @returns Pitch wheel message
+   */
+  static pitch_wheel(channel: number, value: number): MIDIPitchWheelMessage {
+    // Stored as a 14-bit value with center
+    const value_unsigned = value + 0x2000
+
+    const value_lo = value_unsigned & 0x7f
+    const value_hi = (value_unsigned >> 7) & 0x7f
+    return new MIDIPitchWheelMessage(
+      MIDIMessageType.PROGRAM_CHANGE,
+      channel,
+      new Uint8Array([value_lo, value_hi]),
     )
   }
 
@@ -216,8 +251,14 @@ export class MIDIProgramChangeMessage extends MIDIMessage {
 }
 
 export class MIDIPitchWheelMessage extends MIDIMessage {
+  /**
+   * Get the value as a signed value
+   * @returns value
+   */
   get value(): number {
-    return (this.data[1] << 7) | this.data[0]
+    const value_unsigned = (this.data[1] << 7) | this.data[0]
+    const ZERO = 0x2000
+    return value_unsigned - ZERO
   }
 }
 
