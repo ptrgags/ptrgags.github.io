@@ -24,7 +24,7 @@ function series(tooth: number, child: GearTree): SeriesGear {
 }
 // ===========================================================
 
-const SIZE_SWATCH = { w: 200, h: 200 }
+const SIZE_SWATCH = { w: 256, h: 256 }
 const SIZE_ATC = { w: 500, h: 700 }
 const FRAMES_PER_TURN = 512
 
@@ -59,20 +59,20 @@ const MESHED_GEARS = new GearTree(gear(35), {
   tooth: 0,
   child: new GearTree(gear(10)),
 })
-MESHED_GEARS.position_gears({ x: 75, y: 100 })
+MESHED_GEARS.position_gears({ x: 96, y: 128 })
 
 const MESHED_AT_ANGLE = new GearTree(gear(35), {
   type: 'series',
   tooth: 5,
   child: new GearTree(gear(10)),
 })
-MESHED_AT_ANGLE.position_gears({ x: 75, y: 100 })
+MESHED_AT_ANGLE.position_gears({ x: 96, y: 128 })
 
 const COAXIAL_GEARS = new GearTree(gear(48), {
   type: 'parallel',
   child: new GearTree(gear(24)),
 })
-COAXIAL_GEARS.position_gears({ x: 100, y: 100 })
+COAXIAL_GEARS.position_gears({ x: 128, y: 128 })
 
 const SIMPLE_TREE = new GearTree(
   gear(30),
@@ -91,7 +91,7 @@ const SIMPLE_TREE = new GearTree(
     child: new GearTree(gear(15)),
   },
 )
-SIMPLE_TREE.position_gears({ x: 100, y: 100 })
+SIMPLE_TREE.position_gears({ x: 128, y: 128 })
 
 // Tree starting from a driving gear at the bottom
 const ELABORATE_TREE = new GearTree(gear(24), {
@@ -217,7 +217,7 @@ ELABORATE_TREE.position_gears({ x: 250, y: 550 })
 
 export const SKETCHES = {
   gear_schematic: make_gear_sketch(
-    new GearSchematic({ center: { x: 100, y: 100 }, module: MODULE, teeth: 24 }),
+    new GearSchematic({ center: { x: 128, y: 128 }, module: MODULE, teeth: 24 }),
   ),
   meshed_gears: make_gear_sketch(MESHED_GEARS),
   meshed_at_angle: make_gear_sketch(MESHED_AT_ANGLE),
