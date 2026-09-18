@@ -2,10 +2,17 @@
 layout: article
 title: Creative Recap for 2026-08-30/09-05
 sort_key: '2026-09-05'
+thumbnail: update/2026-08-30/gear-tree-thumbnail.png
 summary: >
     The gears are turning in this one -- long overdue LEGO wall mosaics -- rebuilding website
 ---
+<script setup lang="ts">
+import {backblaze_link} from '../core/links'
+</script>
+
 ## Gear Tree
+
+<img alt="diagram of gears meshed together and another gear on the same axle as the center gear" :src="backblaze_link('update/2026-08-30/gear-tree-thumbnail.png')" />
 
 See [Gear Tree](../pattern/gear-tree/) page on this website.
 
@@ -13,6 +20,8 @@ I am adding a section of my website that documents math patterns in my art, musi
 For the first example, I made a page to explain the mathematics of gears, and how to connect them into a tree data structure.
 
 ## LEGO Mosaics
+
+<img alt="Pixel art of dripping paint in four colors. From top to bottom, purple, yellow, orange, dark red" :src="backblaze_link('update/2026-08-30/lego-mosaic-thumbnail.png')" />
 
 See [Bluesky thread](https://bsky.app/profile/ptrgags.bsky.social/post/3muew5hqmfc24) for photos.
 

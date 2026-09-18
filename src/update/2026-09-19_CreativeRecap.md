@@ -4,10 +4,30 @@ title: Creative Recap for 2026-09-06/19
 sort_key: '2026-09-19'
 summary: >
     A fresh coat of paint -- counting time but with more steps -- what's in a MIDI file?
-hide: true
+thumbnail: update/2026-09-06/coral-xstitch-thumbnail.jpg
+hide: false
 ---
 
+<script setup lang="ts">
+import {backblaze_link} from '../core/links'
+</script>
+
+## Coral Cross Stitch
+
+<img :src="backblaze_link('update/2026-09-06/coral-xstitch-thumbnail.jpg')" />
+
+- See [Bluesky thread](https://bsky.app/profile/ptrgags.bsky.social/post/3mvitlstd5k2g) for more photos.
+
+My latest embroidery project is this cross-stitch project. I designed the coral
+pattern in [Aseprite](https://www.aseprite.org/). This pattern took me about a month to complete from start to finish.
+
+Here's the original pixel art image for reference:
+
+<img :src="backblaze_link('update/2026-09-06/coral-pattern.png')" />
+
 ## New Website Theme and Layout
+
+<img :src="backblaze_link('update/2026-09-06/website-layout-thumbnail.png')" />
 
 As you've likely noticed, I've changed the website layout and color theme.
 Some of the design goals this time were:
@@ -20,6 +40,8 @@ Some of the design goals this time were:
 
 ## New Pattern: Musical Meter
 
+<img :src="backblaze_link('update/2026-09-06/musical-meter-thumbnail.png')" />
+
 See the [Musical Meter](../pattern/musical-meter/) page on this website.
 
 For my second math pattern article, I explored musical meters. I wanted to
@@ -27,6 +49,8 @@ understand how to measure time in a song, even when the time signature
 changes or when there's a pickup measure.
 
 ## New Tool: MIDI File Summary
+
+<img :src="backblaze_link('update/2026-09-06/midi-summary-thumbnail.png')" />
 
 See the [MIDI File Summary](../tool/midi-summary/) page on this website.
 
