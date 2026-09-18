@@ -38,7 +38,7 @@ and built a new set of mosaics.
 
 ## Restructuring This Website
 
-I reworked this website to use [VitePress](https://vitepress.dev/) instead of [Vue.js](https://vuejs.org/) alone. This change didn't change any content on this website, but it will make it easier for me to add new things:
+I reworked this website to use [VitePress](https://vitepress.dev/) instead of [Vue.js](https://vuejs.org/) alone. This change didn't modify any content on this website, but it will make it easier for me to add new things:
   - Pages now have real URLs instead of the confusing hashtag URLs that Vue Router uses. For example, `https://ptrgags.dev/#/project/raster-tangles/` is now `https://ptrgags.dev/project/raster-tangles/` (without the `#/`)
   - I can now write page content in Markdown format, which is easier and faster than formatting with HTML directly.
 
