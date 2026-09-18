@@ -2,11 +2,18 @@
 layout: article
 title: Creative Recap for 2026-08-09/15
 sort_key: '2026-08-15'
+thumbnail: update/2026-08-09/midi-ochre-thumbnail.png
 summary: >
     A visual pun -- shiny art trading cards -- an album cover brought to life
 ---
+<script setup lang="ts">
+import {backblaze_link} from '../core/links'
+</script>
+
 
 ## MIDI Ochre: MIDI in a Shader
+
+<img :src="backblaze_link('update/2026-08-09/midi-ochre-thumbnail.png')" />
 
 See [MIDI Ochre](https://ptrgags.dev/webgpu-sketchbook/midi-ochre/) in my `webgpu-sketchbook` repo.
 
@@ -15,12 +22,16 @@ of a piano keyboard in WebGPU.
 
 ## Shiny Art Trading Cards
 
+<img :src="backblaze_link('update/2026-08-09/shiny-atc-thumbnail.jpg')" />
+
 See [Bluesky thread](https://bsky.app/profile/ptrgags.bsky.social/post/3msnu5upllc24) for photos.
 
 Here I tried using holographic laminate sheets as a new material for my art doodles.
 This adds a shiny, rainbow layer on top of the art. 
 
 ## PICO-8 Animation: REW/FFWD Album Cover
+
+<img :src="backblaze_link('update/2026-08-09/rew-ffwd-thumbnail.png')" />
 
 See [Bluesky thread](https://bsky.app/profile/ptrgags.bsky.social/post/3mswb6c6d4k2y) for the full story.
 
