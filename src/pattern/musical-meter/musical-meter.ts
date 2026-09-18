@@ -43,7 +43,7 @@ function make_sketch(scene: SceneP5) {
   }
 }
 
-// like make_sketch but for a sketch that will only render once
+// This is like make_sketch() but for a sketch that will only render once
 function make_static_sketch(scene: SceneP5) {
   return (p: p5) => {
     const lib = new DrawP5(p)
@@ -61,8 +61,8 @@ function make_static_sketch(scene: SceneP5) {
   }
 }
 
-const ROW_SIZE = { width: 400, height: 100 }
-const TIMELINE_SIZE = { width: 360, height: 50 }
+const ROW_SIZE = { width: 512, height: 128 }
+const TIMELINE_SIZE = { width: 384, height: 64 }
 const BOUNDS_ROW = new Rect({ x: 0, y: 0 }, ROW_SIZE)
 const BOUNDS_TIMELINE = BOUNDS_ROW.align(TIMELINE_SIZE, 'center', 'center')
 const PULSE_COUNT = 24
