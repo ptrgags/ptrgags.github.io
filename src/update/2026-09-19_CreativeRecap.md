@@ -5,7 +5,7 @@ sort_key: '2026-09-19'
 summary: >
     A fresh coat of paint -- counting time but with more steps -- what's in a MIDI file?
 thumbnail: update/2026-09-06/coral-xstitch-thumbnail.jpg
-hide: false
+hide: true
 ---
 
 <script setup lang="ts">
