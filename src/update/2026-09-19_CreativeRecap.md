@@ -4,9 +4,9 @@ title: Creative Recap for 2026-09-06/19
 sort_key: '2026-09-19'
 blog_date: '2026-09-19'
 summary: >
-    A fresh coat of paint -- counting time but with more steps -- what's in a MIDI file?
+    Embroidery lurking in the ocean depths -- a fresh coat of paint -- counting time but with more steps -- what's in a MIDI file?
 thumbnail: update/2026-09-06/coral-xstitch-thumbnail.jpg
-hide: true
+hide: false
 ---
 
 <script setup lang="ts">
@@ -34,10 +34,10 @@ As you've likely noticed, I've changed the website layout and color theme.
 Some of the design goals this time were:
 
 - Use a sidebar to allow more room for links. On mobile, it can be accessed through a hamburger menu.
-- Add a [Patterns](../patterns) section to collect links to the pattern articles I write. I'm keeping it simple for now since I've only written two articles so far.
-- Make the theme more minimal. This better matches my other websites like `p5-sketchbook` and `webgpu-sketchbook`.
+- Add a [Patterns](../patterns) section to collect links to the pattern articles I write.
+- Use a simpler design based on solid colors. This better matches my other websites like `p5-sketchbook` and `webgpu-sketchbook`.
 
-[This MDN article](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Grid_layout/Common_grid_layouts) about grid layouts was quite helpful
+[This MDN article](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Grid_layout/Common_grid_layouts) about grid layouts was helpful when designing the new layout.
 
 ## New Pattern: Musical Meter
 
