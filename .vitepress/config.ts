@@ -8,6 +8,15 @@ export default defineConfig({
   description: 'My portfolio of creative projects',
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
+    [
+      'link',
+      {
+        rel: 'alternate',
+        type: 'application/atom+xml',
+        href: '/feed.xml',
+        title: 'Atom feed for my blog',
+      },
+    ],
     ['meta', { property: 'og:title', content: 'Peter Gagliardi' }],
     ['meta', { property: 'og:url', content: 'https://ptrgags.dev' }],
     ['meta', { property: 'og:image', content: '/preview.png' }],
