@@ -36,7 +36,6 @@
     "markdown-it-mathjax3": "^4.3.2",
     "npm-run-all2": "^9.0.3",
     "prettier": "^3.9.6",
-    "tsx": "^4.23.13",
     "typescript": "^7.0.2",
     "vite": "^8.2.2",
     "vitepress": "^1.6.4",
