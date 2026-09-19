@@ -1,0 +1,53 @@
+import { Feed } from 'feed'
+
+import blog_data from '../src/update/update_blog.data'
+import { backblaze_link } from '../src/core/links.ts'
+
+const SITE_ROOT = 'https://ptrgags.github.io'
+
+function parse_date(iso_date: string): Date {
+  const [year, month, date] = iso_date.split('-')
+  return new Date(parseInt(year), parseInt(month) - 1, parseInt(date))
+}
+
+function fix_links(html: string): string {
+  return html.replaceAll(/:src="backblaze_link\('(.*)'\)"/g, (match, value) => {
+    const link = backblaze_link(value)
+    return `src="${link}"`
+  })
+}
+
+// See https://github.com/jpmonette/feed for options
+export async function make_feed(): Promise<string> {
+  const feed = new Feed({
+    title: "Peter Gagliardi's Website",
+    id: SITE_ROOT,
+    link: SITE_ROOT,
+    language: 'en',
+    image: `${SITE_ROOT}/preview.png`,
+    favicon: `${SITE_ROOT}/favicon.ico`,
+    copyright: '©2015-2026 Peter Gagliardi',
+    updated: new Date(),
+    feedLinks: {
+      atom: 'https://ptrgags.dev/feed.xml',
+    },
+    author: {
+      name: 'Peter Gagliardi',
+    },
+  })
+
+  const updates = await blog_data.load()
+  const visible_only = updates.filter((x) => x.frontmatter.hide !== true)
+  for (const item of visible_only) {
+    feed.addItem({
+      title: item.frontmatter.title,
+      id: `${SITE_ROOT}${item.url}`,
+      link: `${SITE_ROOT}${item.url}`,
+      date: parse_date(item.frontmatter.blog_date),
+      content: fix_links(item.html ?? ''),
+      image: backblaze_link(item.frontmatter.thumbnail),
+    })
+  }
+
+  return feed.atom1()
+}

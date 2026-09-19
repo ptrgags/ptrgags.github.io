@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress'
+import { writeFileSync } from 'node:fs'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -7,6 +8,15 @@ export default defineConfig({
   description: 'My portfolio of creative projects',
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
+    [
+      'link',
+      {
+        rel: 'alternate',
+        type: 'application/atom+xml',
+        href: '/feed.xml',
+        title: 'Atom feed for my blog',
+      },
+    ],
     ['meta', { property: 'og:title', content: 'Peter Gagliardi' }],
     ['meta', { property: 'og:url', content: 'https://ptrgags.dev' }],
     ['meta', { property: 'og:image', content: '/preview.png' }],
@@ -27,5 +37,12 @@ export default defineConfig({
   },
   markdown: {
     math: true,
+  },
+  async buildEnd(siteConfig) {
+    const { make_feed } = await import('./generate_feed')
+    const atom = await make_feed()
+
+    const filename = `${siteConfig.outDir}/feed.xml`
+    writeFileSync(filename, atom)
   },
 })
