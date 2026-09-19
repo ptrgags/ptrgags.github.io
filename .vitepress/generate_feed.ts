@@ -10,6 +10,13 @@ function parse_date(iso_date: string): Date {
   return new Date(parseInt(year), parseInt(month) - 1, parseInt(date))
 }
 
+function fix_links(html: string): string {
+  return html.replaceAll(/:src="backblaze_link\('(.*)'\)"/g, (match, value) => {
+    const link = backblaze_link(value)
+    return `src="${link}"`
+  })
+}
+
 // See https://github.com/jpmonette/feed for options
 export async function make_feed(): Promise<string> {
   const feed = new Feed({
@@ -37,7 +44,7 @@ export async function make_feed(): Promise<string> {
       id: `${SITE_ROOT}${item.url}`,
       link: `${SITE_ROOT}${item.url}`,
       date: parse_date(item.frontmatter.blog_date),
-      content: item.html,
+      content: fix_links(item.html ?? ''),
       image: backblaze_link(item.frontmatter.thumbnail),
     })
   }
