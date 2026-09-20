@@ -60,15 +60,26 @@ function load_file(file: MIDIFile<RelativeTimingTrack>) {
   ppq.value = file.header.ticks_per_quarter
 }
 
-function format_events(events: EventList): string {
+function get_first_program_change(events: EventList): MIDIProgramChangeMessage | undefined {
   for (const [, event] of events) {
     if (event instanceof MIDIProgramChangeMessage) {
-      const prog = event.program_number
-
-      return `: Prog. ${prog + 1}: ${GeneralMIDIInstruments[prog]}`
+      return event
     }
   }
-  return ': Unknown Instrument'
+}
+
+const CHANNEL_DRUMS = 10
+function format_events(channel_index: number, events: EventList): string {
+  const prog_change = get_first_program_change(events)
+  const program_number = prog_change ? prog_change.program_number + 1 : 1
+  if (channel_index + 1 === CHANNEL_DRUMS) {
+    const drum_kit_no = program_number ?? '?'
+    return `Drum Kit (kit=${drum_kit_no})`
+  } else if (prog_change) {
+    return `Instrument ${program_number} - ${GeneralMIDIInstruments[prog_change.program_number]}`
+  }
+
+  return 'Instrument 1 - ACOUSTIC_GRAND_PIANO'
 }
 
 function export_selected(event: Event) {
@@ -98,7 +109,9 @@ function export_selected(event: Event) {
     new MIDIHeader(MIDIFormat.MULTI_PARALLEL, tracks.length, ppq.value),
     tracks,
   )
-  const file = encode_midi_file(midi, `split-tracks-ch${channel_ids}.mid`)
+
+  const channels_human = channel_ids.map((x) => x + 1)
+  const file = encode_midi_file(midi, `split-tracks-ch${channels_human}.mid`)
   download_file(file)
 }
 </script>
@@ -109,7 +122,7 @@ function export_selected(event: Event) {
   <div v-if="channels">
     <select ref="channel-select" multiple>
       <option v-for="[i, events] in channels" :key="i" , :value="i">
-        Channel {{ i + 1 }}: {{ format_events(events) }}
+        Channel {{ i + 1 }}: {{ format_events(i, events) }}
       </option>
     </select>
     <br />
