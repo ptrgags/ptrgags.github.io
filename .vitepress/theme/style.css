@@ -83,7 +83,7 @@ table {
 }
 
 th {
-  color: var(--color-accent2-light);
+  color: var(--color-text);
   background-color: var(--color-accent1-med-dark);
   padding: 4px;
 }
@@ -204,7 +204,8 @@ canvas.p5Canvas {
 }
 
 .custom-block.details {
-  background-color: var(--background-dark);
+  background-color: var(--color-main-dark);
+  margin-bottom: 10px;
 }
 
 /* Fix Markdown styling */
