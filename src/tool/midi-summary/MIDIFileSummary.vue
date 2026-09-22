@@ -13,7 +13,7 @@ import { type MIDIFile, type MIDIHeader } from '../../lib/midi/MIDIFile.ts'
 import type { RelativeTimingTrack } from '../../lib/midi/MIDITrack.ts'
 import { Meter } from '../../pattern/musical-meter/Meter.ts'
 import { ChannelStats, type MessageSummary } from './ChannelStats.ts'
-import MIDIFilePicker from './MIDIFilePicker.vue'
+import MIDIFilePicker from '../../components/MIDIFilePicker.vue'
 
 const MIDI_METER = new Meter(4, 4, 0)
 

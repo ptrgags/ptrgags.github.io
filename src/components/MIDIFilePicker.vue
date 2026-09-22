@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { decode_midi } from '../../lib/midi/decode_midi.ts'
-import type { MIDIFile } from '../../lib/midi/MIDIFile.ts'
-import type { RelativeTimingTrack } from '../../lib/midi/MIDITrack.ts'
+import { decode_midi } from '../lib/midi/decode_midi.ts'
+import type { MIDIFile } from '../lib/midi/MIDIFile.ts'
+import type { RelativeTimingTrack } from '../lib/midi/MIDITrack.ts'
 
 const emit = defineEmits<{
   (e: 'load', file: MIDIFile<RelativeTimingTrack>, filename: string): void

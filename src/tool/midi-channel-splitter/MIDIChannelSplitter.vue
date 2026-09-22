@@ -2,7 +2,7 @@
 import { ref, useTemplateRef, type Ref } from 'vue'
 import { MIDIFile } from '../../lib/midi/MIDIFile.ts'
 import { type RelativeTimingTrack } from '../../lib/midi/MIDITrack.ts'
-import MIDIFilePicker from '../midi-summary/MIDIFilePicker.vue'
+import MIDIFilePicker from '../../components/MIDIFilePicker.vue'
 import { GeneralMIDIInstruments } from '../../lib/midi/GeneralMIDIInstruments.ts'
 import { encode_midi_file } from '../../lib/midi/encode_midi.ts'
 import { download_file } from '../../lib/dom/download_file.ts'
