@@ -2,11 +2,18 @@
 layout: article
 title: Creative Recap for 2026-08-16/29
 sort_key: '2026-08-29'
+blog_date: '2026-08-29'
+thumbnail: update/2026-08-16/hitomezashi-thumbnail.png
 summary: >
     Embroidery editor in a fantasy game console -- learning to draw involute gears -- first attempt at visualizing 80s synth patches 
 ---
+<script setup lang="ts">
+import {backblaze_link} from '../core/links'
+</script>
 
 ## PICO-8: Hitomezashi Editor
+
+<img :src="backblaze_link('update/2026-08-16/hitomezashi-thumbnail.png')"/>
 
 See [Lexaloffle BBS link](https://www.lexaloffle.com/bbs/?tid=158802)
 
@@ -20,6 +27,8 @@ linked above for more details.
 
 ## Desmos Graph: Involute Gear
 
+<img :src="backblaze_link('update/2026-08-16/involute-gear-thumbnail.png')" />
+
 See [Desmos Graph](https://www.desmos.com/calculator/zim3g3v74v)
 
 I've been exploring the math of gears lately. A friend of mine who is into 
@@ -29,7 +38,9 @@ step, I made this graph to determine how to render an involute gear.
 
 ## WIP Visualization: Yamaha DX7 Synthesizer Patch Visualizer
 
-See [DX7 Patch Visualizers](https://ptrgags.dev/p5-sketchbook/DX7PatchViewer/) in my `p5-sketchbook` repo.
+<img :src="backblaze_link('update/2026-08-16/dx7-visualizer-thumbnail.png')" />
+
+See [DX7 Patch Visualizer](https://ptrgags.dev/p5-sketchbook/DX7PatchViewer/) in my `p5-sketchbook` repo.
 
 I have an interest in music synthesizers. Beyond making cool sounds, I'm interested in the math behind them. 
 Lately I've been digging deeper into frequency modulation (FM) synthesis. To help with this endeavor, I'm making myself tools

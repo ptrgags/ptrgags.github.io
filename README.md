@@ -21,6 +21,16 @@ npm install
 npm run dev
 ```
 
+### Testing Atom Feed
+
+This site has an Atom 1.0 feed for my blog. However, it only works in build mode! Here's how I test it:
+
+- Make changes to the content/feed generation
+- Run `npm run build` to build the website. This will run the feed generation code automatically.
+- Run `npm run preview` to host the website at `localhost:4173`
+- In my feed reader, add the blog with the URL `http://127.0.0.1:4173/feed.xml`. Do NOT use `localhost`, at least in one feed reader I've tried, that isn't allowed for some reason.
+- Refresh the feed in the reader and make sure posts show up as intended.
+
 ### Release
 
 I have a GitHub Action configured (see `.github/workflows/deploy.yml`) to

@@ -20,8 +20,8 @@ import { Rect } from '../../lib/primitives/Rect.ts'
 import type { Pointlike } from '../../lib/primitives/Pointlike.ts'
 import { make_sketch, make_static_sketch, type SceneP5 } from '../../lib/p5-helpers/sketches.ts'
 
-const ROW_SIZE = { width: 400, height: 100 }
-const TIMELINE_SIZE = { width: 360, height: 50 }
+const ROW_SIZE = { width: 512, height: 128 }
+const TIMELINE_SIZE = { width: 384, height: 64 }
 const BOUNDS_ROW = new Rect({ x: 0, y: 0 }, ROW_SIZE)
 const BOUNDS_TIMELINE = BOUNDS_ROW.align(TIMELINE_SIZE, 'center', 'center')
 const PULSE_COUNT = 24
