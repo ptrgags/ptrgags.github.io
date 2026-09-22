@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, useTemplateRef, type Ref } from 'vue'
-import { DefaultDict } from '../../lib/DefaultDict.ts'
+import { DefaultDict } from '../../lib/data_structures/DefaultDict.ts'
 import {
   MIDIMessage,
   MIDIMetaEvent,
@@ -12,7 +12,7 @@ import { AbsoluteTimingTrack, type RelativeTimingTrack } from '../../lib/midi/MI
 import MIDIFilePicker from '../midi-summary/MIDIFilePicker.vue'
 import { GeneralMIDIInstruments } from '../../lib/midi/GeneralMIDIInstruments.ts'
 import { encode_midi_file } from '../../lib/midi/encode_midi.ts'
-import { download_file } from '../../lib/download_file.ts'
+import { download_file } from '../../lib/dom/download_file.ts'
 
 type EventList = [number, MIDIEvent][]
 
