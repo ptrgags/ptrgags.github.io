@@ -17,7 +17,7 @@ function get_first_program_change(events: EventList): MIDIProgramChangeMessage |
 
 export class ChannelSplitter {
   original_file: MIDIFile<RelativeTimingTrack>
-  meta_events: EventList
+  global_events: EventList
   channels: [number, EventList][]
 
   constructor(file: MIDIFile<RelativeTimingTrack>) {
@@ -29,15 +29,16 @@ export class ChannelSplitter {
       const abs_track = track.to_absolute()
 
       for (const [t, event] of abs_track.events) {
+        let channel_str
         if (event instanceof MIDIMessage) {
-          const channel = event.channel
-          by_channel.get(channel.toString()).push([t, event])
+          channel_str = event.channel.toString()
         } else if (event instanceof MIDIMetaEvent) {
-          by_channel.get('meta').push([t, event])
+          channel_str = 'meta'
         } else {
-          // Ignore sysex messages
-          console.info('skipping sysex message', event)
+          channel_str = 'sysex'
         }
+
+        by_channel.get(channel_str).push([t, event])
       }
     }
 
@@ -51,7 +52,7 @@ export class ChannelSplitter {
     }
 
     this.channels = channel_list
-    this.meta_events = by_channel.get('meta')
+    this.global_events = [...by_channel.get('meta'), ...by_channel.get('sysex')]
   }
 
   get channel_summaries(): { channel_number: number; program_number: number }[] {
@@ -70,9 +71,9 @@ export class ChannelSplitter {
       .filter(([i]) => channel_ids.includes(i))
       .map((x) => x[1])
 
-    // Add the meta messages to the first available track and resort
+    // Add the meta and sysex messages to the first available track and resort
     if (selected_channels.length > 0) {
-      const with_meta = [...selected_channels[0], ...this.meta_events].sort((a, b) => a[0] - b[0])
+      const with_meta = [...selected_channels[0], ...this.global_events].sort((a, b) => a[0] - b[0])
       selected_channels[0] = with_meta
     }
 
