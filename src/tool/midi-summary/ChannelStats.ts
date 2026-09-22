@@ -1,3 +1,4 @@
+import { GeneralMIDIInstruments } from '../../lib/midi/GeneralMIDIInstruments.ts'
 import {
   MIDIMessage,
   MIDINoteMessage,
@@ -69,7 +70,7 @@ export class ChannelStats {
       this.summaries.push({
         time: time.measure_number,
         type: MIDIMessageType[message.message_type],
-        description: `${message.program_number + 1} (1-indexed)`,
+        description: `Prog. ${message.program_number + 1}: ${GeneralMIDIInstruments[message.program_number]}`,
       })
     } else if (message instanceof MIDIPitchWheelMessage) {
       this.pitch_wheel_times.add(time)

@@ -223,6 +223,17 @@ pre {
   padding: 10px;
 }
 
+code {
+  background-color: var(--color-accent1-dark);
+  padding: 3px;
+  border-radius: 4px;
+}
+
+hr {
+  border-color: var(--color-accent2-dark);
+  margin: 20px;
+}
+
 @media screen and (width >= 800px) {
   pre {
     max-width: 50vw;
