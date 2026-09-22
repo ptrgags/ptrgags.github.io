@@ -11,6 +11,20 @@ export class Circle implements Drawable {
     this.radius = radius
   }
 
+  position(angle: number): Pointlike {
+    const r = this.radius
+    const { x, y } = this.center
+    return { x: x + r * Math.cos(angle), y: y + r * Math.sin(angle) }
+  }
+
+  unit_normal(angle: number): Pointlike {
+    return { x: Math.cos(angle), y: Math.sin(angle) }
+  }
+
+  unit_tangent(angle: number): Pointlike {
+    return { x: -Math.sin(angle), y: Math.cos(angle) }
+  }
+
   draw(lib: DrawingLibrary): void {
     const { x, y } = this.center
     const r = this.radius

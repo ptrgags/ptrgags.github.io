@@ -28,11 +28,9 @@ will go into more detail.
 ## Angles as Start, End, and Orientation
 
 
-:::warning TODO: diagram of this representation
-:::
+<SketchP5 :sketch="SKETCHES.start_end_orientation" />
 
-$\text{Angles} = (\alpha, \beta, o)$ where $\alpha, \beta$ are any angles and $o \in \{+, -\}$ is an orientation, either
-$+$ for positive or $-$ for negative.
+`Angles = (start, end, orientation)` where `start, end` are any angles and `orientation` is either `+` for positive or `-` for negative
 
 :::warning TODO: explain angle conventions
 :::

@@ -1,4 +1,3 @@
-import { circ } from '../math/circ.ts'
 import type { ArcAngles } from './ArcAngles.ts'
 import type { Circle } from './Circle.ts'
 import type { Dimensionlike } from './Dimensionlike.ts'
@@ -48,7 +47,8 @@ export class ArcArrow implements Drawable {
     const { width, height } = this.arrow_radii
 
     if (this.tip > 0) {
-      const { cos: end_c, sin: end_s } = circ(end_angle)
+      const end_c = Math.cos(end_angle)
+      const end_s = Math.sin(end_angle)
       const tip_x = x + r * end_c
       const tip_y = y + r * end_s
       const nx = height * end_c
@@ -74,13 +74,14 @@ export class ArcArrow implements Drawable {
     }
 
     if (this.tail > 0) {
-      const { cos: end_c, sin: end_s } = circ(start_angle)
-      const tail_x = x + r * end_c
-      const tail_y = y + r * end_s
-      const nx = height * end_c
-      const ny = height * end_s
-      const tx = -width * end_s
-      const ty = width * end_c
+      const start_c = Math.cos(start_angle)
+      const start_s = Math.sin(start_angle)
+      const tail_x = x + r * start_c
+      const tail_y = y + r * start_s
+      const nx = height * start_c
+      const ny = height * start_s
+      const tx = -width * start_s
+      const ty = width * start_c
 
       if ((this.tail & ArrowParts.BOUNDARY_UPPER) === ArrowParts.BOUNDARY_UPPER) {
         lib.segment(tail_x, tail_y, tail_x + nx, tail_y + ny)
