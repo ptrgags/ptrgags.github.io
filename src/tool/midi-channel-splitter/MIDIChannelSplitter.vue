@@ -47,9 +47,10 @@ function export_selected() {
 
 <template>
   <MIDIFilePicker @load="load_file" />
-
+  <br />
   <div v-if="channel_splitter">
-    <select ref="channel-select" multiple>
+    <label for="channel-select">Select Channels to Export:</label> <br />
+    <select name="channel-select" ref="channel-select" multiple>
       <option
         v-for="{ channel_number, program_number } in channel_splitter.channel_summaries"
         :key="channel_number"
