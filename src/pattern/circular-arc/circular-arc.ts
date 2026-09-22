@@ -35,15 +35,13 @@ class ArcConcept implements SceneP5 {
   primitive: Drawable
 
   constructor() {
-    const center = { x: 128, y: 128 }
-
-    const circle = new Circle(center, 75)
-
     const arc = new CircularArc(
-      circle,
+      MAIN_CIRCLE,
       new ArcAngles(Math.PI / 4, Math.PI / 2, AngleOrientation.POSITIVE).flip_y(),
     )
 
+    // TEMP: Keeping around for reference
+    /*
     const arc2 = new ArcArrow({
       circle: new Circle(center, 64),
       angles: new ArcAngles(Math.PI / 4, Math.PI / 2, AngleOrientation.POSITIVE).flip_y(),
@@ -56,11 +54,11 @@ class ArcConcept implements SceneP5 {
       angles: new ArcAngles(Math.PI / 4, Math.PI / 2, AngleOrientation.POSITIVE).flip_y(),
       tip: 0b0000,
       tail: 0b0001,
-    })
+    })*/
 
     this.primitive = group(
-      style(Style.lines(COLOR_GREY, 2), circle),
-      style(Style.lines(COLOR_POSITIVE, 2), arc, arc2, arc3),
+      style(Style.lines(COLOR_GREY, 2), MAIN_CIRCLE),
+      style(Style.lines(COLOR_POSITIVE, 2), arc),
     )
   }
 
@@ -146,6 +144,7 @@ class StartDisplacement implements SceneP5 {
   canvas_size = { width: 256, height: 256 }
   anim_start: CircularMotion
 
+  start_line: LineSegment
   start_label: Text
   displacement_label: Text
   arc: ArcArrow
@@ -159,12 +158,14 @@ class StartDisplacement implements SceneP5 {
       angles: new ArcAngles(0, 0, AngleOrientation.POSITIVE),
     })
 
+    this.start_line = new LineSegment(MAIN_CIRCLE.center, this.anim_start.position(0))
+
     this.start_label = new Text('start', { x: 0, y: 0 })
     this.displacement_label = new Text('disp.', { x: 0, y: 0 })
 
     this.primitive = group(
       style(Style.lines(COLOR_GREY, 2), MAIN_CIRCLE),
-      style(Style.lines(COLOR_NEUTRAL, 2), this.arc),
+      style(Style.lines(COLOR_NEUTRAL, 2), this.arc, this.start_line),
       style(STYLE_LABEL_NEUTRAL, this.start_label, this.displacement_label),
     )
   }
@@ -186,6 +187,7 @@ class StartDisplacement implements SceneP5 {
     this.displacement_label.position = LABEL_CIRCLE.position(label_angle)
 
     this.start_label.position = LABEL_CIRCLE_INNER.position(start_angle)
+    this.start_line.end = MAIN_CIRCLE.position(start_angle)
   }
 
   draw(lib: DrawP5): void {
