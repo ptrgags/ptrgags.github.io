@@ -4,7 +4,7 @@ import type { MIDIFile } from '../../lib/midi/MIDIFile.ts'
 import type { RelativeTimingTrack } from '../../lib/midi/MIDITrack.ts'
 
 const emit = defineEmits<{
-  (e: 'load', file: MIDIFile<RelativeTimingTrack>): void
+  (e: 'load', file: MIDIFile<RelativeTimingTrack>, filename: string): void
 }>()
 
 async function import_midi_file(e: Event) {
@@ -22,7 +22,7 @@ async function import_midi_file(e: Event) {
   const file = files[0]
   const midi_buffer = await file.arrayBuffer()
   const midi_file = decode_midi(midi_buffer)
-  emit('load', midi_file)
+  emit('load', midi_file, file.name)
 }
 </script>
 

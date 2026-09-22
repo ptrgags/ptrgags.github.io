@@ -9,9 +9,15 @@ import { download_file } from '../../lib/dom/download_file.ts'
 import { ChannelSplitter } from './ChannelSplitter.ts'
 
 const channel_splitter: Ref<ChannelSplitter | undefined> = ref(undefined)
+const original_basename: Ref<string> = ref('unknown')
 const channel_select = useTemplateRef('channel-select')
 
-function load_file(file: MIDIFile<RelativeTimingTrack>) {
+const can_export: Ref<boolean> = ref(false)
+
+function load_file(file: MIDIFile<RelativeTimingTrack>, filename: string) {
+  const dot = filename.lastIndexOf('.')
+
+  original_basename.value = filename.substring(0, dot)
   channel_splitter.value = new ChannelSplitter(file)
 }
 
@@ -40,7 +46,8 @@ function export_selected() {
   const channel_ids = [...channel_select.value.selectedOptions].map((x) => parseInt(x.value))
   const midi = channel_splitter.value.split(channel_ids)
 
-  const file = encode_midi_file(midi, `split-tracks-ch${channel_ids}.mid`)
+  const basename = original_basename.value
+  const file = encode_midi_file(midi, `${basename}-split-ch${channel_ids}.mid`)
   download_file(file)
 }
 </script>
@@ -50,7 +57,7 @@ function export_selected() {
   <br />
   <div v-if="channel_splitter">
     <label for="channel-select">Select Channels to Export:</label> <br />
-    <select name="channel-select" ref="channel-select" multiple>
+    <select name="channel-select" ref="channel-select" multiple @input="can_export = true">
       <option
         v-for="{ channel_number, program_number } in channel_splitter.channel_summaries"
         :key="channel_number"
@@ -61,7 +68,7 @@ function export_selected() {
       </option>
     </select>
     <br />
-    <button @click="export_selected">Export Selected</button>
+    <button @click="export_selected" :disabled="!can_export">Export Selected</button>
   </div>
 </template>
 
