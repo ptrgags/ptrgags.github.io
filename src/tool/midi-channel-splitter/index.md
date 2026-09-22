@@ -21,6 +21,8 @@ Example Uses:
 - To convert between MIDI Format 0 (all messages in a single track) and MIDI Format 1 (multiple tracks in parallel), import a file, select all channels, then export. In some digital audio workstations (DAWs), this is important so each MIDI instrument ends up on a different track when importing.
 - To isolate a single instrument, select only the desired channel and then export.
 
-Additional Notes:
+Notes:
 
+- Instrument names are based on the [General MIDI instrument list](https://en.wikipedia.org/wiki/General_MIDI#Program_change_events). If the imported MIDI file was not intended for General MIDI, only examine the instrument number.
 - MIDI System Exclusive and Meta messages are always included in the first exported track. This ensures that details such as tempo and time signature are correct in the exported file.
+
