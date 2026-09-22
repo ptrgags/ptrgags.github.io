@@ -56,16 +56,23 @@ And similarly for rectangles:
 
 ### Angles as Start and Angular Displacement
 
-$(\theta, \Delta\theta)$, with the orientation implied by the sign of the
-angular displacement
+<SketchP5 :sketch="SKETCHES.start_displacement" />
 
-This can be converted to $(\alpha, \beta, o)$ with the following formulas:
+`Angles = (start, displacement)`, where `start` is the angle of the start point and `displacement` is a number. The magnitude of `displacement` determines the angular size of the arc, while its sign determines the direction.
 
-- $\alpha = \theta$
-- $\beta = \theta + \Delta\theta$
-- $o = \text{sign}(\Delta\theta)$
+This can be converted to `(start, end, orientation)` with the following formulas:
+
+- `start = start`
+- `end = start + displacement`
+- `orientation = sign(displacment)`
 
 ### Angles as Center Angle and Angular Displacement
+
+<SketchP5 :sketch="SKETCHES.center_displacement" />
+
+`Angles = (center, displacement, orientation)` where `center` is the center angle, `displacement` is the non-negative angle from center to either end of the arc, and `orientation` is `+` or `-`
+
+
 
 $(\gamma, \phi, o)$
 
@@ -82,7 +89,7 @@ $(a, b, c)$, with the arc defined in the direction $a, b, c$
 Conversion Algorithm:
 
 - Convert the three angles to points on the unit circle `A, B, C`
-- $o = \text{sign}((B - A) \wedge (C - A))$
+- $o = |(B - A) \wedge (C - A)| = |(B - A) \times (C - A)|$
 - $\alpha = a$
 - $\beta = c$
 

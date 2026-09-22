@@ -14,6 +14,12 @@ import { CircularMotion } from '../../lib/math/CircularMotion.ts'
 import { TextStyle } from '../../lib/styling/TextStyle.ts'
 import { Text } from '../../lib/primitives/Text.ts'
 import { mod } from '../../lib/math/mod.ts'
+import type { Dimensionlike } from '../../lib/primitives/Dimensionlike.ts'
+import { LineSegment } from '../../lib/primitives/LineSegment.ts'
+
+const MAIN_CIRCLE = new Circle({ x: 128, y: 128 }, 64)
+const LABEL_CIRCLE = new Circle(MAIN_CIRCLE.center, 96)
+const LABEL_CIRCLE_INNER = new Circle(MAIN_CIRCLE.center, 32)
 
 const COLOR_GREY = Oklch.grey(0.5)
 const COLOR_NEUTRAL = Color.WHITE
@@ -65,9 +71,6 @@ class ArcConcept implements SceneP5 {
   }
 }
 
-const MAIN_CIRCLE = new Circle({ x: 128, y: 128 }, 64)
-const LABEL_CIRCLE = new Circle(MAIN_CIRCLE.center, 96)
-
 class StartEndOrientation implements SceneP5 {
   canvas_size = { width: 256, height: 256 }
   pos_arc: ArcArrow
@@ -92,20 +95,12 @@ class StartEndOrientation implements SceneP5 {
 
     this.pos_arc = new ArcArrow({
       circle,
-      angles: new ArcAngles(
-        this.anim_start.angle(0),
-        this.anim_start.angle(0),
-        AngleOrientation.POSITIVE,
-      ),
+      angles: new ArcAngles(0, 0, AngleOrientation.POSITIVE),
     })
 
     this.neg_arc = new ArcArrow({
       circle,
-      angles: new ArcAngles(
-        this.anim_start.angle(0),
-        this.anim_start.angle(0),
-        AngleOrientation.NEGATIVE,
-      ),
+      angles: new ArcAngles(0, 0, AngleOrientation.NEGATIVE),
       tail: ArrowParts.BOUNDARY_LOWER | ArrowParts.BOUNDARY_UPPER,
     })
 
@@ -147,7 +142,101 @@ class StartEndOrientation implements SceneP5 {
   }
 }
 
+class StartDisplacement implements SceneP5 {
+  canvas_size = { width: 256, height: 256 }
+  anim_start: CircularMotion
+
+  start_label: Text
+  displacement_label: Text
+  arc: ArcArrow
+  primitive: Drawable
+
+  constructor() {
+    this.anim_start = new CircularMotion(MAIN_CIRCLE, 1 / 4)
+
+    this.arc = new ArcArrow({
+      circle: MAIN_CIRCLE,
+      angles: new ArcAngles(0, 0, AngleOrientation.POSITIVE),
+    })
+
+    this.start_label = new Text('start', { x: 0, y: 0 })
+    this.displacement_label = new Text('disp.', { x: 0, y: 0 })
+
+    this.primitive = group(
+      style(Style.lines(COLOR_GREY, 2), MAIN_CIRCLE),
+      style(Style.lines(COLOR_NEUTRAL, 2), this.arc),
+      style(STYLE_LABEL_NEUTRAL, this.start_label, this.displacement_label),
+    )
+  }
+
+  update(p: p5): void {
+    const t = p.frameCount / 60
+
+    const start_angle = this.anim_start.angle(t)
+    const freq = 1 / 2
+    const displacement = 0.0125 + Math.sin(2.0 * Math.PI * freq * t)
+    const end_angle = start_angle + displacement
+    const orientation = displacement > 0 ? 1 : -1
+    this.arc.angles = new ArcAngles(start_angle, end_angle, orientation)
+
+    const label_angle =
+      orientation === 1
+        ? start_angle + 0.5 * mod(end_angle - start_angle, 2.0 * Math.PI)
+        : end_angle + 0.5 * mod(start_angle - end_angle, 2.0 * Math.PI)
+    this.displacement_label.position = LABEL_CIRCLE.position(label_angle)
+
+    this.start_label.position = LABEL_CIRCLE_INNER.position(start_angle)
+  }
+
+  draw(lib: DrawP5): void {
+    this.primitive.draw(lib)
+  }
+}
+
+class CenterDisplacement implements SceneP5 {
+  canvas_size = { width: 256, height: 256 }
+  anim_center: CircularMotion
+  arc: ArcArrow
+  primitive: Drawable
+  center_line: LineSegment
+
+  constructor() {
+    this.anim_center = new CircularMotion(MAIN_CIRCLE, 1 / 4)
+
+    this.arc = new ArcArrow({
+      circle: MAIN_CIRCLE,
+      angles: new ArcAngles(0, 0, AngleOrientation.POSITIVE),
+    })
+
+    this.center_line = new LineSegment(MAIN_CIRCLE.center, this.anim_center.position(0))
+
+    this.primitive = group(
+      style(Style.lines(COLOR_GREY, 2), MAIN_CIRCLE),
+      style(Style.lines(COLOR_NEUTRAL, 2), this.arc, this.center_line),
+    )
+  }
+
+  update(p: p5): void {
+    const t = p.frameCount / 60
+
+    const center_angle = this.anim_center.angle(t)
+    const freq = 1 / 2
+    const displacement = (Math.PI / 4) * Math.sin(2.0 * Math.PI * freq * t + 0.01)
+    const start_angle = center_angle - displacement
+    const end_angle = center_angle + displacement
+    this.arc.angles = new ArcAngles(start_angle, end_angle, Math.sign(displacement))
+
+    this.center_line.end = MAIN_CIRCLE.position(center_angle)
+  }
+
+  draw(lib: DrawP5): void {
+    this.primitive.draw(lib)
+  }
+}
+
 export const SKETCHES = {
   concept: make_static_sketch(new ArcConcept()),
   start_end_orientation: make_sketch(new StartEndOrientation()),
+  start_displacement: make_sketch(new StartDisplacement()),
+  center_displacement: make_sketch(new CenterDisplacement()),
 }
