@@ -1,14 +1,15 @@
 import type { MIDIEvent } from './MIDIEvent'
 
+export type EventList = [number, MIDIEvent][]
+
 /**
  * MIDI Track interface
  */
 export interface MIDITrack {
   /**
    * For unit tests, convert to a comparable form by sorting
-   * @returns {[number, MIDIEvent][]}
    */
-  to_testable(): [number, MIDIEvent][]
+  to_testable(): EventList
 }
 
 /**
@@ -43,13 +44,13 @@ function compare_shortlex(a: number[], b: number[]): number {
  * MIDI to scores.
  */
 export class AbsoluteTimingTrack {
-  events: [number, MIDIEvent][]
+  events: EventList
 
   /**
    * constructor
-   * @param {[number, MIDIEvent][]} events Pairs of (absolute_t, msg).
+   * @param events Pairs of (absolute_t, msg).
    */
-  constructor(events: [number, MIDIEvent][]) {
+  constructor(events: EventList) {
     this.events = events.slice()
 
     // Sort by absolute time to ensure times are monotonically increasing
@@ -61,10 +62,7 @@ export class AbsoluteTimingTrack {
    * @returns {RelativeTimingTrack}
    */
   to_relative(): RelativeTimingTrack {
-    /**
-     * @type {[number, MIDIEvent][]}
-     */
-    const events: [number, MIDIEvent][] = []
+    const events: EventList = []
 
     let prev_tick = 0
     for (const [absolute_tick, msg] of this.events) {
@@ -77,9 +75,8 @@ export class AbsoluteTimingTrack {
 
   /**
    * For unit tests, convert to a comparable form by sorting
-   * @returns {[number, MIDIEvent][]}
    */
-  to_testable(): [number, MIDIEvent][] {
+  to_testable(): EventList {
     const sorted = this.events.slice()
     sorted.sort((a, b) => {
       const [t_a, msg_a] = a
@@ -96,13 +93,13 @@ export class AbsoluteTimingTrack {
  * required for encoding to a MIDI file.
  */
 export class RelativeTimingTrack {
-  events: [number, MIDIEvent][]
+  events: EventList
 
   /**
    * constructor
-   * @param {[number, MIDIEvent][]} events Pairs of (relative_t, msg)
+   * @param events Pairs of (relative_t, msg)
    */
-  constructor(events: [number, MIDIEvent][]) {
+  constructor(events: EventList) {
     this.events = events
   }
 
@@ -111,10 +108,7 @@ export class RelativeTimingTrack {
    * @returns {AbsoluteTimingTrack}
    */
   to_absolute(): AbsoluteTimingTrack {
-    /**
-     * @type {[number, MIDIEvent][]}
-     */
-    const events: [number, MIDIEvent][] = []
+    const events: EventList = []
 
     let current_tick = 0
     for (const [delta, msg] of this.events) {
@@ -128,9 +122,8 @@ export class RelativeTimingTrack {
 
   /**
    * For unit tests, convert to a comparable form via sorting
-   * @returns {[number, MIDIEvent][]}
    */
-  to_testable(): [number, MIDIEvent][] {
+  to_testable(): EventList {
     return this.to_absolute().to_testable()
   }
 }
