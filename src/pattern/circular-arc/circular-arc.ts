@@ -10,13 +10,13 @@ import { CircularArc } from '../../lib/primitives/CircularArc.ts'
 import { AngleOrientation, ArcAngles } from '../../lib/primitives/ArcAngles.ts'
 import { Color } from '../../lib/styling/Color.ts'
 import { ArcArrow, ArrowParts } from '../../lib/primitives/ArcArrow.ts'
-import { CircularMotion } from '../../lib/math/CircularMotion.ts'
+import { CircularMotion } from '../../lib/animation/CircularMotion.ts'
 import { TextStyle } from '../../lib/styling/TextStyle.ts'
 import { Text } from '../../lib/primitives/Text.ts'
 import { mod } from '../../lib/math/mod.ts'
-import type { Dimensionlike } from '../../lib/primitives/Dimensionlike.ts'
 import { LineSegment } from '../../lib/primitives/LineSegment.ts'
 import type { Pointlike } from '../../lib/primitives/Pointlike.ts'
+import { Wave } from '../../lib/animation/Wave.ts'
 
 const MAIN_CIRCLE = new Circle({ x: 128, y: 128 }, 64)
 const LABEL_CIRCLE = new Circle(MAIN_CIRCLE.center, 96)
@@ -237,6 +237,8 @@ class CenterDisplacement implements SceneP5 {
   }
 }
 
+const WAVE_TOGGLE = Wave.square({ freq: 0.5 })
+
 class SwapComplement implements SceneP5 {
   canvas_size = { width: 256, height: 256 }
 
@@ -265,7 +267,7 @@ class SwapComplement implements SceneP5 {
   update(p: p5): void {
     const t = p.frameCount / 60
 
-    const wave = (0.5 * t) % 1.0 < 0.5 ? 0 : 1
+    const wave = WAVE_TOGGLE.unipolar(t) // (0.5 * t) % 1.0 < 0.5 ? 0 : 1
 
     const start_angle = [0, (3 * Math.PI) / 4][wave]
     const end_angle = [(3 * Math.PI) / 4, 0][wave]
