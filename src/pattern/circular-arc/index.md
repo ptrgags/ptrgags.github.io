@@ -130,6 +130,12 @@ Conversion Algorithm:
 - Complement (other arc in same direction)
 - Reverse (same arc but backwards)
 - `Other path = complement o reverse`
+- 
+<SketchP5 :sketch="SKETCHES.xform_phase_shift_rotate" />
+<SketchP5 :sketch="SKETCHES.xform_complement" />        
+<SketchP5 :sketch="SKETCHES.xform_flip_y" />            
+<SketchP5 :sketch="SKETCHES.xform_other_path" />        
+<SketchP5 :sketch="SKETCHES.xform_reverse" />           
 
 ### Undirected Arcs as an Equivalence Relation
 
@@ -146,13 +152,13 @@ Conversion Algorithm:
 
 ### Connecting Angle Transformations to Arc Transformations
 
-| Angle Transformation         | Arc Transformation                  | Animation                                          |
-| ---------------------------- | ----------------------------------- | -------------------------------------------------- |
-| `phase_shift(delta)`         | `rotation(delta)`                   | <SketchP5 :sketch="SKETCHES.phase_shift_rotate" /> |
-| `swap`                       | `complement`                        | <SketchP5 :sketch="SKETCHES.swap_complement" />    |
-| `reverse_angles`             | `flip_y`                            | <SketchP5 :sketch="SKETCHES.reverse_mirror" />     |
-| `reverse_orientation`        | `other_path = complement * reverse` | <SketchP5 :sketch="SKETCHES.other_path" />         |
-| `swap * reverse_orientation` | `reverse`                           | <SketchP5 :sketch="SKETCHES.reverse_arc" />        |
+| Angle Transformation         | Arc Transformation                  | Animation                                               |
+| ---------------------------- | ----------------------------------- | ------------------------------------------------------- |
+| `phase_shift(delta)`         | `rotation(delta)`                   | <SketchP5 :sketch="SKETCHES.symm_phase_shift_rotate" /> |
+| `swap`                       | `complement`                        | <SketchP5 :sketch="SKETCHES.symm_complement" />         |
+| `reverse_angles`             | `flip_y`                            | <SketchP5 :sketch="SKETCHES.symm_flip_y" />             |
+| `reverse_orientation`        | `other_path = complement * reverse` | <SketchP5 :sketch="SKETCHES.symm_other_path" />         |
+| `swap * reverse_orientation` | `reverse`                           | <SketchP5 :sketch="SKETCHES.symm_reverse" />            |
 
 
 <!-- out of scope for now

@@ -533,7 +533,7 @@ class OtherPath implements SceneP5 {
   }
 }
 
-class ReverseArc implements SceneP5 {
+class ArcInvolution implements SceneP5 {
   canvas_size = { width: 256, height: 256 }
 
   arc_angles: [ArcAngles, ArcAngles]
@@ -548,13 +548,25 @@ class ReverseArc implements SceneP5 {
   annotation_start: AngleAnnotation
   annotation_end: AngleAnnotation
 
-  constructor() {
+  constructor(
+    transformation: 'complement' | 'flip_y' | 'other_path' | 'reverse',
+    annotate: boolean,
+  ) {
     // These angles may change depending on what I want to show
-    const start_angle = Math.PI / 4
-    const end_angle = Math.PI
+    const start_angle = Math.PI / 6
+    const end_angle = (5 * Math.PI) / 6
     const angles_forward = new ArcAngles(start_angle, end_angle, AngleOrientation.POSITIVE)
-    // This changes for each involution
-    const angles_flipped = angles_forward.reverse_orientation().swap()
+
+    let angles_flipped: ArcAngles
+    if (transformation === 'complement') {
+      angles_flipped = angles_forward.swap()
+    } else if (transformation === 'flip_y') {
+      angles_flipped = angles_forward.reverse_angles()
+    } else if (transformation === 'other_path') {
+      angles_flipped = angles_forward.reverse_orientation()
+    } else {
+      angles_flipped = angles_forward.reverse_orientation().swap()
+    }
 
     this.arc_angles = [angles_forward, angles_flipped]
 
@@ -587,11 +599,18 @@ class ReverseArc implements SceneP5 {
       radius_tip: 80,
     })
 
-    this.primitive = group(
-      style(Style.lines(COLOR_GREY, 2), MAIN_CIRCLE, this.annotation_start, this.annotation_end),
-      style(Style.lines(COLOR_NEUTRAL, 2), this.arc),
-      style(STYLE_LABEL_NEUTRAL, this.label_start, this.label_end),
-    )
+    if (annotate) {
+      this.primitive = group(
+        style(Style.lines(COLOR_GREY, 2), MAIN_CIRCLE, this.annotation_start, this.annotation_end),
+        style(Style.lines(COLOR_NEUTRAL, 2), this.arc),
+        style(STYLE_LABEL_NEUTRAL, this.label_start, this.label_end),
+      )
+    } else {
+      this.primitive = group(
+        style(Style.lines(COLOR_GREY, 2), MAIN_CIRCLE),
+        style(Style.lines(COLOR_NEUTRAL, 2), this.arc),
+      )
+    }
   }
 
   update(p: p5): void {
@@ -634,7 +653,7 @@ class PhaseShiftRotate implements SceneP5 {
     AngleOrientation.POSITIVE,
   )
 
-  constructor() {
+  constructor(annotate: boolean) {
     this.anim_delta = new CircularMotion(MAIN_CIRCLE, 1 / 8)
 
     const initial_angles = PhaseShiftRotate.INIT_ANGLES
@@ -667,14 +686,21 @@ class PhaseShiftRotate implements SceneP5 {
       radius_tip: 80,
     })
 
-    this.primitive = group(
-      style(Style.lines(COLOR_GREY, 2), MAIN_CIRCLE),
-      style(Style.lines(COLOR_NEUTRAL, 2), this.arc),
-      style(Style.lines(COLOR_NEGATIVE, 2), this.annotation_end),
-      style(Style.lines(COLOR_POSITIVE, 2), this.annotation_start),
-      style(Style.lines(COLOR_GREY, 2), this.annotation_delta),
-      style(STYLE_LABEL_NEUTRAL, this.label_start, this.label_end, this.label_delta),
-    )
+    if (annotate) {
+      this.primitive = group(
+        style(Style.lines(COLOR_GREY, 2), MAIN_CIRCLE),
+        style(Style.lines(COLOR_NEUTRAL, 2), this.arc),
+        style(Style.lines(COLOR_NEGATIVE, 2), this.annotation_end),
+        style(Style.lines(COLOR_POSITIVE, 2), this.annotation_start),
+        style(Style.lines(COLOR_GREY, 2), this.annotation_delta),
+        style(STYLE_LABEL_NEUTRAL, this.label_start, this.label_end, this.label_delta),
+      )
+    } else {
+      this.primitive = group(
+        style(Style.lines(COLOR_GREY, 2), MAIN_CIRCLE),
+        style(Style.lines(COLOR_NEUTRAL, 2), this.arc),
+      )
+    }
   }
 
   update(p: p5): void {
@@ -705,10 +731,16 @@ export const SKETCHES = {
   start_displacement: make_sketch(new StartDisplacement()),
   center_displacement: make_sketch(new CenterDisplacement()),
 
+  xform_phase_shift_rotate: make_sketch(new PhaseShiftRotate(false)),
+  xform_complement: make_sketch(new ArcInvolution('complement', false)),
+  xform_flip_y: make_sketch(new ArcInvolution('flip_y', false)),
+  xform_other_path: make_sketch(new ArcInvolution('other_path', false)),
+  xform_reverse: make_sketch(new ArcInvolution('reverse', false)),
+
   // Symmetry animations
-  phase_shift_rotate: make_sketch(new PhaseShiftRotate()),
-  swap_complement: make_sketch(new SwapComplement()),
-  other_path: make_sketch(new OtherPath()),
-  reverse_arc: make_sketch(new ReverseArc()),
-  reverse_mirror: make_sketch(new ReverseMirror()),
+  symm_phase_shift_rotate: make_sketch(new PhaseShiftRotate(true)),
+  symm_complement: make_sketch(new ArcInvolution('complement', true)),
+  symm_flip_y: make_sketch(new ArcInvolution('flip_y', true)),
+  symm_other_path: make_sketch(new ArcInvolution('other_path', true)),
+  symm_reverse: make_sketch(new ArcInvolution('reverse', true)),
 }
