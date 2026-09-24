@@ -146,11 +146,11 @@ Conversion Algorithm:
 
 ### Connecting Angle Transformations to Arc Transformations
 
-| Angle Transformation         | Arc Transformation                  | Animation                                       |
-| ---------------------------- | ----------------------------------- | ----------------------------------------------- |
-| `phase_shift(delta)`         | `rotation(delta)`                   |
-| `swap`                       | `complement`                        | <SketchP5 :sketch="SKETCHES.swap_complement" /> |
-| `reverse_angles`             | `flip_y`                            | <SketchP5 :sketch="SKETCHES.reverse_mirror" />  |
+| Angle Transformation         | Arc Transformation                  | Animation                                          |
+| ---------------------------- | ----------------------------------- | -------------------------------------------------- |
+| `phase_shift(delta)`         | `rotation(delta)`                   | <SketchP5 :sketch="SKETCHES.phase_shift_rotate" /> |
+| `swap`                       | `complement`                        | <SketchP5 :sketch="SKETCHES.swap_complement" />    |
+| `reverse_angles`             | `flip_y`                            | <SketchP5 :sketch="SKETCHES.reverse_mirror" />     |
 | `reverse_orientation`        | `other_path = complement * reverse` |
 | `swap * reverse_orientation` | `reverse`                           |
 

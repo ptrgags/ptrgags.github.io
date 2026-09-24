@@ -453,6 +453,92 @@ class ReverseMirror implements SceneP5 {
   }
 }
 
+class PhaseShiftRotate implements SceneP5 {
+  canvas_size = { width: 256, height: 256 }
+
+  anim_delta: CircularMotion
+
+  arc: ArcArrow
+  label_start: Text
+  label_end: Text
+  label_delta: Text
+
+  primitive: Drawable
+  annotation_start: AngleAnnotation
+  annotation_end: AngleAnnotation
+  annotation_delta: AngleAnnotation
+
+  static readonly INIT_ANGLES = new ArcAngles(
+    Math.PI / 4,
+    (3 * Math.PI) / 4,
+    AngleOrientation.POSITIVE,
+  )
+
+  constructor() {
+    this.anim_delta = new CircularMotion(MAIN_CIRCLE, 1 / 8)
+
+    const initial_angles = PhaseShiftRotate.INIT_ANGLES
+
+    this.arc = new ArcArrow({
+      circle: MAIN_CIRCLE,
+      angles: initial_angles,
+    })
+
+    this.label_start = new Text('start', LABEL_CIRCLE.position(initial_angles.start_angle))
+    this.label_end = new Text('end', LABEL_CIRCLE.position(initial_angles.end_angle))
+    this.label_delta = new Text('delta', LABEL_CIRCLE.position(0))
+
+    this.annotation_start = new AngleAnnotation({
+      center: MAIN_CIRCLE.center,
+      angle: initial_angles.start_angle,
+      radius_arc: 16,
+      radius_tip: 80,
+    })
+    this.annotation_end = new AngleAnnotation({
+      center: MAIN_CIRCLE.center,
+      angle: initial_angles.end_angle,
+      radius_arc: 32,
+      radius_tip: 80,
+    })
+    this.annotation_delta = new AngleAnnotation({
+      center: MAIN_CIRCLE.center,
+      angle: 0,
+      radius_arc: 48,
+      radius_tip: 80,
+    })
+
+    this.primitive = group(
+      style(Style.lines(COLOR_GREY, 2), MAIN_CIRCLE),
+      style(Style.lines(COLOR_NEUTRAL, 2), this.arc),
+      style(Style.lines(COLOR_NEGATIVE, 2), this.annotation_end),
+      style(Style.lines(COLOR_POSITIVE, 2), this.annotation_start),
+      style(Style.lines(COLOR_GREY, 2), this.annotation_delta),
+      style(STYLE_LABEL_NEUTRAL, this.label_start, this.label_end, this.label_delta),
+    )
+  }
+
+  update(p: p5): void {
+    const t = p.frameCount / 60
+
+    const delta = this.anim_delta.angle(t)
+    const shifted_arc = PhaseShiftRotate.INIT_ANGLES.phase_shift(delta)
+
+    this.arc.angles = shifted_arc
+
+    this.annotation_start.angle_ref = delta
+    this.annotation_end.angle_ref = delta
+    this.annotation_delta.angle = delta
+
+    this.label_delta.position = LABEL_CIRCLE.position(delta)
+    this.label_start.position = LABEL_CIRCLE.position(shifted_arc.start_angle)
+    this.label_end.position = LABEL_CIRCLE.position(shifted_arc.end_angle)
+  }
+
+  draw(lib: DrawP5): void {
+    this.primitive.draw(lib)
+  }
+}
+
 export const SKETCHES = {
   concept: make_static_sketch(new ArcConcept()),
   start_end_orientation: make_sketch(new StartEndOrientation()),
@@ -460,6 +546,7 @@ export const SKETCHES = {
   center_displacement: make_sketch(new CenterDisplacement()),
 
   // Symmetry animations
+  phase_shift_rotate: make_sketch(new PhaseShiftRotate()),
   swap_complement: make_sketch(new SwapComplement()),
   reverse_mirror: make_sketch(new ReverseMirror()),
 }
