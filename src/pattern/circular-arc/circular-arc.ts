@@ -151,6 +151,14 @@ class StartDisplacement implements SceneP5 {
   arc: ArcArrow
   primitive: Drawable
 
+  static readonly WAVE_DISPLACEMENT = Wave.sine({
+    amp: (3 * Math.PI) / 4,
+    freq: 0.25,
+    // Add a little bit of bias so the displacement is never exactly 0
+    // (which causes annoying flickering in this animation)
+    bias: 0.0125,
+  })
+
   constructor() {
     this.anim_start = new CircularMotion(MAIN_CIRCLE, 1 / 4)
 
@@ -175,8 +183,7 @@ class StartDisplacement implements SceneP5 {
     const t = p.frameCount / 60
 
     const start_angle = this.anim_start.angle(t)
-    const freq = 1 / 2
-    const displacement = 0.0125 + Math.sin(2.0 * Math.PI * freq * t)
+    const displacement = StartDisplacement.WAVE_DISPLACEMENT.bipolar(t)
     const end_angle = start_angle + displacement
     const orientation = displacement > 0 ? 1 : -1
     this.arc.angles = new ArcAngles(start_angle, end_angle, orientation)
@@ -203,6 +210,14 @@ class CenterDisplacement implements SceneP5 {
   primitive: Drawable
   center_line: LineSegment
 
+  static readonly WAVE_DISPLACEMENT = Wave.sine({
+    freq: 0.5,
+    amp: Math.PI / 4,
+    // Add a tiny bit of phase so we don't get a displacement of exactly 0
+    // (this makes the animation flicker in an annoying way)
+    phase: 0.01,
+  })
+
   constructor() {
     this.anim_center = new CircularMotion(MAIN_CIRCLE, 1 / 4)
 
@@ -223,8 +238,7 @@ class CenterDisplacement implements SceneP5 {
     const t = p.frameCount / 60
 
     const center_angle = this.anim_center.angle(t)
-    const freq = 1 / 2
-    const displacement = (Math.PI / 4) * Math.sin(2.0 * Math.PI * freq * t + 0.01)
+    const displacement = CenterDisplacement.WAVE_DISPLACEMENT.bipolar(t)
     const start_angle = center_angle - displacement
     const end_angle = center_angle + displacement
     this.arc.angles = new ArcAngles(start_angle, end_angle, Math.sign(displacement))
@@ -267,7 +281,7 @@ class SwapComplement implements SceneP5 {
   update(p: p5): void {
     const t = p.frameCount / 60
 
-    const wave = WAVE_TOGGLE.unipolar(t) // (0.5 * t) % 1.0 < 0.5 ? 0 : 1
+    const wave = WAVE_TOGGLE.unipolar(t)
 
     const start_angle = [0, (3 * Math.PI) / 4][wave]
     const end_angle = [(3 * Math.PI) / 4, 0][wave]
@@ -328,7 +342,7 @@ class ReverseMirror implements SceneP5 {
   update(p: p5): void {
     const t = p.frameCount / 60
 
-    const wave = (0.5 * t) % 1.0 < 0.5 ? 0 : 1
+    const wave = WAVE_TOGGLE.unipolar(t)
 
     this.arc.angles = this.arc_angles[wave]
     this.label_start.position = this.start_position[wave]
