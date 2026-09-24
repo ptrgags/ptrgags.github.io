@@ -17,6 +17,7 @@ import { mod } from '../../lib/math/mod.ts'
 import { LineSegment } from '../../lib/primitives/LineSegment.ts'
 import type { Pointlike } from '../../lib/primitives/Pointlike.ts'
 import { Wave } from '../../lib/animation/Wave.ts'
+import { AngleAnnotation } from '../../lib/primitives/AngleAnnotation.ts'
 
 const MAIN_CIRCLE = new Circle({ x: 128, y: 128 }, 64)
 const LABEL_CIRCLE = new Circle(MAIN_CIRCLE.center, 96)
@@ -80,6 +81,9 @@ class StartEndOrientation implements SceneP5 {
   pos_label: Text
   neg_label: Text
 
+  annotation_start: AngleAnnotation
+  annotation_end: AngleAnnotation
+
   primitive: Drawable
 
   anim_start: CircularMotion
@@ -90,7 +94,7 @@ class StartEndOrientation implements SceneP5 {
     const circle = new Circle(center, 64)
 
     this.anim_start = new CircularMotion(circle, 1 / 16)
-    this.anim_end = new CircularMotion(circle, -1 / 4, Math.PI / 4)
+    this.anim_end = new CircularMotion(circle, 1 / 4, Math.PI / 4)
 
     this.pos_arc = new ArcArrow({
       circle,
@@ -100,7 +104,19 @@ class StartEndOrientation implements SceneP5 {
     this.neg_arc = new ArcArrow({
       circle,
       angles: new ArcAngles(0, 0, AngleOrientation.NEGATIVE),
-      tail: ArrowParts.BOUNDARY_LOWER | ArrowParts.BOUNDARY_UPPER,
+    })
+
+    this.annotation_start = new AngleAnnotation({
+      center: MAIN_CIRCLE.center,
+      angle: 0,
+      radius_arc: 16,
+      radius_tip: 80,
+    })
+    this.annotation_end = new AngleAnnotation({
+      center: MAIN_CIRCLE.center,
+      angle: 0,
+      radius_arc: 32,
+      radius_tip: 80,
     })
 
     this.start_label = new Text('start', { x: 0, y: 0 })
@@ -109,9 +125,10 @@ class StartEndOrientation implements SceneP5 {
     this.neg_label = new Text('-', { x: 0, y: 0 })
 
     this.primitive = group(
-      style(Style.lines(COLOR_GREY, 2), circle),
+      style(Style.lines(COLOR_GREY, 2), circle, this.annotation_start, this.annotation_end),
       style(Style.lines(COLOR_POSITIVE, 2), this.pos_arc),
       style(Style.lines(COLOR_NEGATIVE, 2), this.neg_arc),
+      style(Style.lines(COLOR_NEUTRAL, 2)),
       style(STYLE_LABEL_NEUTRAL, this.start_label, this.end_label),
       style(STYLE_LABEL_POSITIVE, this.pos_label),
       style(STYLE_LABEL_NEGATIVE, this.neg_label),
@@ -121,10 +138,14 @@ class StartEndOrientation implements SceneP5 {
   update(p: p5): void {
     const t = p.frameCount / 60
 
+    // Negate the angles to compensate for p5's y-down coordinate system
     const start_angle = this.anim_start.angle(t)
     const end_angle = this.anim_end.angle(t)
     this.pos_arc.angles = new ArcAngles(start_angle, end_angle, AngleOrientation.POSITIVE)
     this.neg_arc.angles = new ArcAngles(start_angle, end_angle, AngleOrientation.NEGATIVE)
+
+    this.annotation_start.angle = start_angle
+    this.annotation_end.angle = end_angle
 
     this.start_label.position = LABEL_CIRCLE.position(start_angle)
     this.end_label.position = LABEL_CIRCLE.position(end_angle)
@@ -145,15 +166,17 @@ class StartDisplacement implements SceneP5 {
   canvas_size = { width: 256, height: 256 }
   anim_start: CircularMotion
 
-  start_line: LineSegment
+  annotation_start: AngleAnnotation
+  annotation_disp: ArcArrow
+
   start_label: Text
   displacement_label: Text
   arc: ArcArrow
   primitive: Drawable
 
   static readonly WAVE_DISPLACEMENT = Wave.sine({
-    amp: (3 * Math.PI) / 4,
-    freq: 0.25,
+    amp: (2 * Math.PI) / 3,
+    freq: 1 / 8,
     // Add a little bit of bias so the displacement is never exactly 0
     // (which causes annoying flickering in this animation)
     bias: 0.0125,
@@ -167,14 +190,25 @@ class StartDisplacement implements SceneP5 {
       angles: new ArcAngles(0, 0, AngleOrientation.POSITIVE),
     })
 
-    this.start_line = new LineSegment(MAIN_CIRCLE.center, this.anim_start.position(0))
+    this.annotation_start = new AngleAnnotation({
+      center: MAIN_CIRCLE.center,
+      radius_arc: 16,
+      radius_tip: 80,
+      angle: 0,
+    })
+    this.annotation_disp = new ArcArrow({
+      circle: LABEL_CIRCLE,
+      angles: new ArcAngles(0, 0, AngleOrientation.POSITIVE),
+      tip: ArrowParts.BOUNDARY_BOTH | ArrowParts.ARROW_BOTH,
+      tail: ArrowParts.BOUNDARY_BOTH,
+    })
 
     this.start_label = new Text('start', { x: 0, y: 0 })
     this.displacement_label = new Text('disp.', { x: 0, y: 0 })
 
     this.primitive = group(
-      style(Style.lines(COLOR_GREY, 2), MAIN_CIRCLE),
-      style(Style.lines(COLOR_NEUTRAL, 2), this.arc, this.start_line),
+      style(Style.lines(COLOR_GREY, 2), MAIN_CIRCLE, this.annotation_start, this.annotation_disp),
+      style(Style.lines(COLOR_NEUTRAL, 2), this.arc),
       style(STYLE_LABEL_NEUTRAL, this.start_label, this.displacement_label),
     )
   }
@@ -186,7 +220,9 @@ class StartDisplacement implements SceneP5 {
     const displacement = StartDisplacement.WAVE_DISPLACEMENT.bipolar(t)
     const end_angle = start_angle + displacement
     const orientation = displacement > 0 ? 1 : -1
-    this.arc.angles = new ArcAngles(start_angle, end_angle, orientation)
+    const arc_angles = new ArcAngles(start_angle, end_angle, orientation)
+    this.arc.angles = arc_angles
+    this.annotation_disp.angles = arc_angles
 
     const label_angle =
       orientation === 1
@@ -194,8 +230,8 @@ class StartDisplacement implements SceneP5 {
         : end_angle + 0.5 * mod(start_angle - end_angle, 2.0 * Math.PI)
     this.displacement_label.position = LABEL_CIRCLE.position(label_angle)
 
-    this.start_label.position = LABEL_CIRCLE_INNER.position(start_angle)
-    this.start_line.end = MAIN_CIRCLE.position(start_angle)
+    this.annotation_start.angle = start_angle
+    this.start_label.position = LABEL_CIRCLE_INNER.position(start_angle + Math.PI / 8)
   }
 
   draw(lib: DrawP5): void {
@@ -207,11 +243,14 @@ class CenterDisplacement implements SceneP5 {
   canvas_size = { width: 256, height: 256 }
   anim_center: CircularMotion
   arc: ArcArrow
+  annotation_start: AngleAnnotation
+  annotation_disp: ArcArrow
+  center_label: Text
+  displacement_label: Text
   primitive: Drawable
-  center_line: LineSegment
 
   static readonly WAVE_DISPLACEMENT = Wave.sine({
-    freq: 0.5,
+    freq: 1 / 4,
     amp: Math.PI / 4,
     // Add a tiny bit of phase so we don't get a displacement of exactly 0
     // (this makes the animation flicker in an annoying way)
@@ -226,11 +265,26 @@ class CenterDisplacement implements SceneP5 {
       angles: new ArcAngles(0, 0, AngleOrientation.POSITIVE),
     })
 
-    this.center_line = new LineSegment(MAIN_CIRCLE.center, this.anim_center.position(0))
+    this.annotation_start = new AngleAnnotation({
+      center: MAIN_CIRCLE.center,
+      radius_arc: 16,
+      radius_tip: 80,
+      angle: 0,
+    })
+    this.annotation_disp = new ArcArrow({
+      circle: LABEL_CIRCLE,
+      angles: new ArcAngles(0, 0, AngleOrientation.POSITIVE),
+      tip: ArrowParts.BOUNDARY_BOTH | ArrowParts.ARROW_BOTH,
+      tail: ArrowParts.BOUNDARY_BOTH,
+    })
+
+    this.center_label = new Text('center', { x: 0, y: 0 })
+    this.displacement_label = new Text('disp.', { x: 0, y: 0 })
 
     this.primitive = group(
-      style(Style.lines(COLOR_GREY, 2), MAIN_CIRCLE),
-      style(Style.lines(COLOR_NEUTRAL, 2), this.arc, this.center_line),
+      style(Style.lines(COLOR_GREY, 2), MAIN_CIRCLE, this.annotation_start, this.annotation_disp),
+      style(Style.lines(COLOR_NEUTRAL, 2), this.arc),
+      style(STYLE_LABEL_NEUTRAL, this.center_label, this.displacement_label),
     )
   }
 
@@ -242,8 +296,16 @@ class CenterDisplacement implements SceneP5 {
     const start_angle = center_angle - displacement
     const end_angle = center_angle + displacement
     this.arc.angles = new ArcAngles(start_angle, end_angle, Math.sign(displacement))
+    this.annotation_disp.angles = new ArcAngles(
+      center_angle,
+      center_angle + displacement,
+      Math.sign(displacement),
+    )
 
-    this.center_line.end = MAIN_CIRCLE.position(center_angle)
+    this.annotation_start.angle = center_angle
+
+    this.center_label.position = LABEL_CIRCLE_INNER.position(center_angle + Math.PI / 8)
+    this.displacement_label.position = LABEL_CIRCLE.position(center_angle + 0.5 * displacement)
   }
 
   draw(lib: DrawP5): void {
@@ -261,6 +323,8 @@ class SwapComplement implements SceneP5 {
   label_end: Text
 
   primitive: Drawable
+  annotation_start: AngleAnnotation
+  annotation_end: AngleAnnotation
 
   constructor() {
     this.arc = new ArcArrow({
@@ -271,8 +335,21 @@ class SwapComplement implements SceneP5 {
     this.label_start = new Text('start', LABEL_CIRCLE.position(0))
     this.label_end = new Text('end', LABEL_CIRCLE.position((3 * Math.PI) / 4))
 
+    this.annotation_start = new AngleAnnotation({
+      center: MAIN_CIRCLE.center,
+      angle: 0,
+      radius_arc: 16,
+      radius_tip: 80,
+    })
+    this.annotation_end = new AngleAnnotation({
+      center: MAIN_CIRCLE.center,
+      angle: 0,
+      radius_arc: 32,
+      radius_tip: 80,
+    })
+
     this.primitive = group(
-      style(Style.lines(COLOR_GREY, 2), MAIN_CIRCLE),
+      style(Style.lines(COLOR_GREY, 2), MAIN_CIRCLE, this.annotation_start, this.annotation_end),
       style(Style.lines(COLOR_NEUTRAL, 2), this.arc),
       style(STYLE_LABEL_NEUTRAL, this.label_start, this.label_end),
     )
@@ -283,12 +360,15 @@ class SwapComplement implements SceneP5 {
 
     const wave = WAVE_TOGGLE.unipolar(t)
 
-    const start_angle = [0, (3 * Math.PI) / 4][wave]
-    const end_angle = [(3 * Math.PI) / 4, 0][wave]
+    const start_angle = [-Math.PI / 4, (2 * Math.PI) / 3][wave]
+    const end_angle = [(2 * Math.PI) / 3, -Math.PI / 4][wave]
     this.arc.angles = new ArcAngles(start_angle, end_angle, AngleOrientation.POSITIVE)
 
     this.label_start.position = LABEL_CIRCLE.position(start_angle)
     this.label_end.position = LABEL_CIRCLE.position(end_angle)
+
+    this.annotation_start.angle = start_angle
+    this.annotation_end.angle = end_angle
   }
 
   draw(lib: DrawP5): void {
@@ -308,6 +388,8 @@ class ReverseMirror implements SceneP5 {
   label_end: Text
 
   primitive: Drawable
+  annotation_start: AngleAnnotation
+  annotation_end: AngleAnnotation
 
   constructor() {
     const start_angle = Math.PI / 4
@@ -332,8 +414,21 @@ class ReverseMirror implements SceneP5 {
     this.label_start = new Text('start', start_position)
     this.label_end = new Text('end', end_position)
 
+    this.annotation_start = new AngleAnnotation({
+      center: MAIN_CIRCLE.center,
+      angle: 0,
+      radius_arc: 16,
+      radius_tip: 80,
+    })
+    this.annotation_end = new AngleAnnotation({
+      center: MAIN_CIRCLE.center,
+      angle: 0,
+      radius_arc: 32,
+      radius_tip: 80,
+    })
+
     this.primitive = group(
-      style(Style.lines(COLOR_GREY, 2), MAIN_CIRCLE),
+      style(Style.lines(COLOR_GREY, 2), MAIN_CIRCLE, this.annotation_start, this.annotation_end),
       style(Style.lines(COLOR_NEUTRAL, 2), this.arc),
       style(STYLE_LABEL_NEUTRAL, this.label_start, this.label_end),
     )
@@ -344,9 +439,13 @@ class ReverseMirror implements SceneP5 {
 
     const wave = WAVE_TOGGLE.unipolar(t)
 
-    this.arc.angles = this.arc_angles[wave]
+    const arc_angles = this.arc_angles[wave]
+    this.arc.angles = arc_angles
     this.label_start.position = this.start_position[wave]
     this.label_end.position = this.end_position[wave]
+
+    this.annotation_start.angle = arc_angles.start_angle
+    this.annotation_end.angle = arc_angles.end_angle
   }
 
   draw(lib: DrawP5): void {

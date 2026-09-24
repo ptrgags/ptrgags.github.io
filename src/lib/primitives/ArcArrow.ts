@@ -7,8 +7,10 @@ import type { DrawingLibrary } from './DrawingLibrary.ts'
 export enum ArrowParts {
   ARROW_UPPER = 0b0001,
   ARROW_LOWER = 0b0010,
+  ARROW_BOTH = 0b0011,
   BOUNDARY_UPPER = 0b0100,
   BOUNDARY_LOWER = 0b1000,
+  BOUNDARY_BOTH = 0b1100,
 }
 
 export interface ArcArowOptions {
