@@ -83,6 +83,7 @@ Conversion formulas:
 - $\beta = \gamma + \phi$
 - $o = o$
 
+<!-- Out of scope for now
 ### Three Angles
 
 $(a, b, c)$, with the arc defined in the direction $a, b, c$
@@ -93,6 +94,8 @@ Conversion Algorithm:
 - $o = |(B - A) \wedge (C - A)| = |(B - A) \times (C - A)|$
 - $\alpha = a$
 - $\beta = c$
+
+-->
 
 ### Directed and Undirected Arcs
 
@@ -152,6 +155,7 @@ Conversion Algorithm:
 | `swap * reverse_orientation` | `reverse`                           |
 
 
+<!-- out of scope for now
 
 ## Drawing Undirected Arcs
 
@@ -200,3 +204,5 @@ instead of distance to line
 - Arrows are drawn as lines within a box in tangent space
 - ❓ How to determine sizing?
 - Optional: you could also draw line segments along the normal to make the boundaries clearer
+
+-->
