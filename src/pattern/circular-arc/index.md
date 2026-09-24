@@ -151,8 +151,8 @@ Conversion Algorithm:
 | `phase_shift(delta)`         | `rotation(delta)`                   | <SketchP5 :sketch="SKETCHES.phase_shift_rotate" /> |
 | `swap`                       | `complement`                        | <SketchP5 :sketch="SKETCHES.swap_complement" />    |
 | `reverse_angles`             | `flip_y`                            | <SketchP5 :sketch="SKETCHES.reverse_mirror" />     |
-| `reverse_orientation`        | `other_path = complement * reverse` |
-| `swap * reverse_orientation` | `reverse`                           |
+| `reverse_orientation`        | `other_path = complement * reverse` | <SketchP5 :sketch="SKETCHES.other_path" />         |
+| `swap * reverse_orientation` | `reverse`                           | <SketchP5 :sketch="SKETCHES.reverse_arc" />        |
 
 
 <!-- out of scope for now

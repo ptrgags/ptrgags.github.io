@@ -13,7 +13,7 @@ export class CircularArc implements Drawable {
   }
 
   complement(): CircularArc {
-    return new CircularArc(this.circle, this.angles.complement())
+    return new CircularArc(this.circle, this.angles.swap())
   }
 
   other_arc(): CircularArc {

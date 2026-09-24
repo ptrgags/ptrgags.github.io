@@ -14,23 +14,19 @@ export class ArcAngles {
     this.orientation = orientation
   }
 
-  complement(): ArcAngles {
+  swap(): ArcAngles {
     return new ArcAngles(this.end_angle, this.start_angle, this.orientation)
-  }
-
-  reverse_orientation(): ArcAngles {
-    return new ArcAngles(this.end_angle, this.start_angle, -this.orientation)
   }
 
   reverse_angles(): ArcAngles {
     return new ArcAngles(-this.start_angle, -this.end_angle, -this.orientation)
   }
 
-  phase_shift(delta: number): ArcAngles {
-    return new ArcAngles(this.start_angle + delta, this.end_angle + delta, this.orientation)
+  reverse_orientation(): ArcAngles {
+    return new ArcAngles(this.start_angle, this.end_angle, -this.orientation)
   }
 
-  other_arc(): ArcAngles {
-    return new ArcAngles(this.start_angle, this.end_angle, -this.orientation)
+  phase_shift(delta: number): ArcAngles {
+    return new ArcAngles(this.start_angle + delta, this.end_angle + delta, this.orientation)
   }
 }

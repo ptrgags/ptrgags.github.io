@@ -453,6 +453,166 @@ class ReverseMirror implements SceneP5 {
   }
 }
 
+class OtherPath implements SceneP5 {
+  canvas_size = { width: 256, height: 256 }
+
+  arc_angles: [ArcAngles, ArcAngles]
+  start_position: [Pointlike, Pointlike]
+  end_position: [Pointlike, Pointlike]
+
+  arc: ArcArrow
+  label_start: Text
+  label_end: Text
+
+  primitive: Drawable
+  annotation_start: AngleAnnotation
+  annotation_end: AngleAnnotation
+
+  constructor() {
+    // These angles may change depending on what I want to show
+    const start_angle = Math.PI / 4
+    const end_angle = Math.PI
+    const angles_forward = new ArcAngles(start_angle, end_angle, AngleOrientation.POSITIVE)
+    // This changes for each involution
+    const angles_flipped = angles_forward.reverse_orientation()
+
+    this.arc_angles = [angles_forward, angles_flipped]
+
+    this.arc = new ArcArrow({
+      circle: MAIN_CIRCLE,
+      angles: angles_forward,
+    })
+
+    const start_position = LABEL_CIRCLE.position(start_angle)
+    const start_position_rev = LABEL_CIRCLE.position(angles_flipped.start_angle)
+    const end_position = LABEL_CIRCLE.position(end_angle)
+    const end_position_rev = LABEL_CIRCLE.position(angles_flipped.end_angle)
+
+    this.start_position = [start_position, start_position_rev]
+    this.end_position = [end_position, end_position_rev]
+
+    this.label_start = new Text('start', start_position)
+    this.label_end = new Text('end', end_position)
+
+    this.annotation_start = new AngleAnnotation({
+      center: MAIN_CIRCLE.center,
+      angle: 0,
+      radius_arc: 16,
+      radius_tip: 80,
+    })
+    this.annotation_end = new AngleAnnotation({
+      center: MAIN_CIRCLE.center,
+      angle: 0,
+      radius_arc: 32,
+      radius_tip: 80,
+    })
+
+    this.primitive = group(
+      style(Style.lines(COLOR_GREY, 2), MAIN_CIRCLE, this.annotation_start, this.annotation_end),
+      style(Style.lines(COLOR_NEUTRAL, 2), this.arc),
+      style(STYLE_LABEL_NEUTRAL, this.label_start, this.label_end),
+    )
+  }
+
+  update(p: p5): void {
+    const t = p.frameCount / 60
+
+    const wave = WAVE_TOGGLE.unipolar(t)
+
+    const arc_angles = this.arc_angles[wave]
+    this.arc.angles = arc_angles
+    this.label_start.position = this.start_position[wave]
+    this.label_end.position = this.end_position[wave]
+
+    this.annotation_start.angle = arc_angles.start_angle
+    this.annotation_end.angle = arc_angles.end_angle
+  }
+
+  draw(lib: DrawP5): void {
+    this.primitive.draw(lib)
+  }
+}
+
+class ReverseArc implements SceneP5 {
+  canvas_size = { width: 256, height: 256 }
+
+  arc_angles: [ArcAngles, ArcAngles]
+  start_position: [Pointlike, Pointlike]
+  end_position: [Pointlike, Pointlike]
+
+  arc: ArcArrow
+  label_start: Text
+  label_end: Text
+
+  primitive: Drawable
+  annotation_start: AngleAnnotation
+  annotation_end: AngleAnnotation
+
+  constructor() {
+    // These angles may change depending on what I want to show
+    const start_angle = Math.PI / 4
+    const end_angle = Math.PI
+    const angles_forward = new ArcAngles(start_angle, end_angle, AngleOrientation.POSITIVE)
+    // This changes for each involution
+    const angles_flipped = angles_forward.reverse_orientation().swap()
+
+    this.arc_angles = [angles_forward, angles_flipped]
+
+    this.arc = new ArcArrow({
+      circle: MAIN_CIRCLE,
+      angles: angles_forward,
+    })
+
+    const start_position = LABEL_CIRCLE.position(start_angle)
+    const start_position_rev = LABEL_CIRCLE.position(angles_flipped.start_angle)
+    const end_position = LABEL_CIRCLE.position(end_angle)
+    const end_position_rev = LABEL_CIRCLE.position(angles_flipped.end_angle)
+
+    this.start_position = [start_position, start_position_rev]
+    this.end_position = [end_position, end_position_rev]
+
+    this.label_start = new Text('start', start_position)
+    this.label_end = new Text('end', end_position)
+
+    this.annotation_start = new AngleAnnotation({
+      center: MAIN_CIRCLE.center,
+      angle: 0,
+      radius_arc: 16,
+      radius_tip: 80,
+    })
+    this.annotation_end = new AngleAnnotation({
+      center: MAIN_CIRCLE.center,
+      angle: 0,
+      radius_arc: 32,
+      radius_tip: 80,
+    })
+
+    this.primitive = group(
+      style(Style.lines(COLOR_GREY, 2), MAIN_CIRCLE, this.annotation_start, this.annotation_end),
+      style(Style.lines(COLOR_NEUTRAL, 2), this.arc),
+      style(STYLE_LABEL_NEUTRAL, this.label_start, this.label_end),
+    )
+  }
+
+  update(p: p5): void {
+    const t = p.frameCount / 60
+
+    const wave = WAVE_TOGGLE.unipolar(t)
+
+    const arc_angles = this.arc_angles[wave]
+    this.arc.angles = arc_angles
+    this.label_start.position = this.start_position[wave]
+    this.label_end.position = this.end_position[wave]
+
+    this.annotation_start.angle = arc_angles.start_angle
+    this.annotation_end.angle = arc_angles.end_angle
+  }
+
+  draw(lib: DrawP5): void {
+    this.primitive.draw(lib)
+  }
+}
+
 class PhaseShiftRotate implements SceneP5 {
   canvas_size = { width: 256, height: 256 }
 
@@ -548,5 +708,7 @@ export const SKETCHES = {
   // Symmetry animations
   phase_shift_rotate: make_sketch(new PhaseShiftRotate()),
   swap_complement: make_sketch(new SwapComplement()),
+  other_path: make_sketch(new OtherPath()),
+  reverse_arc: make_sketch(new ReverseArc()),
   reverse_mirror: make_sketch(new ReverseMirror()),
 }
