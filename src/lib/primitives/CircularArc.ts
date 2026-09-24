@@ -21,11 +21,11 @@ export class CircularArc implements Drawable {
   }
 
   reverse(): CircularArc {
-    return new CircularArc(this.circle, this.angles.reverse())
+    return new CircularArc(this.circle, this.angles.reverse_orientation())
   }
 
   flip_y(): CircularArc {
-    return new CircularArc(this.circle, this.angles.flip_y())
+    return new CircularArc(this.circle, this.angles.reverse_angles())
   }
 
   draw(lib: DrawingLibrary): void {

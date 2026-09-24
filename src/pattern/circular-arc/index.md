@@ -16,7 +16,8 @@ A circular arc is a contiguous slice out of a circle.
 
 <SketchP5 :sketch="SKETCHES.concept" />
 
-We can define it as a circle plus a set of angles.
+We can define it as a circle plus a set of angles to set the bounds of
+the slice:
 
 ```
 Arc = (Circle, Angles)
@@ -106,10 +107,12 @@ Conversion Algorithm:
 :::warning TODO: flesh out these definitions
 :::
 
-- swap angles
-- complement of angles
-- reverse orientation
-- phase shift
+| Transformation        | Formula                                     |
+| --------------------- | ------------------------------------------- |
+| `swap`                | `(end, start, orientation)`                 |
+| `reverse_angles`      | `(-start, -end, orientation)`               |
+| `reverse_orientation` | `(start, end, -orientation)`                |
+| `phase_shift(delta)`  | `(start + delta, end + delta, orientation)` |
 
 ### Transforming Arcs
 
@@ -140,13 +143,15 @@ Conversion Algorithm:
 
 ### Connecting Angle Transformations to Arc Transformations
 
-| Angle Transformation         | Arc Transformation                  |
-| ---------------------------- | ----------------------------------- |
+| Angle Transformation         | Arc Transformation                  | Animation                                       |
+| ---------------------------- | ----------------------------------- | ----------------------------------------------- |
 | `phase_shift(delta)`         | `rotation(delta)`                   |
-| `swap`                       | `complement`                        |
-| `complement`                 | `mirror(y)`                         |
+| `swap`                       | `complement`                        | <SketchP5 :sketch="SKETCHES.swap_complement" /> |
+| `reverse_angles`             | `flip_y`                            | <SketchP5 :sketch="SKETCHES.reverse_mirror" />  |
 | `reverse_orientation`        | `other_path = complement * reverse` |
 | `swap * reverse_orientation` | `reverse`                           |
+
+
 
 ## Drawing Undirected Arcs
 

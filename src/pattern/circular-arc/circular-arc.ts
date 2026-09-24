@@ -16,6 +16,7 @@ import { Text } from '../../lib/primitives/Text.ts'
 import { mod } from '../../lib/math/mod.ts'
 import type { Dimensionlike } from '../../lib/primitives/Dimensionlike.ts'
 import { LineSegment } from '../../lib/primitives/LineSegment.ts'
+import type { Pointlike } from '../../lib/primitives/Pointlike.ts'
 
 const MAIN_CIRCLE = new Circle({ x: 128, y: 128 }, 64)
 const LABEL_CIRCLE = new Circle(MAIN_CIRCLE.center, 96)
@@ -37,7 +38,7 @@ class ArcConcept implements SceneP5 {
   constructor() {
     const arc = new CircularArc(
       MAIN_CIRCLE,
-      new ArcAngles(Math.PI / 4, Math.PI / 2, AngleOrientation.POSITIVE).flip_y(),
+      new ArcAngles(Math.PI / 4, Math.PI / 2, AngleOrientation.POSITIVE).reverse_angles(),
     )
 
     // TEMP: Keeping around for reference
@@ -236,9 +237,114 @@ class CenterDisplacement implements SceneP5 {
   }
 }
 
+class SwapComplement implements SceneP5 {
+  canvas_size = { width: 256, height: 256 }
+
+  arc: ArcArrow
+  label_start: Text
+  label_end: Text
+
+  primitive: Drawable
+
+  constructor() {
+    this.arc = new ArcArrow({
+      circle: MAIN_CIRCLE,
+      angles: new ArcAngles(0, (3 * Math.PI) / 4, AngleOrientation.POSITIVE),
+    })
+
+    this.label_start = new Text('start', LABEL_CIRCLE.position(0))
+    this.label_end = new Text('end', LABEL_CIRCLE.position((3 * Math.PI) / 4))
+
+    this.primitive = group(
+      style(Style.lines(COLOR_GREY, 2), MAIN_CIRCLE),
+      style(Style.lines(COLOR_NEUTRAL, 2), this.arc),
+      style(STYLE_LABEL_NEUTRAL, this.label_start, this.label_end),
+    )
+  }
+
+  update(p: p5): void {
+    const t = p.frameCount / 60
+
+    const wave = (0.5 * t) % 1.0 < 0.5 ? 0 : 1
+
+    const start_angle = [0, (3 * Math.PI) / 4][wave]
+    const end_angle = [(3 * Math.PI) / 4, 0][wave]
+    this.arc.angles = new ArcAngles(start_angle, end_angle, AngleOrientation.POSITIVE)
+
+    this.label_start.position = LABEL_CIRCLE.position(start_angle)
+    this.label_end.position = LABEL_CIRCLE.position(end_angle)
+  }
+
+  draw(lib: DrawP5): void {
+    this.primitive.draw(lib)
+  }
+}
+
+class ReverseMirror implements SceneP5 {
+  canvas_size = { width: 256, height: 256 }
+
+  arc_angles: [ArcAngles, ArcAngles]
+  start_position: [Pointlike, Pointlike]
+  end_position: [Pointlike, Pointlike]
+
+  arc: ArcArrow
+  label_start: Text
+  label_end: Text
+
+  primitive: Drawable
+
+  constructor() {
+    const start_angle = Math.PI / 4
+    const end_angle = (5 * Math.PI) / 4
+    const angles_forward = new ArcAngles(start_angle, end_angle, AngleOrientation.POSITIVE)
+
+    this.arc_angles = [angles_forward, angles_forward.reverse_angles()]
+
+    this.arc = new ArcArrow({
+      circle: MAIN_CIRCLE,
+      angles: angles_forward,
+    })
+
+    const start_position = LABEL_CIRCLE.position(start_angle)
+    const start_position_rev = LABEL_CIRCLE.position(-start_angle)
+    const end_position = LABEL_CIRCLE.position(end_angle)
+    const end_position_rev = LABEL_CIRCLE.position(-end_angle)
+
+    this.start_position = [start_position, start_position_rev]
+    this.end_position = [end_position, end_position_rev]
+
+    this.label_start = new Text('start', start_position)
+    this.label_end = new Text('end', end_position)
+
+    this.primitive = group(
+      style(Style.lines(COLOR_GREY, 2), MAIN_CIRCLE),
+      style(Style.lines(COLOR_NEUTRAL, 2), this.arc),
+      style(STYLE_LABEL_NEUTRAL, this.label_start, this.label_end),
+    )
+  }
+
+  update(p: p5): void {
+    const t = p.frameCount / 60
+
+    const wave = (0.5 * t) % 1.0 < 0.5 ? 0 : 1
+
+    this.arc.angles = this.arc_angles[wave]
+    this.label_start.position = this.start_position[wave]
+    this.label_end.position = this.end_position[wave]
+  }
+
+  draw(lib: DrawP5): void {
+    this.primitive.draw(lib)
+  }
+}
+
 export const SKETCHES = {
   concept: make_static_sketch(new ArcConcept()),
   start_end_orientation: make_sketch(new StartEndOrientation()),
   start_displacement: make_sketch(new StartDisplacement()),
   center_displacement: make_sketch(new CenterDisplacement()),
+
+  // Symmetry animations
+  swap_complement: make_sketch(new SwapComplement()),
+  reverse_mirror: make_sketch(new ReverseMirror()),
 }
