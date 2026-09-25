@@ -437,7 +437,7 @@ class PhaseShiftRotate implements SceneP5 {
   constructor(annotate: boolean) {
     this.anim_delta = new CircularMotion(MAIN_CIRCLE, 1 / 8)
 
-    const initial_angles = PhaseShiftRotate.INIT_ANGLES
+    const initial_angles = PhaseShiftRotate.INIT_ANGLES.reverse_angles()
 
     this.arc = new ArcArrow({
       circle: MAIN_CIRCLE,
@@ -488,15 +488,15 @@ class PhaseShiftRotate implements SceneP5 {
     const t = p.frameCount / 60
 
     const delta = this.anim_delta.angle(t)
-    const shifted_arc = PhaseShiftRotate.INIT_ANGLES.phase_shift(delta)
+    const shifted_arc = PhaseShiftRotate.INIT_ANGLES.phase_shift(delta).reverse_angles()
 
     this.arc.angles = shifted_arc
 
-    this.annotation_start.angle_ref = delta
-    this.annotation_end.angle_ref = delta
-    this.annotation_delta.angle = delta
+    this.annotation_start.angle_ref = -delta
+    this.annotation_end.angle_ref = -delta
+    this.annotation_delta.angle = -delta
 
-    this.label_delta.position = LABEL_CIRCLE.position(delta)
+    this.label_delta.position = LABEL_CIRCLE.position(-delta)
     this.label_start.position = LABEL_CIRCLE.position(shifted_arc.start_angle)
     this.label_end.position = LABEL_CIRCLE.position(shifted_arc.end_angle)
   }
