@@ -1,14 +1,14 @@
 ---
 layout: article
 title: Circular Arc
+thumbnail: pattern/circular-arc/thumbnail.png
 ---
 <script setup lang="ts">
 import SketchP5 from '../../components/SketchP5.vue'
 import {SKETCHES} from './circular-arc'
 </script>
 
-:::warning TODO: doodle with circular arcs
-:::
+<SketchP5 :sketch="SKETCHES.showcase" />
 
 ## Definitions
 

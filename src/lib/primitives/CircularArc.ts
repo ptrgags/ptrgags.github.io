@@ -17,11 +17,11 @@ export class CircularArc implements Drawable {
   }
 
   other_arc(): CircularArc {
-    return new CircularArc(this.circle, this.angles.other_arc())
+    return new CircularArc(this.circle, this.angles.reverse_orientation())
   }
 
   reverse(): CircularArc {
-    return new CircularArc(this.circle, this.angles.reverse_orientation())
+    return new CircularArc(this.circle, this.angles.reverse_orientation().swap())
   }
 
   flip_y(): CircularArc {
