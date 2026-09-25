@@ -1,3 +1,5 @@
+import { mod } from '../math/mod.ts'
+
 export enum AngleOrientation {
   NEGATIVE = -1,
   POSITIVE = 1,

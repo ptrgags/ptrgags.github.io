@@ -126,20 +126,29 @@ class StartEndOrientation implements SceneP5 {
     // Negate the angles to compensate for p5's y-down coordinate system
     const start_angle = this.anim_start.angle(t)
     const end_angle = this.anim_end.angle(t)
-    this.pos_arc.angles = new ArcAngles(start_angle, end_angle, AngleOrientation.POSITIVE)
-    this.neg_arc.angles = new ArcAngles(start_angle, end_angle, AngleOrientation.NEGATIVE)
+    this.pos_arc.angles = new ArcAngles(
+      start_angle,
+      end_angle,
+      AngleOrientation.POSITIVE,
+    ).reverse_angles()
+    this.neg_arc.angles = new ArcAngles(
+      start_angle,
+      end_angle,
+      AngleOrientation.NEGATIVE,
+    ).reverse_angles()
 
-    this.annotation_start.angle = start_angle
-    this.annotation_end.angle = end_angle
+    this.annotation_start.angle = -start_angle
+    this.annotation_end.angle = -end_angle
 
-    this.start_label.position = LABEL_CIRCLE.position(start_angle)
-    this.end_label.position = LABEL_CIRCLE.position(end_angle)
+    this.start_label.position = LABEL_CIRCLE.position(-start_angle)
+    this.end_label.position = LABEL_CIRCLE.position(-end_angle)
 
+    // TODO: use arc midpoint once available
     const pos_angle = start_angle + 0.5 * mod(end_angle - start_angle, 2.0 * Math.PI)
     const neg_angle = end_angle + 0.5 * mod(start_angle - end_angle, 2.0 * Math.PI)
 
-    this.pos_label.position = LABEL_CIRCLE.position(pos_angle)
-    this.neg_label.position = LABEL_CIRCLE.position(neg_angle)
+    this.pos_label.position = LABEL_CIRCLE.position(-pos_angle)
+    this.neg_label.position = LABEL_CIRCLE.position(-neg_angle)
   }
 
   draw(lib: DrawP5): void {
@@ -205,7 +214,7 @@ class StartDisplacement implements SceneP5 {
     const displacement = StartDisplacement.WAVE_DISPLACEMENT.bipolar(t)
     const end_angle = start_angle + displacement
     const orientation = displacement > 0 ? 1 : -1
-    const arc_angles = new ArcAngles(start_angle, end_angle, orientation)
+    const arc_angles = new ArcAngles(start_angle, end_angle, orientation).reverse_angles()
     this.arc.angles = arc_angles
     this.annotation_disp.angles = arc_angles
 
@@ -213,10 +222,10 @@ class StartDisplacement implements SceneP5 {
       orientation === 1
         ? start_angle + 0.5 * mod(end_angle - start_angle, 2.0 * Math.PI)
         : end_angle + 0.5 * mod(start_angle - end_angle, 2.0 * Math.PI)
-    this.displacement_label.position = LABEL_CIRCLE.position(label_angle)
+    this.displacement_label.position = LABEL_CIRCLE.position(-label_angle)
 
-    this.annotation_start.angle = start_angle
-    this.start_label.position = LABEL_CIRCLE_INNER.position(start_angle + Math.PI / 8)
+    this.annotation_start.angle = -start_angle
+    this.start_label.position = LABEL_CIRCLE_INNER.position(-(start_angle + Math.PI / 8))
   }
 
   draw(lib: DrawP5): void {
@@ -280,17 +289,21 @@ class CenterDisplacement implements SceneP5 {
     const displacement = CenterDisplacement.WAVE_DISPLACEMENT.bipolar(t)
     const start_angle = center_angle - displacement
     const end_angle = center_angle + displacement
-    this.arc.angles = new ArcAngles(start_angle, end_angle, Math.sign(displacement))
+    this.arc.angles = new ArcAngles(
+      start_angle,
+      end_angle,
+      Math.sign(displacement),
+    ).reverse_angles() // handle y-down
     this.annotation_disp.angles = new ArcAngles(
       center_angle,
       center_angle + displacement,
       Math.sign(displacement),
-    )
+    ).reverse_angles()
 
-    this.annotation_start.angle = center_angle
+    this.annotation_start.angle = -center_angle
 
-    this.center_label.position = LABEL_CIRCLE_INNER.position(center_angle + Math.PI / 8)
-    this.displacement_label.position = LABEL_CIRCLE.position(center_angle + 0.5 * displacement)
+    this.center_label.position = LABEL_CIRCLE_INNER.position(-(center_angle + Math.PI / 8))
+    this.displacement_label.position = LABEL_CIRCLE.position(-(center_angle + 0.5 * displacement))
   }
 
   draw(lib: DrawP5): void {
@@ -335,17 +348,18 @@ class ArcInvolution implements SceneP5 {
       angles_flipped = angles_forward.reverse_orientation().swap()
     }
 
-    this.arc_angles = [angles_forward, angles_flipped]
+    // reverse angles here and a few other places to handle y-down coordinates
+    this.arc_angles = [angles_forward.reverse_angles(), angles_flipped.reverse_angles()]
 
     this.arc = new ArcArrow({
       circle: MAIN_CIRCLE,
       angles: angles_forward,
     })
 
-    const start_position = LABEL_CIRCLE.position(start_angle)
-    const start_position_rev = LABEL_CIRCLE.position(angles_flipped.start_angle)
-    const end_position = LABEL_CIRCLE.position(end_angle)
-    const end_position_rev = LABEL_CIRCLE.position(angles_flipped.end_angle)
+    const start_position = LABEL_CIRCLE.position(-start_angle)
+    const start_position_rev = LABEL_CIRCLE.position(-angles_flipped.start_angle)
+    const end_position = LABEL_CIRCLE.position(-end_angle)
+    const end_position_rev = LABEL_CIRCLE.position(-angles_flipped.end_angle)
 
     this.start_position = [start_position, start_position_rev]
     this.end_position = [end_position, end_position_rev]
