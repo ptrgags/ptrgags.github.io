@@ -47,7 +47,7 @@ function compute_track_length(track: RelativeTimingTrack): number {
  * allocating the buffer
  * @param {MIDIFile<RelativeTimingTrack>} midi The MIDI file
  */
-function compute_length(midi: MIDIFile<RelativeTimingTrack>) {
+function compute_length(midi: MIDIFile) {
   const HEADER_MAGIC_LENGTH = 4
   const header_length = HEADER_MAGIC_LENGTH + SIZE_U32 + HEADER_CHUNK_LENGTH
 
@@ -129,10 +129,10 @@ function encode_track(data_view: DataView, offset: number, track: RelativeTiming
 
 /**
  * Encode a MIDI file as binary
- * @param {MIDIFile<RelativeTimingTrack>} midi The MIDI file to encode. This MUST use relative timing.
+ * @param {MIDIFile} midi The MIDI file to encode. This MUST use relative timing.
  * @returns {ArrayBuffer} Binary MIDI data to put in a
  */
-export function encode_midi(midi: MIDIFile<RelativeTimingTrack>): ArrayBuffer {
+export function encode_midi(midi: MIDIFile): ArrayBuffer {
   if (midi.tracks.length === 0) {
     throw new Error('MIDI files must have at least one track')
   }
@@ -157,7 +157,7 @@ export function encode_midi(midi: MIDIFile<RelativeTimingTrack>): ArrayBuffer {
  * @param {string} filename Filename that must end in .mid
  * @returns {File} A file for downloading
  */
-export function encode_midi_file(midi: MIDIFile<RelativeTimingTrack>, filename: string): File {
+export function encode_midi_file(midi: MIDIFile, filename: string): File {
   if (!filename.endsWith('.mid')) {
     throw new Error('filename must end with .mid')
   }

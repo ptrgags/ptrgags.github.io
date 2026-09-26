@@ -1,11 +1,7 @@
 import { DefaultDict } from '../../lib/data_structures/DefaultDict.ts'
 import { MIDIMessage, MIDIMetaEvent, MIDIProgramChangeMessage } from '../../lib/midi/MIDIEvent.ts'
 import { MIDIFile, MIDIFormat, MIDIHeader } from '../../lib/midi/MIDIFile.ts'
-import {
-  AbsoluteTimingTrack,
-  type EventList,
-  type RelativeTimingTrack,
-} from '../../lib/midi/MIDITrack.ts'
+import { AbsoluteTimingTrack, by_midi_tick, type EventList } from '../../lib/midi/MIDITrack.ts'
 
 function get_first_program_change(events: EventList): MIDIProgramChangeMessage | undefined {
   for (const [, event] of events) {
@@ -16,30 +12,29 @@ function get_first_program_change(events: EventList): MIDIProgramChangeMessage |
 }
 
 export class ChannelSplitter {
-  original_file: MIDIFile<RelativeTimingTrack>
+  ticks_per_quarter: number
   global_events: EventList
   channels: [number, EventList][]
 
-  constructor(file: MIDIFile<RelativeTimingTrack>) {
-    this.original_file = file
+  constructor(file: MIDIFile) {
+    this.ticks_per_quarter = file.header.ticks_per_quarter
 
     // split the messages by channel
     const by_channel: DefaultDict<EventList> = new DefaultDict(() => [])
-    for (const track of file.tracks) {
-      const abs_track = track.to_absolute()
 
-      for (const [t, event] of abs_track.events) {
-        let channel_str
-        if (event instanceof MIDIMessage) {
-          channel_str = event.channel.toString()
-        } else if (event instanceof MIDIMetaEvent) {
-          channel_str = 'meta'
-        } else {
-          channel_str = 'sysex'
-        }
+    const abs_file = file.to_absolute_timing()
 
-        by_channel.get(channel_str).push([t, event])
+    for (const [t, event] of abs_file.all_events) {
+      let channel_str
+      if (event instanceof MIDIMessage) {
+        channel_str = event.channel.toString()
+      } else if (event instanceof MIDIMetaEvent) {
+        channel_str = 'meta'
+      } else {
+        channel_str = 'sysex'
       }
+
+      by_channel.get(channel_str).push([t, event])
     }
 
     const MIDI_CHANNELS = 16
@@ -64,20 +59,21 @@ export class ChannelSplitter {
     })
   }
 
-  split(channel_ids: number[]): MIDIFile<RelativeTimingTrack> {
-    const ppq = this.original_file.header.ticks_per_quarter
-
+  split(channel_ids: number[]): MIDIFile {
     const selected_channels = this.channels
       .filter(([i]) => channel_ids.includes(i))
       .map((x) => x[1])
 
     // Add the meta and sysex messages to the first available track and resort
     if (selected_channels.length > 0) {
-      const with_meta = [...selected_channels[0], ...this.global_events].sort((a, b) => a[0] - b[0])
+      const with_meta = [...selected_channels[0], ...this.global_events].sort(by_midi_tick)
       selected_channels[0] = with_meta
     }
 
     const tracks = selected_channels.map((x) => new AbsoluteTimingTrack(x).to_relative())
-    return new MIDIFile(new MIDIHeader(MIDIFormat.MULTI_PARALLEL, tracks.length, ppq), tracks)
+    return new MIDIFile(
+      new MIDIHeader(MIDIFormat.MULTI_PARALLEL, tracks.length, this.ticks_per_quarter),
+      tracks,
+    )
   }
 }
