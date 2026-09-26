@@ -1,0 +1,926 @@
+import { describe, it, expect } from 'vitest'
+import { Motor, Flector } from './versors'
+import { Point } from './Point'
+import { Line } from './Line'
+import { Direction } from './Direction'
+
+// Numeric values are computed using kingdon, see my other repo math-notebook
+
+describe('Motor', () => {
+  describe('rotation', () => {
+    it('reverse of a rotation in the origin is its inverse', () => {
+      const test_point = new Point(1, -2)
+      const rotation = Motor.rotation(Point.ORIGIN, Math.PI / 3)
+
+      const inverse = rotation.reverse()
+      const forward_backward = inverse.transform_point(rotation.transform_point(test_point))
+      const backward_forward = rotation.transform_point(inverse.transform_point(test_point))
+
+      expect(forward_backward).toBePoint(backward_forward)
+    })
+
+    it('Rotates points counterclockwise', () => {
+      const center = new Point(1, -2)
+      const rotation = Motor.rotation(center, Math.PI / 3)
+      const point = new Point(1, 0)
+
+      const result = rotation.transform_point(point)
+
+      // The point gets rotated a little bit past the y-axis into quadrant III
+      const expected = new Point(-0.732050807, -1)
+      expect(result).toBePoint(expected)
+    })
+  })
+})
+
+describe('Flector', () => {
+  describe('reflection', () => {
+    it('reflection in y-axis flips x-component', () => {
+      const point = new Point(3, 4)
+      const line = new Line(1, 0, 0)
+      const reflection = Flector.reflection(line)
+
+      const result = reflection.transform_point(point)
+
+      const expected = new Point(-3, 4)
+      expect(result).toBePoint(expected)
+      expect(result.equals(expected)).toBe(true)
+    })
+
+    it('reflection in x-axis flips y-component', () => {
+      const point = new Point(3, 4)
+      const line = new Line(0, 1, 0)
+      const reflection = Flector.reflection(line)
+
+      const result = reflection.transform_point(point)
+
+      const expected = new Point(3, -4)
+      expect(result).toBePoint(expected)
+    })
+
+    it('reflection in plane at infinity throws error', () => {
+      const point = new Point(3, 4)
+      const line = new Line(0, 0, 1)
+      const reflection = Flector.reflection(line)
+
+      expect(() => {
+        reflection.transform_point(point)
+      }).toThrowError('Trying to create a Point from a direction!')
+    })
+
+    it('reflecting twice leaves point unchanged', () => {
+      const point = new Point(3, 4)
+      const line = new Line(1, 2, 3)
+      const reflection = Flector.reflection(line)
+
+      const reflect_once = reflection.transform_point(point)
+      const result = reflection.transform_point(reflect_once)
+
+      expect(result).toBePoint(point)
+    })
+
+    it('reflects point in a line', () => {
+      const point = new Point(3, 4)
+      const line = new Line(1, -1, 0)
+      const reflection = Flector.reflection(line)
+
+      const result = reflection.transform_point(point)
+
+      const expected = new Point(4, 3)
+      expect(result).toBePoint(expected)
+    })
+
+    it('reflects direction in a line', () => {
+      const direction = new Direction(1, 2)
+      const line = new Line(1, -1, 0)
+      const reflection = Flector.reflection(line)
+
+      const result = reflection.transform_dir(direction)
+
+      // Note: bivectors are inverted in the mirror. Since this is
+      // an ideal direction, the minus sign doesn't get normalized hence
+      // the negative coefficients here
+      const expected = new Direction(-2, -1)
+      expect(result).toBeDirection(expected)
+    })
+  })
+})
+
+import { describe, it, expect } from 'vitest'
+import { Cline } from './Cline.js'
+import { Point } from '../pga2d/Point.js'
+import { CVersor } from './CVersor.js'
+import { Direction } from '../pga2d/Direction.js'
+import { Circle } from '../primitives/Circle.js'
+import { Line } from '../pga2d/Line.js'
+import { NullPoint } from './NullPoint.js'
+import { COdd } from './COdd.js'
+import { CEven } from './CEven.js'
+
+describe('CVersor', () => {
+  describe('pow', () => {
+    it('with 0 returns identity', () => {
+      const versor = CVersor.rotation(Math.PI / 4)
+
+      const result = versor.pow(0)
+
+      const expected = CVersor.IDENTITY
+      expect(result).toBe(expected)
+    })
+
+    it('with 1 returns the versor', () => {
+      const versor = CVersor.rotation(Math.PI / 4)
+
+      const result = versor.pow(1)
+
+      expect(result).toBe(versor)
+    })
+
+    it('with positive power returns the versor iterated that many times', () => {
+      const versor = CVersor.rotation(Math.PI / 4)
+
+      const result = versor.pow(3)
+
+      const expected = CVersor.rotation((3 * Math.PI) / 4)
+      expect(result).toBeCVersor(expected)
+    })
+
+    it('with -1 returns the inverse', () => {
+      const versor = CVersor.rotation(Math.PI / 4)
+
+      const result = versor.pow(-1)
+
+      const expected = versor.inv()
+      expect(result).toBeCVersor(expected)
+    })
+
+    it('with negative power returns the inverse iterated that many times', () => {
+      const versor = CVersor.rotation(Math.PI / 4)
+
+      const result = versor.pow(-3)
+
+      const expected = CVersor.rotation(-(3 * Math.PI) / 4)
+      expect(result).toBeCVersor(expected)
+    })
+  })
+
+  describe('reflection', () => {
+    it('reflects point over line', () => {
+      const point = NullPoint.from_point(new Point(1, -2))
+      const reflection = CVersor.reflection(Direction.DIR_X)
+
+      const result = reflection.transform(point)
+
+      const expected = NullPoint.from_point(new Point(-1, -2))
+      expect(result).toBeNullPoint(expected)
+    })
+
+    it('fixes point on line', () => {
+      const point = NullPoint.from_point(new Point(4 / 5, -3 / 5))
+      const reflection = CVersor.reflection(new Direction(3 / 5, 4 / 5))
+
+      const result = reflection.transform(point)
+
+      expect(result).toBeNullPoint(point)
+    })
+
+    it('fixes the point at infinity', () => {
+      const reflection = CVersor.reflection(new Direction(3 / 5, 4 / 5))
+
+      const result = reflection.transform(NullPoint.INF)
+
+      expect(result).toBeNullPoint(NullPoint.INF)
+    })
+
+    it('fixes circle centered on line', () => {
+      const circle = Cline.from_circle(new Circle(new Point(0, 5), 3))
+      const reflection = CVersor.reflection(Direction.DIR_X)
+
+      const result = reflection.transform(circle)
+
+      expect(result).toBeCline(circle)
+    })
+
+    it('flips circle preserving radius', () => {
+      const circle = Cline.from_circle(new Circle(new Point(3, 4), 3))
+      const reflection = CVersor.reflection(new Direction(1, 1))
+
+      const result = reflection.transform(circle)
+
+      const expected = Cline.from_circle(new Circle(new Point(-4, -3), 3))
+      expect(result).toBeCline(expected)
+    })
+
+    it('flips normal of line of reflection', () => {
+      const line = Cline.from_line(new Line(1, 1, 0))
+      const reflection = CVersor.reflection(new Direction(1, 1))
+
+      const result = reflection.transform(line)
+
+      const expected = Cline.from_line(new Line(-1, -1, 0))
+      expect(result).toBeCline(expected)
+    })
+
+    it('fixes orthogonal line', () => {
+      const line = Cline.from_line(new Line(1, -1, 0))
+      const reflection = CVersor.reflection(new Direction(1, 1))
+
+      const result = reflection.transform(line)
+
+      expect(result).toBeCline(line)
+    })
+
+    it('is an involution', () => {
+      const reflection = CVersor.reflection(new Direction(3 / 5, 4 / 5))
+
+      const result = reflection.compose(reflection)
+
+      const expected = CVersor.IDENTITY
+      expect(result).toEqual(expected)
+    })
+  })
+
+  describe('circle_inversion', () => {
+    it('fixes point on unit circle', () => {
+      const point = NullPoint.from_point(new Point(3 / 5, -4 / 5))
+
+      const result = CVersor.INVERSION.transform(point)
+
+      expect(result).toBeNullPoint(point)
+    })
+
+    it('sends the origin to infinity', () => {
+      const result = CVersor.INVERSION.transform(NullPoint.ORIGIN)
+
+      expect(result).toBeNullPoint(NullPoint.INF)
+    })
+
+    it('fixes unit circle', () => {
+      const result = CVersor.INVERSION.transform(Cline.UNIT_CIRCLE)
+
+      expect(result).toBeCline(Cline.UNIT_CIRCLE)
+    })
+
+    it('fixes line through the origin', () => {
+      const line = Cline.from_line(new Line(3 / 5, -4 / 5, 0))
+
+      const result = CVersor.INVERSION.transform(line)
+
+      expect(result).toBeCline(line)
+    })
+
+    it('line outside unit circle inverts to a circle through the origin', () => {
+      const line = Cline.from_line(new Line(1, 0, 4))
+
+      const result = CVersor.INVERSION.transform(line)
+
+      // A line outside the unit circle inverts to a circle inside the unit
+      // circle. we can find points on an identify if we watch what happens
+      // to the nearest and furthest points to the unit circle
+
+      // the furthest point on the line is the point at infinity, which
+      // inverts to the origin.
+
+      // the nearest point on the line is (4, 0)
+      // the magnitude is 4, so it inverts to (1/4, 0)
+      // so we have a circle through the origin and this point
+      // so the center is 1/2 * (1/4, 0) = (1/8, 0)
+      // and the radius is 1/8
+      const expected = Cline.from_circle(new Circle(new Point(1 / 8, 0), 1 / 8))
+      expect(result).toBeCline(expected)
+    })
+
+    it('is an involution', () => {
+      const inv = CVersor.INVERSION
+
+      const result = inv.compose(inv)
+
+      expect(result).toBeCVersor(CVersor.IDENTITY)
+    })
+  })
+
+  describe('translation', () => {
+    it('translates point', () => {
+      const point = NullPoint.from_point(new Point(1, 2))
+      const translation = CVersor.translation(new Direction(3, -2))
+
+      const result = translation.transform(point)
+
+      const expected = NullPoint.from_point(new Point(4, 0))
+      expect(result).toBeNullPoint(expected)
+    })
+
+    it('translates circle keeping radius fixed', () => {
+      const circle = Cline.from_circle(new Circle(new Point(3, 4), 5))
+      const translation = CVersor.translation(new Direction(3, -2))
+
+      const result = translation.transform(circle)
+
+      const expected_circle = Cline.from_circle(new Circle(new Point(6, 2), 5))
+      expect(result).toBeCline(expected_circle)
+    })
+
+    it('transform_cline with line with normal in direction of translation only modifies distance', () => {
+      const normal = new Direction(-3 / 5, 4 / 5)
+      const line = Cline.from_line(new Line(normal.x, normal.y, 1))
+      const translation = CVersor.translation(normal.scale(4))
+
+      const result = translation.transform(line)
+
+      const expected = Cline.from_line(new Line(normal.x, normal.y, 5))
+      expect(result).toBeCline(expected)
+    })
+
+    it('fixes line parallel to translation direction', () => {
+      const normal = new Direction(-3 / 5, 4 / 5)
+      const line = Cline.from_line(new Line(normal.x, normal.y, 1))
+      const translation = CVersor.translation(normal.rot90().scale(4))
+
+      const result = translation.transform(line)
+
+      const expected = Cline.from_line(new Line(normal.x, normal.y, 1))
+      expect(result).toBeCline(expected)
+    })
+
+    it('fixes point at infinity', () => {
+      const translation = CVersor.translation(new Direction(3, -1))
+
+      const result = translation.transform(NullPoint.INF)
+
+      expect(result).toBeNullPoint(NullPoint.INF)
+    })
+
+    it('inverse is the same as translation with negative offset', () => {
+      const offset = new Direction(-4, 5)
+      const translation = CVersor.translation(offset)
+
+      const neg_offset = CVersor.translation(offset.neg())
+      const inv = translation.inv()
+
+      const expected = CVersor.translation(new Direction(4, -5))
+      expect(neg_offset.versor).toBeCEven(expected.versor)
+      expect(inv.versor).toBeCEven(expected.versor)
+    })
+  })
+
+  describe('rotation', () => {
+    it('Rotates point in the positive direction', () => {
+      const point = NullPoint.from_point(new Point(3, 4))
+      const rotation = CVersor.rotation(Math.PI / 2)
+
+      const result = rotation.transform(point)
+
+      // Rotate 90 degrees is (-y, x)
+      const expected = NullPoint.from_point(new Point(-4, 3))
+      expect(result).toBeNullPoint(expected)
+    })
+
+    it('fixes circle centered at origin', () => {
+      const circle = Cline.from_circle(new Circle(Point.ORIGIN, 5))
+      const rotation = CVersor.rotation(Math.PI / 2)
+
+      const result = rotation.transform(circle)
+
+      expect(result).toBeCline(circle)
+    })
+
+    it('rotates circle center with same radius', () => {
+      const circle = new Circle(new Point(5, -2), 5)
+      const circle_cline = Cline.from_circle(circle)
+      const rotation = CVersor.rotation(Math.PI / 2)
+
+      const result = rotation.transform(circle_cline)
+
+      const expected = Cline.from_circle(new Circle(new Point(2, 5), 5))
+      expect(result).toBeCline(expected)
+    })
+
+    it('rotates line with same distance', () => {
+      const line = Cline.from_line(new Line(3 / 5, 4 / 5, 10))
+      const rotation = CVersor.rotation(Math.PI / 2)
+
+      const result = rotation.transform(line)
+
+      const expected = Cline.from_line(new Line(-4 / 5, 3 / 5, 10))
+      expect(result).toBeCline(expected)
+    })
+
+    it('fixes the origin', () => {
+      const rotation = CVersor.rotation(Math.PI / 2)
+
+      const result = rotation.transform(NullPoint.ORIGIN)
+
+      expect(result).toBeNullPoint(NullPoint.ORIGIN)
+    })
+
+    it('fixes the point at infinity', () => {
+      const rotation = CVersor.rotation(Math.PI / 2)
+
+      const result = rotation.transform(NullPoint.INF)
+
+      expect(result).toBeNullPoint(NullPoint.INF)
+    })
+
+    it('inverse is the same as rotation with negative angle', () => {
+      const rotation = CVersor.rotation(Math.PI / 2)
+
+      const neg_angle = CVersor.rotation(-Math.PI / 2)
+      const inv = rotation.inv()
+
+      expect(inv).toBeCVersor(neg_angle)
+    })
+
+    it('n-fold rotation repeated n times is identity', () => {
+      const N = 8
+      const angle = (2 * Math.PI) / N
+      const rot = CVersor.rotation(angle)
+
+      let result = CVersor.IDENTITY
+      for (let i = 0; i < N; i++) {
+        result = result.compose(rot)
+      }
+
+      // Since the angle is halved in the rotor definition, versor^N gives
+      // -1, which is equivalent to identity by homogeneity.
+      //
+      // See the corresponding test in the elliptic tests for a more detailed
+      // explanation
+      const expected = new CVersor(CEven.ONE.neg())
+      expect(result).toBeCVersor(expected)
+    })
+  })
+
+  describe('dilation', () => {
+    it('fixes origin', () => {
+      const scale = CVersor.dilation(3)
+
+      const result = scale.transform(NullPoint.ORIGIN)
+
+      expect(result).toBeNullPoint(NullPoint.ORIGIN)
+    })
+
+    it('fixes point at infinity', () => {
+      const scale = CVersor.dilation(3)
+
+      const result = scale.transform(NullPoint.INF)
+
+      expect(result).toBeNullPoint(NullPoint.INF)
+    })
+
+    it('scales coordinates of point', () => {
+      const point = NullPoint.from_point(new Point(3, -4))
+      const scale = CVersor.dilation(3)
+
+      const result = scale.transform(point)
+
+      const expected = NullPoint.from_point(new Point(9, -12))
+      expect(result).toBeNullPoint(expected)
+    })
+
+    it('With circle at origin scales radius', () => {
+      const circle = Cline.from_circle(new Circle(Point.ORIGIN, 3))
+      const scale = CVersor.dilation(4)
+
+      const result = scale.transform(circle)
+
+      const expected = Cline.from_circle(new Circle(Point.ORIGIN, 12))
+      expect(result).toBeCline(expected)
+    })
+
+    it('With general circle scales the center away from the origin and scales radius', () => {
+      const circle = Cline.from_circle(new Circle(new Point(1, -1), 3))
+      const scale = CVersor.dilation(4)
+
+      const result = scale.transform(circle)
+
+      const expected = Cline.from_circle(new Circle(new Point(4, -4), 12))
+      expect(result).toBeCline(expected)
+    })
+
+    it('fixes line through origin', () => {
+      const line = Cline.from_line(new Line(3 / 5, 4 / 5, 0))
+      const scale = CVersor.dilation(3)
+
+      const result = scale.transform(line)
+
+      expect(result).toBeCline(line)
+    })
+
+    it('scales line distance with same normal', () => {
+      const line = Cline.from_line(new Line(3 / 5, 4 / 5, 2))
+      const scale = CVersor.dilation(3)
+
+      const result = scale.transform(line)
+
+      const expected = Cline.from_line(new Line(3 / 5, 4 / 5, 6))
+      expect(result).toBeCline(expected)
+    })
+
+    it('inverse is scale by reciprocal factor', () => {
+      const scale = CVersor.dilation(4)
+
+      const reciprocal = CVersor.dilation(0.25)
+      const inv = scale.inv()
+
+      expect(reciprocal).toBeCVersor(inv)
+    })
+  })
+
+  describe('spiral', () => {
+    it('is the same as S * R', () => {
+      const scale = CVersor.dilation(4)
+      const rotation = CVersor.rotation(Math.PI / 4)
+
+      const sr = scale.compose(rotation)
+      const spiral = CVersor.spiral(4, Math.PI / 4)
+
+      expect(sr).toBeCVersor(spiral)
+    })
+
+    it('inverse is the same as inv(S) * inv(R)', () => {
+      const scale = CVersor.dilation(4)
+      const rotation = CVersor.rotation(Math.PI / 4)
+
+      const inv_sr = scale.inv().compose(rotation.inv())
+      const inv_spiral = CVersor.spiral(4, Math.PI / 4).inv()
+
+      expect(inv_sr).toBeCVersor(inv_spiral)
+    })
+  })
+
+  describe('hyperbolic', () => {
+    it('fixes source point', () => {
+      const hyp = CVersor.hyperbolic(new Direction(3 / 5, 4 / 5), 2)
+      const source = NullPoint.from_point(new Point(-3 / 5, -4 / 5))
+
+      const result = hyp.transform(source)
+
+      expect(result).toBeNullPoint(source)
+    })
+
+    it('fixes sink point', () => {
+      const hyp = CVersor.hyperbolic(new Direction(3 / 5, 4 / 5), 2)
+      const sink = NullPoint.from_point(new Point(3 / 5, 4 / 5))
+
+      const result = hyp.transform(sink)
+
+      expect(result).toBeNullPoint(sink)
+    })
+
+    it('moves origin in direction specified', () => {
+      const dir = new Direction(3 / 5, 4 / 5)
+      const hyp = CVersor.hyperbolic(new Direction(3 / 5, 4 / 5), 2)
+
+      const transformed = hyp.transform(NullPoint.ORIGIN)
+      const result = transformed.point.to_direction().normalize()
+
+      expect(result).toBeDirection(dir)
+    })
+
+    it('inverse is hyperbolic with reciprocal scale factor', () => {
+      const hyp = CVersor.hyperbolic(new Direction(3 / 5, -4 / 5), 2)
+
+      const result = hyp.inv()
+
+      const expected = CVersor.hyperbolic(new Direction(3 / 5, -4 / 5), 1 / 2)
+      expect(result).toBeCVersor(expected)
+    })
+
+    it('fixes unit circle', () => {
+      const hyp = CVersor.hyperbolic(new Direction(3 / 5, -4 / 5), 2)
+
+      const result = hyp.transform(Cline.UNIT_CIRCLE)
+
+      expect(result).toBeCline(Cline.UNIT_CIRCLE)
+    })
+
+    it('fixes line through the poles', () => {
+      const hyp = CVersor.hyperbolic(new Direction(3 / 5, -4 / 5), 2)
+      const line = Cline.from_line(new Line(4 / 5, 3 / 5, 0))
+
+      const result = hyp.transform(line)
+
+      expect(result).toBeCline(line)
+    })
+
+    it('fixes other circle through the poles', () => {
+      const dir = new Direction(3 / 5, -4 / 5)
+      const orthog_dir = dir.rot90()
+      const hyp = CVersor.hyperbolic(dir, 2)
+
+      // Find a circle through the poles by taking the diameter of
+      // the circle and transforming it in the orthogonal direction
+      const line = Cline.from_line(new Line(orthog_dir.x, orthog_dir.y, 0))
+      const orthog_ellip = CVersor.elliptic(orthog_dir, Math.PI / 8)
+      const circle = orthog_ellip.transform(line)
+
+      const result = hyp.transform(circle)
+
+      expect(result).toBeCline(circle)
+    })
+  })
+
+  describe('elliptic', () => {
+    it('Moves origin along line in given direction', () => {
+      const dir = new Direction(-3 / 5, -4 / 5)
+      const ellip = CVersor.elliptic(dir, Math.PI / 4)
+
+      const result = ellip.transform(NullPoint.ORIGIN).point.to_direction().normalize()
+
+      expect(result).toBeDirection(dir)
+    })
+
+    it('fixes poles', () => {
+      const dir = new Direction(-3 / 5, -4 / 5)
+      const ellip = CVersor.elliptic(dir, Math.PI / 4)
+      const pole1 = NullPoint.from_point(new Point(-4 / 5, 3 / 5))
+      const pole2 = NullPoint.from_point(new Point(4 / 5, -3 / 5))
+
+      const result1 = ellip.transform(pole1)
+      const result2 = ellip.transform(pole2)
+
+      expect(result1).toBeNullPoint(pole1)
+      expect(result2).toBeNullPoint(pole2)
+    })
+
+    it('fixes equator', () => {
+      const dir = new Direction(-3 / 5, -4 / 5)
+      const orthog = dir.rot90()
+      const ellip = CVersor.elliptic(dir, Math.PI / 4)
+      const equator = Cline.from_line(new Line(orthog.x, orthog.y, 0))
+
+      const result = ellip.transform(equator)
+
+      expect(result).toBeCline(equator)
+    })
+
+    it('fixes circle of latitude', () => {
+      const dir = new Direction(-3 / 5, -4 / 5)
+      const orthog = dir.rot90()
+      const ellip = CVersor.elliptic(dir, Math.PI / 4)
+      const equator = Cline.from_line(new Line(orthog.x, orthog.y, 0))
+      // If you perform an orthogonal hyperbolic transform of the equator,
+      // it'll move it to a different "latitude" circle
+      const hyp = CVersor.hyperbolic(orthog, 4)
+      const orthog_circle = hyp.transform(equator)
+
+      const result = ellip.transform(orthog_circle)
+
+      expect(result).toBeCline(orthog_circle)
+    })
+
+    it('n-fold rotation repeated n times is identity', () => {
+      const N = 8
+      const angle = (2 * Math.PI) / N
+      const rot = CVersor.elliptic(new Direction(3 / 5, 4 / 5), angle)
+
+      let result = CVersor.IDENTITY
+      for (let i = 0; i < N; i++) {
+        result = result.compose(rot)
+      }
+
+      // Since a rotation is split in half to make the bread of a sandwich
+      // product, the versor is storing
+      // cos(2pi/N/2 * N) +  sin(2pi/N/2 * N) (dir wedge m)
+      // = cos(pi) + sin(pi) (dir wedge m)
+      // = -1 + 0
+      // It is applied to some multivector x as the sandwich
+      // (-1)x(-1) = x
+      // so it is indeed identity, just not written that way
+      //
+      // another way of expressing the same thing is it's _equivalent_ to
+      // identity up to a scale factor (i.e. homogeneity)
+      const expected = new CVersor(CEven.ONE.neg())
+      expect(result).toBeCVersor(expected)
+    })
+  })
+
+  describe('loxodromic', () => {
+    it('is the same as H * E', () => {
+      const hyp_dir = new Direction(3 / 5, 4 / 5)
+      const hyp = CVersor.hyperbolic(hyp_dir, 4)
+      const ellip = CVersor.elliptic(hyp_dir.rot90(), Math.PI / 4)
+
+      const he = hyp.compose(ellip)
+      const lox = CVersor.loxodromic(hyp_dir, 4, Math.PI / 4)
+
+      expect(he).toBeCVersor(lox)
+    })
+
+    it('inverse is the same as inv(S) * inv(R)', () => {
+      const hyp_dir = new Direction(3 / 5, 4 / 5)
+      const hyp = CVersor.hyperbolic(hyp_dir, 4)
+      const ellip = CVersor.elliptic(hyp_dir.rot90(), Math.PI / 4)
+
+      const inv_he = hyp.inv().compose(ellip.inv())
+      const inv_lox = CVersor.loxodromic(hyp_dir, 4, Math.PI / 4).inv()
+
+      expect(inv_he).toBeCVersor(inv_lox)
+    })
+  })
+
+  describe('parabolic', () => {
+    it('fixes origin', () => {
+      const para = CVersor.parabolic(new Direction(3 / 5, 4 / 5))
+
+      const result = para.transform(NullPoint.ORIGIN)
+
+      expect(result).toEqual(NullPoint.ORIGIN)
+    })
+
+    it('moves inf in the given direction', () => {
+      const dir = new Direction(3 / 5, 4 / 5)
+      const para = CVersor.parabolic(new Direction(3 / 5, 4 / 5))
+
+      const result = para.transform(NullPoint.INF).point.to_direction().normalize()
+
+      expect(result).toBeDirection(dir)
+    })
+
+    it('moves point along axis in opposite direction', () => {
+      const dir = new Direction(3 / 5, 4 / 5)
+      const para = CVersor.parabolic(dir)
+      // A point on the fixed line of the transformation
+      const point = NullPoint.from_point(dir.scale(0.5).to_point())
+
+      const transformed = para.transform(point)
+      const result = transformed.point.sub(point.point).normalize()
+
+      expect(result).toBeDirection(dir.neg())
+    })
+
+    it('Fixes line through origin parallel in direction', () => {
+      const dir = new Direction(3 / 5, 4 / 5)
+      const para = CVersor.parabolic(dir)
+      const orthog = dir.rot90()
+      const line = Cline.from_line(new Line(orthog.x, orthog.y, 0))
+
+      const result = para.transform(line)
+
+      expect(result).toBeCline(line)
+    })
+
+    it('Fixes circle tangent to origin with diameter orthogonal to direction', () => {
+      const dir = new Direction(3 / 5, 4 / 5)
+      const para = CVersor.parabolic(dir)
+      const orthog = dir.rot90()
+      const radius = 2
+      const circle = Cline.from_circle(new Circle(orthog.scale(radius).to_point(), radius))
+
+      const result = para.transform(circle)
+
+      expect(result).toBeCline(circle)
+    })
+  })
+
+  describe('to_screen', () => {
+    it('with unit circle returns flip y', () => {
+      const result = CVersor.to_screen(Circle.UNIT_CIRCLE)
+
+      expect(result).toBeCVersor(CVersor.FLIP_Y)
+    })
+
+    it('with other circle returns correct transformations', () => {
+      const circle = new Circle(new Point(3, -4), 5)
+
+      const result = CVersor.to_screen(circle)
+
+      const translation = CVersor.translation(new Direction(3, -4))
+      const scale = CVersor.dilation(5)
+      const expected = translation.compose(scale).compose(CVersor.FLIP_Y)
+      expect(result).toEqual(expected)
+    })
+  })
+
+  describe('inverse', () => {
+    it('a versor and its inverse compose to identity', () => {
+      const translation = CVersor.translation(new Direction(1, 2))
+      const rotation = CVersor.rotation(Math.PI)
+      const versor = translation.compose(rotation)
+
+      const inv = versor.inv()
+      const v_inv = versor.compose(inv)
+      const inv_v = inv.compose(versor)
+
+      expect(v_inv).toBeCVersor(CVersor.IDENTITY)
+      expect(inv_v).toBeCVersor(CVersor.IDENTITY)
+    })
+
+    it('Inverse of product is reversed product of inverses', () => {
+      const t = CVersor.translation(Direction.DIR_X)
+      const s = CVersor.elliptic(Direction.DIR_Y, Math.PI / 4)
+      const r = CVersor.dilation(4)
+
+      // We expect the group theory identity
+      // (TRS)^(-1) = S^(-1)R^(-1)T^(-1) to hold
+      const trs_inv = t.compose(r).compose(s).inv()
+      const product = s.inv().compose(r.inv()).compose(t.inv())
+
+      expect(trs_inv).toBeCVersor(product)
+    })
+  })
+
+  describe('compose', () => {
+    it('scale and rotation make a spiral transformation', () => {
+      const point = NullPoint.from_point(new Point(2, 1))
+      const scale = CVersor.dilation(2)
+      const rot90 = CVersor.rotation(Math.PI / 2)
+
+      const spiral = rot90.compose(scale)
+      const result = spiral.transform(point)
+
+      // (2, 1) --rot--> (-1, 2) --scale--> (-2, 4)
+      const expected = NullPoint.from_point(new Point(-2, 4))
+      expect(result).toBeNullPoint(expected)
+    })
+  })
+
+  describe('commutative transformation pairs', () => {
+    it('rotation and dilation commute', () => {
+      const rotation = CVersor.rotation(Math.PI / 4)
+      const scale = CVersor.dilation(3)
+
+      const rs = rotation.compose(scale)
+      const sr = scale.compose(rotation)
+
+      expect(rs).toBeCVersor(sr)
+    })
+
+    it('elliptic and hyperbolic in orthogonal directions commute', () => {
+      const hyp_direction = new Direction(3 / 5, 4 / 5)
+      const ellip_direction = hyp_direction.rot90()
+
+      const ellip = CVersor.elliptic(ellip_direction, Math.PI / 4)
+      const hyp = CVersor.hyperbolic(hyp_direction, 3)
+
+      const eh = ellip.compose(hyp)
+      const he = hyp.compose(ellip)
+
+      expect(eh).toBeCVersor(he)
+    })
+
+    it('translations in orthogonal directions commute', () => {
+      const dir_x = new Direction(4, 2)
+      const x = CVersor.translation(dir_x)
+      const y = CVersor.translation(dir_x.rot90())
+
+      const xy = x.compose(y)
+      const yx = y.compose(x)
+
+      expect(xy).toBeCVersor(yx)
+    })
+
+    it('parabolic transformations in orthogonal directions commute', () => {
+      const dir_x = new Direction(4, 2)
+      const x = CVersor.parabolic(dir_x)
+      const y = CVersor.parabolic(dir_x.rot90())
+
+      const xy = x.compose(y)
+      const yx = y.compose(x)
+
+      expect(xy).toBeCVersor(yx)
+    })
+  })
+
+  describe('conjugate', () => {
+    it('a general line reflection is T(dist * normal) sandwich reflect(normal)', () => {
+      // reflection defined explicitly
+      const dist = 2
+      const normal = new Direction(3 / 5, 4 / 5)
+      const translate = CVersor.translation(normal.scale(dist))
+      const reflect = CVersor.reflection(normal)
+
+      // The equivalent line
+      const cline = Cline.from_line(new Line(normal.x, normal.y, dist))
+
+      // chaining the individual transforms is the same
+      // as reinterpreting the line's vector as a versor.
+      const sandwich = translate.conjugate(reflect)
+      const line_versor = new CVersor(cline.vector)
+
+      expect(sandwich).toBeCVersor(line_versor)
+    })
+
+    it('a general circle inversion is T(center)S(radius) sandwich circle_inversion', () => {
+      const radius = 3
+      const center = new Point(3, -4)
+      const translate = CVersor.translation(center.to_direction())
+      const scale = CVersor.dilation(radius)
+      const ts = translate.compose(scale)
+      const circle = Cline.from_circle(new Circle(center, radius))
+      const inv = CVersor.INVERSION
+
+      const sandwich = ts.conjugate(inv)
+      const circle_versor = new CVersor(circle.vector)
+
+      // The above are only equivalent up to scalar multiple... I don't have
+      // an easy way to check for that right now... so let's do this.
+      if (sandwich.versor instanceof COdd && circle_versor.versor instanceof COdd) {
+        expect(sandwich.versor.normalize_o()).toBeCOdd(circle_versor.versor.normalize_o())
+      } else {
+        // impossible
+        expect(true).toBe(false)
+      }
+    })
+  })
+})
