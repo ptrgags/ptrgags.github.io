@@ -9,4 +9,8 @@ import CenteredTrochoidMap from './CenteredTrochoidMap.vue'
 
 <CenteredTrochoidMap />
 
+---
+
+Notes: 
+
 - [Centered Trochoid](https://en.wikipedia.org/wiki/Centered_trochoid) is a term that generalizes hypotrochoids and epitrochoids
