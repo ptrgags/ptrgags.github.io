@@ -1,5 +1,12 @@
+import { is_nearly } from '../is_nearly.ts'
+import { Even2P } from './Even2P.ts'
+
 export class Odd2P {
-  constructor(x, y, o, xyo) {
+  x: number
+  y: number
+  o: number
+  xyo: number
+  constructor(x: number, y: number, o: number, xyo: number) {
     this.x = x
     this.y = y
     this.o = o
@@ -14,7 +21,7 @@ export class Odd2P {
     return Math.sqrt(this.norm_sqr())
   }
 
-  scale(scalar) {
+  scale(scalar: number): Odd2P {
     return new Odd2P(this.x * scalar, this.y * scalar, this.o * scalar, this.xyo * scalar)
   }
 
@@ -31,7 +38,7 @@ export class Odd2P {
     return new Odd2P(-this.x, -this.y, -this.o, -this.xyo)
   }
 
-  add(other) {
+  add(other: Odd2P): Odd2P {
     const x = this.x + other.x
     const y = this.y + other.y
     const o = this.o + other.o
@@ -39,7 +46,7 @@ export class Odd2P {
     return new Odd2P(x, y, o, xyo)
   }
 
-  sub(other) {
+  sub(other: Odd2P): Odd2P {
     const x = this.x - other.x
     const y = this.y - other.y
     const o = this.o - other.o
@@ -47,13 +54,13 @@ export class Odd2P {
     return new Odd2P(x, y, o, xyo)
   }
 
-  dual() {
-    return new Even(this.xyo, this.o, -this.y, this.x)
+  dual(): Even2P {
+    return new Even2P(this.xyo, this.o, -this.y, this.x)
   }
 
   antidual = this.dual
 
-  dot(other) {
+  dot(other: Odd2P): number {
     // The o and xyo components square to zero, so they are needed
     const { x: ax, y: ay } = this
     const { x: bx, y: by } = other
@@ -61,7 +68,7 @@ export class Odd2P {
     return ax * bx + ay * by
   }
 
-  wedge_odd(other) {
+  wedge_odd(other: Odd2P): Even2P {
     // Note that the pseudoscalar part xyo will always wedge to 0, so we can
     // ignore it.
     const { x: ax, y: ay, o: ao } = this
@@ -71,21 +78,21 @@ export class Odd2P {
     const xo_part = ax * bo - ao * bx
     const yo_part = ay * bo - ao * by
 
-    return new Even(0, xy_part, xo_part, yo_part)
+    return new Even2P(0, xy_part, xo_part, yo_part)
   }
 
-  wedge_even(other) {
+  wedge_even(other: Even2P) {
     throw new Error('Not Implemented')
   }
 
-  sandwich_even(other) {
+  sandwich_even(other: Even2P): Even2P {
     const { x: ax, y: ay, o: ao, xyo: axyo } = this
     const { scalar: bs, xy: bxy, xo: bxo, yo: byo } = other
 
     // if the bread is a null vector, the result will be zero
     const mag_sqr = ax * ax + ay * ay
     if (is_nearly(mag_sqr, 0)) {
-      return Even.ZERO
+      return Even2P.ZERO
     }
 
     const scalar = bs
@@ -107,10 +114,10 @@ export class Odd2P {
         ay * ay * byo
       ) / mag_sqr
 
-    return new Even(scalar, xy, xo, yo)
+    return new Even2P(scalar, xy, xo, yo)
   }
 
-  sandwich_odd(other) {
+  sandwich_odd(other: Odd2P): Odd2P {
     const { x: ax, y: ay, o: ao, xyo: axyo } = this
     const { x: bx, y: by, o: bo, xyo: bxyo } = other
 
@@ -136,7 +143,9 @@ export class Odd2P {
     return new Odd2P(-x, -y, -o, -xyo)
   }
 
-  sandwich(other) {
+  sandwich(other: Even2P): Even2P
+  sandwich(other: Odd2P): Odd2P
+  sandwich(other: Even2P | Odd2P): Even2P | Odd2P {
     if (other instanceof Odd2P) {
       return this.sandwich_odd(other)
     }
@@ -144,7 +153,7 @@ export class Odd2P {
     return this.sandwich_even(other)
   }
 
-  equals(other) {
+  equals(other: Odd2P): boolean {
     return (
       is_nearly(this.x, other.x) &&
       is_nearly(this.y, other.y) &&
@@ -153,10 +162,11 @@ export class Odd2P {
     )
   }
 
-  toString() {
+  toString(): string {
     return `${this.x.toPrecision(2)}x + ${this.y.toPrecision(
       2,
     )}y + ${this.o.toPrecision(2)}o + ${this.xyo.toPrecision(2)}xyo`
   }
+
+  static readonly ZERO = new Odd2P(0, 0, 0, 0)
 }
-Odd2P.ZERO = Object.freeze(new Odd2P(0, 0, 0, 0))

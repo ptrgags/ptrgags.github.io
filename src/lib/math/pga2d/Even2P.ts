@@ -1,16 +1,17 @@
 import { is_nearly } from '../is_nearly.js'
+import { Odd2P } from './Odd2P.js'
 
 // Much of the math here is determined by using the geometric algebra library
 // kingdon. See my other repo math-notebook in symbolic/gaproduct.py.
 // At the time of this writing
 // this is in the cga branch
-export class Even2P2P {
+export class Even2P {
   scalar: number
   xy: number
   xo: number
   yo: number
 
-  constructor(scalar, xy, xo, yo) {
+  constructor(scalar: number, xy: number, xo: number, yo: number) {
     this.scalar = scalar
     this.xy = xy
     this.xo = xo
@@ -22,7 +23,7 @@ export class Even2P2P {
    * @param {Even2P} other
    * @returns {Even2P}
    */
-  add(other) {
+  add(other: Even2P): Even2P {
     const scalar = this.scalar + other.scalar
     const xy = this.xy + other.xy
     const xo = this.xo + other.xo
@@ -35,7 +36,7 @@ export class Even2P2P {
    * @param {Even2P} other
    * @returns {Even2P}
    */
-  sub(other) {
+  sub(other: Even2P): Even2P {
     const scalar = this.scalar - other.scalar
     const xy = this.xy - other.xy
     const xo = this.xo - other.xo
@@ -48,7 +49,7 @@ export class Even2P2P {
    * x_i wedge y_i = pseudoscalar
    * @returns {Odd}
    */
-  dual() {
+  dual(): Odd2P {
     // this_blade ^ abs_dual(this_blade) = sign * xyo
     // dual(this_blade) = sign * abs_dual(this_blade)
     // 1 ^ xyo = xyo
@@ -60,7 +61,7 @@ export class Even2P2P {
     const o = this.xy
     const xyo = this.scalar
 
-    return new Odd(x, y, o, xyo)
+    return new Odd2P(x, y, o, xyo)
   }
 
   // in 2D PGA, the antidual has exactly the same signs as the dual
@@ -73,10 +74,10 @@ export class Even2P2P {
 
   /**
    * Compute the regressive product with another Even2P multivector
-   * @param {Even2P} other The other Even2P multivector
-   * @returns {Odd} The regressive product
+   * @param other The other Even2P multivector
+   * @returns The regressive product
    */
-  vee_Even2P(other) {
+  vee_Even2P(other: Even2P): Odd2P {
     // Bread V = A + Bxy + Cxo + Dyo
     const { xy: axy, xo: axo, yo: ayo } = this
     // Filling U = a + bxy + cxo + dyo
@@ -87,14 +88,14 @@ export class Even2P2P {
     const o = axo * byo - ayo * bxo
     // Since the regressive product reduces grade, we will never get the
     // pseudoscalar
-    return new Odd(x, y, o, 0)
+    return new Odd2P(x, y, o, 0)
   }
 
-  vee_odd(other) {
+  vee_odd(other: Odd2P) {
     throw new Error('Not implemented')
   }
 
-  equals(other) {
+  equals(other: Even2P): boolean {
     return (
       is_nearly(this.scalar, other.scalar) &&
       is_nearly(this.xy, other.xy) &&
@@ -103,7 +104,7 @@ export class Even2P2P {
     )
   }
 
-  sandwich_Even2P(other) {
+  sandwich_even(other: Even2P): Even2P {
     // Bread V = A + Bxy + Cxo + Dyo
     const { scalar: as, xy: axy, xo: axo, yo: ayo } = this
     // Filling U = a + bxy + cxo + dyo
@@ -135,13 +136,13 @@ export class Even2P2P {
     return new Even2P(scalar, xy, xo, yo)
   }
 
-  sandwich_odd(other) {
+  sandwich_odd(other: Odd2P): Odd2P {
     const { scalar: as, xy: axy, xo: axo, yo: ayo } = this
     const { x: bx, y: by, o: bo, xyo: bxyo } = other
 
     const mag_sqr = as * as + axy * axy
     if (is_nearly(mag_sqr, 0)) {
-      return Odd.ZERO
+      return Odd2P.ZERO
     }
 
     const x = (as * as * bx + 2 * as * axy * by - axy * axy * bx) / mag_sqr
@@ -156,18 +157,28 @@ export class Even2P2P {
       mag_sqr
     const xyo = bxyo
 
-    return new Odd(x, y, o, xyo)
+    return new Odd2P(x, y, o, xyo)
   }
 
-  sandwich(other) {
-    if (other instanceof Odd) {
+  sandwich(other: Even2P): Even2P
+  sandwich(other: Odd2P): Odd2P
+  sandwich(other: Even2P | Odd2P): Even2P | Odd2P {
+    if (other instanceof Odd2P) {
       return this.sandwich_odd(other)
     }
 
-    return this.sandwich_Even2P(other)
+    return this.sandwich_even(other)
   }
 
-  static lerp(a, b, t) {
+  /*
+  unit_sandwich(other: Odd2P): Odd2P
+  unit_sandwich(other: Even2P): Even2P
+  unit_sandwich(other: Even2P | Odd2P): Even2P | Odd2P {
+    return this.gp(other).gp(this.reverse)
+  }
+    */
+
+  static lerp(a: Even2P, b: Even2P, t: number): Even2P {
     const s = 1 - t
 
     const scalar = s * a.scalar + t * b.scalar
@@ -183,6 +194,7 @@ export class Even2P2P {
       2,
     )}xy + ${this.xo.toPrecision(2)}xo + ${this.yo.toPrecision(2)}yo`
   }
+
+  static readonly ZERO = new Even2P(0, 0, 0, 0)
+  static readonly IDENTITY = new Even2P(1, 0, 0, 0)
 }
-Even2P.ZERO = Object.freeze(new Even2P(0, 0, 0, 0))
-Even2P.IDENTITY = Object.freeze(new Even2P(1, 0, 0, 0))
