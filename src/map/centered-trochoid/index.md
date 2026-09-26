@@ -1,6 +1,6 @@
 ---
 layout: article
-title: 'Map: Centered Trochoid'
+title: '🧪 Map: Centered Trochoid'
 date: '2026-09-26'
 ---
 <script setup lang="ts">
