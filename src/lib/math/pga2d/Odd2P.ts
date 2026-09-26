@@ -81,8 +81,17 @@ export class Odd2P {
     return new Even2P(0, xy_part, xo_part, yo_part)
   }
 
-  wedge_even(other: Even2P) {
+  wedge_even(other: Even2P): Odd2P {
     throw new Error('Not Implemented')
+  }
+
+  wedge(other: Even2P): Odd2P
+  wedge(other: Odd2P): Even2P
+  wedge(other: Even2P | Odd2P): Even2P | Odd2P {
+    if (other instanceof Odd2P) {
+      return this.wedge_odd(other)
+    }
+    return this.wedge_even(other)
   }
 
   sandwich_even(other: Even2P): Even2P {
