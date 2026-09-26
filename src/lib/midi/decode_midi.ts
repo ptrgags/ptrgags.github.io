@@ -173,7 +173,7 @@ function parse_midi_track(chunk: MIDIChunk): RelativeTimingTrack {
  * @param {ArrayBuffer} midi_buffer
  * @return {MIDIFile<RelativeTimingTrack>}
  */
-export function decode_midi(midi_buffer: ArrayBuffer): MIDIFile<RelativeTimingTrack> {
+export function decode_midi(midi_buffer: ArrayBuffer): MIDIFile {
   const [header_chunk, ...track_chunks] = parse_midi_chunks(midi_buffer)
   const header = parse_midi_header(header_chunk)
   const tracks = track_chunks.map(parse_midi_track)

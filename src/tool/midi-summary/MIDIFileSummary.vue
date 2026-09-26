@@ -10,7 +10,6 @@ import {
   MIDITimeSignatureEvent,
 } from '../../lib/midi/MIDIEvent.ts'
 import { type MIDIFile, type MIDIHeader } from '../../lib/midi/MIDIFile.ts'
-import type { RelativeTimingTrack } from '../../lib/midi/MIDITrack.ts'
 import { Meter } from '../../pattern/musical-meter/Meter.ts'
 import { ChannelStats, type MessageSummary } from './ChannelStats.ts'
 import MIDIFilePicker from '../../components/MIDIFilePicker.vue'
@@ -27,20 +26,16 @@ function format_bytes(bytes: Uint8Array): string {
   return `${bytes_hex} (hex)`
 }
 
-function make_summary(file: MIDIFile<RelativeTimingTrack>): SummaryTable[] {
+function make_summary(file: MIDIFile): SummaryTable[] {
   const ticks_per_quarter = file.header.ticks_per_quarter
 
-  // convert events to a single absolute sequence of events
-  const all_sorted_events = file.tracks
-    .map((t) => t.to_absolute())
-    .flatMap((t) => t.events)
-    .sort((a, b) => a[0] - b[0])
+  const abs_file = file.to_absolute_timing()
 
   const general_summaries: MessageSummary[] = []
 
   const stats_by_channel: (ChannelStats | undefined)[] = new Array(16)
 
-  for (const [t, event] of all_sorted_events) {
+  for (const [t, event] of abs_file.all_events) {
     const pulses = t / ticks_per_quarter
     const measure_number = MIDI_METER.pulses_to_measures(pulses)
 
@@ -104,7 +99,7 @@ const tables: Ref<SummaryTable[]> = ref([])
 
 const header: Ref<MIDIHeader | undefined> = ref(undefined)
 
-function load_file(file: MIDIFile<RelativeTimingTrack>) {
+function load_file(file: MIDIFile) {
   tables.value = make_summary(file)
   header.value = file.header
 }

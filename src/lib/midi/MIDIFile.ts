@@ -1,5 +1,11 @@
 import { MIDIMetaEvent, type MIDIEvent } from './MIDIEvent'
-import type { AbsoluteTimingTrack, EventList, MIDITrack, RelativeTimingTrack } from './MIDITrack'
+import {
+  by_midi_tick,
+  type AbsoluteTimingTrack,
+  type EventList,
+  type MIDITrack,
+  type RelativeTimingTrack,
+} from './MIDITrack'
 
 /**
  * @enum {number}
@@ -108,8 +114,15 @@ export class AbsMIDIFile {
     this.tracks = tracks
   }
 
+  /**
+   * Get all events flattened and sorted chronologically
+   */
+  get all_events(): EventList {
+    return this.tracks.flatMap((x) => x.events).sort(by_midi_tick)
+  }
+
   find_all(query: (event: [number, MIDIEvent]) => boolean): EventList {
-    return this.tracks.flatMap((x) => x.events.filter(query)).sort((a, b) => a[0] - b[0])
+    return this.tracks.flatMap((x) => x.events.filter(query)).sort(by_midi_tick)
   }
 
   to_relative_timing(): MIDIFile {

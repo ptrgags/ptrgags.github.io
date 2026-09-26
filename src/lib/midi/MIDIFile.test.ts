@@ -40,6 +40,23 @@ function make_multi_track() {
 }
 
 describe('AbsMIDIFile', () => {
+  it('all_events returns events across all tracks, flattened and sorted by time', () => {
+    const midi = make_multi_track()
+
+    const result = midi.all_events
+
+    const expected = [
+      [0, MIDIMetaEvent.set_tempo(140)],
+      [0, MIDIMessage.note_on(0, C4)],
+      // this one gets interleaved
+      [5, MIDIMessage.note_on(1, E4)],
+      [10, MIDIMessage.cc(0, 7, 64)],
+      [20, MIDIMessage.note_off(0, C4)],
+      [30, MIDIMessage.note_off(1, E4)],
+    ]
+    expect(result).toEqual(expected)
+  })
+
   describe('find_all', () => {
     it('with empty midi file returns empty array', () => {
       const empty_midi = new AbsMIDIFile(MIDIHeader.DEFAULT_FORMAT0, [new AbsoluteTimingTrack([])])
@@ -51,9 +68,9 @@ describe('AbsMIDIFile', () => {
     })
 
     it('with trivial query returns everything', () => {
-      const empty_midi = make_file()
+      const midi = make_file()
 
-      const result = empty_midi.find_all(() => true)
+      const result = midi.find_all(() => true)
 
       const expected = [
         [0, MIDIMetaEvent.set_tempo(140)],
@@ -61,7 +78,7 @@ describe('AbsMIDIFile', () => {
         [10, MIDIMessage.cc(0, 7, 64)],
         [20, MIDIMessage.note_off(0, C4)],
       ]
-      expect(result).toEqual(expected)
+      expect(result).toStrictEqual(expected)
     })
 
     it('with query filters messages', () => {
