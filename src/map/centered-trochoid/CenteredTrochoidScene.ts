@@ -54,7 +54,12 @@ export class CenteredTrochoidScene implements SceneP5 {
 
     this.start_time = CLOCK.elapsed_time
     this.anim_circle = new CircularMotion(new Circle(CENTER, RADIUS_BIG + this.r), -FREQ_CIRCLE, 0)
-    this.anim_pen = new CircularMotion(new Circle({ x: 0, y: 0 }, this.p), RADIUS_BIG / this.r, 0)
+    // The frequency doesn't seem right…
+    this.anim_pen = new CircularMotion(
+      new Circle({ x: 0, y: 0 }, this.p),
+      -(RADIUS_BIG + this.r) / this.r,
+      0,
+    )
   }
 
   update(p: p5): void {
