@@ -33,7 +33,7 @@ will go into more detail.
 `Angles = (start, end, orientation)` where `start, end` are any angles and `orientation` is either `+` for positive, or `-` for negative.
 
 :::details Angle Conventions
-To be coordinate system agnostic, I will describe the direction of angles as "positive"/"negative" rather than "clockwise/counterclockwise".
+To be coordinate system agnostic, I will describe the direction of angles as "positive" or "negative" rather than "clockwise" or "counterclockwise".
 
 Here I'm using "positive angle" to mean "the angular direction from the +x axis to the +y axis", regardless of what
 direction these point.
@@ -44,15 +44,12 @@ However, for the animations on this page, I display things using the math conven
 measured counterclockwise from the right (+x).
 :::
 
-:::warning TODO: explain angle conventions
-:::
-
 In this repo, this is the implementation I use. I chose this one because it's
 the most similar to the 2D graphics libraries I use. See the [Drawing Undirected Arcs](#drawing-undirected-arcs) section
 for more details
 
-:::details 🔍 I see more patterns lurking...
-This definition + the ones are analagous to the different ways of defining an
+:::details 🔍 I see more patterns lurking here…
+This definition + the ones are analogous to the different ways of defining an
 interval
 
 - Start and end
@@ -61,9 +58,9 @@ interval
 
 And similarly for rectangles:
 
-- two diagonally opposite corners
-- corner, dimensions
-- center +/- radii (handy in game dev for hitboxes)
+- Two diagonally opposite corners
+- Corner and dimensions
+- Center +/- radii
 :::
 
 ### Angles as Start and Angular Displacement
@@ -146,7 +143,7 @@ define the following two transformations:
 :::details ❓ Curiosity: I think these could be defined with Möbius maps?
 I'd need to work out the specifics, but I think these transformations could be described by Möbius maps:
 
-- Other Path: I think there's a circle inversion that reflects one arc onto the other. The circular mirror would have to go through the end points. And... I _think_ it would be orthogonal to the circle?
+- Other Path: I think there's a circle inversion that reflects one arc onto the other. The circular mirror would have to go through the two end points. I _think_ it would be orthogonal to the circle?
 - Complement: Since the orientation is preserved, this must be a rotation-like transformation. I think it would be an elliptic transformation. It would combine the circle inversion from the previous bullet point with a mirror reflection through the middle of the arc ("reverse", see next section). Essentially it would swirl points from `start -> end -> start` such that the angles around the start and end points turn 180 degrees.
 
 Okay, this is rather deep in the weeds... There's a lot of background to explain about conformal geometry and Möbius transformations to explain what I mean, and I don't have pages written for any of that yet.
@@ -187,7 +184,7 @@ when discussing [symmetries](#connecting-angle-transformations-to-arc-transforma
 
 ### Symmetries of Arcs
 
-Directed arcs do not have any non-trivial symmetries
+Directed arcs do not have any nontrivial symmetries
 
 Undirected arcs do have `reverse` symmetry. That is, if you flip the arc
 backwards, it produces the same arc (as we do not distinguish start from end)
@@ -200,7 +197,7 @@ symmetries that connect transformations of the angles (input) with
 transformations of the arc shape (output).
 
 The following table is a summary of these symmetries. Animations and
-explanations follow in the sub-sections below.
+explanations follow in the subsections below.
 
 | Angle Transformation         | Corresponding Arc Transformation    |
 | ---------------------------- | ----------------------------------- |
@@ -217,12 +214,12 @@ the whole arc by the same angle.
 
 <SketchP5 :sketch="SKETCHES.symm_phase_shift_rotate" />
 
-Note: In the animation above, start and end mark angles relative to `delta`
-(otherwise the diagram would get a bit cluttered)
+Note: In the animation above, "start" and "end" label the angles relative to `delta`
+to avoid cluttering the diagram. Really they would be `start + delta`, `end + delta`, respectively.
 
 Notice how when `delta` expands, it "pushes" the arc around the circle
 
-#### Reverse Angles to Flip the Y-coordinate
+#### Reverse Angles to Flip the Y-Coordinate
 
 Reversing the angles and orientation of the arc is the same as flipping
 the y-coordinate

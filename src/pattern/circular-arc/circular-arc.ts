@@ -14,11 +14,9 @@ import { CircularMotion } from '../../lib/animation/CircularMotion.ts'
 import { TextStyle } from '../../lib/styling/TextStyle.ts'
 import { Text } from '../../lib/primitives/Text.ts'
 import { mod } from '../../lib/math/mod.ts'
-import { LineSegment } from '../../lib/primitives/LineSegment.ts'
 import type { Pointlike } from '../../lib/primitives/Pointlike.ts'
 import { Wave } from '../../lib/animation/Wave.ts'
 import { AngleAnnotation } from '../../lib/primitives/AngleAnnotation.ts'
-import type { Dimensionlike } from '../../lib/primitives/Dimensionlike.ts'
 
 const MAIN_CIRCLE = new Circle({ x: 128, y: 128 }, 64)
 const LABEL_CIRCLE = new Circle(MAIN_CIRCLE.center, 96)
