@@ -16,41 +16,41 @@ A circular arc is a contiguous slice out of a circle.
 
 <SketchP5 :sketch="SKETCHES.concept" />
 
-We can define it as a circle plus a set of angles to set the bounds of
-the slice:
+We can define it as a circle plus some angles to set the bounds of the slice.
 
 ```
 Arc = (Circle, Angles)
 ```
 
-The angles can be described in a number of ways. The following sections
-will go into more detail.
+There are several possible ways to express the angles, the next few sections
+will detail a few.
 
 ## Angles as Start, End, and Orientation
 
 <SketchP5 :sketch="SKETCHES.start_end_orientation" />
 
-`Angles = (start, end, orientation)` where `start, end` are any angles and `orientation` is either `+` for positive, or `-` for negative.
+`Angles = (start, end, orientation)` where:
+
+-  `start` and `end` are any angles in radians
+-  `orientation` is either `+1` for positive or `-1` for negative. This describes the direction the arc circulates from `start` to `end`
 
 :::details Angle Conventions
-To be coordinate system agnostic, I will describe the direction of angles as "positive" or "negative" rather than "clockwise" or "counterclockwise".
+To be coordinate system agnostic, I will describe the direction of angles as "positive/negative" rather than "clockwise/counterclockwise".
 
 Here I'm using "positive angle" to mean "the angular direction from the +x axis to the +y axis", regardless of what
 direction these point.
 
-In [p5.js](https://p5js.org/) (the library I use for these animations) and many other 2D graphics libraries use a y-down coordinate system, so "positive" would be clockwise.
+In [p5.js](https://p5js.org/) and several other 2D graphics libraries use a y-down coordinate system, so "positive" would be clockwise.
 
-However, for the animations on this page, I display things using the math convention where positive angles are
-measured counterclockwise from the right (+x).
+However, the math convention is to measure angles counterclockwise from the right (+x direction). In these animations, I flip all the arcs
+so they match the math convention.
 :::
 
-In this repo, this is the implementation I use. I chose this one because it's
-the most similar to the 2D graphics libraries I use. See the [Drawing Undirected Arcs](#drawing-undirected-arcs) section
-for more details
+In this repo, this is the implementation I use. I chose this one because it most closely matches p5.js and other graphics libraries I use.
 
 :::details 🔍 I see more patterns lurking here…
 This definition + the ones are analogous to the different ways of defining an
-interval
+interval:
 
 - Start and end
 - Start and length
@@ -67,7 +67,10 @@ And similarly for rectangles:
 
 <SketchP5 :sketch="SKETCHES.start_displacement" />
 
-`Angles = (start, displacement)`, where `start` is the angle of the start point and `displacement` is a number. The magnitude of `displacement` determines the angular size of the arc, while its sign determines the direction.
+`Angles = (start, displacement)`, where:
+
+-  `start` is the angle of the start of the arc
+-  `displacement` is an angle measured from the start. Its magnitude determines the size of the arc, while the sign determines the direction.
 
 This can be converted to `(start, end, orientation)` with the following formulas:
 
@@ -79,7 +82,11 @@ This can be converted to `(start, end, orientation)` with the following formulas
 
 <SketchP5 :sketch="SKETCHES.center_displacement" />
 
-`Angles = (center, displacement, orientation)` where `center` is the center angle, `displacement` is the non-negative angle from center to either end of the arc, and `orientation` is `+` or `-` as before
+`Angles = (center, displacement, orientation)` where 
+
+- `center` is the center angle, 
+- `displacement` is the non-negative angle from center to either end of the arc
+- `orientation` is `+1` or `-1` as before
 
 Conversion formulas:
 
@@ -130,7 +137,7 @@ define the following two transformations:
 
 <div class="horizontal">
 <div>
-<p><b>Complement</b>: get the other arc with the same orientation</p>
+<p><b>Complement</b>: get the other arc with the same orientation.</p>
 <SketchP5 :sketch="SKETCHES.xform_complement" />
 </div>
 <div>
@@ -184,7 +191,7 @@ when discussing [symmetries](#connecting-angle-transformations-to-arc-transforma
 
 ### Symmetries of Arcs
 
-Directed arcs do not have any nontrivial symmetries
+Directed arcs do not have any nontrivial symmetries.
 
 Undirected arcs do have `reverse` symmetry. That is, if you flip the arc
 backwards, it produces the same arc (as we do not distinguish start from end)
@@ -215,14 +222,14 @@ the whole arc by the same angle.
 <SketchP5 :sketch="SKETCHES.symm_phase_shift_rotate" />
 
 Note: In the animation above, "start" and "end" label the angles relative to `delta`
-to avoid cluttering the diagram. Really they would be `start + delta`, `end + delta`, respectively.
+to avoid cluttering the diagram. More accurately they would be `start + delta`, `end + delta`, respectively.
 
-Notice how when `delta` expands, it "pushes" the arc around the circle
+Notice how when `delta` expands, it "pushes" the arc around the circle.
 
 #### Reverse Angles to Flip the Y-Coordinate
 
 Reversing the angles and orientation of the arc is the same as flipping
-the y-coordinate
+the y-coordinate.
 
 :::details Proof that reversing an angle produces a reflection
 I think this is easiest to show using complex numbers. 
@@ -234,8 +241,8 @@ e^{i \theta} = \cos(\theta) + i \sin(\theta)
 $$
 
 
-If we substitute in $-\theta$ (reversing the angle) and simplify
-(making use of some identities from trigonometry), we get:
+If we substitute in $-\theta$ (reversing the angle) and simplify with
+a couple trig identities, we get:
 
 $$
 \begin {align*}

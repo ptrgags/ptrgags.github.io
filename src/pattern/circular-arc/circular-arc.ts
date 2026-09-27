@@ -104,8 +104,8 @@ class StartEndOrientation implements SceneP5 {
 
     this.start_label = new Text('start', { x: 0, y: 0 })
     this.end_label = new Text('end', { x: 0, y: 0 })
-    this.pos_label = new Text('+', { x: 0, y: 0 })
-    this.neg_label = new Text('-', { x: 0, y: 0 })
+    this.pos_label = new Text('+1', { x: 0, y: 0 })
+    this.neg_label = new Text('-1', { x: 0, y: 0 })
 
     this.primitive = group(
       style(Style.lines(COLOR_GREY, 2), circle, this.annotation_start, this.annotation_end),
