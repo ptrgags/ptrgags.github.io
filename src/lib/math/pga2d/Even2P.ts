@@ -77,7 +77,7 @@ export class Even2P {
    * @param other The other Even2P multivector
    * @returns The regressive product
    */
-  vee_even(other: Even2P): Odd2P {
+  #vee_even(other: Even2P): Odd2P {
     // Bread V = A + Bxy + Cxo + Dyo
     const { xy: axy, xo: axo, yo: ayo } = this
     // Filling U = a + bxy + cxo + dyo
@@ -91,7 +91,7 @@ export class Even2P {
     return new Odd2P(x, y, o, 0)
   }
 
-  vee_odd(other: Odd2P): Even2P {
+  #vee_odd(other: Odd2P): Even2P {
     throw new Error('Not implemented')
   }
 
@@ -99,10 +99,10 @@ export class Even2P {
   vee(other: Odd2P): Even2P
   vee(other: Even2P | Odd2P): Even2P | Odd2P {
     if (other instanceof Odd2P) {
-      return this.vee_odd(other)
+      return this.#vee_odd(other)
     }
 
-    return this.vee_even(other)
+    return this.#vee_even(other)
   }
 
   equals(other: Even2P): boolean {
@@ -114,7 +114,7 @@ export class Even2P {
     )
   }
 
-  sandwich_even(other: Even2P): Even2P {
+  #sandwich_even(other: Even2P): Even2P {
     // Bread V = A + Bxy + Cxo + Dyo
     const { scalar: as, xy: axy, xo: axo, yo: ayo } = this
     // Filling U = a + bxy + cxo + dyo
@@ -146,7 +146,7 @@ export class Even2P {
     return new Even2P(scalar, xy, xo, yo)
   }
 
-  sandwich_odd(other: Odd2P): Odd2P {
+  #sandwich_odd(other: Odd2P): Odd2P {
     const { scalar: as, xy: axy, xo: axo, yo: ayo } = this
     const { x: bx, y: by, o: bo, xyo: bxyo } = other
 
@@ -174,10 +174,10 @@ export class Even2P {
   sandwich(other: Odd2P): Odd2P
   sandwich(other: Even2P | Odd2P): Even2P | Odd2P {
     if (other instanceof Odd2P) {
-      return this.sandwich_odd(other)
+      return this.#sandwich_odd(other)
     }
 
-    return this.sandwich_even(other)
+    return this.#sandwich_even(other)
   }
 
   /*

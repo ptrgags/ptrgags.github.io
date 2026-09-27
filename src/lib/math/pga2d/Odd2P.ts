@@ -68,7 +68,7 @@ export class Odd2P {
     return ax * bx + ay * by
   }
 
-  wedge_odd(other: Odd2P): Even2P {
+  #wedge_odd(other: Odd2P): Even2P {
     // Note that the pseudoscalar part xyo will always wedge to 0, so we can
     // ignore it.
     const { x: ax, y: ay, o: ao } = this
@@ -81,7 +81,7 @@ export class Odd2P {
     return new Even2P(0, xy_part, xo_part, yo_part)
   }
 
-  wedge_even(other: Even2P): Odd2P {
+  #wedge_even(other: Even2P): Odd2P {
     throw new Error('Not Implemented')
   }
 
@@ -89,12 +89,12 @@ export class Odd2P {
   wedge(other: Odd2P): Even2P
   wedge(other: Even2P | Odd2P): Even2P | Odd2P {
     if (other instanceof Odd2P) {
-      return this.wedge_odd(other)
+      return this.#wedge_odd(other)
     }
-    return this.wedge_even(other)
+    return this.#wedge_even(other)
   }
 
-  sandwich_even(other: Even2P): Even2P {
+  #sandwich_even(other: Even2P): Even2P {
     const { x: ax, y: ay, o: ao, xyo: axyo } = this
     const { scalar: bs, xy: bxy, xo: bxo, yo: byo } = other
 
@@ -126,7 +126,7 @@ export class Odd2P {
     return new Even2P(scalar, xy, xo, yo)
   }
 
-  sandwich_odd(other: Odd2P): Odd2P {
+  #sandwich_odd(other: Odd2P): Odd2P {
     const { x: ax, y: ay, o: ao, xyo: axyo } = this
     const { x: bx, y: by, o: bo, xyo: bxyo } = other
 
@@ -156,10 +156,10 @@ export class Odd2P {
   sandwich(other: Odd2P): Odd2P
   sandwich(other: Even2P | Odd2P): Even2P | Odd2P {
     if (other instanceof Odd2P) {
-      return this.sandwich_odd(other)
+      return this.#sandwich_odd(other)
     }
 
-    return this.sandwich_even(other)
+    return this.#sandwich_even(other)
   }
 
   equals(other: Odd2P): boolean {
