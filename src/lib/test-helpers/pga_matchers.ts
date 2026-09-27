@@ -2,6 +2,7 @@ import type { Matcher, MatcherResult, MatcherState } from 'vitest'
 import { Even2P } from '../math/pga2d/Even2P.ts'
 import { Odd2P } from '../math/pga2d/Odd2P.ts'
 import { diff_float_property, format_diff } from './diff_properties.ts'
+import { objects_equal } from './matchermaking.ts'
 
 export function diff_even(diffs: string[], received: unknown, expected: unknown) {
   if (!(received instanceof Even2P)) {
@@ -34,13 +35,13 @@ export function diff_odd(diffs: string[], received: unknown, expected: unknown) 
 export const PGA_MATCHERS = {
   toBeEven2P(this: MatcherState, received: unknown, expected: unknown): MatcherResult {
     return {
-      pass: received instanceof Even2P && expected instanceof Even2P && received.equals(expected),
+      pass: objects_equal(Even2P, received, expected),
       message: () => format_diff(diff_even([], received, expected)),
     }
   },
   toBeOdd2P(this: MatcherState, received: unknown, expected: unknown): MatcherResult {
     return {
-      pass: received instanceof Odd2P && expected instanceof Odd2P && received.equals(expected),
+      pass: objects_equal(Odd2P, received, expected),
       message: () => format_diff(diff_odd([], received, expected)),
     }
   },
