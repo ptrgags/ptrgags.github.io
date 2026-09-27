@@ -48,6 +48,14 @@ onMounted(() => {
   // need to investigate 404 error on marker image... maybe make my own?
   L.marker([100, 100]).addTo(param_map).bindPopup('Landmark')
 
+  L.marker([750, 500], {
+    icon: new L.DivIcon({ html: 'Epitrochoids', className: 'label' }),
+  }).addTo(param_map)
+
+  L.marker([750, -500], {
+    icon: new L.DivIcon({ html: 'Hypotrochoids', className: 'label' }),
+  }).addTo(param_map)
+
   const clicked_popup = L.popup()
 
   param_map.on('click', (e) => {
@@ -76,5 +84,14 @@ onMounted(() => {
 #map {
   width: 512px;
   height: 256px;
+}
+</style>
+
+<style>
+.label {
+  color: black;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
 }
 </style>

@@ -15,7 +15,6 @@ const sketch = make_sketch(scene)
 watch(
   () => props.params,
   (params) => {
-    console.log(params)
     scene.set_params(params)
   },
   { deep: true },
