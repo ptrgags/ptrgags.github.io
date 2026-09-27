@@ -18,48 +18,7 @@ import { SongMeter } from './SongMeter.ts'
 import { SongMeterPrimitive } from './SongMeterPrimitive.ts'
 import { Rect } from '../../lib/primitives/Rect.ts'
 import type { Pointlike } from '../../lib/primitives/Pointlike.ts'
-
-interface SceneP5 {
-  canvas_size: Dimensionlike
-  // No setup() function, just use the constructor!
-  update(p: p5): void
-  draw(lib: DrawP5): void
-}
-
-function make_sketch(scene: SceneP5) {
-  return (p: p5) => {
-    const lib = new DrawP5(p)
-    p.setup = () => {
-      const { width, height } = scene.canvas_size
-      p.createCanvas(width, height)
-      p.pixelDensity(1)
-    }
-
-    p.draw = () => {
-      p.background(0)
-      scene.update(p)
-      scene.draw(lib)
-    }
-  }
-}
-
-// This is like make_sketch() but for a sketch that will only render once
-function make_static_sketch(scene: SceneP5) {
-  return (p: p5) => {
-    const lib = new DrawP5(p)
-    p.setup = () => {
-      const { width, height } = scene.canvas_size
-      p.createCanvas(width, height)
-      p.pixelDensity(1)
-      p.noLoop()
-
-      // Only render once
-      p.background(0)
-      scene.update(p)
-      scene.draw(lib)
-    }
-  }
-}
+import { make_sketch, make_static_sketch, type SceneP5 } from '../../lib/p5-helpers/sketches.ts'
 
 const ROW_SIZE = { width: 512, height: 128 }
 const TIMELINE_SIZE = { width: 384, height: 64 }

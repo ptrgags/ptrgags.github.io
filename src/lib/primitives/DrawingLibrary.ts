@@ -16,6 +16,24 @@ export interface DrawingLibrary {
   circle(cx: number, cy: number, radius: number): void
 
   /**
+   * Draw a circular arc
+   * @param cx x-coordinate of circle center
+   * @param cy y-coordinate of circle center
+   * @param radius Radius of circle
+   * @param angle1 First angle
+   * @param angle2 Second angle
+   * @param orientation Direction from angle1 to angle2
+   */
+  arc(
+    cx: number,
+    cy: number,
+    radius: number,
+    angle1: number,
+    angle2: number,
+    orientation: 1 | -1,
+  ): void
+
+  /**
    * Draw a line segment
    * @param x1 x-coordinate of first point
    * @param x2 y-coordinate of first point
