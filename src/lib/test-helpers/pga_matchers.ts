@@ -31,19 +31,17 @@ export function diff_odd(diffs: string[], received: unknown, expected: unknown) 
   return diffs
 }
 
-function toBeEven2P(this: MatcherState, received: unknown, expected: unknown): MatcherResult {
-  return {
-    pass: received instanceof Even2P && expected instanceof Even2P && received.equals(expected),
-    message: () => format_diff(diff_even([], received, expected)),
-  }
-}
-
 export const PGA_MATCHERS = {
-  toBeEven2P,
+  toBeEven2P(this: MatcherState, received: unknown, expected: unknown): MatcherResult {
+    return {
+      pass: received instanceof Even2P && expected instanceof Even2P && received.equals(expected),
+      message: () => format_diff(diff_even([], received, expected)),
+    }
+  },
   toBeOdd2P(this: MatcherState, received: unknown, expected: unknown): MatcherResult {
     return {
       pass: received instanceof Odd2P && expected instanceof Odd2P && received.equals(expected),
-      message: () => format_diff(diff_even([], received, expected)),
+      message: () => format_diff(diff_odd([], received, expected)),
     }
   },
 }
