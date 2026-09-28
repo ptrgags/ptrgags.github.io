@@ -46,7 +46,7 @@ onMounted(() => {
   ).addTo(param_map)
 
   // need to investigate 404 error on marker image... maybe make my own?
-  L.marker([100, 100]).addTo(param_map).bindPopup('Landmark')
+  //L.marker([100, 100]).addTo(param_map).bindPopup('Landmark')
 
   L.marker([750, 500], {
     icon: new L.DivIcon({ html: 'Epitrochoids', className: 'label' }),
