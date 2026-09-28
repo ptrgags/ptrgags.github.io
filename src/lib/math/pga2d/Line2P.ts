@@ -161,7 +161,7 @@ export class Line2P {
       throw new Error('line segment must have two different end points')
     }
 
-    const dir = end_point.sub(end_point)
+    const dir = end_point.sub(start_point)
     const normal = dir.rot90().normalize()
     const dist = normal.dot(start_point.to_direction())
 
