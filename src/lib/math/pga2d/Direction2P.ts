@@ -70,6 +70,14 @@ export class Direction2P {
     return -this.bivec.xo
   }
 
+  get width(): number {
+    return this.x
+  }
+
+  get height(): number {
+    return this.x
+  }
+
   /**
    * Get the dual line
    * @returns {Line} The dual line
@@ -179,7 +187,7 @@ export class Direction2P {
    * @returns {Line} The line through the two points
    */
   join(other: Point2P | Direction2P): Line2P {
-    const vec = this.bivec.vee_even(other.bivec)
+    const vec = this.bivec.vee(other.bivec)
     return Line2P.from_vec(vec)
   }
 
