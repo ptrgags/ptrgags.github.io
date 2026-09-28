@@ -33,11 +33,15 @@ export class CenteredTrochoidScene implements SceneP5 {
   primitive: Drawable
 
   constructor() {
-    this.r = 0.5 * RADIUS_BIG
+    this.r = -0.5 * RADIUS_BIG
     this.p = 0.5 * this.r
 
     this.anim_circle = new CircularMotion(new Circle(CENTER, RADIUS_BIG + this.r), -FREQ_CIRCLE, 0)
-    this.anim_pen = new CircularMotion(new Circle({ x: 0, y: 0 }, this.p), RADIUS_BIG / this.r, 0)
+    this.anim_pen = new CircularMotion(
+      new Circle({ x: 0, y: 0 }, this.p),
+      -(RADIUS_BIG / this.r - 1) * FREQ_CIRCLE,
+      0,
+    )
 
     this.start_time = 0
 
@@ -53,17 +57,29 @@ export class CenteredTrochoidScene implements SceneP5 {
     this.p = params.radius_pen * this.r
 
     this.start_time = CLOCK.elapsed_time
-    this.anim_circle = new CircularMotion(new Circle(CENTER, RADIUS_BIG + this.r), -FREQ_CIRCLE, 0)
+    this.anim_circle = new CircularMotion(new Circle(CENTER, RADIUS_BIG + this.r), -FREQ_CIRCLE)
+
+    // The smaller circle turns against the large one without slipping, like two
+    // meshed gears. So `theta2 = R/r * theta1` when measured from the stationary frame.
+    // Here `r` is positive for epitrochoids (outside the big circle) and negative
+    // inside the big circle.
+    //
+    // However, we want to measure this relative to the angle of the circle's
+    // position. So we want
+    //
+    // `theta2 - theta1 = (R/r - 1) * theta1`
+    //
+    // Angular frequency follows the same relationships, so
+    //
+    // `f2 - f1 = (R/r - 1) * f1`
+    const freq_pen = (RADIUS_BIG / this.r - 1) * FREQ_CIRCLE
+
     // The frequency doesn't seem right…
-    this.anim_pen = new CircularMotion(
-      new Circle({ x: 0, y: 0 }, this.p),
-      -(RADIUS_BIG + this.r) / this.r,
-      0,
-    )
+    this.anim_pen = new CircularMotion(new Circle({ x: 0, y: 0 }, this.p), -freq_pen)
   }
 
   update(p: p5): void {
-    const t = CLOCK.elapsed_time
+    const t = CLOCK.elapsed_time - this.start_time
     const center = this.anim_circle.position(t)
     const { x: px, y: py } = this.anim_pen.position(t)
 
