@@ -3,6 +3,7 @@ import type { DrawingLibrary } from '../primitives/DrawingLibrary.ts'
 import type { Style } from '../styling/Style.ts'
 import { is_nearly } from '../math/is_nearly.ts'
 import type { HorizontalTextAlign, TextStyle, VerticalTextAlign } from '../styling/TextStyle.ts'
+import type { Pointlike } from '../primitives/Pointlike.ts'
 
 /**
  * Convert string align values to p5.js constants
@@ -72,6 +73,14 @@ export class DrawP5 implements DrawingLibrary {
 
   segment(x1: number, y1: number, x2: number, y2: number): void {
     this.p.line(x1, y1, x2, y2)
+  }
+
+  polyline(points: Pointlike[]): void {
+    this.p.beginShape()
+    for (const { x, y } of points) {
+      this.p.vertex(x, y)
+    }
+    this.p.endShape()
   }
 
   rect(x: number, y: number, width: number, height: number): void {
