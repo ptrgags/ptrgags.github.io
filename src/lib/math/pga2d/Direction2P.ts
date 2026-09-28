@@ -31,6 +31,10 @@ export class Direction2P implements Pointlike, Dimensionlike {
   }
 
   static from_point(point: Pointlike): Direction2P {
+    if (point instanceof Direction2P) {
+      return point
+    }
+
     const { x, y } = point
     return new Direction2P(x, y)
   }

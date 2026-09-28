@@ -32,6 +32,10 @@ export class Point2P implements Pointlike {
   }
 
   static from_point(point: Pointlike): Point2P {
+    if (point instanceof Point2P) {
+      return point
+    }
+
     const { x, y } = point
     return new Point2P(x, y)
   }

@@ -4,6 +4,23 @@ import { Point2P } from './Point2P.ts'
 import { Line2P } from './Line2P.ts'
 
 describe('Direction2P', () => {
+  it('from_point with Direction2P returns same object', () => {
+    const direction = new Direction2P(1, 2)
+
+    const result = Direction2P.from_point(direction)
+
+    expect(result).toBe(direction)
+  })
+
+  it('from_point with other pointlike returns Direction2P', () => {
+    const point = { x: 3, y: 4 }
+
+    const result = Direction2P.from_point(point)
+
+    const expected = new Direction2P(3, 4)
+    expect(result).toBeDirection2P(expected)
+  })
+
   it('converts to point', () => {
     const a = new Direction2P(2, -5)
 
