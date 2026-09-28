@@ -5,8 +5,9 @@
  * I mainly use this for rendering trajectories
  */
 export class RingBuffer<T> {
+  readonly capacity: number
+
   private values: T[]
-  private capacity: number
   private length: number
   private start: number
   private end: number
