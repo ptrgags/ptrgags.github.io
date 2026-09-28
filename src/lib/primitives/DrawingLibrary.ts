@@ -72,4 +72,23 @@ export interface DrawingLibrary {
    * @param text_style The style to apply
    */
   apply_text_style(text_style: TextStyle): void
+
+  /**
+   * Apply a rigid transformation
+   * @param translation_x x-coordinate of translation
+   * @param translation_y y-coordinate of translation
+   * @param rotation Angle of rotation in radians
+   * @param flip_y If true, flip the y-coordinate
+   */
+  apply_rigid(translation_x: number, translation_y: number, rotation: number, flip_y: boolean): void
+
+  /**
+   * Push rendering state
+   */
+  push(): void
+
+  /**
+   * Pop rendering state
+   */
+  pop(): void
 }
