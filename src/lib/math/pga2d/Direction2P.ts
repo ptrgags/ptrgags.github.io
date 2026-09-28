@@ -30,6 +30,16 @@ export class Direction2P implements Pointlike, Dimensionlike {
     this.bivec = new Even2P(0, xy, xo, yo)
   }
 
+  static from_point(point: Pointlike): Direction2P {
+    const { x, y } = point
+    return new Direction2P(x, y)
+  }
+
+  static from_dimensions(dimensions: Dimensionlike): Direction2P {
+    const { width, height } = dimensions
+    return new Direction2P(width, height)
+  }
+
   /**
    * Get a direction from an angle
    * @param {number} theta Counterclockwise angle in radians

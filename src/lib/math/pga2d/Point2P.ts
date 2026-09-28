@@ -31,6 +31,11 @@ export class Point2P implements Pointlike {
     this.bivec = new Even2P(0, xy, xo, yo)
   }
 
+  static from_point(point: Pointlike): Point2P {
+    const { x, y } = point
+    return new Point2P(x, y)
+  }
+
   /**
    * Construct from a bivector
    * @param {Even} bivec The bivector that represents this point.
