@@ -14,7 +14,7 @@ const channel_select = useTemplateRef('channel-select')
 
 const can_export: Ref<boolean> = ref(false)
 
-function load_file(file: MIDIFile<RelativeTimingTrack>, filename: string) {
+function load_file(file: MIDIFile, filename: string) {
   const dot = filename.lastIndexOf('.')
 
   original_basename.value = filename.substring(0, dot)
