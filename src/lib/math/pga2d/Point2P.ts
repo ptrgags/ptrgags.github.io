@@ -5,7 +5,7 @@ import { Even2P } from './Even2P.js'
 import { Line2P } from './Line2P.js'
 
 /**
- * A generalzed point that can be either a Euclidean point, or an ideal
+ * A generalized point that can be either a Euclidean point, or an ideal
  * point (i.e. a direction).
  *
  * This is a wrapper around a bivector (an Even object) that normalizes
@@ -145,7 +145,7 @@ export class Point2P implements Pointlike {
   }
 
   /**
-   *
+   * Format the point as a string. This helps in the VSCode debugger
    * @returns {string}
    */
   toString(): string {
@@ -161,17 +161,6 @@ export class Point2P implements Pointlike {
   equals(other: Point2P): boolean {
     return this.bivec.equals(other.bivec)
   }
-
-  // TODO: think about rendering details
-  /*
-   * Draw the point as a small circle
-   * @param {import("p5")} p The p5.js library
-   
-  draw(p: import('p5')) {
-    const POINT_RADIUS = 4
-    p.circle(this.x, this.y, 2 * POINT_RADIUS)
-  }
-  */
 
   /**
    * Linearly interpolate between two points
