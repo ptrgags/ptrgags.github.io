@@ -75,8 +75,6 @@ function parse_midi_header(chunk: MIDIChunk): MIDIHeader {
       throw new Error(`Invalid MIDI format ${format}`)
   }
 
-  console.info('MIDI format', format, 'detected')
-
   if (((ticks_per_quarter >> 15) & 1) !== 0) {
     const smpte_format = ticks_per_quarter >> 8
     const ticks_per_frame = ticks_per_quarter & 0xff
