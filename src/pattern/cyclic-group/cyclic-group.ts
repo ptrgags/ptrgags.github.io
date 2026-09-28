@@ -12,6 +12,11 @@ import { Point2P } from '../../lib/math/pga2d/Point2P.ts'
 import { Rect } from '../../lib/primitives/Rect.ts'
 import { Wave } from '../../lib/animation/Wave.ts'
 import { Clock } from '../../lib/animation/Clock.ts'
+import { LineSegment } from '../../lib/primitives/LineSegment.ts'
+import { TextStyle } from '../../lib/styling/TextStyle.ts'
+import { CyclicGrid } from './CyclicGrid.ts'
+import { Text } from '../../lib/primitives/Text.ts'
+import { mod } from '../../lib/math/mod.ts'
 
 const CLOCK = new Clock()
 
@@ -44,9 +49,48 @@ class CyclicGroup implements SceneP5 {
   }
 }
 
+const TICK_MARK = new LineSegment(new Point2P(64, 0), new Point2P(80, 0))
+const STYLE_LABEL = { text_style: new TextStyle(24, 'center', 'center'), style: Style.DEFAULT_FLAT }
+const POS_LABEL = new Point2P(96, 0)
+
+class ClockDial implements SceneP5 {
+  canvas_size = { width: 256, height: 256 }
+  wave: Wave
+  primitive: Drawable
+
+  constructor() {
+    const tick_marks = new CyclicRepeat(12, TICK_MARK)
+    const labels = new CyclicGrid(12, (i) => {
+      const numeral = mod(i + 3, 12)
+      const fix_twelve = numeral === 0 ? 12 : numeral
+      return new Text(`${fix_twelve}`, POS_LABEL)
+    })
+
+    this.wave = Wave.sine({ amp: 64, freq: 0.25, bias: 32 })
+
+    this.primitive = xform(
+      Rigid.translation(new Direction2P(128, 128)),
+      style(Style.DEFAULT_LINES, tick_marks),
+      style(STYLE_LABEL, labels),
+    )
+  }
+
+  update(p: p5): void {
+    //const t = CLOCK.elapsed_time
+    // for now, make the points move in a lissajous curve
+    //this.rect.position = new Point2P(this.wave.bipolar(t), this.wave.bipolar(2 * t))
+  }
+
+  draw(lib: DrawP5): void {
+    this.primitive.draw(lib)
+  }
+}
+
 export const SKETCHES = {
   c3: make_sketch(new CyclicGroup(3)),
   c5: make_sketch(new CyclicGroup(5)),
   c6: make_sketch(new CyclicGroup(6)),
   c12: make_sketch(new CyclicGroup(12)),
+
+  clock: make_sketch(new ClockDial()),
 }

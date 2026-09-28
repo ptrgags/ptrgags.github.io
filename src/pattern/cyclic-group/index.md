@@ -23,3 +23,8 @@ Cyclic group $C_6$:
 
 Cyclic group $C_12$:
 <SketchP5 :sketch="SKETCHES.c12" />
+
+
+Arranging numbers on the clock
+
+<SketchP5 :sketch="SKETCHES.clock" />
