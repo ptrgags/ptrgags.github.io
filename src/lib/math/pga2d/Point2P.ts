@@ -1,3 +1,4 @@
+import type { Pointlike } from '../../primitives/Pointlike.js'
 import { is_nearly } from '../is_nearly.js'
 import { Direction2P } from './Direction2P.js'
 import { Even2P } from './Even2P.js'
@@ -15,7 +16,7 @@ import { Line2P } from './Line2P.js'
  *
  * @implements {Primitive}
  */
-export class Point2P {
+export class Point2P implements Pointlike {
   bivec: Even2P
 
   /**
@@ -173,7 +174,7 @@ export class Point2P {
    * @param {Point2P} b The second point
    * @param {number} t The interpolation factor
    */
-  static lerp(a: Point2P, b: Point2P, t: number) {
+  static lerp(a: Point2P, b: Point2P, t: number): Point2P {
     const bivector = Even2P.lerp(a.bivec, b.bivec, t)
     return Point2P.from_bivec(bivector)
   }

@@ -1,3 +1,5 @@
+import type { Dimensionlike } from '../../primitives/Dimensionlike.js'
+import type { Pointlike } from '../../primitives/Pointlike.js'
 import { is_nearly } from '../is_nearly.js'
 import { Even2P } from './Even2P.js'
 import { Line2P } from './Line2P.js'
@@ -12,7 +14,7 @@ import { Point2P } from './Point2P.js'
  * the representation so the xy component 0. However, this is hidden to the
  * caller.
  */
-export class Direction2P {
+export class Direction2P implements Pointlike, Dimensionlike {
   bivec: Even2P
 
   /**
