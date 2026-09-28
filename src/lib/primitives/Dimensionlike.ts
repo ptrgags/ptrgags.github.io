@@ -1,4 +1,4 @@
 export interface Dimensionlike {
-  width: number
-  height: number
+  get width(): number
+  get height(): number
 }
