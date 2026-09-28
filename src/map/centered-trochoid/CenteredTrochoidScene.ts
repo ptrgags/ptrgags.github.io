@@ -38,8 +38,8 @@ export class CenteredTrochoidScene implements SceneP5 {
   primitive: Drawable
 
   constructor() {
-    this.r = -0.5 * RADIUS_BIG
-    this.p = 0.5 * this.r
+    this.r = -0.75 * RADIUS_BIG
+    this.p = 0.8 * this.r
 
     this.anim_circle = new CircularMotion(new Circle(CENTER, RADIUS_BIG + this.r), -FREQ_CIRCLE, 0)
     this.anim_pen = new CircularMotion(
