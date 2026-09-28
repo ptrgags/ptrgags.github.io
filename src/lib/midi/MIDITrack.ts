@@ -62,7 +62,7 @@ export class AbsoluteTimingTrack {
     this.events = events.slice()
 
     // Sort by absolute time to ensure times are monotonically increasing
-    this.events.sort((a, b) => a[0] - b[0])
+    this.events.sort(by_midi_tick)
   }
 
   /**
