@@ -108,4 +108,24 @@ export class DrawP5 implements DrawingLibrary {
     const v_align = get_vertical_align(this.p, text_style.v_align)
     this.p.textAlign(h_align, v_align)
   }
+
+  apply_rigid(
+    translation_x: number,
+    translation_y: number,
+    rotation: number,
+    flip_y: boolean,
+  ): void {
+    this.p.translate(translation_x, translation_y)
+    this.p.rotate(rotation)
+    const scale_y = flip_y ? -1 : 1
+    this.p.scale(1, scale_y)
+  }
+
+  push(): void {
+    this.p.push()
+  }
+
+  pop(): void {
+    this.p.pop()
+  }
 }
