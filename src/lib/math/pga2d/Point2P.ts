@@ -146,7 +146,7 @@ export class Point2P implements Pointlike {
   toString(): string {
     const x_str = this.x.toPrecision(3)
     const y_str = this.y.toPrecision(3)
-    return `Point(${x_str}, ${y_str})`
+    return `Point2P(${x_str}, ${y_str})`
   }
 
   /**

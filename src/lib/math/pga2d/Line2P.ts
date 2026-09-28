@@ -61,7 +61,7 @@ export class Line2P {
    * @returns {Point | Direction}
    */
   meet(other: Line2P): Direction2P | Point2P {
-    const bivec = this.vec.wedge_odd(other.vec)
+    const bivec = this.vec.wedge(other.vec)
     if (is_nearly(bivec.xy, 0)) {
       return Direction2P.from_bivec(bivec)
     }
@@ -105,7 +105,7 @@ export class Line2P {
       return `LineAtInfinity(${this.vec.o})`
     }
 
-    return `Line(${this.nx}, ${this.ny}, ${this.d})`
+    return `Line2P(${this.nx}, ${this.ny}, ${this.d})`
   }
 
   // TODO: think about how rendering should work
@@ -165,6 +165,6 @@ export class Line2P {
   }
     */
 
-  X_AXIS = new Line2P(0, 1, 0)
-  Y_AXIS = new Line2P(1, 0, 0)
+  static readonly X_AXIS = new Line2P(0, 1, 0)
+  static readonly Y_AXIS = new Line2P(1, 0, 0)
 }

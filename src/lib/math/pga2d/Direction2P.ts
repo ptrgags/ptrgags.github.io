@@ -275,7 +275,7 @@ export class Direction2P implements Pointlike, Dimensionlike {
   toString() {
     const x_str = this.x.toPrecision(3)
     const y_str = this.y.toPrecision(3)
-    return `Direction(${x_str}, ${y_str})`
+    return `Direction2P(${x_str}, ${y_str})`
   }
 
   /**

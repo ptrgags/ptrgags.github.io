@@ -95,7 +95,7 @@ export const PGA_MATCHERS = {
     return custom_equality_matcher(Point2P, diff_point, received, expected)
   },
   toBeDirection2P(this: MatcherState, received: unknown, expected: unknown): MatcherResult {
-    return custom_equality_matcher(Point2P, diff_dir, received, expected)
+    return custom_equality_matcher(Direction2P, diff_dir, received, expected)
   },
   toBeLine2P(this: MatcherState, received: unknown, expected: unknown): MatcherResult {
     return custom_equality_matcher(Line2P, diff_line, received, expected)
