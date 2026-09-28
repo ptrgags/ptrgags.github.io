@@ -3,6 +3,6 @@
  * coordinates.
  */
 export interface Pointlike {
-  x: number
-  y: number
+  get x(): number
+  get y(): number
 }
