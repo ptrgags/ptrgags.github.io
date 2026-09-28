@@ -2,8 +2,10 @@ import { Style } from '../styling/Style.ts'
 import { TextStyle } from '../styling/TextStyle.ts'
 import type { Drawable } from './Drawable.ts'
 import { Group } from './Group.ts'
+import type { Rigid } from './Rigid.ts'
 import { StyleOp } from './StyleOp.ts'
 import { TextStyleOp } from './TextStyleOp.ts'
+import { TransformationOp, type Transformation } from './TransformationOp.ts'
 
 /**
  * Shorthand for wrapping children in a group. it saves a few characters
@@ -57,4 +59,15 @@ export function style(
   }
 
   return new TextStyleOp(style_info.text_style, new StyleOp(style_info.style, child))
+}
+
+/**
+ * Shorthand for transforming one or more children
+ * @param transform The transformation to apply
+ * @param children Child primitive(s)
+ * @returns A transformation operator
+ */
+export function xform(transform: Transformation, ...children: Drawable[]): TransformationOp {
+  const child = children.length === 1 ? children[0] : new Group(...children)
+  return new TransformationOp(transform, child)
 }

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { Group } from './Group.ts'
-import { style } from './shorthand.ts'
+import { style, xform } from './shorthand.ts'
 import { Style } from '../styling/Style.ts'
 import { StyleOp } from './StyleOp.ts'
 import { Rect } from './Rect.ts'
@@ -8,6 +8,8 @@ import type { Drawable } from './Drawable.ts'
 import { Text } from './Text.ts'
 import { TextStyle } from '../styling/TextStyle.ts'
 import { TextStyleOp } from './TextStyleOp.ts'
+import { Rigid } from './Rigid.ts'
+import { TransformationOp } from './TransformationOp.ts'
 
 function make_rect(): Drawable {
   return new Rect({ x: 0, y: 0 }, { width: 10, height: 10 })
@@ -68,6 +70,34 @@ describe('style', () => {
     const result = style({ style: Style.DEFAULT_FLAT, text_style: TextStyle.DEFAULT }, text)
 
     const expected = new TextStyleOp(TextStyle.DEFAULT, new StyleOp(Style.DEFAULT_FLAT, text))
+    expect(result).toEqual(expected)
+  })
+})
+
+describe('xform', () => {
+  it('with no children returns empty group', () => {
+    const result = xform(Rigid.rotation(Math.PI))
+
+    const expected = Group.EMPTY
+    expect(result).toEqual(expected)
+  })
+
+  it('with single child returns operator with single child', () => {
+    const rect = make_rect()
+
+    const result = xform(Rigid.rotation(Math.PI), rect)
+
+    const expected = new TransformationOp(Rigid.rotation(Math.PI), rect)
+    expect(result).toEqual(expected)
+  })
+
+  it('with multiple children wraps children in group', () => {
+    const rect = make_rect()
+    const text = make_text()
+
+    const result = xform(Rigid.FLIP_Y, rect, text)
+
+    const expected = new TransformationOp(Rigid.FLIP_Y, new Group(rect, text))
     expect(result).toEqual(expected)
   })
 })
