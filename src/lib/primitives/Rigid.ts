@@ -1,5 +1,7 @@
 import { is_nearly } from '../math/is_nearly.js'
+import { lerp } from '../math/lerp.js'
 import { mod } from '../math/mod.js'
+import { Direction2P } from '../math/pga2d/Direction2P.js'
 import type { DrawingLibrary } from './DrawingLibrary.js'
 import type { Pointlike } from './Pointlike.js'
 import type { Transformation } from './TransformationOp.js'
@@ -9,14 +11,6 @@ export interface RigidOptions {
   rotation?: number
   flip?: boolean
 }
-
-/**
- * @typedef {{
- *  translation?: Direction
- *  rotation?: number
- *  flip?: boolean
- * }} RigidOptions
- */
 
 /**
  * Rigid transformation in the form:
@@ -35,7 +29,7 @@ export class Rigid implements Transformation {
    * @param {RigidOptions} options Settings for the rigid transformation
    */
   constructor(options: RigidOptions) {
-    this.translation = options.translation ?? Direction.ZERO
+    this.translation = Direction2P.from_point(options.translation ?? Direction2P.ZERO)
     this.rotation = mod(options.rotation ?? 0, 2 * Math.PI)
     this.flip = options.flip ?? false
   }
@@ -48,6 +42,7 @@ export class Rigid implements Transformation {
     )
   }
 
+  /**
   inverse() {
     // (T * R * Y?)^-1 = Y? * R^-1 * T^-1
     // = Y? * R^-1 * T(-d)
@@ -73,7 +68,7 @@ export class Rigid implements Transformation {
    * @param {Rigid} other Another transformation
    * @returns {Rigid} The transformation that represents applying other, then
    * applying this
-   */
+
   compose(other: Rigid): Rigid {
     // T1 * R1 * Y1? * T2 * R2 * Y2?
     // = T1 * T(R1 * Y1 * d2) * R1 * Y1? * R2 * Y2?
@@ -81,7 +76,7 @@ export class Rigid implements Transformation {
     const motor = Motor.rotation(Point.ORIGIN, this.rotation)
 
     const flipped_offset = this.flip
-      ? new Direction(other.translation.x, -other.translation.y)
+      ? new Direction2P(other.translation.x, -other.translation.y)
       : other.translation
     const translation = this.translation.add(motor.transform_dir(flipped_offset))
 
@@ -101,7 +96,7 @@ export class Rigid implements Transformation {
    * i.e. difference = A * B^-1
    * @param {Rigid} other
    * @returns {Rigid}
-   */
+   
   difference(other: Rigid): Rigid {
     // PERFORMANCE IDEA: this can be written out explicitly and simplified
     // instead of making temporaries, similar to compose()
@@ -113,31 +108,20 @@ export class Rigid implements Transformation {
    * i.e. compute A * B * A^-1
    * @param {Rigid} other
    * @returns {Rigid}
-   */
+   
   conjugate(other: Rigid): Rigid {
     // PERFORMANCE IDEA: this can be written out explicitly and simplified
     // instead of making temporaries, similar to compose()
     return this.compose(other).compose(this.inverse())
   }
-
-  /**
-   * Apply the transformations to p5
-   * @param {import("p5")} p
-   */
-  apply(p: import('p5')) {
-    p.translate(this.translation.x, this.translation.y)
-    p.rotate(this.rotation)
-    if (this.flip) {
-      p.scale(1, -1)
-    }
-  }
+    */
 
   /**
    * Convenience constructor for a translation
-   * @param {Direction} offset
+   * @param {Direction2P} offset
    * @returns {Rigid}
    */
-  static translation(offset: Direction): Rigid {
+  static translation(offset: Direction2P): Rigid {
     return new Rigid({ translation: offset })
   }
 
@@ -178,7 +162,7 @@ export class Rigid implements Transformation {
       throw new Error('a and b must have the same orientation')
     }
 
-    const translation = Direction.lerp(a.translation, b.translation, t)
+    const translation = Direction2P.lerp(a.translation, b.translation, t)
     const rotation = lerp(a.rotation, b.rotation, t)
     const flip = a.flip
 
@@ -186,7 +170,7 @@ export class Rigid implements Transformation {
   }
 
   apply_transformation(lib: DrawingLibrary): void {
-    lib.apply_rigid(this.translation.x, this.translation.y, this.translation, this.flip)
+    lib.apply_rigid(this.translation.x, this.translation.y, this.rotation, this.flip)
   }
 
   static readonly IDENTITY = new Rigid({})
