@@ -67,7 +67,14 @@ export function style(
  * @param children Child primitive(s)
  * @returns A transformation operator
  */
-export function xform(transform: Transformation, ...children: Drawable[]): TransformationOp {
+export function xform(
+  transform: Transformation,
+  ...children: Drawable[]
+): Group | TransformationOp {
+  if (children.length === 0) {
+    return Group.EMPTY
+  }
+
   const child = children.length === 1 ? children[0] : new Group(...children)
   return new TransformationOp(transform, child)
 }
