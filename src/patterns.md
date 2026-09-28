@@ -6,7 +6,7 @@ title: Patterns
 import {data} from './pattern/pattern.data'
 import {backblaze_link} from './core/links'
 
-const patterns = data.map(x => {return {...x.frontmatter, url: x.url}})
+const patterns = data.map(x => {return {...x.frontmatter, url: x.url}}).filter(x => x.hide !== true)
 </script>
 
 I'm starting to document math patterns I find in math, art, programming, and
