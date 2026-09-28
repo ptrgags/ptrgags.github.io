@@ -1,3 +1,4 @@
+import type { LineSegment } from '../../primitives/LineSegment.js'
 import { is_nearly } from '../is_nearly.js'
 import { Direction2P } from './Direction2P.js'
 import { Odd2P } from './Odd2P.js'
@@ -146,24 +147,26 @@ export class Line2P {
     return new Line2P(nx, ny, -d)
   }
 
-  // TODO: how do I want to implement this?
-  /*
+  /**
    * Construct a line from a line segment
    * @param {LineSegment} segment
    *
+   */
   static from_segment(segment: LineSegment) {
     const { start, end } = segment
-    if (a.equals(b)) {
+    const start_point = Point2P.from_point(start)
+    const end_point = Point2P.from_point(end)
+
+    if (start_point.equals(end_point)) {
       throw new Error('line segment must have two different end points')
     }
 
-    const dir = b.sub(a)
+    const dir = end_point.sub(end_point)
     const normal = dir.rot90().normalize()
-    const dist = normal.dot(a.to_direction())
+    const dist = normal.dot(start_point.to_direction())
 
     return new Line2P(normal.x, normal.y, dist)
   }
-    */
 
   static readonly X_AXIS = new Line2P(0, 1, 0)
   static readonly Y_AXIS = new Line2P(1, 0, 0)

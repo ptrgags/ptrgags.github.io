@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { Line2P } from './Line2P'
 import { Point2P } from './Point2P.ts'
+import { LineSegment } from '../../primitives/LineSegment.ts'
 
 describe('Line2P', () => {
   it('constructor normalizes Euclidean line', () => {
@@ -40,15 +41,14 @@ describe('Line2P', () => {
     expect(result).toBePoint2P(expected)
   })
 
-  /*
-  describe.skip('from_segment', () => {
+  describe('from_segment', () => {
     it('with start = end throws', () => {
       const point = new Point2P(3, -4)
       const segment = new LineSegment(point, point)
 
       expect(() => {
         return Line2P.from_segment(segment)
-      }).toThrowError('line segment must have two different end points')
+      }).toThrow('line segment must have two different end points')
     })
 
     it('computes line with normal 90 degrees in the positive direction of the tangent', () => {
@@ -62,5 +62,4 @@ describe('Line2P', () => {
       expect(result).toBeLine2P(expected)
     })
   })
-    */
 })
