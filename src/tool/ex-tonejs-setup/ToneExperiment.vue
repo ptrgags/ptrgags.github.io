@@ -31,7 +31,7 @@ const time = ref(0)
 
 function get_time() {
   const transport = Tone.getTransport()
-  time.value = transport.ticks
+  time.value = transport.ticks / transport.PPQ
 }
 </script>
 
