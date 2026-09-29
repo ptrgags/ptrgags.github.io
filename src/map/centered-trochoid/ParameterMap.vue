@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import * as L from 'leaflet'
 import { onMounted, ref, useTemplateRef, type Ref } from 'vue'
 import type { CenteredTrochoidParams } from './CenteredTrochoidParams.ts'
 
@@ -16,7 +15,8 @@ function format_percent(val: number): string {
   return `${percent.toFixed(0)}%`
 }
 
-onMounted(() => {
+onMounted(async () => {
+  const L = await import('leaflet')
   if (container.value === null) {
     return
   }
