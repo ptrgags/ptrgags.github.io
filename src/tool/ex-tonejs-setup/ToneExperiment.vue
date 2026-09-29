@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import * as Tone from 'tone'
+import { ref } from 'vue'
 
 async function start_audio() {
   await Tone.start()
@@ -22,9 +23,21 @@ async function start_audio() {
   transport.setLoopPoints(0, '1:0')
   transport.start()
   transport.loop = true
+
+  console.log(transport.PPQ)
+}
+
+const time = ref(0)
+
+function get_time() {
+  const transport = Tone.getTransport()
+  time.value = transport.ticks
 }
 </script>
 
 <template>
   <button @click="start_audio">Begin</button>
+
+  <button @click="get_time">Current Ticks</button>
+  <div>{{ time }}</div>
 </template>
