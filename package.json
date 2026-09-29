@@ -17,7 +17,8 @@
   "dependencies": {
     "@types/p5": "^1.7.7",
     "leaflet": "^1.9.4",
-    "p5": "^2.3.2"
+    "p5": "^2.3.2",
+    "tone": "^15.1.22"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.16.1",
