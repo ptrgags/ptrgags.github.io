@@ -10,6 +10,9 @@ import { group, style } from '../../lib/primitives/shorthand.ts'
 import { Style } from '../../lib/styling/Style.ts'
 import { Oklch } from '../../lib/styling/Oklch.ts'
 import type { Group } from '../../lib/primitives/Group.ts'
+import { ParametricCurve } from '../../lib/primitives/ParametricCurve.ts'
+import { Point2P } from '../../lib/math/pga2d/Point2P.ts'
+import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
 
 const RADIUS_BIG = 64
 const CENTER = { x: 256, y: 128 }
@@ -28,13 +31,15 @@ export class CenteredTrochoidScene implements SceneP5 {
   anim_pen: CircularMotion
   start_time: number
 
+  curve: ParametricCurve
+
   circles: Group
 
   primitive: Drawable
 
   constructor() {
-    this.r = -0.5 * RADIUS_BIG
-    this.p = 0.5 * this.r
+    this.r = -0.75 * RADIUS_BIG
+    this.p = 0.8 * this.r
 
     this.anim_circle = new CircularMotion(new Circle(CENTER, RADIUS_BIG + this.r), -FREQ_CIRCLE, 0)
     this.anim_pen = new CircularMotion(
@@ -43,12 +48,21 @@ export class CenteredTrochoidScene implements SceneP5 {
       0,
     )
 
+    const MAX_TIME = 40
+    this.curve = new ParametricCurve(1000, (t: number) => {
+      const circle_center = Direction2P.from_point(this.anim_circle.position(MAX_TIME * t))
+      const pen_offset = Direction2P.from_point(this.anim_pen.position(MAX_TIME * t))
+      return circle_center.add(pen_offset)
+    })
+
     this.start_time = 0
 
     const small_circle = new Circle({ x: CENTER.x + RADIUS_BIG + this.r, y: CENTER.y }, this.r)
     const pen = new Circle({ x: CENTER.x + RADIUS_BIG + this.r + this.p, y: CENTER.y }, PEN_RADIUS)
     this.circles = group(small_circle, pen)
-    this.primitive = group(style(Style.lines(Oklch.grey(0.5), 2), BIG_CIRCLE, this.circles))
+    this.primitive = group(
+      style(Style.lines(Oklch.grey(0.5), 2), BIG_CIRCLE, this.circles, this.curve),
+    )
   }
 
   set_params(params: CenteredTrochoidParams) {
@@ -76,6 +90,8 @@ export class CenteredTrochoidScene implements SceneP5 {
 
     // The frequency doesn't seem right…
     this.anim_pen = new CircularMotion(new Circle({ x: 0, y: 0 }, this.p), -freq_pen)
+
+    this.curve.refresh()
   }
 
   update(p: p5): void {
