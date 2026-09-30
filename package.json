@@ -17,30 +17,30 @@
   "dependencies": {
     "@types/p5": "^1.7.7",
     "leaflet": "^1.9.4",
-    "p5": "^2.3.2"
+    "p5": "^2.3.4"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.16.1",
     "@tsconfig/node18": "^18.2.7",
     "@types/jsdom": "^30.0.0",
     "@types/leaflet": "^1.9.22",
-    "@types/node": "^26.4.1",
-    "@vitejs/plugin-vue": "^6.0.8",
+    "@types/node": "^26.6.3",
+    "@vitejs/plugin-vue": "^6.0.9",
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^14.9.0",
-    "@vue/test-utils": "^2.5.0",
+    "@vue/test-utils": "^2.5.1",
     "@vue/tsconfig": "^0.9.1",
-    "eslint": "^10.9.1",
-    "eslint-plugin-vue": "^10.10.0",
+    "eslint": "^10.11.0",
+    "eslint-plugin-vue": "^10.11.1",
     "feed": "^6.0.0",
-    "jsdom": "^30.0.1",
-    "markdown-it-mathjax3": "^4.3.2",
+    "jsdom": "^30.1.1",
+    "markdown-it-mathjax3": "^5.2.0",
     "npm-run-all2": "^9.0.3",
-    "prettier": "^3.9.6",
+    "prettier": "^3.9.9",
     "typescript": "^7.0.2",
-    "vite": "^8.2.2",
+    "vite": "^8.3.1",
     "vitepress": "^1.6.4",
-    "vitest": "^5.0.0",
+    "vitest": "^5.0.2",
     "vue-tsc": "^3.3.11"
   }
 }
