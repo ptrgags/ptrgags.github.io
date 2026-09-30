@@ -2,46 +2,56 @@
 import { ref, type Ref } from 'vue'
 import MIDIFilePicker from '../../components/MIDIFilePicker.vue'
 import type { MIDIFile } from '../../lib/midi/MIDIFile.ts'
-import type { RelativeTimingTrack } from '../../lib/midi/MIDITrack.ts'
 import { C, E, G, G4 } from '../../lib/music/pitches.ts'
+import { Meter } from '../../pattern/musical-meter/Meter.ts'
+import { DefaultDict } from '../../lib/data_structures/DefaultDict.ts'
+import { FrequencyDistribution } from '../../lib/data_structures/FrequencyDistribution.ts'
+import { MIDINoteMessage } from '../../lib/midi/MIDIEvent.ts'
+import { MIDIPitch } from '../../lib/midi/MIDIPitch.ts'
 
-const song_pitches: Ref<number[]> = ref([])
-const pitches_by_measure: Ref<number[][]> = ref([])
+const song_pitches: Ref<string[]> = ref([])
+const pitches_by_measure: Ref<string[][]> = ref([])
 
-function load_file(file: MIDIFile<RelativeTimingTrack>) {
-  /*
-  // PR 1: Split MIDIFile<T> into MIDIFile (always relative, few methods)
-  // and MIDIAbsTiming (absolute timing, more methods)
-  const abs_file = file.absolute_timing()
-  // PR 2: make a MIDISongMeter. It's like a SongMeter but handles MIDI ticks
-  // ...or make SongMeter always handle ticks?
-  const song_meter = abs_file.song_meter
+const MIDI_METER = new Meter(4, 4, 0)
 
-  // PR 3: Make a counter, kinda like DefaultDict but instead keeps a count
-  // for each count and can compute stats.
-  const by_measure = new DefaultDict(() => new Counter())
-  const overall = new Counter()
+function load_file(file: MIDIFile) {
+  const abs_file = file.to_absolute_timing()
+  const ppq = abs_file.header.ticks_per_quarter
+
+  const by_measure: DefaultDict<FrequencyDistribution<string>> = new DefaultDict(
+    () => new FrequencyDistribution(),
+  )
+  const overall = new FrequencyDistribution<string>()
+  let max_measure = 0
 
   abs_file
     // PR 4: Add a method to find messages matching a predicate. The other tools could benefit from this too.
     // (e.g. finding program change messages in channel splitter)
     .find_all(([, x]) => x instanceof MIDINoteMessage)
     .map(([t, x]) => {
-      const { bars, beats, ticks } = song_meter.ticks_to_measure(t)
-      return [bars, x.pitch]
+      const { measures } = MIDI_METER.pulses_to_measures(t / ppq)
+      return [measures, (x as MIDINoteMessage).pitch]
     })
-    .forEach(([bars, pitch]) => {
-      by_measure.get(bars.toString).add(pitch)
-      overall.add(pitch)
+    .forEach(([measures, pitch]) => {
+      max_measure = Math.max(max_measure, measures)
+      const pitch_class = MIDIPitch.get_pitch_class(pitch)
+      const pitch_class_str = MIDIPitch.format_pitch_class(pitch_class)
+      by_measure.get(measures.toString()).count(pitch_class_str)
+      overall.count(pitch_class_str)
     })
-      */
 
   // Fake the pitches for now - they should be the pitches found in the file
   // listed from most frequent to least frequent.
   //
   // These should really be (pitch, count) pairs, but we'll get there.
-  song_pitches.value = [C, G, E]
-  pitches_by_measure.value = [[C, E], [G]]
+  song_pitches.value = overall.values_by_freq
+
+  const rows = []
+  for (let i = 0; i < max_measure; i++) {
+    const row_values = by_measure.get(i.toString()).values_by_freq
+    rows.push(row_values)
+  }
+  pitches_by_measure.value = rows
 }
 </script>
 
