@@ -1,6 +1,6 @@
 import type p5 from 'p5'
 import type { DrawP5 } from '../../lib/p5-helpers/DrawP5.ts'
-import { make_sketch, type SceneP5 } from '../../lib/p5-helpers/sketches.ts'
+import { make_sketch, make_static_sketch, type SceneP5 } from '../../lib/p5-helpers/sketches.ts'
 import type { Drawable } from '../../lib/primitives/Drawable.ts'
 import { group, style, xform } from '../../lib/primitives/shorthand.ts'
 import { Rigid } from '../../lib/primitives/Rigid.ts'
@@ -18,10 +18,13 @@ import { mod } from '../../lib/math/mod.ts'
 import { RepeatCyclic } from './RepeatCyclic.ts'
 import { AroundCircle } from './AroundCircle.ts'
 import { Circle } from '../../lib/primitives/Circle.ts'
+import { Oklch } from '../../lib/styling/Oklch.ts'
 
 const CLOCK = new Clock()
+const SCREEN_CENTER = new Direction2P(128, 128)
+const TRANSLATE_CENTER = Rigid.translation(SCREEN_CENTER)
 
-class CyclicGroup implements SceneP5 {
+class CyclicGroupAnimation implements SceneP5 {
   canvas_size = { width: 256, height: 256 }
   rect: Rect
   wave: Wave
@@ -33,7 +36,7 @@ class CyclicGroup implements SceneP5 {
     this.wave = Wave.sine({ amp: 64, freq: 0.25, bias: 32 })
 
     this.primitive = xform(
-      Rigid.translation(new Direction2P(128, 128)),
+      TRANSLATE_CENTER,
       style(Style.flat(Color.CYAN), new RepeatCyclic({ order: n, children: this.rect })),
     )
   }
@@ -50,10 +53,61 @@ class CyclicGroup implements SceneP5 {
   }
 }
 
+class ThreeDifferentShapes implements SceneP5 {
+  canvas_size = { width: 256, height: 256 }
+  primitive: Drawable
+
+  constructor() {
+    const three_shapes = new RepeatCyclic({
+      order: 3,
+      children: [
+        new Rect(new Point2P(16, -16), new Direction2P(80, 32)),
+        new Circle(new Point2P(32, 0), 16),
+        new LineSegment(new Point2P(16, 32), new Point2P(48, -32)),
+      ],
+    })
+    this.primitive = xform(
+      Rigid.translation(SCREEN_CENTER),
+      style(Style.flat(Color.YELLOW), three_shapes),
+    )
+  }
+
+  update(p: p5): void {}
+
+  draw(lib: DrawP5): void {
+    this.primitive.draw(lib)
+  }
+}
+
+class ColorWheel implements SceneP5 {
+  canvas_size = { width: 256, height: 256 }
+  primitive: Drawable
+
+  constructor() {
+    const rects = group(
+      new Rect(new Point2P(8, -4), new Direction2P(128, 8)),
+      new Rect(new Point2P(32, -16), new Direction2P(8, 32)),
+      new Rect(new Point2P(64, -32), new Direction2P(8, 64)),
+      new Rect(new Point2P(96, -16), new Direction2P(8, 32)),
+    )
+    const color_wheel = new RepeatCyclic({
+      order: 6,
+      children: (slot) => {
+        return style(Style.flat(new Oklch(0.7, 0.3, (slot.angle * 180) / Math.PI)), rects)
+      },
+    })
+    this.primitive = xform(TRANSLATE_CENTER, color_wheel)
+  }
+
+  update(p: p5): void {}
+
+  draw(lib: DrawP5): void {
+    this.primitive.draw(lib)
+  }
+}
+
 const TICK_MARK = new LineSegment(new Point2P(64, 0), new Point2P(80, 0))
 const STYLE_LABEL = { text_style: new TextStyle(24, 'center', 'center'), style: Style.DEFAULT_FLAT }
-const SCREEN_CENTER = new Direction2P(128, 128)
-const POS_LABEL = new Point2P(96, 0)
 
 class ClockDial implements SceneP5 {
   canvas_size = { width: 256, height: 256 }
@@ -88,10 +142,13 @@ class ClockDial implements SceneP5 {
 }
 
 export const SKETCHES = {
-  c3: make_sketch(new CyclicGroup(3)),
-  c5: make_sketch(new CyclicGroup(5)),
-  c6: make_sketch(new CyclicGroup(6)),
-  c12: make_sketch(new CyclicGroup(12)),
+  c3: make_sketch(new CyclicGroupAnimation(3)),
+  c5: make_sketch(new CyclicGroupAnimation(5)),
+  c6: make_sketch(new CyclicGroupAnimation(6)),
+  c12: make_sketch(new CyclicGroupAnimation(12)),
 
-  clock: make_sketch(new ClockDial()),
+  three_shapes: make_static_sketch(new ThreeDifferentShapes()),
+  color_wheel: make_static_sketch(new ColorWheel()),
+
+  clock: make_static_sketch(new ClockDial()),
 }

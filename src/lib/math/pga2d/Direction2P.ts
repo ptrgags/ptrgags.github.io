@@ -91,7 +91,7 @@ export class Direction2P implements Pointlike, Dimensionlike {
   }
 
   get height(): number {
-    return this.x
+    return this.y
   }
 
   /**
