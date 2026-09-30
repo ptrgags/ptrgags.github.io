@@ -2,7 +2,7 @@ function by_frequency_desc(a: [any, number], b: [any, number]): number {
   return b[1] - a[1]
 }
 
-export class FrequencyCounter<T> {
+export class FrequencyDistribution<T> {
   counts: Map<T, number>
   constructor() {
     this.counts = new Map()
