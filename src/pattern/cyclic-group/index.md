@@ -24,11 +24,12 @@ Cyclic group $C_{12}$:
 <SketchP5 :sketch="SKETCHES.c12" />
 
 Here the coordinate system is arranged with the cyclic group $C_3$, but each
-sector gets a different pattern
+sector gets a different pattern. Each of the rectangles is axis-aligned in the
+local coordinate system, but said coordinate systems are rotated about the center of the screen
 <SketchP5 :sketch="SKETCHES.three_shapes" />
 
-Example of generalized symmetry: Here the shapes follow $C_6$, but the hue shifts a 1/6 turn for each adjacent sector
-(i.e. `(rotate, hue_shift)` symmetry. This is akin to the "color-turning" symmetry mentioned in _Creating Symmetry_ by Frank Farris)
+Example of generalized symmetry: Here the shapes follow $C_6$, but the hue shifts a 1/6 turn for each adjacent sector.
+In other words, `(rotate, hue_shift)` symmetry. This is akin to the "color-turning" symmetry mentioned in _Creating Symmetry_ by Frank Farris.
 <SketchP5 :sketch="SKETCHES.color_wheel" />
 
 Using `AroundCircle` to position numbers around the clock (without rotating them)

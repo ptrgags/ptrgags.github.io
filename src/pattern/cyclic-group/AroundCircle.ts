@@ -24,18 +24,23 @@ export interface AroundCircleOptions {
 export class AroundCircle implements Drawable {
   readonly order: number
   readonly angle: number
+  readonly phase: number
   readonly children: Drawable[]
   readonly positions: Pointlike[]
 
   constructor(options: AroundCircleOptions) {
     this.order = options.order
-    const phase = options.phase ?? 0
-    this.angle = (2.0 * Math.PI) / this.order + phase
+    this.phase = options.phase ?? 0
+    this.angle = (2.0 * Math.PI) / this.order
 
     if (typeof options.children === 'function') {
       this.children = new Array(this.order)
       for (let i = 0; i < this.order; i++) {
-        this.children[i] = options.children({ i, angle: i * this.angle, order: this.order })
+        this.children[i] = options.children({
+          i,
+          angle: i * this.angle + this.phase,
+          order: this.order,
+        })
       }
     } else if (Array.isArray(options.children)) {
       this.children = options.children
@@ -46,7 +51,7 @@ export class AroundCircle implements Drawable {
 
     this.positions = new Array(this.order)
     for (let i = 0; i < this.order; i++) {
-      this.positions[i] = options.circle.position(i * this.angle)
+      this.positions[i] = options.circle.position(i * this.angle + this.phase)
     }
 
     if (this.children.length !== this.order) {

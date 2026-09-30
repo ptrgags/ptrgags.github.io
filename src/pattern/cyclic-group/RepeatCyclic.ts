@@ -35,17 +35,22 @@ export interface RepeatCyclicOptions {
 export class RepeatCyclic implements Drawable {
   readonly order: number
   readonly angle: number
+  readonly phase: number
   readonly children: Drawable[]
 
   constructor(options: RepeatCyclicOptions) {
     this.order = options.order
-    const phase = options.phase ?? 0
-    this.angle = (2.0 * Math.PI) / this.order + phase
+    this.phase = options.phase ?? 0
+    this.angle = (2.0 * Math.PI) / this.order
 
     if (typeof options.children === 'function') {
       this.children = new Array(this.order)
       for (let i = 0; i < this.order; i++) {
-        this.children[i] = options.children({ i, angle: i * this.angle, order: this.order })
+        this.children[i] = options.children({
+          i,
+          angle: i * this.angle + this.phase,
+          order: this.order,
+        })
       }
     } else if (Array.isArray(options.children)) {
       this.children = options.children
@@ -62,7 +67,7 @@ export class RepeatCyclic implements Drawable {
   draw(lib: DrawingLibrary): void {
     this.children.forEach((child, i) => {
       lib.push()
-      lib.apply_rigid(0, 0, i * this.angle, false)
+      lib.apply_rigid(0, 0, i * this.angle + this.phase, false)
       child.draw(lib)
       lib.pop()
     })

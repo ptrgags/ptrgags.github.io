@@ -19,6 +19,7 @@ import { RepeatCyclic } from './RepeatCyclic.ts'
 import { AroundCircle } from './AroundCircle.ts'
 import { Circle } from '../../lib/primitives/Circle.ts'
 import { Oklch } from '../../lib/styling/Oklch.ts'
+import { Gridlines } from '../../lib/primitives/Gridlines.ts'
 
 const CLOCK = new Clock()
 const SCREEN_CENTER = new Direction2P(128, 128)
@@ -53,21 +54,34 @@ class CyclicGroupAnimation implements SceneP5 {
   }
 }
 
-class ThreeDifferentShapes implements SceneP5 {
+class Kebabs implements SceneP5 {
   canvas_size = { width: 256, height: 256 }
   primitive: Drawable
 
   constructor() {
+    const coordinate_grids = new RepeatCyclic({
+      order: 3,
+      children: group(
+        new LineSegment(Point2P.ORIGIN, new Point2P(256, 0)),
+        new Gridlines({
+          bounds: new Rect(Point2P.ORIGIN, new Direction2P(196, 196)),
+          x_count: 10,
+          y_count: 10,
+        }),
+      ),
+    })
+
     const three_shapes = new RepeatCyclic({
       order: 3,
       children: [
+        new Rect(new Point2P(16, -32), new Direction2P(64, 64)),
         new Rect(new Point2P(16, -16), new Direction2P(80, 32)),
-        new Circle(new Point2P(32, 0), 16),
-        new LineSegment(new Point2P(16, 32), new Point2P(48, -32)),
+        new Rect(new Point2P(32, -64), new Direction2P(32, 128)),
       ],
     })
     this.primitive = xform(
       Rigid.translation(SCREEN_CENTER),
+      style(Style.DEFAULT_LINES, coordinate_grids),
       style(Style.flat(Color.YELLOW), three_shapes),
     )
   }
@@ -147,7 +161,7 @@ export const SKETCHES = {
   c6: make_sketch(new CyclicGroupAnimation(6)),
   c12: make_sketch(new CyclicGroupAnimation(12)),
 
-  three_shapes: make_static_sketch(new ThreeDifferentShapes()),
+  three_shapes: make_static_sketch(new Kebabs()),
   color_wheel: make_static_sketch(new ColorWheel()),
 
   clock: make_static_sketch(new ClockDial()),
