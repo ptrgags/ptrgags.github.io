@@ -7,16 +7,15 @@ import { Rigid } from '../../lib/primitives/Rigid.ts'
 import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
 import { Style } from '../../lib/styling/Style.ts'
 import { Color } from '../../lib/styling/Color.ts'
-import { CyclicRepeat } from './CyclicRepeat.ts'
 import { Point2P } from '../../lib/math/pga2d/Point2P.ts'
 import { Rect } from '../../lib/primitives/Rect.ts'
 import { Wave } from '../../lib/animation/Wave.ts'
 import { Clock } from '../../lib/animation/Clock.ts'
 import { LineSegment } from '../../lib/primitives/LineSegment.ts'
 import { TextStyle } from '../../lib/styling/TextStyle.ts'
-import { CyclicGrid } from './CyclicGrid.ts'
 import { Text } from '../../lib/primitives/Text.ts'
 import { mod } from '../../lib/math/mod.ts'
+import { RepeatCyclic } from './RepeatCyclic.ts'
 
 const CLOCK = new Clock()
 
@@ -33,7 +32,7 @@ class CyclicGroup implements SceneP5 {
 
     this.primitive = xform(
       Rigid.translation(new Direction2P(128, 128)),
-      style(Style.flat(Color.CYAN), new CyclicRepeat(n, this.rect)),
+      style(Style.flat(Color.CYAN), new RepeatCyclic({ order: n, children: this.rect })),
     )
   }
 
@@ -59,11 +58,14 @@ class ClockDial implements SceneP5 {
   primitive: Drawable
 
   constructor() {
-    const tick_marks = new CyclicRepeat(12, TICK_MARK)
-    const labels = new CyclicGrid(12, (i) => {
-      const numeral = mod(i + 3, 12)
-      const fix_twelve = numeral === 0 ? 12 : numeral
-      return new Text(`${fix_twelve}`, POS_LABEL)
+    const tick_marks = new RepeatCyclic({ order: 12, children: TICK_MARK })
+    const labels = new RepeatCyclic({
+      order: 12,
+      children: (slot) => {
+        const numeral = mod(slot.i + 3, 12)
+        const fix_twelve = numeral === 0 ? 12 : numeral
+        return new Text(`${fix_twelve}`, POS_LABEL)
+      },
     })
 
     this.wave = Wave.sine({ amp: 64, freq: 0.25, bias: 32 })
@@ -75,11 +77,7 @@ class ClockDial implements SceneP5 {
     )
   }
 
-  update(p: p5): void {
-    //const t = CLOCK.elapsed_time
-    // for now, make the points move in a lissajous curve
-    //this.rect.position = new Point2P(this.wave.bipolar(t), this.wave.bipolar(2 * t))
-  }
+  update(p: p5): void {}
 
   draw(lib: DrawP5): void {
     this.primitive.draw(lib)
