@@ -1,5 +1,6 @@
 import type { Style } from '../styling/Style.ts'
 import type { TextStyle } from '../styling/TextStyle.ts'
+import type { Pointlike } from './Pointlike.ts'
 
 /**
  * Generic 2D graphics drawing library
@@ -16,6 +17,24 @@ export interface DrawingLibrary {
   circle(cx: number, cy: number, radius: number): void
 
   /**
+   * Draw a circular arc
+   * @param cx x-coordinate of circle center
+   * @param cy y-coordinate of circle center
+   * @param radius Radius of circle
+   * @param angle1 First angle
+   * @param angle2 Second angle
+   * @param orientation Direction from angle1 to angle2
+   */
+  arc(
+    cx: number,
+    cy: number,
+    radius: number,
+    angle1: number,
+    angle2: number,
+    orientation: 1 | -1,
+  ): void
+
+  /**
    * Draw a line segment
    * @param x1 x-coordinate of first point
    * @param x2 y-coordinate of first point
@@ -23,6 +42,12 @@ export interface DrawingLibrary {
    * @param y2 y-coordinate of second point
    */
   segment(x1: number, y1: number, x2: number, y2: number): void
+
+  /**
+   * Draw a polyline (open polygon)
+   * @param points The points to draw
+   */
+  polyline(points: Pointlike[]): void
 
   /**
    * Draw a rectangle
@@ -54,4 +79,23 @@ export interface DrawingLibrary {
    * @param text_style The style to apply
    */
   apply_text_style(text_style: TextStyle): void
+
+  /**
+   * Apply a rigid transformation
+   * @param translation_x x-coordinate of translation
+   * @param translation_y y-coordinate of translation
+   * @param rotation Angle of rotation in radians
+   * @param flip_y If true, flip the y-coordinate
+   */
+  apply_rigid(translation_x: number, translation_y: number, rotation: number, flip_y: boolean): void
+
+  /**
+   * Push rendering state
+   */
+  push(): void
+
+  /**
+   * Pop rendering state
+   */
+  pop(): void
 }

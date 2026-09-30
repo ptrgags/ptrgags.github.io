@@ -3,6 +3,14 @@ import type { MIDIEvent } from './MIDIEvent'
 export type EventList = [number, MIDIEvent][]
 
 /**
+ * Sort function that can be used with EventList.sort()
+ * @param a first event
+ * @param b second event
+ * @returns t_a <=> t_b (comparator)
+ */
+export const by_midi_tick = (a: [number, MIDIEvent], b: [number, MIDIEvent]) => a[0] - b[0]
+
+/**
  * MIDI Track interface
  */
 export interface MIDITrack {
@@ -54,7 +62,7 @@ export class AbsoluteTimingTrack {
     this.events = events.slice()
 
     // Sort by absolute time to ensure times are monotonically increasing
-    this.events.sort((a, b) => a[0] - b[0])
+    this.events.sort(by_midi_tick)
   }
 
   /**
