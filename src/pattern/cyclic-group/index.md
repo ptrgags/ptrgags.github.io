@@ -11,6 +11,10 @@ import SketchP5 from '../../components/SketchP5.vue'
 import {SKETCHES} from './cyclic-group'
 </script>
 
+:::warning 🚧 Under Construction
+This page is still a work in progress. This first iteration focuses on adding visuals. Explanations will come later.
+:::
+
 Cyclic group $C_3$:
 <SketchP5 :sketch="SKETCHES.c3" />
 
