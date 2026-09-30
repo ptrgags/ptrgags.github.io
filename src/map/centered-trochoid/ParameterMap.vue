@@ -1,0 +1,97 @@
+<script setup lang="ts">
+import { onMounted, ref, useTemplateRef, type Ref } from 'vue'
+import type { CenteredTrochoidParams } from './CenteredTrochoidParams.ts'
+
+const emit = defineEmits<{
+  (e: 'param_change', value: CenteredTrochoidParams): void
+}>()
+
+const container = useTemplateRef<HTMLDivElement>('container')
+
+const test_map: Ref<L.Map | undefined> = ref(undefined)
+
+function format_percent(val: number): string {
+  const percent = 100 * val
+  return `${percent.toFixed(0)}%`
+}
+
+onMounted(async () => {
+  const L = await import('leaflet')
+  if (container.value === null) {
+    return
+  }
+
+  const param_map = L.map(container.value, {
+    crs: L.CRS.Simple,
+    minZoom: -5,
+  }).setView([500, 0], -2)
+
+  test_map.value = param_map
+
+  L.circle([0, 0], { radius: 10 }).addTo(param_map)
+
+  L.rectangle([
+    // first corner
+    [0, 0],
+    // second corner
+    [1000, 1000],
+  ]).addTo(param_map)
+
+  L.rectangle(
+    [
+      [0, -1000],
+      [1000, 0],
+    ],
+    { color: '#ff0000' },
+  ).addTo(param_map)
+
+  // need to investigate 404 error on marker image... maybe make my own?
+  //L.marker([100, 100]).addTo(param_map).bindPopup('Landmark')
+
+  L.marker([750, 500], {
+    icon: new L.DivIcon({ html: 'Epitrochoids', className: 'label' }),
+  }).addTo(param_map)
+
+  L.marker([750, -500], {
+    icon: new L.DivIcon({ html: 'Hypotrochoids', className: 'label' }),
+  }).addTo(param_map)
+
+  const clicked_popup = L.popup()
+
+  param_map.on('click', (e) => {
+    const { lat: y, lng: x } = e.latlng
+
+    const r_percent = x / 1000
+    const p_percent = y / 1000
+
+    clicked_popup
+      .setLatLng(e.latlng)
+      .setContent(
+        `<b>Params</b>:<br/>r: ${format_percent(r_percent)} of R<br/>p: ${format_percent(p_percent)} of r`,
+      )
+      .openOn(param_map)
+
+    emit('param_change', { radius_small_circle: r_percent, radius_pen: p_percent })
+  })
+})
+</script>
+
+<template>
+  <div id="map" ref="container"></div>
+</template>
+
+<style scoped>
+#map {
+  width: 512px;
+  height: 256px;
+}
+</style>
+
+<style>
+.label {
+  color: black;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+</style>

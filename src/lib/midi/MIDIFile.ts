@@ -1,5 +1,11 @@
-import type { MIDIEvent } from './MIDIEvent'
-import type { MIDITrack } from './MIDITrack'
+import { MIDIMetaEvent, type MIDIEvent } from './MIDIEvent'
+import {
+  by_midi_tick,
+  type AbsoluteTimingTrack,
+  type EventList,
+  type MIDITrack,
+  type RelativeTimingTrack,
+} from './MIDITrack'
 
 /**
  * @enum {number}
@@ -51,20 +57,23 @@ export class MIDIHeader {
 }
 
 /**
- * MIDI file as a collection of messages
+ * MIDI file as a collection of messages. The messages use relative time
+ * deltas as defined in the MIDI 1.1 spec. This class is used mainly for
+ * importing/exporting MIDI files. For in-memory computation, convert to
+ * an AbsMIDIFile
  *
- * @template {MIDITrack} T The track type, either AbsoluteTimingTrack or RelativeTimingTrack
+ * @see AbsMIDIFile
  */
-export class MIDIFile<T extends MIDITrack> {
+export class MIDIFile {
   header: MIDIHeader
-  tracks: T[]
+  tracks: RelativeTimingTrack[]
 
   /**
    * Constructor
-   * @param {MIDIHeader} header The file header
-   * @param {T[]} tracks One or more tracks
+   * @param header The file header
+   * @param tracks One or more tracks
    */
-  constructor(header: MIDIHeader, tracks: T[]) {
+  constructor(header: MIDIHeader, tracks: RelativeTimingTrack[]) {
     this.header = header
     this.tracks = tracks
 
@@ -75,11 +84,51 @@ export class MIDIFile<T extends MIDITrack> {
     }
   }
 
+  to_absolute_timing(): AbsMIDIFile {
+    return new AbsMIDIFile(
+      this.header,
+      this.tracks.map((x) => x.to_absolute()),
+    )
+  }
+
   /**
    * For each track, return a testable list of events
    * @returns {[number, MIDIEvent][][]}
    */
   to_testable(): [number, MIDIEvent][][] {
     return this.tracks.map((x) => x.to_testable())
+  }
+}
+
+/**
+ * Like MIDIFile, but the message times are stored as absolute times. Such
+ * a format is more easy to work with in-memory, so this class has more
+ * methods
+ */
+export class AbsMIDIFile {
+  header: MIDIHeader
+  tracks: AbsoluteTimingTrack[]
+
+  constructor(header: MIDIHeader, tracks: AbsoluteTimingTrack[]) {
+    this.header = header
+    this.tracks = tracks
+  }
+
+  /**
+   * Get all events flattened and sorted chronologically
+   */
+  get all_events(): EventList {
+    return this.tracks.flatMap((x) => x.events).sort(by_midi_tick)
+  }
+
+  find_all(query: (event: [number, MIDIEvent]) => boolean): EventList {
+    return this.tracks.flatMap((x) => x.events.filter(query)).sort(by_midi_tick)
+  }
+
+  to_relative_timing(): MIDIFile {
+    return new MIDIFile(
+      this.header,
+      this.tracks.map((x) => x.to_relative()),
+    )
   }
 }

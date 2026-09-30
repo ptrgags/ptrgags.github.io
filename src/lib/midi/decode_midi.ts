@@ -75,8 +75,6 @@ function parse_midi_header(chunk: MIDIChunk): MIDIHeader {
       throw new Error(`Invalid MIDI format ${format}`)
   }
 
-  console.info('MIDI format', format, 'detected')
-
   if (((ticks_per_quarter >> 15) & 1) !== 0) {
     const smpte_format = ticks_per_quarter >> 8
     const ticks_per_frame = ticks_per_quarter & 0xff
@@ -173,7 +171,7 @@ function parse_midi_track(chunk: MIDIChunk): RelativeTimingTrack {
  * @param {ArrayBuffer} midi_buffer
  * @return {MIDIFile<RelativeTimingTrack>}
  */
-export function decode_midi(midi_buffer: ArrayBuffer): MIDIFile<RelativeTimingTrack> {
+export function decode_midi(midi_buffer: ArrayBuffer): MIDIFile {
   const [header_chunk, ...track_chunks] = parse_midi_chunks(midi_buffer)
   const header = parse_midi_header(header_chunk)
   const tracks = track_chunks.map(parse_midi_track)

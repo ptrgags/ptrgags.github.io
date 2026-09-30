@@ -3,6 +3,7 @@ import type { DrawingLibrary } from '../primitives/DrawingLibrary.ts'
 import type { Style } from '../styling/Style.ts'
 import { is_nearly } from '../math/is_nearly.ts'
 import type { HorizontalTextAlign, TextStyle, VerticalTextAlign } from '../styling/TextStyle.ts'
+import type { Pointlike } from '../primitives/Pointlike.ts'
 
 /**
  * Convert string align values to p5.js constants
@@ -55,8 +56,31 @@ export class DrawP5 implements DrawingLibrary {
     this.p.circle(cx, cy, 2 * r)
   }
 
+  arc(
+    cx: number,
+    cy: number,
+    radius: number,
+    angle1: number,
+    angle2: number,
+    orientation: 1 | -1,
+  ): void {
+    if (orientation === -1) {
+      ;[angle1, angle2] = [angle2, angle1]
+    }
+
+    this.p.arc(cx, cy, radius * 2, radius * 2, angle1, angle2, this.p.OPEN)
+  }
+
   segment(x1: number, y1: number, x2: number, y2: number): void {
     this.p.line(x1, y1, x2, y2)
+  }
+
+  polyline(points: Pointlike[]): void {
+    this.p.beginShape()
+    for (const { x, y } of points) {
+      this.p.vertex(x, y)
+    }
+    this.p.endShape()
   }
 
   rect(x: number, y: number, width: number, height: number): void {
@@ -92,5 +116,25 @@ export class DrawP5 implements DrawingLibrary {
     const h_align = get_horizontal_align(this.p, text_style.h_align)
     const v_align = get_vertical_align(this.p, text_style.v_align)
     this.p.textAlign(h_align, v_align)
+  }
+
+  apply_rigid(
+    translation_x: number,
+    translation_y: number,
+    rotation: number,
+    flip_y: boolean,
+  ): void {
+    this.p.translate(translation_x, translation_y)
+    this.p.rotate(rotation)
+    const scale_y = flip_y ? -1 : 1
+    this.p.scale(1, scale_y)
+  }
+
+  push(): void {
+    this.p.push()
+  }
+
+  pop(): void {
+    this.p.pop()
   }
 }
