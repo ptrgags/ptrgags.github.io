@@ -16,6 +16,8 @@ import { TextStyle } from '../../lib/styling/TextStyle.ts'
 import { Text } from '../../lib/primitives/Text.ts'
 import { mod } from '../../lib/math/mod.ts'
 import { RepeatCyclic } from './RepeatCyclic.ts'
+import { AroundCircle } from './AroundCircle.ts'
+import { Circle } from '../../lib/primitives/Circle.ts'
 
 const CLOCK = new Clock()
 
@@ -50,6 +52,7 @@ class CyclicGroup implements SceneP5 {
 
 const TICK_MARK = new LineSegment(new Point2P(64, 0), new Point2P(80, 0))
 const STYLE_LABEL = { text_style: new TextStyle(24, 'center', 'center'), style: Style.DEFAULT_FLAT }
+const SCREEN_CENTER = new Direction2P(128, 128)
 const POS_LABEL = new Point2P(96, 0)
 
 class ClockDial implements SceneP5 {
@@ -59,20 +62,20 @@ class ClockDial implements SceneP5 {
 
   constructor() {
     const tick_marks = new RepeatCyclic({ order: 12, children: TICK_MARK })
-    const labels = new RepeatCyclic({
+    const labels = new AroundCircle({
+      circle: new Circle(new Point2P(128, 128), 96),
       order: 12,
       children: (slot) => {
         const numeral = mod(slot.i + 3, 12)
         const fix_twelve = numeral === 0 ? 12 : numeral
-        return new Text(`${fix_twelve}`, POS_LABEL)
+        return new Text(`${fix_twelve}`, Point2P.ORIGIN)
       },
     })
 
     this.wave = Wave.sine({ amp: 64, freq: 0.25, bias: 32 })
 
-    this.primitive = xform(
-      Rigid.translation(new Direction2P(128, 128)),
-      style(Style.DEFAULT_LINES, tick_marks),
+    this.primitive = group(
+      xform(Rigid.translation(SCREEN_CENTER), style(Style.DEFAULT_LINES, tick_marks)),
       style(STYLE_LABEL, labels),
     )
   }

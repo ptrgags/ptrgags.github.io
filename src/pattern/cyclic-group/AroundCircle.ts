@@ -1,43 +1,33 @@
+import type { Circle } from '../../lib/primitives/Circle.ts'
 import type { Drawable } from '../../lib/primitives/Drawable.ts'
 import type { DrawingLibrary } from '../../lib/primitives/DrawingLibrary.ts'
+import type { Pointlike } from '../../lib/primitives/Pointlike.ts'
+import type { CyclicSlot } from './RepeatCyclic.ts'
 
-export interface CyclicSlot {
-  i: number
-  angle: number
+export interface AroundCircleOptions {
+  circle: Circle
   order: number
-}
-
-export interface RepeatCyclicOptions {
-  /**
-   * Order of the cyclic group. E.g. when order=5 this will repeat the
-   * primitive 5 times making 1/5 turns each time
-   */
-  order: number
-  /**
-   * Phase angle in radians. Defaults to 0
-   */
   phase?: number
-  /**
-   * - If children is a single child, it will be rendered many times
-   * - If children is an array, it must have `order` elements
-   * - If children is a function, it will be called `order` times. This will initialize a different primitive for each sector of the circle.
-   */
   children: Drawable | Drawable[] | ((slot: CyclicSlot) => Drawable)
 }
 
 /**
- * Repeat a rendering primitive several times by applying the
- * cyclic group `C_n`
+ * Similar to `RepeatCyclic`, but this only translates the children to evenly
+ * spaced spots around a given circle. it does not rotate the local coordinates
+ * space.
  *
- * This rotates the coordinate system around the origin. If you want to
- * rotate about a different point, nest this inside a translation.
+ * This is also different because you can position the circle anywhere on the
+ * screen whereas `RepeatCyclic` always rotates about the current origin
+ *
+ * @see RepeatCyclic
  */
-export class RepeatCyclic implements Drawable {
+export class AroundCircle implements Drawable {
   readonly order: number
   readonly angle: number
   readonly children: Drawable[]
+  readonly positions: Pointlike[]
 
-  constructor(options: RepeatCyclicOptions) {
+  constructor(options: AroundCircleOptions) {
     this.order = options.order
     const phase = options.phase ?? 0
     this.angle = (2.0 * Math.PI) / this.order + phase
@@ -54,6 +44,11 @@ export class RepeatCyclic implements Drawable {
       this.children = new Array(this.order).fill(options.children)
     }
 
+    this.positions = new Array(this.order)
+    for (let i = 0; i < this.order; i++) {
+      this.positions[i] = options.circle.position(i * this.angle)
+    }
+
     if (this.children.length !== this.order) {
       throw new Error('options.children array must be exactly order elements long')
     }
@@ -62,7 +57,8 @@ export class RepeatCyclic implements Drawable {
   draw(lib: DrawingLibrary): void {
     this.children.forEach((child, i) => {
       lib.push()
-      lib.apply_rigid(0, 0, i * this.angle, false)
+      const { x, y } = this.positions[i]
+      lib.apply_rigid(x, y, 0, false)
       child.draw(lib)
       lib.pop()
     })

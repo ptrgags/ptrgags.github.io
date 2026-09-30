@@ -21,10 +21,11 @@ Cyclic group $C_5$:
 Cyclic group $C_6$:
 <SketchP5 :sketch="SKETCHES.c6" />
 
-Cyclic group $C_12$:
+Cyclic group $C_{12}$:
 <SketchP5 :sketch="SKETCHES.c12" />
 
-
-Arranging numbers on the clock
+Using `AroundCircle` to position numbers around the clock (without rotating them)
+Meanwhile the tick marks are made with `RepeatCyclic`. In both cases, we're
+using cyclic group $C_{12}$
 
 <SketchP5 :sketch="SKETCHES.clock" />
