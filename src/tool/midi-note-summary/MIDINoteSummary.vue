@@ -9,8 +9,8 @@ import { FrequencyDistribution } from '../../lib/data_structures/FrequencyDistri
 import { MIDINoteMessage } from '../../lib/midi/MIDIEvent.ts'
 import { MIDIPitch } from '../../lib/midi/MIDIPitch.ts'
 
-const song_pitches: Ref<string[]> = ref([])
-const pitches_by_measure: Ref<string[][]> = ref([])
+const song_pitches: Ref<[string, number][]> = ref([])
+const pitches_by_measure: Ref<[string, number][][]> = ref([])
 
 const MIDI_METER = new Meter(4, 4, 0)
 
@@ -44,34 +44,39 @@ function load_file(file: MIDIFile) {
   // listed from most frequent to least frequent.
   //
   // These should really be (pitch, count) pairs, but we'll get there.
-  song_pitches.value = overall.values_by_freq
+  song_pitches.value = overall.frequencies
 
   const rows = []
   for (let i = 0; i < max_measure; i++) {
-    const row_values = by_measure.get(i.toString()).values_by_freq
+    const row_values = by_measure.get(i.toString()).frequencies
     rows.push(row_values)
   }
   pitches_by_measure.value = rows
+}
+
+function format_frequencies(frequencies: [string, number][]): string {
+  const pairs = frequencies.map(([x, freq]) => `${x}:${freq}`).join(', ')
+  return `{${pairs}}`
 }
 </script>
 
 <template>
   <MIDIFilePicker @load="load_file"></MIDIFilePicker>
 
-  Song pitches: {{ song_pitches }} <br />
+  Song pitches: {{ format_frequencies(song_pitches) }} <br />
 
   By measure: <br />
   <table>
     <thead>
       <tr>
-        <th>Measure number</th>
+        <th>Measure (4/4)</th>
         <th>Pitches</th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="[i, row] in pitches_by_measure.entries()" , :key="i">
         <td>{{ i + 1 }}</td>
-        <td>{{ row }}</td>
+        <td>{{ format_frequencies(row) }}</td>
       </tr>
     </tbody>
   </table>
