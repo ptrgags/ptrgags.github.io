@@ -70,23 +70,22 @@ See a preview on the [Centered Trochoid](../map/centered-trochoid/) map page.
 
 I wanted a more visual way to explore math patterns. As an experiment, I set
 up an interactive map of a parameter space next to a visualization. When you
-click points on the map, the visualization automatically updates. This allows
-me to explore freely, which is helpful for studying a pattern. Furthermore,
-a mapping library allows me to annotate the map. This way I can point out
-landmarks or boundaries where the math changes.
+click points on the map, the visualization automatically updates. Furthermore,
+whenever I find something interesting, I can annotate the map with landmarks
+and boundaries.
 
-As a proof-of-concept, I'm starting to make a map of [centered trochoids](https://en.wikipedia.org/wiki/Centered_trochoid).
+As a proof-of-concept, the map linked above explores [centered trochoids](https://en.wikipedia.org/wiki/Centered_trochoid).
 These are the kinds of curves produced by the [Spirograph](https://en.wikipedia.org/wiki/Spirograph) drawing toy.
 
-In retrospect, I have used a similar setup before. In my past 
-[`symmetry-sketchbook` project](https://ptrgags.dev/symmetry-sketchbook/#/curve_symmetry/curve_maker), 
-the pattern editor pages use multiple `p5` sketches working together. 
+In retrospect, my past project
+[`symmetry-sketchbook`](https://ptrgags.dev/symmetry-sketchbook/#/curve_symmetry/curve_maker) does something similar.
+The pattern editor pages use multiple `p5` sketches working together. 
 Some are used for selecting/editing parameters, and one is used for displaying 
 the pattern.
 
-For some further trivia, this idea is partly inspired by how the 
+For some further trivia, this mathematical mapping idea is partly inspired by how the 
 [Mandelbrot set](https://en.wikipedia.org/wiki/Mandelbrot_set) fractal can be 
 used as a map to find the interesting
-[Julia sets](https://en.wikipedia.org/wiki/Julia_set). 
+[Julia sets](https://en.wikipedia.org/wiki/Julia_set).
 In fact, artist Bill Tavis made a [map poster](https://www.mandelmap.com/) to 
 further emphasize this idea!
