@@ -6,7 +6,7 @@ blog_date: '2026-10-03'
 summary: >
     Part of a circle -- split MIDI files by channel -- exploring symmetry -- mathematical cartography
 thumbnail: pattern/circular-arc/thumbnail.png
-hide: true
+hide: false
 ---
 <script setup lang="ts">
 import {backblaze_link} from '../core/links'
@@ -39,13 +39,13 @@ It also has other uses, such as isolating note data for a single instrument.
 Lately I've been porting a lot of old code
 from `p5-sketchbook` to prepare for future visualizations. The process is
 rather haphazard, so most things are in a work-in-progress state. However,
-I have a couple teasers for future articles
+I have a couple teasers for future articles.
 
-## Setting up Symmetry Explorations
+### Setting up Symmetry Explorations
 
 <img :src="backblaze_link('update/2026-09-20/cyclic-group-thumbnail.png')" />
 
-See a preview on the [Cyclic Group](../pattern/cyclic-group/) pattern page.
+See a preview on the [Cyclic Group](../pattern/cyclic-group/) pattern page on this website.
 
 In the math pattern articles I want to write, a big theme is exploring
 symmetries of patterns. You can see some examples in the aforementioned
@@ -62,7 +62,7 @@ tile. Here's an example of that:
 
 <img :src="backblaze_link('update/2026-09-20/cyclic-group-teaser2.png')" />
 
-## Proof of Concept: Leaflet Maps for Math Exploration
+### Proof of Concept: Leaflet Maps for Math Exploration
 
 <img :src="backblaze_link('update/2026-09-20/centered-trochoid-thumbnail.png')" />
 
