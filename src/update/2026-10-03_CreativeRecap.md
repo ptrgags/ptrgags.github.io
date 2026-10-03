@@ -41,7 +41,7 @@ from `p5-sketchbook` to prepare for future visualizations. The process is
 rather haphazard, so most things are in a work-in-progress state. However,
 I have a couple teasers for future articles.
 
-## Setting up Symmetry Explorations
+### Setting up Symmetry Explorations
 
 <img :src="backblaze_link('update/2026-09-20/cyclic-group-thumbnail.png')" />
 
@@ -62,7 +62,7 @@ tile. Here's an example of that:
 
 <img :src="backblaze_link('update/2026-09-20/cyclic-group-teaser2.png')" />
 
-## Proof of Concept: Leaflet Maps for Math Exploration
+### Proof of Concept: Leaflet Maps for Math Exploration
 
 <img :src="backblaze_link('update/2026-09-20/centered-trochoid-thumbnail.png')" />
 
