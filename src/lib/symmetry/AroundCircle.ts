@@ -47,7 +47,7 @@ export class AroundCircle implements Drawable {
     let children: Drawable | Drawable[]
     if (typeof options.children === 'function') {
       children = new Array(order)
-      for (let i = 0; i < 0; i++) {
+      for (let i = 0; i < order; i++) {
         const angle = i * angle_step + phase
         children[i] = options.children({
           i,
