@@ -15,11 +15,11 @@ import { LineSegment } from '../../lib/primitives/LineSegment.ts'
 import { TextStyle } from '../../lib/styling/TextStyle.ts'
 import { Text } from '../../lib/primitives/Text.ts'
 import { mod } from '../../lib/math/mod.ts'
-import { RepeatCyclic } from './RepeatCyclic.ts'
-import { AroundCircle } from './AroundCircle.ts'
 import { Circle } from '../../lib/primitives/Circle.ts'
 import { Oklch } from '../../lib/styling/Oklch.ts'
 import { Gridlines } from '../../lib/primitives/Gridlines.ts'
+import { RepeatCyclic } from '../../lib/symmetry/RepeatCyclic.ts'
+import { AroundCircle } from '../../lib/symmetry/AroundCircle.ts'
 
 const CLOCK = new Clock()
 const SCREEN_CENTER = new Direction2P(128, 128)
