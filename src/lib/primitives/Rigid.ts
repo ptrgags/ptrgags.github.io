@@ -118,10 +118,10 @@ export class Rigid implements Transformation {
 
   /**
    * Convenience constructor for a translation
-   * @param {Direction2P} offset
-   * @returns {Rigid}
+   * @param offset
+   * @returns
    */
-  static translation(offset: Direction2P): Rigid {
+  static translation(offset: Pointlike): Rigid {
     return new Rigid({ translation: offset })
   }
 
