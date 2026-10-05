@@ -1,4 +1,4 @@
-import type { Pointlike } from '../../lib/primitives/Pointlike.ts'
+import type { Vec2 } from '../../lib/primitives/Vec2.ts'
 import type { Drawable } from '../../lib/primitives/Drawable.ts'
 import type { DrawingLibrary } from '../../lib/primitives/DrawingLibrary.ts'
 
@@ -17,7 +17,7 @@ export enum GearStyle {
 export interface GearSchematicOptions {
   module: number
   teeth: number
-  center?: Pointlike
+  center?: Vec2
   phase?: number
   gear_style?: GearStyle
 }
@@ -32,7 +32,7 @@ export class GearSchematic implements Drawable {
    * Center of the gear. You can swap this out to move the gear around without
    * needing to wrap in a transform
    */
-  center: Pointlike
+  center: Vec2
   /**
    * The length of the tooth from pitch circle to tip. This must match
    * for all gears meshed together in series

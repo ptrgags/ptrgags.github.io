@@ -1,6 +1,6 @@
 import type { Style } from '../styling/Style.ts'
 import type { TextStyle } from '../styling/TextStyle.ts'
-import type { Pointlike } from './Pointlike.ts'
+import type { Vec2 } from './Vec2.ts'
 
 /**
  * Generic 2D graphics drawing library
@@ -47,7 +47,7 @@ export interface DrawingLibrary {
    * Draw a polyline (open polygon)
    * @param points The points to draw
    */
-  polyline(points: Pointlike[]): void
+  polyline(points: Vec2[]): void
 
   /**
    * Draw a rectangle

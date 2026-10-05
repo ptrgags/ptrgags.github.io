@@ -1,7 +1,7 @@
 import type { Dimensionlike } from './Dimensionlike.ts'
 import type { Drawable } from './Drawable.ts'
 import type { DrawingLibrary } from './DrawingLibrary.ts'
-import type { Pointlike } from './Pointlike.ts'
+import type { Vec2 } from './Vec2.ts'
 
 export type RectHorizontalAlign = 'left' | 'center' | 'right' | number
 export type RectVerticalAlign = 'top' | 'center' | 'bottom' | number
@@ -32,9 +32,9 @@ function parse_v_align(align: RectVerticalAlign): number {
 
 export class Rect implements Drawable {
   dimensions: Dimensionlike
-  position: Pointlike
+  position: Vec2
 
-  constructor(position: Pointlike, dimensions: Dimensionlike) {
+  constructor(position: Vec2, dimensions: Dimensionlike) {
     this.position = position
     this.dimensions = dimensions
   }
@@ -69,7 +69,7 @@ export class Rect implements Drawable {
     lib.rect(x, y, width, height)
   }
 
-  static from_center(center: Pointlike, dimensions: Dimensionlike): Rect {
+  static from_center(center: Vec2, dimensions: Dimensionlike): Rect {
     const { x, y } = center
     const { width, height } = dimensions
     const position = {

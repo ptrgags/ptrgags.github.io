@@ -1,4 +1,4 @@
-import type { Pointlike } from '../../primitives/Pointlike.js'
+import type { Vec2 } from '../../primitives/Vec2.js'
 import { is_nearly } from '../is_nearly.js'
 import { Direction2P } from './Direction2P.js'
 import { Even2P } from './Even2P.js'
@@ -16,7 +16,7 @@ import { Line2P } from './Line2P.js'
  *
  * @implements {Primitive}
  */
-export class Point2P implements Pointlike {
+export class Point2P implements Vec2 {
   bivec: Even2P
 
   /**
@@ -31,7 +31,7 @@ export class Point2P implements Pointlike {
     this.bivec = new Even2P(0, xy, xo, yo)
   }
 
-  static from_point(point: Pointlike): Point2P {
+  static from_vec2(point: Vec2): Point2P {
     if (point instanceof Point2P) {
       return point
     }

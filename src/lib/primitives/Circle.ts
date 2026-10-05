@@ -1,27 +1,27 @@
 import type { Drawable } from './Drawable.ts'
 import type { DrawingLibrary } from './DrawingLibrary.ts'
-import type { Pointlike } from './Pointlike.ts'
+import type { Vec2 } from './Vec2.ts'
 
 export class Circle implements Drawable {
-  center: Pointlike
+  center: Vec2
   radius: number
 
-  constructor(center: Pointlike, radius: number) {
+  constructor(center: Vec2, radius: number) {
     this.center = center
     this.radius = radius
   }
 
-  position(angle: number): Pointlike {
+  position(angle: number): Vec2 {
     const r = this.radius
     const { x, y } = this.center
     return { x: x + r * Math.cos(angle), y: y + r * Math.sin(angle) }
   }
 
-  unit_normal(angle: number): Pointlike {
+  unit_normal(angle: number): Vec2 {
     return { x: Math.cos(angle), y: Math.sin(angle) }
   }
 
-  unit_tangent(angle: number): Pointlike {
+  unit_tangent(angle: number): Vec2 {
     return { x: -Math.sin(angle), y: Math.cos(angle) }
   }
 

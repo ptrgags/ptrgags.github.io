@@ -1,16 +1,16 @@
 import { RingBuffer } from '../data_structures/RingBuffer.ts'
 import type { Drawable } from './Drawable.ts'
 import type { DrawingLibrary } from './DrawingLibrary.ts'
-import type { Pointlike } from './Pointlike.ts'
+import type { Vec2 } from './Vec2.ts'
 
 export class Trajectory implements Drawable {
-  history: RingBuffer<Pointlike>
+  history: RingBuffer<Vec2>
 
   constructor(capacity: number) {
     this.history = new RingBuffer(capacity)
   }
 
-  add_point(point: Pointlike) {
+  add_point(point: Vec2) {
     this.history.push(point)
   }
 
