@@ -1,6 +1,7 @@
 import type { Dimensionlike } from '../../primitives/Dimensionlike.js'
 import type { Vec2 } from '../../primitives/Vec2.js'
 import { is_nearly } from '../is_nearly.js'
+import { VectorSpace, type VectorOps } from '../VectorSpace.js'
 import { Even2P } from './Even2P.js'
 import { Line2P } from './Line2P.js'
 import { Point2P } from './Point2P.js'
@@ -337,3 +338,25 @@ export class Direction2P implements Vec2, Dimensionlike {
   static readonly DIR_Y = new Direction2P(0, 1)
   static readonly ZERO = new Direction2P(0, 0)
 }
+
+const DIRECTION2P_VEC_OPS: VectorOps<Direction2P> = {
+  equals: (a: Direction2P, b: Direction2P) => a.equals(b),
+  zero: () => Direction2P.ZERO,
+  add: (a: Direction2P, b: Direction2P) => a.add(b),
+  neg: (v: Direction2P) => v.neg(),
+  scale: (k: number, v: Direction2P) => v.scale(k),
+  efficient_combo(scalars: number[], vecs: Direction2P[]): Direction2P {
+    let x = 0
+    let y = 0
+    for (let i = 0; i < scalars.length; i++) {
+      const k = scalars[i]
+      const { x: vx, y: vy } = vecs[i]
+      x += k * vx
+      y += k * vy
+    }
+
+    return new Direction2P(x, y)
+  },
+}
+
+export const VS2P = new VectorSpace(DIRECTION2P_VEC_OPS)
