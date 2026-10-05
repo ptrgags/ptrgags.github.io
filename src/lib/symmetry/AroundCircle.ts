@@ -2,13 +2,13 @@ import { Direction2P } from '../math/pga2d/Direction2P.ts'
 import type { Circle } from '../primitives/Circle.ts'
 import type { Drawable } from '../primitives/Drawable.ts'
 import type { DrawingLibrary } from '../primitives/DrawingLibrary.ts'
-import type { Pointlike } from '../primitives/Pointlike.ts'
+import type { Vec2 } from '../primitives/Vec2.ts'
 import { Rigid } from '../primitives/Rigid.ts'
 import { SymmetryNode } from './SymmetryNode.ts'
 
 export interface AroundCircleSlot {
   i: number
-  position: Pointlike
+  position: Vec2
   angle: number
   order: number
 }

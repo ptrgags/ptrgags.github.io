@@ -3,11 +3,11 @@ import { lerp } from '../math/lerp.js'
 import { mod } from '../math/mod.js'
 import { Direction2P } from '../math/pga2d/Direction2P.js'
 import type { DrawingLibrary } from './DrawingLibrary.js'
-import type { Pointlike } from './Pointlike.js'
+import type { Vec2 } from './Vec2.js'
 import type { Transformation } from './TransformationOp.js'
 
 export interface RigidOptions {
-  translation?: Pointlike
+  translation?: Vec2
   rotation?: number
   flip?: boolean
 }
@@ -121,7 +121,7 @@ export class Rigid implements Transformation {
    * @param offset
    * @returns
    */
-  static translation(offset: Pointlike): Rigid {
+  static translation(offset: Vec2): Rigid {
     return new Rigid({ translation: offset })
   }
 

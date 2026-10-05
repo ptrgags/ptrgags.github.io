@@ -1,12 +1,12 @@
 import type { Drawable } from './Drawable.ts'
 import type { DrawingLibrary } from './DrawingLibrary.ts'
-import type { Pointlike } from './Pointlike.ts'
+import type { Vec2 } from './Vec2.ts'
 
 export class LineSegment implements Drawable {
-  start: Pointlike
-  end: Pointlike
+  start: Vec2
+  end: Vec2
 
-  constructor(start: Pointlike, end: Pointlike) {
+  constructor(start: Vec2, end: Vec2) {
     this.start = start
     this.end = end
   }

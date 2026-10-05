@@ -17,7 +17,7 @@ import { TextStyle } from '../../lib/styling/TextStyle.ts'
 import { SongMeter } from './SongMeter.ts'
 import { SongMeterPrimitive } from './SongMeterPrimitive.ts'
 import { Rect } from '../../lib/primitives/Rect.ts'
-import type { Pointlike } from '../../lib/primitives/Pointlike.ts'
+import type { Vec2 } from '../../lib/primitives/Vec2.ts'
 import { make_sketch, make_static_sketch, type SceneP5 } from '../../lib/p5-helpers/sketches.ts'
 
 const ROW_SIZE = { width: 512, height: 128 }
@@ -43,7 +43,7 @@ function make_cursor(rows: number): TimelineCursor {
   return new TimelineCursor({ x, y: r }, r, PIXELS_PER_PULSE)
 }
 
-function meter_start(row: number): Pointlike {
+function meter_start(row: number): Vec2 {
   const { x, y } = BOUNDS_TIMELINE.position
   return {
     x: x,

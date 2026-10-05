@@ -1,5 +1,5 @@
 import { GearSchematic, type GearSchematicOptions } from './GearSchematic.ts'
-import type { Pointlike } from '../../lib/primitives/Pointlike.ts'
+import type { Vec2 } from '../../lib/primitives/Vec2.ts'
 import type { DrawingLibrary } from '../../lib/primitives/DrawingLibrary.ts'
 import type { Drawable } from '../../lib/primitives/Drawable.ts'
 import { Style } from '../../lib/styling/Style.ts'
@@ -34,7 +34,7 @@ export class GearTree implements Drawable {
     this.connections = connections
   }
 
-  position_gears(center: Pointlike) {
+  position_gears(center: Vec2) {
     this.gear.center = center
 
     for (const connection of this.connections) {

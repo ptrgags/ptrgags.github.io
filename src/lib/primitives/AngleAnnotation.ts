@@ -1,10 +1,10 @@
 import { Circle } from './Circle.ts'
 import type { Drawable } from './Drawable.ts'
 import type { DrawingLibrary } from './DrawingLibrary.ts'
-import type { Pointlike } from './Pointlike.ts'
+import type { Vec2 } from './Vec2.ts'
 
 export interface AngleAnnotationOptions {
-  center: Pointlike
+  center: Vec2
   /**
    * Radius where an arc is drawn to indicate the angle measurement
    */
@@ -25,7 +25,7 @@ export interface AngleAnnotationOptions {
 
 export class AngleAnnotation implements Drawable {
   tip_circle: Circle
-  center: Pointlike
+  center: Vec2
   radius_arc: number
   angle: number
   angle_ref: number

@@ -14,7 +14,7 @@ import { CircularMotion } from '../../lib/animation/CircularMotion.ts'
 import { TextStyle } from '../../lib/styling/TextStyle.ts'
 import { Text } from '../../lib/primitives/Text.ts'
 import { mod } from '../../lib/math/mod.ts'
-import type { Pointlike } from '../../lib/primitives/Pointlike.ts'
+import type { Vec2 } from '../../lib/primitives/Vec2.ts'
 import { Wave } from '../../lib/animation/Wave.ts'
 import { AngleAnnotation } from '../../lib/primitives/AngleAnnotation.ts'
 
@@ -315,8 +315,8 @@ class ArcInvolution implements SceneP5 {
   canvas_size = { width: 256, height: 256 }
 
   arc_angles: [ArcAngles, ArcAngles]
-  start_position: [Pointlike, Pointlike]
-  end_position: [Pointlike, Pointlike]
+  start_position: [Vec2, Vec2]
+  end_position: [Vec2, Vec2]
 
   arc: ArcArrow
   label_start: Text
