@@ -2,6 +2,7 @@ import type { CRS12 } from '../math/CRS12.ts'
 import type { Direction2P } from '../math/pga2d/Direction2P.ts'
 import type { Point2P } from '../math/pga2d/Point2P.ts'
 import type { Drawable } from '../primitives/Drawable.ts'
+import type { DrawingLibrary } from '../primitives/DrawingLibrary.ts'
 import { Rigid } from '../primitives/Rigid.ts'
 import { SymmetryNode } from './SymmetryNode.ts'
 
@@ -23,7 +24,7 @@ export interface Repeat1DOptions {
   children: Drawable | ((slot: Repeat1DSlot) => Drawable)
 }
 
-export class Repeat1D {
+export class Repeat1D implements Drawable {
   primitive: SymmetryNode
 
   constructor(options: Repeat1DOptions) {
@@ -54,5 +55,9 @@ export class Repeat1D {
     }
 
     this.primitive = new SymmetryNode(transformations, children)
+  }
+
+  draw(lib: DrawingLibrary): void {
+    this.primitive.draw(lib)
   }
 }
