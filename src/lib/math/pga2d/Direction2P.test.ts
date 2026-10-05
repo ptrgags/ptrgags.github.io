@@ -7,7 +7,7 @@ describe('Direction2P', () => {
   it('from_point with Direction2P returns same object', () => {
     const direction = new Direction2P(1, 2)
 
-    const result = Direction2P.from_point(direction)
+    const result = Direction2P.from_vec2(direction)
 
     expect(result).toBe(direction)
   })
@@ -15,7 +15,7 @@ describe('Direction2P', () => {
   it('from_point with other pointlike returns Direction2P', () => {
     const point = { x: 3, y: 4 }
 
-    const result = Direction2P.from_point(point)
+    const result = Direction2P.from_vec2(point)
 
     const expected = new Direction2P(3, 4)
     expect(result).toBeDirection2P(expected)

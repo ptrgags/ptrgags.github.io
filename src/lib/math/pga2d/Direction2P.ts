@@ -30,7 +30,7 @@ export class Direction2P implements Vec2, Dimensionlike {
     this.bivec = new Even2P(0, xy, xo, yo)
   }
 
-  static from_point(point: Vec2): Direction2P {
+  static from_vec2(point: Vec2): Direction2P {
     if (point instanceof Direction2P) {
       return point
     }

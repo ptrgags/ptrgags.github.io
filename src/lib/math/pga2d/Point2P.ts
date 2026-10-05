@@ -31,7 +31,7 @@ export class Point2P implements Vec2 {
     this.bivec = new Even2P(0, xy, xo, yo)
   }
 
-  static from_point(point: Vec2): Point2P {
+  static from_vec2(point: Vec2): Point2P {
     if (point instanceof Point2P) {
       return point
     }

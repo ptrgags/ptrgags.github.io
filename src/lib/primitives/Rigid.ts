@@ -29,7 +29,7 @@ export class Rigid implements Transformation {
    * @param {RigidOptions} options Settings for the rigid transformation
    */
   constructor(options: RigidOptions) {
-    this.translation = Direction2P.from_point(options.translation ?? Direction2P.ZERO)
+    this.translation = Direction2P.from_vec2(options.translation ?? Direction2P.ZERO)
     this.rotation = mod(options.rotation ?? 0, 2 * Math.PI)
     this.flip = options.flip ?? false
   }
