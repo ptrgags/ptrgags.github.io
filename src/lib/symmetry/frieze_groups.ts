@@ -1,54 +1,40 @@
 import type { CRS12 } from '../math/CRS12.ts'
 import type { Drawable } from '../primitives/Drawable.ts'
-import { Repeat1D } from './Repeat1D.ts'
 
-export interface FriezeP1Slot {
+interface TranslationSlot {
   i: number
 }
 
-export class FriezeP1 {}
-
-export interface FriezeP11GSlot {
-  i: number
-  glide: boolean
-}
-
-export class FriezeP11G {}
-
-export interface FriezeP11MSlot {
-  i: number
-  flip_y: boolean
-}
-
-export class FriezeP11M {}
-
-export interface FriezeP1M1Slot {
-  i: number
+interface FlipXSlot {
   flip_x: boolean
 }
 
-export class FriezeP1M1 {}
+interface FlipYSlot {
+  flip_y: boolean
+}
 
-export interface FriezeP2Slot {
-  i: number
+interface GlideSlot {
+  glide: boolean
+}
+
+interface RotateSlot {
   rotate: boolean
 }
 
+export type FriezeP1Slot = TranslationSlot
+export type FriezeP11GSlot = TranslationSlot & GlideSlot
+export type FriezeP11MSlot = TranslationSlot & FlipYSlot
+export type FriezeP1M1Slot = TranslationSlot & FlipXSlot
+export type FriezeP2Slot = TranslationSlot & RotateSlot
+export type FriezeP2MGSlot = TranslationSlot & FlipXSlot & GlideSlot
+export type FriezeP2MMSlot = TranslationSlot & FlipXSlot & FlipYSlot
+
+export class FriezeP1 {}
+export class FriezeP11G {}
+export class FriezeP11M {}
+export class FriezeP1M1 {}
 export class FriezeP2 {}
-
-export interface FriezeP2MGSlot {
-  i: number
-  glide: boolean
-  flip_x: boolean
-}
-
 export class FriezeP2MG {}
-
-export interface FriezeP2MMSlot {
-  i: number
-  flip_x: boolean
-  flip_y: boolean
-}
 
 export interface FriezeP2MMOptions {
   crs: CRS12
