@@ -50,6 +50,12 @@ export interface DrawingLibrary {
   polyline(points: Vec2[]): void
 
   /**
+   * Draw a polygon (always closed)
+   * @param points The points to draw
+   */
+  polygon(points: Vec2[]): void
+
+  /**
    * Draw a rectangle
    * @param x x-coordinate of top left corner
    * @param y y-coordinate of top left corner
