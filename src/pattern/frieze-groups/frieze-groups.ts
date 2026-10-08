@@ -13,44 +13,66 @@ import { Polygon } from '../../lib/primitives/Polygon.ts'
 import { Oklch } from '../../lib/styling/Oklch.ts'
 import { Rect } from '../../lib/primitives/Rect.ts'
 import { lerp } from '../../lib/math/lerp.ts'
-import type { Dimensionlike } from '../../lib/primitives/Dimensionlike.ts'
 
 const FRIEZE_SIZE = new Direction2P(512, 128)
+
+const BOOKMARK_MOTIF = group(
+  style(
+    new Style({
+      fill: Color.RED,
+      stroke: Color.BLACK,
+      width: 2,
+    }),
+    new Polygon([Point2P.ORIGIN, new Point2P(0, 32), new Point2P(32, 0)]),
+  ),
+  style(
+    new Style({
+      fill: Color.GREEN,
+      stroke: Color.BLACK,
+      width: 2,
+    }),
+    new Polygon(
+      Point2P.from_pairs([
+        [0, 32],
+        [0, 64],
+        [16, 48],
+        [32, 64],
+        [32, 0],
+      ]),
+    ),
+  ),
+)
 
 class RepeatTest implements SceneP5 {
   canvas_size = FRIEZE_SIZE
   primitive: Drawable
 
   constructor() {
-    const bookmark_motif = group(
-      style(
-        new Style({
-          fill: Color.RED,
-          stroke: Color.BLACK,
-          width: 2,
-        }),
-        new Polygon([Point2P.ORIGIN, new Point2P(0, 32), new Point2P(32, 0)]),
-      ),
-      style(
-        new Style({
-          fill: Color.GREEN,
-          stroke: Color.BLACK,
-          width: 2,
-        }),
-        new Polygon([
-          new Point2P(0, 32),
-          new Point2P(0, 64),
-          new Point2P(16, 48),
-          new Point2P(32, 64),
-          new Point2P(32, 0),
-        ]),
-      ),
-    )
-
     const repeat = new Repeat1D({
       crs: new CRS12(new Point2P(0, 32), new Direction2P(32, 0)),
       x_range: [0, 15],
-      children: bookmark_motif,
+      children: BOOKMARK_MOTIF,
+    })
+
+    this.primitive = repeat
+  }
+
+  update(p: p5): void {}
+
+  draw(lib: DrawP5): void {
+    this.primitive.draw(lib)
+  }
+}
+
+class Diagonal implements SceneP5 {
+  canvas_size = FRIEZE_SIZE
+  primitive: Drawable
+
+  constructor() {
+    const repeat = new Repeat1D({
+      crs: new CRS12(new Point2P(0, 64), new Direction2P(32, -4)),
+      x_range: [0, 15],
+      children: BOOKMARK_MOTIF,
     })
 
     this.primitive = repeat
@@ -94,5 +116,6 @@ class AnimationFrames implements SceneP5 {
 
 export const SKETCHES = {
   p1: make_static_sketch(new RepeatTest()),
+  diagonal: make_static_sketch(new Diagonal()),
   animation_frames: make_static_sketch(new AnimationFrames()),
 }
