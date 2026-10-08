@@ -2,6 +2,15 @@ import { is_nearly } from '../is_nearly.js'
 import { Odd2C } from './Odd2C.js'
 
 export class Even2C {
+  scalar: any
+  xy: any
+  xp: any
+  xm: any
+  yp: any
+  ym: any
+  pm: any
+  xypm: any
+
   /**
    * Constructor
    * @param {number} scalar
@@ -13,7 +22,16 @@ export class Even2C {
    * @param {number} pm
    * @param {number} xypm
    */
-  constructor(scalar, xy, xp, xm, yp, ym, pm, xypm) {
+  constructor(
+    scalar: number,
+    xy: number,
+    xp: number,
+    xm: number,
+    yp: number,
+    ym: number,
+    pm: number,
+    xypm: number,
+  ) {
     this.scalar = scalar
     this.xy = xy
     this.xp = xp
@@ -30,7 +48,7 @@ export class Even2C {
    * always a scalar in 4D+
    * @returns {number}
    */
-  norm_sqr() {
+  norm_sqr(): number {
     return (
       this.xy * this.xy +
       this.xp * this.xp +
@@ -46,7 +64,7 @@ export class Even2C {
    * Get the magnitude of the multivector
    * @returns {number}
    */
-  norm() {
+  norm(): number {
     const norm_sqr = this.norm_sqr()
     if (norm_sqr < 0) {
       throw new Error('taking norm of negative multivector')
@@ -59,7 +77,7 @@ export class Even2C {
    * Rescale the multivector so it has unit magnitude
    * @returns {Even2C}
    */
-  normalize() {
+  normalize(): Even2C {
     const length = this.norm()
     if (is_nearly(length, 0)) {
       return this
@@ -81,7 +99,7 @@ export class Even2C {
    * Negate all the coordinates of this multivector
    * @returns {Even2C}
    */
-  neg() {
+  neg(): Even2C {
     return new Even2C(
       -this.scalar,
       -this.xy,
@@ -99,7 +117,7 @@ export class Even2C {
    * @param {Even2C} other
    * @returns {Even2C}
    */
-  add(other) {
+  add(other: Even2C): Even2C {
     const scalar = this.scalar + other.scalar
     const xy = this.xy + other.xy
     const xp = this.xp + other.xp
@@ -117,7 +135,7 @@ export class Even2C {
    * @param {Even2C} other
    * @returns {Even2C}
    */
-  sub(other) {
+  sub(other: Even2C): Even2C {
     const scalar = this.scalar - other.scalar
     const xy = this.xy - other.xy
     const xp = this.xp - other.xp
@@ -134,7 +152,7 @@ export class Even2C {
    * Compute the Hodge dual
    * @returns {Even2C}
    */
-  dual() {
+  dual(): Even2C {
     // this_blade ^ abs_dual(this_blade) = sign * xypm
     // dual(this_blade) = sign * abs_dual(this_blade)
     // 1 ^ xypm = xypm
@@ -169,7 +187,7 @@ export class Even2C {
    * reverse orientation
    * @returns {Even2C}
    */
-  reverse() {
+  reverse(): Even2C {
     return new Even2C(
       this.scalar,
       -this.xy,
@@ -186,7 +204,7 @@ export class Even2C {
    * Check if two Even2C objects are equal
    * @param {Even2C} other
    */
-  equals(other) {
+  equals(other: Even2C) {
     return (
       is_nearly(this.scalar, other.scalar) &&
       is_nearly(this.xy, other.xy) &&
@@ -208,7 +226,7 @@ export class Even2C {
    * @param {Even2C} even
    * @returns {Even2C}
    */
-  gp_even(even) {
+  gp_even(even: Even2C): Even2C {
     const { scalar: As, xy: Axy, xp: Axp, xm: Axm, yp: Ayp, ym: Aym, pm: Apm, xypm: Axypm } = this
     const { scalar: Bs, xy: Bxy, xp: Bxp, xm: Bxm, yp: Byp, ym: Bym, pm: Bpm, xypm: Bxypm } = even
 
@@ -293,7 +311,7 @@ export class Even2C {
    * @param {Odd2C} odd
    * @returns {Odd2C}
    */
-  gp_odd(odd) {
+  gp_odd(odd: Odd2C): Odd2C {
     const { scalar: As, xy: Axy, xp: Axp, xm: Axm, yp: Ayp, ym: Aym, pm: Apm, xypm: Axypm } = this
     const { x: Bx, y: By, p: Bp, m: Bm, xyp: Bxyp, xym: Bxym, xpm: Bxpm, ypm: Bypm } = odd
 
@@ -350,7 +368,7 @@ export class Even2C {
    * @param {Odd2C | Even2C} other
    * @returns {Odd2C | Even2C}
    */
-  gp(other) {
+  gp(other: Odd2C | Even2C): Odd2C | Even2C {
     if (other instanceof Even2C) {
       return this.gp_even(other)
     }
@@ -363,7 +381,7 @@ export class Even2C {
    * @param {Odd2C} odd
    * @returns {Odd2C}
    */
-  unit_sandwich_odd(odd) {
+  unit_sandwich_odd(odd: Odd2C): Odd2C {
     return this.gp_odd(odd).gp_even(this.reverse())
   }
 
@@ -372,7 +390,7 @@ export class Even2C {
    * @param {Even2C} even
    * @returns {Even2C}
    */
-  unit_sandwich_even(even) {
+  unit_sandwich_even(even: Even2C): Even2C {
     return this.gp_even(even).gp_even(this.reverse())
   }
 
@@ -382,7 +400,7 @@ export class Even2C {
    * @param {Even2C | Odd2C} other
    * @returns {Even2C | Odd2C}
    */
-  unit_sandwich(other) {
+  unit_sandwich(other: Even2C | Odd2C): Even2C | Odd2C {
     return this.gp(other).gp(this.reverse())
   }
 
@@ -393,7 +411,7 @@ export class Even2C {
    * @param {number} t Interpolation factor
    * @returns {Even2C} Interpolated value
    */
-  static lerp(a, b, t) {
+  static lerp(a: Even2C, b: Even2C, t: number): Even2C {
     const s = 1 - t
 
     const scalar = s * a.scalar + t * b.scalar
@@ -407,7 +425,8 @@ export class Even2C {
 
     return new Even2C(scalar, xy, xp, xm, yp, ym, pm, xypm)
   }
+
+  static readonly ZERO = new Even2C(0, 0, 0, 0, 0, 0, 0, 0)
+  static readonly ONE = new Even2C(1, 0, 0, 0, 0, 0, 0, 0)
+  static readonly IDENTITY = new Even2C(1, 0, 0, 0, 0, 0, 0, 0)
 }
-Even2C.ZERO = Object.freeze(new Even2C(0, 0, 0, 0, 0, 0, 0, 0))
-Even2C.ONE = Object.freeze(new Even2C(1, 0, 0, 0, 0, 0, 0, 0))
-Even2C.IDENTITY = Object.freeze(new Even2C(1, 0, 0, 0, 0, 0, 0, 0))
