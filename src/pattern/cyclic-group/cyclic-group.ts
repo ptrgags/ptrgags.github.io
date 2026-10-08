@@ -1,6 +1,11 @@
 import type p5 from 'p5'
 import type { DrawP5 } from '../../lib/p5-helpers/DrawP5.ts'
-import { make_sketch, make_static_sketch, type SceneP5 } from '../../lib/p5-helpers/sketches.ts'
+import {
+  make_sketch,
+  make_static_sketch,
+  type SceneP5,
+  type StaticSceneP5,
+} from '../../lib/p5-helpers/sketches.ts'
 import type { Drawable } from '../../lib/primitives/Drawable.ts'
 import { group, style, xform } from '../../lib/primitives/shorthand.ts'
 import { Rigid } from '../../lib/primitives/Rigid.ts'
@@ -54,7 +59,7 @@ class CyclicGroupAnimation implements SceneP5 {
   }
 }
 
-class Kebabs implements SceneP5 {
+class Kebabs implements StaticSceneP5 {
   canvas_size = { width: 256, height: 256 }
   primitive: Drawable
 
@@ -85,15 +90,9 @@ class Kebabs implements SceneP5 {
       style(Style.flat(Color.YELLOW), three_shapes),
     )
   }
-
-  update(p: p5): void {}
-
-  draw(lib: DrawP5): void {
-    this.primitive.draw(lib)
-  }
 }
 
-class ColorWheel implements SceneP5 {
+class ColorWheel implements StaticSceneP5 {
   canvas_size = { width: 256, height: 256 }
   primitive: Drawable
 
@@ -112,18 +111,12 @@ class ColorWheel implements SceneP5 {
     })
     this.primitive = xform(TRANSLATE_CENTER, color_wheel)
   }
-
-  update(p: p5): void {}
-
-  draw(lib: DrawP5): void {
-    this.primitive.draw(lib)
-  }
 }
 
 const TICK_MARK = new LineSegment(new Point2P(64, 0), new Point2P(80, 0))
 const STYLE_LABEL = { text_style: new TextStyle(24, 'center', 'center'), style: Style.DEFAULT_FLAT }
 
-class ClockDial implements SceneP5 {
+class ClockDial implements StaticSceneP5 {
   canvas_size = { width: 256, height: 256 }
   wave: Wave
   primitive: Drawable
@@ -146,12 +139,6 @@ class ClockDial implements SceneP5 {
       xform(Rigid.translation(SCREEN_CENTER), style(Style.DEFAULT_LINES, tick_marks)),
       style(STYLE_LABEL, labels),
     )
-  }
-
-  update(p: p5): void {}
-
-  draw(lib: DrawP5): void {
-    this.primitive.draw(lib)
   }
 }
 

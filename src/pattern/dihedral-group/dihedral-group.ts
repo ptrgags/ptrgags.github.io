@@ -1,6 +1,11 @@
 import type p5 from 'p5'
 import type { DrawP5 } from '../../lib/p5-helpers/DrawP5.ts'
-import { make_sketch, type SceneP5 } from '../../lib/p5-helpers/sketches.ts'
+import {
+  make_sketch,
+  make_static_sketch,
+  type SceneP5,
+  type StaticSceneP5,
+} from '../../lib/p5-helpers/sketches.ts'
 import type { Drawable } from '../../lib/primitives/Drawable.ts'
 import { style, xform } from '../../lib/primitives/shorthand.ts'
 import { CircularArc } from '../../lib/primitives/CircularArc.ts'
@@ -47,7 +52,7 @@ class DihedralGroupTest implements SceneP5 {
   }
 }
 
-class MirrorGroupTest implements SceneP5 {
+class MirrorGroupTest implements StaticSceneP5 {
   canvas_size = SIZE_SWATCH
   primitive: Drawable
 
@@ -65,15 +70,9 @@ class MirrorGroupTest implements SceneP5 {
       }),
     )
   }
-
-  update(p: p5): void {}
-
-  draw(lib: DrawP5): void {
-    this.primitive.draw(lib)
-  }
 }
 
 export const SKETCHES = {
   dihedral_flower: make_sketch(new DihedralGroupTest()),
-  mirror_test: make_sketch(new MirrorGroupTest()),
+  mirror_test: make_static_sketch(new MirrorGroupTest()),
 }

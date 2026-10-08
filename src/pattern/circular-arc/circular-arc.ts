@@ -1,6 +1,11 @@
 import type p5 from 'p5'
 import type { DrawP5 } from '../../lib/p5-helpers/DrawP5.ts'
-import { make_sketch, make_static_sketch, type SceneP5 } from '../../lib/p5-helpers/sketches.ts'
+import {
+  make_sketch,
+  make_static_sketch,
+  type SceneP5,
+  type StaticSceneP5,
+} from '../../lib/p5-helpers/sketches.ts'
 import type { Drawable } from '../../lib/primitives/Drawable.ts'
 import { group, style } from '../../lib/primitives/shorthand.ts'
 import { Circle } from '../../lib/primitives/Circle.ts'
@@ -31,7 +36,7 @@ const STYLE_LABEL_NEUTRAL = { style: Style.flat(COLOR_NEUTRAL), text_style: TEXT
 const STYLE_LABEL_POSITIVE = { style: Style.flat(COLOR_POSITIVE), text_style: TEXT_STYLE_LABEL }
 const STYLE_LABEL_NEGATIVE = { style: Style.flat(COLOR_NEGATIVE), text_style: TEXT_STYLE_LABEL }
 
-class ArcConcept implements SceneP5 {
+class ArcConcept implements StaticSceneP5 {
   canvas_size = { width: 256, height: 256 }
   primitive: Drawable
 
@@ -45,12 +50,6 @@ class ArcConcept implements SceneP5 {
       style(Style.lines(COLOR_GREY, 2), MAIN_CIRCLE),
       style(Style.lines(COLOR_POSITIVE, 2), arc),
     )
-  }
-
-  update(p: p5): void {}
-
-  draw(lib: DrawP5): void {
-    this.primitive.draw(lib)
   }
 }
 
@@ -556,15 +555,11 @@ const DOODLE_ARCS_HALF = [
 
 const DOODLE_ARCS = [...DOODLE_ARCS_HALF, ...DOODLE_ARCS_HALF.map(rot180)]
 
-class ArcDoodle implements SceneP5 {
+class ArcDoodle implements StaticSceneP5 {
   canvas_size = { width: 256, height: 256 }
   primitive: Drawable
   constructor() {
     this.primitive = style(Style.lines(COLOR_NEGATIVE, 2), ...DOODLE_ARCS)
-  }
-  update(p: p5): void {}
-  draw(lib: DrawP5): void {
-    this.primitive.draw(lib)
   }
 }
 

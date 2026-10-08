@@ -1,6 +1,11 @@
 import type p5 from 'p5'
 import type { DrawP5 } from '../../lib/p5-helpers/DrawP5.ts'
-import { make_sketch, make_static_sketch, type SceneP5 } from '../../lib/p5-helpers/sketches.ts'
+import {
+  make_sketch,
+  make_static_sketch,
+  type SceneP5,
+  type StaticSceneP5,
+} from '../../lib/p5-helpers/sketches.ts'
 import type { Drawable } from '../../lib/primitives/Drawable.ts'
 import { group, style } from '../../lib/primitives/shorthand.ts'
 import { Repeat1D } from '../../lib/symmetry/Repeat1D.ts'
@@ -43,7 +48,7 @@ const BOOKMARK_MOTIF = group(
   ),
 )
 
-class RepeatTest implements SceneP5 {
+class RepeatTest implements StaticSceneP5 {
   canvas_size = FRIEZE_SIZE
   primitive: Drawable
 
@@ -56,15 +61,9 @@ class RepeatTest implements SceneP5 {
 
     this.primitive = repeat
   }
-
-  update(p: p5): void {}
-
-  draw(lib: DrawP5): void {
-    this.primitive.draw(lib)
-  }
 }
 
-class Diagonal implements SceneP5 {
+class Diagonal implements StaticSceneP5 {
   canvas_size = FRIEZE_SIZE
   primitive: Drawable
 
@@ -77,15 +76,9 @@ class Diagonal implements SceneP5 {
 
     this.primitive = repeat
   }
-
-  update(p: p5): void {}
-
-  draw(lib: DrawP5): void {
-    this.primitive.draw(lib)
-  }
 }
 
-class AnimationFrames implements SceneP5 {
+class AnimationFrames implements StaticSceneP5 {
   canvas_size = FRIEZE_SIZE
   primitive: Drawable
 
@@ -105,12 +98,6 @@ class AnimationFrames implements SceneP5 {
         return style(Style.flat(color), new Rect(new Point2P(0, y), new Direction2P(SPACING, 32)))
       },
     })
-  }
-
-  update(p: p5): void {}
-
-  draw(lib: DrawP5): void {
-    this.primitive.draw(lib)
   }
 }
 

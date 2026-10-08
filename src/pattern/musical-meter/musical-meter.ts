@@ -18,7 +18,12 @@ import { SongMeter } from './SongMeter.ts'
 import { SongMeterPrimitive } from './SongMeterPrimitive.ts'
 import { Rect } from '../../lib/primitives/Rect.ts'
 import type { Vec2 } from '../../lib/primitives/Vec2.ts'
-import { make_sketch, make_static_sketch, type SceneP5 } from '../../lib/p5-helpers/sketches.ts'
+import {
+  make_sketch,
+  make_static_sketch,
+  type SceneP5,
+  type StaticSceneP5,
+} from '../../lib/p5-helpers/sketches.ts'
 
 const ROW_SIZE = { width: 512, height: 128 }
 const TIMELINE_SIZE = { width: 384, height: 64 }
@@ -164,7 +169,7 @@ class CommonTime implements SceneP5 {
   }
 }
 
-class TimeSignatures implements SceneP5 {
+class TimeSignatures implements StaticSceneP5 {
   canvas_size = make_size(4)
   meters = [new Meter(4, 4, 1), new Meter(2, 2, 1), new Meter(3, 4, 1), new Meter(12, 8, 1)]
   measure_counts = [6, 6, 8, 4]
@@ -185,11 +190,6 @@ class TimeSignatures implements SceneP5 {
     )
 
     this.primitive = group(...this.meter_diagrams)
-  }
-
-  update(p: p5): void {}
-  draw(lib: DrawP5): void {
-    this.primitive.draw(lib)
   }
 }
 
