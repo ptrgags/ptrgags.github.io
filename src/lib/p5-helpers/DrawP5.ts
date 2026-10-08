@@ -91,7 +91,7 @@ export class DrawP5 implements DrawingLibrary {
     this.p.text(value, x, y)
   }
 
-  apply_style(style: Style): void {
+  begin_style(style: Style): void {
     const p = this.p
     if (style.stroke && !is_nearly(style.stroke.a, 0)) {
       const { r, g, b, a } = style.stroke
@@ -108,6 +108,10 @@ export class DrawP5 implements DrawingLibrary {
     } else {
       p.noFill()
     }
+  }
+
+  end_style(style: Style): void {
+    // Since we always set the stroke and fill, there's nothing to do here.
   }
 
   apply_text_style(text_style: TextStyle): void {
