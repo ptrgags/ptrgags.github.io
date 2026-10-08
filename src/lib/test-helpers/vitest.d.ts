@@ -11,5 +11,9 @@ declare module 'vitest' {
     toBePoint2P: (expected: T) => R
     toBeDirection2P: (expected: T) => R
     toBeLine2P: (expected: T) => R
+
+    // CGA2D matchers
+    toBeEven2C: (expected: T) => R
+    toBeOdd2C: (expected: T) => R
   }
 }
