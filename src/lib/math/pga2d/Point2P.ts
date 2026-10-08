@@ -177,5 +177,9 @@ export class Point2P implements Vec2 {
     return Point2P.from_bivec(bivector)
   }
 
+  static from_pairs(pairs: [number, number][]): Point2P[] {
+    return pairs.map(([x, y]) => new Point2P(x, y))
+  }
+
   static readonly ORIGIN = new Point2P(0, 0)
 }

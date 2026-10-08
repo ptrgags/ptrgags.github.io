@@ -83,6 +83,14 @@ export class DrawP5 implements DrawingLibrary {
     this.p.endShape()
   }
 
+  polygon(points: Vec2[]): void {
+    this.p.beginShape()
+    for (const { x, y } of points) {
+      this.p.vertex(x, y)
+    }
+    this.p.endShape(this.p.CLOSE)
+  }
+
   rect(x: number, y: number, width: number, height: number): void {
     this.p.rect(x, y, width, height)
   }
