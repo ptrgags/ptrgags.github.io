@@ -1,8 +1,8 @@
 import { is_nearly } from '../is_nearly.js'
-import { CEven } from './CEven.js'
+import { Even2C } from './Even2C.js'
 import { ConformalBasis } from './ConformalBasis.js'
 
-export class COdd {
+export class Odd2C {
   /**
    * Constructor
    * @param {number} x
@@ -61,7 +61,7 @@ export class COdd {
 
   /**
    * Rescale the multivector so it has unit magnitude
-   * @returns {COdd}
+   * @returns {Odd2C}
    */
   normalize() {
     const length = this.norm()
@@ -69,7 +69,7 @@ export class COdd {
       return this
     }
 
-    return new COdd(
+    return new Odd2C(
       this.x / length,
       this.y / length,
       this.p / length,
@@ -82,10 +82,10 @@ export class COdd {
   }
 
   /**
-   * Normalize the vector component of this COdd so that
+   * Normalize the vector component of this Odd2C so that
    * the coefficient of o = 1/2(m - p) is 1. This is important for
    * interpreting CGA geometry
-   * @return {COdd} A vector
+   * @return {Odd2C} A vector
    */
   normalize_o() {
     const { x, y, p, m } = this
@@ -95,21 +95,21 @@ export class COdd {
       return this
     }
 
-    return new COdd(x / o, y / o, p / o, m / o, 0, 0, 0, 0)
+    return new Odd2C(x / o, y / o, p / o, m / o, 0, 0, 0, 0)
   }
 
   /**
    * Negate all the coordinates of this multivector
-   * @returns {COdd}
+   * @returns {Odd2C}
    */
   neg() {
-    return new COdd(-this.x, -this.y, -this.p, -this.m, -this.xyp, -this.xym, -this.xpm, -this.ypm)
+    return new Odd2C(-this.x, -this.y, -this.p, -this.m, -this.xyp, -this.xym, -this.xpm, -this.ypm)
   }
 
   /**
    * Add two odd multivectors
-   * @param {COdd} other
-   * @returns {COdd}
+   * @param {Odd2C} other
+   * @returns {Odd2C}
    */
   add(other) {
     const x = this.x + other.x
@@ -120,13 +120,13 @@ export class COdd {
     const xym = this.xym + other.xym
     const xpm = this.xpm + other.xpm
     const ypm = this.ypm + other.ypm
-    return new COdd(x, y, p, m, xyp, xym, xpm, ypm)
+    return new Odd2C(x, y, p, m, xyp, xym, xpm, ypm)
   }
 
   /**
    * Subtract two odd multivectors
-   * @param {COdd} other
-   * @returns {COdd}
+   * @param {Odd2C} other
+   * @returns {Odd2C}
    */
   sub(other) {
     const x = this.x - other.x
@@ -137,12 +137,12 @@ export class COdd {
     const xym = this.xym - other.xym
     const xpm = this.xpm - other.xpm
     const ypm = this.ypm - other.ypm
-    return new COdd(x, y, p, m, xyp, xym, xpm, ypm)
+    return new Odd2C(x, y, p, m, xyp, xym, xpm, ypm)
   }
 
   /**
    * Compute the Hoge Dual
-   * @returns {COdd}
+   * @returns {Odd2C}
    */
   dual() {
     // this_blade ^ abs_dual(this_blade) = sign * xypm
@@ -163,13 +163,13 @@ export class COdd {
     const xym = this.p
     const xpm = -this.y
     const ypm = this.x
-    return new COdd(x, y, p, m, xyp, xym, xpm, ypm)
+    return new Odd2C(x, y, p, m, xyp, xym, xpm, ypm)
   }
 
   /**
    * Antidual, the inverse of dual. It's nearly the same
    * except for a few pesky sign flips
-   * @returns {COdd}
+   * @returns {Odd2C}
    */
   antidual() {
     // abs_antidual(this_blade) ^ this_blade = sign * xypm
@@ -191,22 +191,22 @@ export class COdd {
     const xym = -this.p
     const xpm = this.y
     const ypm = -this.x
-    return new COdd(x, y, p, m, xyp, xym, xpm, ypm)
+    return new Odd2C(x, y, p, m, xyp, xym, xpm, ypm)
   }
 
   /**
    * The reverse operation takes each blade and reverses the
    * order of basis vectors in the wedge product.
    * This makes the trivector part reverse orientation
-   * @returns {COdd}
+   * @returns {Odd2C}
    */
   reverse() {
-    return new COdd(this.x, this.y, this.p, this.m, -this.xyp, -this.xym, -this.xpm, -this.ypm)
+    return new Odd2C(this.x, this.y, this.p, this.m, -this.xyp, -this.xym, -this.xpm, -this.ypm)
   }
 
   /**
-   * Check if two CEven objects are equal
-   * @param {COdd} other
+   * Check if two Even2C objects are equal
+   * @param {Odd2C} other
    */
   equals(other) {
     return (
@@ -223,8 +223,8 @@ export class COdd {
 
   /**
    * Geometric product with an odd multivector
-   * @param {COdd} odd
-   * @returns {CEven}
+   * @param {Odd2C} odd
+   * @returns {Even2C}
    */
   gp_odd(odd) {
     const { x: Ax, y: Ay, p: Ap, m: Am, xyp: Axyp, xym: Axym, xpm: Axpm, ypm: Aypm } = this
@@ -246,13 +246,13 @@ export class COdd {
       -Am * Bp + Ap * Bm + Ax * Bxpm + Axpm * Bx + Axym * Bxyp - Axyp * Bxym + Ay * Bypm + Aypm * By
     const xypm =
       -Am * Bxyp + Ap * Bxym + Ax * Bypm + Axpm * By - Axym * Bp + Axyp * Bm - Ay * Bxpm - Aypm * Bx
-    return new CEven(scalar, xy, xp, xm, yp, ym, pm, xypm)
+    return new Even2C(scalar, xy, xp, xm, yp, ym, pm, xypm)
   }
 
   /**
    * Geometric product with an even multivector
-   * @param {CEven} even
-   * @returns {COdd}
+   * @param {Even2C} even
+   * @returns {Odd2C}
    */
   gp_even(even) {
     const { x: Ax, y: Ay, p: Ap, m: Am, xyp: Axyp, xym: Axym, xpm: Axpm, ypm: Aypm } = this
@@ -273,16 +273,16 @@ export class COdd {
       Am * Bxp - Ap * Bxm + Ax * Bpm + Axpm * Bs + Axym * Byp - Axyp * Bym - Ay * Bxypm - Aypm * Bxy
     const ypm =
       Am * Byp - Ap * Bym + Ax * Bxypm + Axpm * Bxy - Axym * Bxp + Axyp * Bxm + Ay * Bpm + Aypm * Bs
-    return new COdd(x, y, p, m, xyp, xym, xpm, ypm)
+    return new Odd2C(x, y, p, m, xyp, xym, xpm, ypm)
   }
 
   /**
    * Geometric Product
-   * @param {COdd | CEven} other
-   * @returns {COdd | CEven}
+   * @param {Odd2C | Even2C} other
+   * @returns {Odd2C | Even2C}
    */
   gp(other) {
-    if (other instanceof COdd) {
+    if (other instanceof Odd2C) {
       return this.gp_odd(other)
     }
 
@@ -291,8 +291,8 @@ export class COdd {
 
   /**
    * Unit sandwich for odd multivectors
-   * @param {COdd} odd
-   * @returns {COdd}
+   * @param {Odd2C} odd
+   * @returns {Odd2C}
    */
   unit_sandwich_odd(odd) {
     // Note: For odd sandwich odd, we need to negate the result.
@@ -301,8 +301,8 @@ export class COdd {
 
   /**
    * Unit sandwich for even multivectors
-   * @param {CEven} even
-   * @returns {CEven}
+   * @param {Even2C} even
+   * @returns {Even2C}
    */
   unit_sandwich_even(even) {
     return this.gp_even(even).gp_odd(this.reverse())
@@ -312,11 +312,11 @@ export class COdd {
    * Compute the sandwich product ABA^(-1), but only
    * where A is of magnitude +1, so this can be computed
    * more efficiently as A * B * A.reverse()
-   * @param {CEven | COdd} other
-   * @returns {CEven | COdd}
+   * @param {Even2C | Odd2C} other
+   * @returns {Even2C | Odd2C}
    */
   unit_sandwich(other) {
-    if (other instanceof COdd) {
+    if (other instanceof Odd2C) {
       return this.unit_sandwich_odd(other)
     }
     return this.gp(other).gp(this.reverse())
@@ -324,10 +324,10 @@ export class COdd {
 
   /**
    * Linearly interpolate two odd multivectors
-   * @param {COdd} a First multivector
-   * @param {COdd} b Second multivector
+   * @param {Odd2C} a First multivector
+   * @param {Odd2C} b Second multivector
    * @param {number} t interpolation factor
-   * @returns {COdd} Interpolated value
+   * @returns {Odd2C} Interpolated value
    */
   static lerp(a, b, t) {
     const s = 1 - t
@@ -340,7 +340,7 @@ export class COdd {
     const xym = s * a.xym + t * b.xym
     const xpm = s * a.xpm + t * b.xpm
     const ypm = s * a.ypm + t * b.ypm
-    return new COdd(x, y, p, m, xyp, xym, xpm, ypm)
+    return new Odd2C(x, y, p, m, xyp, xym, xpm, ypm)
   }
 }
-COdd.ZERO = Object.freeze(new COdd(0, 0, 0, 0, 0, 0, 0, 0))
+Odd2C.ZERO = Object.freeze(new Odd2C(0, 0, 0, 0, 0, 0, 0, 0))

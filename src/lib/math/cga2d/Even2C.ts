@@ -1,5 +1,5 @@
 import { is_nearly } from '../is_nearly.js'
-import { COdd } from './COdd.js'
+import { Odd2C } from './Odd2C.js'
 
 export class Even2C {
   /**
@@ -57,7 +57,7 @@ export class Even2C {
 
   /**
    * Rescale the multivector so it has unit magnitude
-   * @returns {CEven}
+   * @returns {Even2C}
    */
   normalize() {
     const length = this.norm()
@@ -65,7 +65,7 @@ export class Even2C {
       return this
     }
 
-    return new CEven(
+    return new Even2C(
       this.scalar / length,
       this.xy / length,
       this.xp / length,
@@ -79,10 +79,10 @@ export class Even2C {
 
   /**
    * Negate all the coordinates of this multivector
-   * @returns {CEven}
+   * @returns {Even2C}
    */
   neg() {
-    return new CEven(
+    return new Even2C(
       -this.scalar,
       -this.xy,
       -this.xp,
@@ -96,8 +96,8 @@ export class Even2C {
 
   /**
    * Add two even multivectors together
-   * @param {CEven} other
-   * @returns {CEven}
+   * @param {Even2C} other
+   * @returns {Even2C}
    */
   add(other) {
     const scalar = this.scalar + other.scalar
@@ -109,13 +109,13 @@ export class Even2C {
     const pm = this.pm + other.pm
     const xypm = this.xypm + other.xypm
 
-    return new CEven(scalar, xy, xp, xm, yp, ym, pm, xypm)
+    return new Even2C(scalar, xy, xp, xm, yp, ym, pm, xypm)
   }
 
   /**
    * Subtract two even multivectors
-   * @param {CEven} other
-   * @returns {CEven}
+   * @param {Even2C} other
+   * @returns {Even2C}
    */
   sub(other) {
     const scalar = this.scalar - other.scalar
@@ -127,12 +127,12 @@ export class Even2C {
     const pm = this.pm - other.pm
     const xypm = this.xypm - other.xypm
 
-    return new CEven(scalar, xy, xp, xm, yp, ym, pm, xypm)
+    return new Even2C(scalar, xy, xp, xm, yp, ym, pm, xypm)
   }
 
   /**
    * Compute the Hodge dual
-   * @returns {CEven}
+   * @returns {Even2C}
    */
   dual() {
     // this_blade ^ abs_dual(this_blade) = sign * xypm
@@ -153,13 +153,13 @@ export class Even2C {
     const ym = -this.xp
     const pm = this.xy
     const xypm = this.scalar
-    return new CEven(scalar, xy, xp, xm, yp, ym, pm, xypm)
+    return new Even2C(scalar, xy, xp, xm, yp, ym, pm, xypm)
   }
 
   /**
    * in 2D CGA, the anti (hodge) dual of an even multivector
    * has the same signs as the dual, so we get this for free!
-   * @returns {CEven}
+   * @returns {Even2C}
    */
   antidual = this.dual
 
@@ -167,10 +167,10 @@ export class Even2C {
    * The reverse operation takes each blade and reverses the
    * order of basis vectors. This makes the bivector part
    * reverse orientation
-   * @returns {CEven}
+   * @returns {Even2C}
    */
   reverse() {
-    return new CEven(
+    return new Even2C(
       this.scalar,
       -this.xy,
       -this.xp,
@@ -183,8 +183,8 @@ export class Even2C {
   }
 
   /**
-   * Check if two CEven objects are equal
-   * @param {CEven} other
+   * Check if two Even2C objects are equal
+   * @param {Even2C} other
    */
   equals(other) {
     return (
@@ -205,8 +205,8 @@ export class Even2C {
 
   /**
    * Geometric product with an even multivector
-   * @param {CEven} even
-   * @returns {CEven}
+   * @param {Even2C} even
+   * @returns {Even2C}
    */
   gp_even(even) {
     const { scalar: As, xy: Axy, xp: Axp, xm: Axm, yp: Ayp, ym: Aym, pm: Apm, xypm: Axypm } = this
@@ -285,13 +285,13 @@ export class Even2C {
       Aym * Bxp +
       Ayp * Bxm
 
-    return new CEven(scalar, xy, xp, xm, yp, ym, pm, xypm)
+    return new Even2C(scalar, xy, xp, xm, yp, ym, pm, xypm)
   }
 
   /**
    * Geometric product with an odd multivector
-   * @param {COdd} odd
-   * @returns {COdd}
+   * @param {Odd2C} odd
+   * @returns {Odd2C}
    */
   gp_odd(odd) {
     const { scalar: As, xy: Axy, xp: Axp, xm: Axm, yp: Ayp, ym: Aym, pm: Apm, xypm: Axypm } = this
@@ -342,16 +342,16 @@ export class Even2C {
     const ypm =
       Apm * By + As * Bypm - Axm * Bxyp + Axp * Bxym - Axy * Bxpm - Axypm * Bx - Aym * Bp + Ayp * Bm
 
-    return new COdd(x, y, p, m, xyp, xym, xpm, ypm)
+    return new Odd2C(x, y, p, m, xyp, xym, xpm, ypm)
   }
 
   /**
    * Geometric Product
-   * @param {COdd | CEven} other
-   * @returns {COdd | CEven}
+   * @param {Odd2C | Even2C} other
+   * @returns {Odd2C | Even2C}
    */
   gp(other) {
-    if (other instanceof CEven) {
+    if (other instanceof Even2C) {
       return this.gp_even(other)
     }
 
@@ -360,8 +360,8 @@ export class Even2C {
 
   /**
    * Unit sandwich where the filling is an odd multivector
-   * @param {COdd} odd
-   * @returns {COdd}
+   * @param {Odd2C} odd
+   * @returns {Odd2C}
    */
   unit_sandwich_odd(odd) {
     return this.gp_odd(odd).gp_even(this.reverse())
@@ -369,8 +369,8 @@ export class Even2C {
 
   /**
    * Unit sandwich where the filling is an even multivector
-   * @param {CEven} even
-   * @returns {CEven}
+   * @param {Even2C} even
+   * @returns {Even2C}
    */
   unit_sandwich_even(even) {
     return this.gp_even(even).gp_even(this.reverse())
@@ -378,9 +378,9 @@ export class Even2C {
 
   /**
    * Compute the sandwich product A * B * A.rev() for unit versor A
-   * (i.e. a CEven that squares to 1).
-   * @param {CEven | COdd} other
-   * @returns {CEven | COdd}
+   * (i.e. a Even2C that squares to 1).
+   * @param {Even2C | Odd2C} other
+   * @returns {Even2C | Odd2C}
    */
   unit_sandwich(other) {
     return this.gp(other).gp(this.reverse())
@@ -388,10 +388,10 @@ export class Even2C {
 
   /**
    * Interpolate between even multivectors
-   * @param {CEven} a First multivector
-   * @param {CEven} b Second multivector
+   * @param {Even2C} a First multivector
+   * @param {Even2C} b Second multivector
    * @param {number} t Interpolation factor
-   * @returns {CEven} Interpolated value
+   * @returns {Even2C} Interpolated value
    */
   static lerp(a, b, t) {
     const s = 1 - t
@@ -405,9 +405,9 @@ export class Even2C {
     const pm = s * a.pm + t * b.pm
     const xypm = s * a.xypm + t * b.xypm
 
-    return new CEven(scalar, xy, xp, xm, yp, ym, pm, xypm)
+    return new Even2C(scalar, xy, xp, xm, yp, ym, pm, xypm)
   }
 }
-CEven.ZERO = Object.freeze(new CEven(0, 0, 0, 0, 0, 0, 0, 0))
-CEven.ONE = Object.freeze(new CEven(1, 0, 0, 0, 0, 0, 0, 0))
-CEven.IDENTITY = Object.freeze(new CEven(1, 0, 0, 0, 0, 0, 0, 0))
+Even2C.ZERO = Object.freeze(new Even2C(0, 0, 0, 0, 0, 0, 0, 0))
+Even2C.ONE = Object.freeze(new Even2C(1, 0, 0, 0, 0, 0, 0, 0))
+Even2C.IDENTITY = Object.freeze(new Even2C(1, 0, 0, 0, 0, 0, 0, 0))
