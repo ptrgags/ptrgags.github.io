@@ -22,6 +22,23 @@ describe('Direction2P', () => {
     expect(result).toBeDirection2P(expected)
   })
 
+  it('from_dimensions with Direction2P returns same object', () => {
+    const direction = new Direction2P(1, 2)
+
+    const result = Direction2P.from_dimensions(direction)
+
+    expect(result).toBe(direction)
+  })
+
+  it('from_dimensions with other dimensionlike returns Direction2P', () => {
+    const dimensions = { width: 3, height: 4 }
+
+    const result = Direction2P.from_dimensions(dimensions)
+
+    const expected = new Direction2P(3, 4)
+    expect(result).toBeDirection2P(expected)
+  })
+
   it('converts to point', () => {
     const a = new Direction2P(2, -5)
 

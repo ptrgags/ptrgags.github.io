@@ -2,6 +2,8 @@ import p5 from 'p5'
 import { GearSchematic, type GearSchematicOptions } from './GearSchematic.ts'
 import { GearTree, type SeriesGear } from './GearTree.ts'
 import { DrawP5 } from '../../lib/p5-helpers/DrawP5.ts'
+import { ATC_SCREEN, SWATCH } from '../../core/dimensions.ts'
+import type { Dimensionlike } from '../../lib/primitives/Dimensionlike.ts'
 
 const PAUSE = false
 
@@ -24,15 +26,16 @@ function series(tooth: number, child: GearTree): SeriesGear {
 }
 // ===========================================================
 
-const SIZE_SWATCH = { w: 256, h: 256 }
-const SIZE_ATC = { w: 500, h: 700 }
 const FRAMES_PER_TURN = 512
 
-function make_gear_sketch(gears: GearSchematic | GearTree, size = SIZE_SWATCH) {
+function make_gear_sketch(
+  gears: GearSchematic | GearTree,
+  size: Dimensionlike = SWATCH.dimensions,
+) {
   return (p: p5) => {
     const lib = new DrawP5(p)
     p.setup = () => {
-      p.createCanvas(size.w, size.h)
+      p.createCanvas(size.width, size.height)
       p.pixelDensity(1)
 
       if (gears instanceof GearTree) {
@@ -217,11 +220,11 @@ ELABORATE_TREE.position_gears({ x: 250, y: 550 })
 
 export const SKETCHES = {
   gear_schematic: make_gear_sketch(
-    new GearSchematic({ center: { x: 128, y: 128 }, module: MODULE, teeth: 24 }),
+    new GearSchematic({ center: SWATCH.center, module: MODULE, teeth: 24 }),
   ),
   meshed_gears: make_gear_sketch(MESHED_GEARS),
   meshed_at_angle: make_gear_sketch(MESHED_AT_ANGLE),
   coaxial_gears: make_gear_sketch(COAXIAL_GEARS),
   simple_tree: make_gear_sketch(SIMPLE_TREE),
-  elaborate_tree: make_gear_sketch(ELABORATE_TREE, SIZE_ATC),
+  elaborate_tree: make_gear_sketch(ELABORATE_TREE, ATC_SCREEN.dimensions),
 }
