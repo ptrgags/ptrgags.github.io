@@ -1,17 +1,24 @@
-import { Point } from '../../sketchlib/pga2d/Point.js'
+import { Point2P } from '../math/pga2d/Point2P.js'
+import type { Drawable } from './Drawable.js'
+import type { DrawingLibrary } from './DrawingLibrary.js'
+import type { Vec2 } from './Vec2.js'
 
 /**
  * Cubic Bezier curve
  */
-export class BezierPrimitive {
+export class BezierCurve implements Drawable {
+  a: Vec2
+  b: Vec2
+  c: Vec2
+  d: Vec2
   /**
    * Constructor
-   * @param {Point} a Start point
-   * @param {Point} b First tangent point
-   * @param {Point} c Second tangent point
-   * @param {Point} d End point
+   * @param {Vec2} a Start point
+   * @param {Vec2} b First tangent point
+   * @param {Vec2} c Second tangent point
+   * @param {Vec2} d End point
    */
-  constructor(a: Point, b: Point, c: Point, d: Point) {
+  constructor(a: Vec2, b: Vec2, c: Vec2, d: Vec2) {
     this.a = a
     this.b = b
     this.c = c
@@ -21,13 +28,13 @@ export class BezierPrimitive {
   /**
    * Convert from a B-spline to a bezier curve. B-splines can be used to
    * smooth out a sharp polygon into a smooth curve.
-   * @param {Point} b0 First control point
-   * @param {Point} b1 Second control point
-   * @param {Point} b2 Third control point
-   * @param {Point} b3 Fourth control point
+   * @param {Vec2} b0 First control point
+   * @param {Vec2} b1 Second control point
+   * @param {Vec2} b2 Third control point
+   * @param {Vec2} b3 Fourth control point
    * @returns {BezierPrimitive} The equivalent Bezier curve
    */
-  static from_b_spline(b0: Point, b1: Point, b2: Point, b3: Point): BezierPrimitive {
+  static from_b_spline(b0: Vec2, b1: Vec2, b2: Vec2, b3: Vec2): BezierCurve {
     // See https://en.wikipedia.org/wiki/B-spline#Cubic_B-Splines
 
     // To avoid a lot of temporary allocations, the polynomials are
@@ -39,25 +46,20 @@ export class BezierPrimitive {
 
     // p0 = 1/6(b0 + 4 b1 + b2)
     const sixth = 1 / 6
-    const p0 = new Point(sixth * (x0 + 4 * x1 + x2), sixth * (y0 + 4 * y1 + y2))
+    const p0 = new Point2P(sixth * (x0 + 4 * x1 + x2), sixth * (y0 + 4 * y1 + y2))
 
     // p1 and p2 are just 1/3 and 2/3 of the way across the line segment
     // between the middle points
-    const p1 = Point.lerp(b1, b2, 1 / 3)
-    const p2 = Point.lerp(b1, b2, 2 / 3)
+    const p1 = Point2P.lerp(b1, b2, 1 / 3)
+    const p2 = Point2P.lerp(b1, b2, 2 / 3)
 
-    // p3 =
-    const p3 = new Point(sixth * (x1 + 4 * x2 + x3), sixth * (y1 + 4 * y2 + y3))
+    const p3 = new Point2P(sixth * (x1 + 4 * x2 + x3), sixth * (y1 + 4 * y2 + y3))
 
-    return new BezierPrimitive(p0, p1, p2, p3)
+    return new BezierCurve(p0, p1, p2, p3)
   }
 
-  /**
-   * Draw a single bezier curve
-   * @param {import("p5")} p The p5.js library
-   */
-  draw(p: import('p5')) {
+  draw(lib: DrawingLibrary): void {
     const { a, b, c, d } = this
-    p.bezier(a.x, a.y, b.x, b.y, c.x, c.y, d.x, d.y)
+    lib.bezier(a, b, c, d)
   }
 }
