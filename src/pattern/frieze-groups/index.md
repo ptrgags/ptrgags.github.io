@@ -33,7 +33,7 @@ Frieze group `p11m` (translation, horizontal mirror)
 
 Frieze group `p1m1` (translation, vertical mirror)
 
-<SketchP5 :sketch="SKETCHES.p11m" />
+<SketchP5 :sketch="SKETCHES.p1m1" />
 
 Frieze group `p11g` (translation, glide reflection)
 

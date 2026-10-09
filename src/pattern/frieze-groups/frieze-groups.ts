@@ -86,7 +86,7 @@ function animation_frames(): Drawable {
 
 function p1(): Drawable {
   return new FriezeP1({
-    crs: new CRS12(SWATCH_WIDE.center, new Direction2P(32, 0)),
+    crs: new CRS12(SWATCH_WIDE.center.add(Direction2P.DIR_Y.scale(-32)), new Direction2P(32, 0)),
     x_range: [-9, 7],
     children: BOOKMARK_MOTIF,
   })
@@ -102,7 +102,7 @@ function p11m(): Drawable {
 
 function p1m1(): Drawable {
   return new FriezeP1M1({
-    crs: new CRS12(SWATCH_WIDE.center, new Direction2P(32, 0)),
+    crs: new CRS12(SWATCH_WIDE.center.add(Direction2P.DIR_Y.scale(-32)), new Direction2P(64, 0)),
     x_range: [-9, 7],
     children: BOOKMARK_MOTIF,
   })
@@ -119,7 +119,7 @@ function p11g(): Drawable {
 function p2(): Drawable {
   return new FriezeP2({
     crs: new CRS12(SWATCH_WIDE.center, new Direction2P(32, 0)),
-    x_range: [-9, 7],
+    x_range: [-9, 8],
     children: BOOKMARK_MOTIF,
   })
 }
