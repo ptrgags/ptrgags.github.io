@@ -27,6 +27,10 @@ we can make a sequence of animation frames. In other words,
 
 <SketchP5 :sketch="SKETCHES.animation_frames" />
 
+Frieze group `p2mg` (horizontal and vertical mirrors)
+
+<SketchP5 :sketch="SKETCHES.p2mg" />
+
 Frieze group `p2mm` (horizontal and vertical mirrors)
 
 <SketchP5 :sketch="SKETCHES.p2mm" />
