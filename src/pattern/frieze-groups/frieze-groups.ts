@@ -13,7 +13,15 @@ import { Oklch } from '../../lib/styling/Oklch.ts'
 import { Rect } from '../../lib/primitives/Rect.ts'
 import { lerp } from '../../lib/math/lerp.ts'
 import { SWATCH_WIDE } from '../../core/dimensions.ts'
-import { FriezeP11G, FriezeP2MG, FriezeP2MM } from '../../lib/symmetry/frieze_groups.ts'
+import {
+  FriezeP1,
+  FriezeP11G,
+  FriezeP11M,
+  FriezeP1M1,
+  FriezeP2,
+  FriezeP2MG,
+  FriezeP2MM,
+} from '../../lib/symmetry/frieze_groups.ts'
 
 const BOOKMARK_MOTIF = group(
   style(
@@ -76,8 +84,40 @@ function animation_frames(): Drawable {
   })
 }
 
+function p1(): Drawable {
+  return new FriezeP1({
+    crs: new CRS12(SWATCH_WIDE.center, new Direction2P(32, 0)),
+    x_range: [-9, 7],
+    children: BOOKMARK_MOTIF,
+  })
+}
+
+function p11m(): Drawable {
+  return new FriezeP11M({
+    crs: new CRS12(SWATCH_WIDE.center, new Direction2P(32, 0)),
+    x_range: [-9, 7],
+    children: BOOKMARK_MOTIF,
+  })
+}
+
+function p1m1(): Drawable {
+  return new FriezeP1M1({
+    crs: new CRS12(SWATCH_WIDE.center, new Direction2P(32, 0)),
+    x_range: [-9, 7],
+    children: BOOKMARK_MOTIF,
+  })
+}
+
 function p11g(): Drawable {
   return new FriezeP11G({
+    crs: new CRS12(SWATCH_WIDE.center, new Direction2P(32, 0)),
+    x_range: [-9, 7],
+    children: BOOKMARK_MOTIF,
+  })
+}
+
+function p2(): Drawable {
+  return new FriezeP2({
     crs: new CRS12(SWATCH_WIDE.center, new Direction2P(32, 0)),
     x_range: [-9, 7],
     children: BOOKMARK_MOTIF,
@@ -101,8 +141,11 @@ function p2mm(): Drawable {
 }
 
 export const SKETCHES = {
-  p1: make_static_sketch(SWATCH_WIDE.dimensions, repeat_test()),
+  p1: make_static_sketch(SWATCH_WIDE.dimensions, p1()),
+  p11m: make_static_sketch(SWATCH_WIDE.dimensions, p11m()),
+  p1m1: make_static_sketch(SWATCH_WIDE.dimensions, p1m1()),
   p11g: make_static_sketch(SWATCH_WIDE.dimensions, p11g()),
+  p2: make_static_sketch(SWATCH_WIDE.dimensions, p2()),
   p2mg: make_static_sketch(SWATCH_WIDE.dimensions, p2mg()),
   p2mm: make_static_sketch(SWATCH_WIDE.dimensions, p2mm()),
 

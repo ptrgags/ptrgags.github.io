@@ -40,7 +40,48 @@ interface FriezeOptions<S> {
   children: Drawable | ((slot: S) => Drawable)
 }
 
-export class FriezeP1 {}
+export class FriezeP1 {
+  primitive: SymmetryNode
+
+  constructor(options: FriezeOptions<FriezeP11GSlot>) {
+    const crs = options.crs
+    const [first, last] = options.x_range
+    const count = last - first + 1
+
+    const transformations = new Array(2 * count)
+    for (let i = 0; i < count; i++) {
+      const x = first + i
+      const offset = 2 * i
+      // TODO: This could be done more easily once we can compose transformations
+      const origin = crs.origin
+      const d = crs.offset(x)
+      const half_d = crs.basis_x.scale(0.5)
+      transformations[offset] = Rigid.translation(origin.add(d))
+      transformations[offset + 1] = new Rigid({
+        translation: origin.add(d).add(half_d),
+        flip: true,
+      })
+    }
+
+    let children: Drawable | Drawable[]
+    if (typeof options.children === 'function') {
+      children = new Array(2 * count)
+      for (let i = 0; i < count; i++) {
+        const offset = 2 * i
+        children[offset] = options.children({ i, glide: false })
+        children[offset + 1] = options.children({ i, glide: true })
+      }
+    } else {
+      children = options.children
+    }
+
+    this.primitive = new SymmetryNode(transformations, children)
+  }
+
+  draw(lib: DrawingLibrary): void {
+    this.primitive.draw(lib)
+  }
+}
 
 export class FriezeP11G {
   primitive: SymmetryNode
@@ -85,9 +126,131 @@ export class FriezeP11G {
   }
 }
 
-export class FriezeP11M {}
-export class FriezeP1M1 {}
-export class FriezeP2 {}
+export class FriezeP11M {
+  primitive: SymmetryNode
+
+  constructor(options: FriezeOptions<FriezeP2MMSlot>) {
+    const crs = options.crs
+    const [first, last] = options.x_range
+    const count = last - first + 1
+
+    const transformations = new Array(4 * count)
+    for (let i = 0; i < count; i++) {
+      const x = first + i
+      const offset = 4 * i
+      // TODO: This could be done more easily once we can compose transformations
+      const d = crs.position(x)
+      transformations[offset] = Rigid.translation(d)
+      transformations[offset + 1] = new Rigid({ translation: d, flip: true })
+      transformations[offset + 2] = new Rigid({ translation: d, rotation: Math.PI, flip: true })
+      transformations[offset + 3] = new Rigid({ translation: d, rotation: Math.PI })
+    }
+
+    let children: Drawable | Drawable[]
+    if (typeof options.children === 'function') {
+      children = new Array(4 * count)
+      for (let i = 0; i < count; i++) {
+        const offset = 4 * i
+        children[offset] = options.children({ i, flip_x: false, flip_y: false })
+        children[offset + 1] = options.children({ i, flip_x: true, flip_y: false })
+        children[offset + 2] = options.children({ i, flip_x: false, flip_y: true })
+        children[offset + 3] = options.children({ i, flip_x: true, flip_y: true })
+      }
+    } else {
+      children = options.children
+    }
+
+    this.primitive = new SymmetryNode(transformations, children)
+  }
+
+  draw(lib: DrawingLibrary): void {
+    this.primitive.draw(lib)
+  }
+}
+
+export class FriezeP1M1 {
+  primitive: SymmetryNode
+
+  constructor(options: FriezeOptions<FriezeP2MMSlot>) {
+    const crs = options.crs
+    const [first, last] = options.x_range
+    const count = last - first + 1
+
+    const transformations = new Array(4 * count)
+    for (let i = 0; i < count; i++) {
+      const x = first + i
+      const offset = 4 * i
+      // TODO: This could be done more easily once we can compose transformations
+      const d = crs.position(x)
+      transformations[offset] = Rigid.translation(d)
+      transformations[offset + 1] = new Rigid({ translation: d, flip: true })
+      transformations[offset + 2] = new Rigid({ translation: d, rotation: Math.PI, flip: true })
+      transformations[offset + 3] = new Rigid({ translation: d, rotation: Math.PI })
+    }
+
+    let children: Drawable | Drawable[]
+    if (typeof options.children === 'function') {
+      children = new Array(4 * count)
+      for (let i = 0; i < count; i++) {
+        const offset = 4 * i
+        children[offset] = options.children({ i, flip_x: false, flip_y: false })
+        children[offset + 1] = options.children({ i, flip_x: true, flip_y: false })
+        children[offset + 2] = options.children({ i, flip_x: false, flip_y: true })
+        children[offset + 3] = options.children({ i, flip_x: true, flip_y: true })
+      }
+    } else {
+      children = options.children
+    }
+
+    this.primitive = new SymmetryNode(transformations, children)
+  }
+
+  draw(lib: DrawingLibrary): void {
+    this.primitive.draw(lib)
+  }
+}
+
+export class FriezeP2 {
+  primitive: SymmetryNode
+
+  constructor(options: FriezeOptions<FriezeP2MMSlot>) {
+    const crs = options.crs
+    const [first, last] = options.x_range
+    const count = last - first + 1
+
+    const transformations = new Array(4 * count)
+    for (let i = 0; i < count; i++) {
+      const x = first + i
+      const offset = 4 * i
+      // TODO: This could be done more easily once we can compose transformations
+      const d = crs.position(x)
+      transformations[offset] = Rigid.translation(d)
+      transformations[offset + 1] = new Rigid({ translation: d, flip: true })
+      transformations[offset + 2] = new Rigid({ translation: d, rotation: Math.PI, flip: true })
+      transformations[offset + 3] = new Rigid({ translation: d, rotation: Math.PI })
+    }
+
+    let children: Drawable | Drawable[]
+    if (typeof options.children === 'function') {
+      children = new Array(4 * count)
+      for (let i = 0; i < count; i++) {
+        const offset = 4 * i
+        children[offset] = options.children({ i, flip_x: false, flip_y: false })
+        children[offset + 1] = options.children({ i, flip_x: true, flip_y: false })
+        children[offset + 2] = options.children({ i, flip_x: false, flip_y: true })
+        children[offset + 3] = options.children({ i, flip_x: true, flip_y: true })
+      }
+    } else {
+      children = options.children
+    }
+
+    this.primitive = new SymmetryNode(transformations, children)
+  }
+
+  draw(lib: DrawingLibrary): void {
+    this.primitive.draw(lib)
+  }
+}
 
 export class FriezeP2MG {
   primitive: SymmetryNode
