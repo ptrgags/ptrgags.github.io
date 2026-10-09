@@ -1,11 +1,5 @@
 import type p5 from 'p5'
-import type { DrawP5 } from '../../lib/p5-helpers/DrawP5.ts'
-import {
-  make_sketch,
-  make_static_sketch,
-  type SceneP5,
-  type StaticSceneP5,
-} from '../../lib/p5-helpers/sketches.ts'
+import { make_static_sketch } from '../../lib/p5-helpers/sketches.ts'
 import type { Drawable } from '../../lib/primitives/Drawable.ts'
 import { group, style } from '../../lib/primitives/shorthand.ts'
 import { Repeat1D } from '../../lib/symmetry/Repeat1D.ts'
@@ -18,8 +12,7 @@ import { Polygon } from '../../lib/primitives/Polygon.ts'
 import { Oklch } from '../../lib/styling/Oklch.ts'
 import { Rect } from '../../lib/primitives/Rect.ts'
 import { lerp } from '../../lib/math/lerp.ts'
-
-const FRIEZE_SIZE = new Direction2P(512, 128)
+import { SWATCH_WIDE } from '../../core/dimensions.ts'
 
 const BOOKMARK_MOTIF = group(
   style(
@@ -48,61 +41,42 @@ const BOOKMARK_MOTIF = group(
   ),
 )
 
-class RepeatTest implements StaticSceneP5 {
-  canvas_size = FRIEZE_SIZE
-  primitive: Drawable
-
-  constructor() {
-    const repeat = new Repeat1D({
-      crs: new CRS12(new Point2P(0, 32), new Direction2P(32, 0)),
-      x_range: [0, 15],
-      children: BOOKMARK_MOTIF,
-    })
-
-    this.primitive = repeat
-  }
+function repeat_test(): Drawable {
+  return new Repeat1D({
+    crs: new CRS12(new Point2P(0, 32), new Direction2P(32, 0)),
+    x_range: [0, 15],
+    children: BOOKMARK_MOTIF,
+  })
 }
 
-class Diagonal implements StaticSceneP5 {
-  canvas_size = FRIEZE_SIZE
-  primitive: Drawable
-
-  constructor() {
-    const repeat = new Repeat1D({
-      crs: new CRS12(new Point2P(0, 64), new Direction2P(32, -4)),
-      x_range: [0, 15],
-      children: BOOKMARK_MOTIF,
-    })
-
-    this.primitive = repeat
-  }
+function diagonal(): Drawable {
+  return new Repeat1D({
+    crs: new CRS12(new Point2P(0, 64), new Direction2P(32, -4)),
+    x_range: [0, 15],
+    children: BOOKMARK_MOTIF,
+  })
 }
 
-class AnimationFrames implements StaticSceneP5 {
-  canvas_size = FRIEZE_SIZE
-  primitive: Drawable
+function animation_frames(): Drawable {
+  const SPACING = 32
+  const N = 16
+  const COLOR_A = new Oklch(0.7, 0.2, 30)
+  const COLOR_B = new Oklch(0.7, 0.2, 200)
 
-  constructor() {
-    const SPACING = 32
-    const N = 16
-    const COLOR_A = new Oklch(0.7, 0.2, 30)
-    const COLOR_B = new Oklch(0.7, 0.2, 200)
-
-    this.primitive = new Repeat1D({
-      crs: new CRS12(new Point2P(0, 64), new Direction2P(SPACING, 0)),
-      x_range: [0, N - 1],
-      children: (slot) => {
-        const t = slot.i / (N - 1)
-        const color = Oklch.lerp(COLOR_A, COLOR_B, t)
-        const y = lerp(-64, 32, t)
-        return style(Style.flat(color), new Rect(new Point2P(0, y), new Direction2P(SPACING, 32)))
-      },
-    })
-  }
+  return new Repeat1D({
+    crs: new CRS12(new Point2P(0, 64), new Direction2P(SPACING, 0)),
+    x_range: [0, N - 1],
+    children: (slot) => {
+      const t = slot.i / (N - 1)
+      const color = Oklch.lerp(COLOR_A, COLOR_B, t)
+      const y = lerp(-64, 32, t)
+      return style(Style.flat(color), new Rect(new Point2P(0, y), new Direction2P(SPACING, 32)))
+    },
+  })
 }
 
 export const SKETCHES = {
-  p1: make_static_sketch(new RepeatTest()),
-  diagonal: make_static_sketch(new Diagonal()),
-  animation_frames: make_static_sketch(new AnimationFrames()),
+  p1: make_static_sketch(SWATCH_WIDE.dimensions, repeat_test()),
+  diagonal: make_static_sketch(SWATCH_WIDE.dimensions, diagonal()),
+  animation_frames: make_static_sketch(SWATCH_WIDE.dimensions, animation_frames()),
 }

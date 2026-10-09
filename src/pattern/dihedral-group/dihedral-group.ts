@@ -1,11 +1,6 @@
 import type p5 from 'p5'
 import type { DrawP5 } from '../../lib/p5-helpers/DrawP5.ts'
-import {
-  make_sketch,
-  make_static_sketch,
-  type SceneP5,
-  type StaticSceneP5,
-} from '../../lib/p5-helpers/sketches.ts'
+import { make_sketch, make_static_sketch, type SceneP5 } from '../../lib/p5-helpers/sketches.ts'
 import type { Drawable } from '../../lib/primitives/Drawable.ts'
 import { style, xform } from '../../lib/primitives/shorthand.ts'
 import { CircularArc } from '../../lib/primitives/CircularArc.ts'
@@ -15,18 +10,14 @@ import { AngleOrientation, ArcAngles } from '../../lib/primitives/ArcAngles.ts'
 import { Style } from '../../lib/styling/Style.ts'
 import { Rigid } from '../../lib/primitives/Rigid.ts'
 import { RepeatDihedral } from '../../lib/symmetry/RepeatDihedral.ts'
-import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
 import { RepeatMirror } from '../../lib/symmetry/RepeatMirror.ts'
 import { Color } from '../../lib/styling/Color.ts'
 import { LineSegment } from '../../lib/primitives/LineSegment.ts'
-
-const SIZE_SWATCH = new Direction2P(256, 256)
-const SCREEN_CENTER = new Point2P(128, 128)
+import { SWATCH } from '../../core/dimensions.ts'
 
 const START_ANGLES = new ArcAngles(Math.PI / 6, (3 * Math.PI) / 4, AngleOrientation.POSITIVE)
 
 class DihedralGroupTest implements SceneP5 {
-  canvas_size = SIZE_SWATCH
   arc: CircularArc
   primitive: Drawable
 
@@ -38,7 +29,7 @@ class DihedralGroupTest implements SceneP5 {
       children: this.arc,
     })
 
-    this.primitive = xform(Rigid.translation(SCREEN_CENTER), style(Style.DEFAULT_LINES, dihedral))
+    this.primitive = xform(Rigid.translation(SWATCH.center), style(Style.DEFAULT_LINES, dihedral))
   }
 
   update(p: p5): void {
@@ -52,27 +43,22 @@ class DihedralGroupTest implements SceneP5 {
   }
 }
 
-class MirrorGroupTest implements StaticSceneP5 {
-  canvas_size = SIZE_SWATCH
-  primitive: Drawable
-
-  constructor() {
-    this.primitive = xform(
-      Rigid.translation(SCREEN_CENTER),
-      new RepeatMirror({
-        children: (slot) => {
-          const color = slot.flipped ? Color.RED : Color.GREEN
-          return style(
-            Style.lines(color),
-            new LineSegment(new Point2P(-64, 64), new Point2P(64, -64)),
-          )
-        },
-      }),
-    )
-  }
+function mirror_group_test(): Drawable {
+  return xform(
+    Rigid.translation(SWATCH.center),
+    new RepeatMirror({
+      children: (slot) => {
+        const color = slot.flipped ? Color.RED : Color.GREEN
+        return style(
+          Style.lines(color),
+          new LineSegment(new Point2P(-64, 64), new Point2P(64, -64)),
+        )
+      },
+    }),
+  )
 }
 
 export const SKETCHES = {
-  dihedral_flower: make_sketch(new DihedralGroupTest()),
-  mirror_test: make_static_sketch(new MirrorGroupTest()),
+  dihedral_flower: make_sketch(SWATCH.dimensions, new DihedralGroupTest()),
+  mirror_test: make_static_sketch(SWATCH.dimensions, mirror_group_test()),
 }

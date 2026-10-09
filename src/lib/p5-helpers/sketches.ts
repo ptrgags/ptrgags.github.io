@@ -4,17 +4,16 @@ import { DrawP5 } from './DrawP5.ts'
 import type { Drawable } from '../primitives/Drawable.ts'
 
 export interface SceneP5 {
-  canvas_size: Dimensionlike
   // No setup() function, just use the constructor!
   update(p: p5): void
   draw(lib: DrawP5): void
 }
 
-export function make_sketch(scene: SceneP5) {
+export function make_sketch(canvas_size: Dimensionlike, scene: SceneP5) {
   return (p: p5) => {
     const lib = new DrawP5(p)
     p.setup = () => {
-      const { width, height } = scene.canvas_size
+      const { width, height } = canvas_size
       p.createCanvas(width, height)
       p.pixelDensity(1)
     }
@@ -27,24 +26,19 @@ export function make_sketch(scene: SceneP5) {
   }
 }
 
-export interface StaticSceneP5 {
-  canvas_size: Dimensionlike
-  get primitive(): Drawable
-}
-
 // Similar to make_sketch but for a sketch that will only render once
-export function make_static_sketch(scene: StaticSceneP5) {
+export function make_static_sketch(canvas_size: Dimensionlike, scene: Drawable) {
   return (p: p5) => {
     const lib = new DrawP5(p)
     p.setup = () => {
-      const { width, height } = scene.canvas_size
+      const { width, height } = canvas_size
       p.createCanvas(width, height)
       p.pixelDensity(1)
       p.noLoop()
 
       // Only render once
       p.background(0)
-      scene.primitive.draw(lib)
+      scene.draw(lib)
     }
   }
 }
