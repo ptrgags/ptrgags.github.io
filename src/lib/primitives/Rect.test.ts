@@ -1,11 +1,22 @@
 import { describe, it, expect } from 'vitest'
 import { Rect } from './Rect.ts'
+import { Point2P } from '../math/pga2d/Point2P.ts'
+import { Direction2P } from '../math/pga2d/Direction2P.ts'
 
 function make_container(): Rect {
   return new Rect({ x: 0, y: 0 }, { width: 100, height: 100 })
 }
 
 describe('Rect', () => {
+  it('center computes center', () => {
+    const rect = new Rect(new Point2P(-2, -4), new Direction2P(8, 8))
+
+    const result = rect.center
+
+    const expected = new Point2P(2, 0)
+    expect(result).toBePoint2P(expected)
+  })
+
   describe('align', () => {
     it('aligns smaller rectangle top-left', () => {
       const container = make_container()

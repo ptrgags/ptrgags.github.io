@@ -41,6 +41,10 @@ export class Direction2P implements Vec2, Dimensionlike {
   }
 
   static from_dimensions(dimensions: Dimensionlike): Direction2P {
+    if (dimensions instanceof Direction2P) {
+      return dimensions
+    }
+
     const { width, height } = dimensions
     return new Direction2P(width, height)
   }
