@@ -123,7 +123,7 @@ describe('Odd2C', () => {
 
     const result = Odd2C.lerp(a, b, 0.0)
 
-    expect(result).toBeEven2C(a)
+    expect(result).toBeOdd2C(a)
   })
 
   it('lerp with t one returns second point', () => {
