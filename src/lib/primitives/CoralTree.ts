@@ -14,7 +14,7 @@ import { group } from '../sketchlib/primitives/shorthand.js'
  * direction
  * @return {Direction} The halfway direction CCW from a to b as a unit direction
  */
-function halfway(a, b, tiebreak) {
+function halfway(a: Direction, b: Direction, tiebreak: Direction): Direction {
   // Tie break for straight angles
   if (is_nearly(a.dot(b), -1)) {
     return tiebreak
@@ -36,7 +36,7 @@ function halfway(a, b, tiebreak) {
  * @param {CoralNode} parent
  * @returns
  */
-function get_forward_dir(node, parent) {
+function get_forward_dir(node: CoralNode, parent: CoralNode) {
   if (parent) {
     return parent.circle.center.sub(node.circle.center).normalize()
   }
@@ -66,7 +66,7 @@ function get_forward_dir(node, parent) {
  * @param {number} num_children
  * @return {boolean[]}
  */
-function make_skip_between(num_children) {
+function make_skip_between(num_children: number): boolean[] {
   if (num_children < 2) {
     return []
   }
@@ -82,7 +82,7 @@ export class CoralNode {
    * @param {SkipSettings} skip A dictionary of points to skip when drawing the
    * curve. This can make more interesting coral shapes.
    */
-  constructor(circle, children = [], skip = {}) {
+  constructor(circle: Circle, children: CoralNode[] = [], skip: SkipSettings = {}) {
     this.circle = circle
     this.children = children
 
@@ -100,7 +100,7 @@ export class CoralNode {
    * @param {Point[]} output Output vertices to populate
    * @param {CoralNode} [parent] The parent node
    */
-  get_outline_vertices(output, parent) {
+  get_outline_vertices(output: Point[], parent: CoralNode) {
     const center = this.circle.center
     const radius = this.circle.radius
 
@@ -171,7 +171,7 @@ export class CoralNode {
    * Gather up all nodes into an array
    * @param {CoralNode[]} nodes The output node list
    */
-  get_all_nodes(nodes) {
+  get_all_nodes(nodes: CoralNode[]) {
     nodes.push(this)
 
     for (const child of this.children) {
@@ -185,14 +185,14 @@ export class CoralTree {
    * Constructor
    * @param {CoralNode} root Root node of tree
    */
-  constructor(root) {
+  constructor(root: CoralNode) {
     this.root = root
   }
 
   /**
    * @returns {Point[]}
    */
-  get_outline_vertices() {
+  get_outline_vertices(): Point[] {
     const vertices = []
     this.root.get_outline_vertices(vertices)
     return vertices
@@ -202,7 +202,7 @@ export class CoralTree {
    * Render the tree as an intricate beziergon
    * @returns {BeziergonPrimitive}
    */
-  render() {
+  render(): BeziergonPrimitive {
     return BeziergonPrimitive.interpolate_points(this.get_outline_vertices())
   }
 
@@ -210,7 +210,7 @@ export class CoralTree {
    *
    * @returns {GroupPrimitive}
    */
-  debug_render() {
+  debug_render(): GroupPrimitive {
     const nodes = []
     this.root.get_all_nodes(nodes)
     const circle_prims = nodes.map((node) => node.circle)
