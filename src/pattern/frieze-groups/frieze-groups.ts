@@ -13,6 +13,7 @@ import { Oklch } from '../../lib/styling/Oklch.ts'
 import { Rect } from '../../lib/primitives/Rect.ts'
 import { lerp } from '../../lib/math/lerp.ts'
 import { SWATCH_WIDE } from '../../core/dimensions.ts'
+import { FriezeP2MM } from '../../lib/symmetry/frieze_groups.ts'
 
 const BOOKMARK_MOTIF = group(
   style(
@@ -75,8 +76,18 @@ function animation_frames(): Drawable {
   })
 }
 
+function p2mm(): Drawable {
+  return new FriezeP2MM({
+    crs: new CRS12(SWATCH_WIDE.center, new Direction2P(64, 0)),
+    x_range: [-4, 4],
+    children: BOOKMARK_MOTIF,
+  })
+}
+
 export const SKETCHES = {
   p1: make_static_sketch(SWATCH_WIDE.dimensions, repeat_test()),
+  p2mm: make_static_sketch(SWATCH_WIDE.dimensions, p2mm()),
+
   diagonal: make_static_sketch(SWATCH_WIDE.dimensions, diagonal()),
   animation_frames: make_static_sketch(SWATCH_WIDE.dimensions, animation_frames()),
 }
