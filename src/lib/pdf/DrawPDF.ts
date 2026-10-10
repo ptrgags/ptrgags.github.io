@@ -6,15 +6,20 @@ import type { TextStyle } from '../styling/TextStyle.ts'
 import {
   fill,
   fillAndStroke,
+  lineTo,
+  moveTo,
   PDFOperator,
   PDFPage,
   popGraphicsState,
   pushGraphicsState,
   rectangle,
+  rotateRadians,
+  scale,
   setFillingRgbColor,
   setLineWidth,
   setStrokingRgbColor,
   stroke,
+  translate,
 } from 'pdf-lib'
 
 const OBNOXIOUSLY_PINK = new Style({
@@ -32,6 +37,7 @@ export class DrawPDF implements DrawingLibrary {
   }
 
   circle(cx: number, cy: number, radius: number): void {
+    // This will require splitting a circle into 4 bezier curves
     throw new Error('Method not implemented.')
   }
 
@@ -43,15 +49,26 @@ export class DrawPDF implements DrawingLibrary {
     angle2: number,
     orientation: 1 | -1,
   ): void {
+    // This will require splitting a circular arc into bezier curves
     throw new Error('Method not implemented.')
   }
 
   segment(x1: number, y1: number, x2: number, y2: number): void {
-    throw new Error('Method not implemented.')
+    this.page.pushOperators(moveTo(x1, y1), lineTo(x2, y2), this.current_draw_command)
   }
 
   polyline(points: Vec2[]): void {
-    throw new Error('Method not implemented.')
+    if (points.length < 2) {
+      return
+    }
+
+    this.page.pushOperators(moveTo(points[0].x, points[0].y))
+    for (let i = 1; i < points.length; i++) {
+      const { x, y } = points[i]
+      this.page.pushOperators(lineTo(x, y))
+    }
+
+    this.page.pushOperators(this.current_draw_command)
   }
 
   rect(x: number, y: number, width: number, height: number): void {
@@ -59,6 +76,7 @@ export class DrawPDF implements DrawingLibrary {
   }
 
   text(value: string, x: number, y: number): void {
+    // This will require some thought
     throw new Error('Method not implemented.')
   }
 
@@ -85,6 +103,7 @@ export class DrawPDF implements DrawingLibrary {
   }
 
   apply_text_style(text_style: TextStyle): void {
+    // This is going to require some thought, I need to align text manually
     throw new Error('Method not implemented.')
   }
 
@@ -94,7 +113,12 @@ export class DrawPDF implements DrawingLibrary {
     rotation: number,
     flip_y: boolean,
   ): void {
-    throw new Error('Method not implemented.')
+    const scale_y = flip_y ? -1 : 1
+    this.page.pushOperators(
+      translate(translation_x, translation_y),
+      rotateRadians(rotation),
+      scale(1, scale_y),
+    )
   }
 
   push(): void {
