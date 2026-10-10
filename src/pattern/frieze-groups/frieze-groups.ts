@@ -24,18 +24,20 @@ import {
 } from '../../lib/symmetry/frieze_groups.ts'
 
 const BOOKMARK_MOTIF = group(
+  // Top triangle
   style(
     new Style({
-      fill: Color.RED,
-      stroke: Color.BLACK,
+      fill: new Oklch(0.7, 0.1, 220),
+      stroke: new Oklch(0.3, 0.1, 220),
       width: 2,
     }),
     new Polygon([Point2P.ORIGIN, new Point2P(0, 32), new Point2P(32, 0)]),
   ),
+  // Bottom pentagon
   style(
     new Style({
-      fill: Color.GREEN,
-      stroke: Color.BLACK,
+      fill: new Oklch(0.4, 0.1, 270),
+      stroke: new Oklch(0.3, 0.1, 270),
       width: 2,
     }),
     new Polygon(
@@ -49,14 +51,6 @@ const BOOKMARK_MOTIF = group(
     ),
   ),
 )
-
-function repeat_test(): Drawable {
-  return new Repeat1D({
-    crs: new CRS12(new Point2P(0, 32), new Direction2P(32, 0)),
-    x_range: [0, 15],
-    children: BOOKMARK_MOTIF,
-  })
-}
 
 function diagonal(): Drawable {
   return new Repeat1D({
