@@ -56,6 +56,17 @@ export interface DrawingLibrary {
   polygon(points: Vec2[]): void
 
   /**
+   * Draw a single cubic bezier curve
+   */
+  bezier(a: Vec2, b: Vec2, c: Vec2, d: Vec2): void
+
+  /**
+   * Draw a curved polygon where the edges are Bezier curves.
+   * @param points
+   */
+  beziergon(points: Vec2[]): void
+
+  /**
    * Draw a rectangle
    * @param x x-coordinate of top left corner
    * @param y y-coordinate of top left corner
