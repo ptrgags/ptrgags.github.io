@@ -8,11 +8,11 @@ import { CRS12 } from '../../lib/math/CRS12.ts'
 import { Point2P } from '../../lib/math/pga2d/Point2P.ts'
 import { Style } from '../../lib/styling/Style.ts'
 import { Color } from '../../lib/styling/Color.ts'
-import { Polygon } from '../../lib/primitives/Polygon.ts'
 import { Oklch } from '../../lib/styling/Oklch.ts'
 import { Rect } from '../../lib/primitives/Rect.ts'
 import { lerp } from '../../lib/math/lerp.ts'
 import { SWATCH_WIDE } from '../../core/dimensions.ts'
+import { Polyline } from '../../lib/primitives/Polyline.ts'
 
 const BOOKMARK_MOTIF = group(
   style(
@@ -21,7 +21,10 @@ const BOOKMARK_MOTIF = group(
       stroke: Color.BLACK,
       width: 2,
     }),
-    new Polygon([Point2P.ORIGIN, new Point2P(0, 32), new Point2P(32, 0)]),
+    new Polyline({
+      vertices: [Point2P.ORIGIN, new Point2P(0, 32), new Point2P(32, 0)],
+      closed: true,
+    }),
   ),
   style(
     new Style({
@@ -29,15 +32,16 @@ const BOOKMARK_MOTIF = group(
       stroke: Color.BLACK,
       width: 2,
     }),
-    new Polygon(
-      Point2P.from_pairs([
+    new Polyline({
+      vertices: Point2P.from_pairs([
         [0, 32],
         [0, 64],
         [16, 48],
         [32, 64],
         [32, 0],
       ]),
-    ),
+      closed: true,
+    }),
   ),
 )
 

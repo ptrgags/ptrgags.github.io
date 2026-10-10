@@ -4,6 +4,8 @@ import type { Style } from '../styling/Style.ts'
 import { is_nearly } from '../math/is_nearly.ts'
 import type { HorizontalTextAlign, TextStyle, VerticalTextAlign } from '../styling/TextStyle.ts'
 import type { Vec2 } from '../primitives/Vec2.ts'
+import type { BezierCurve } from '../primitives/BezierCurve.ts'
+import { LineSegment } from '../primitives/LineSegment.ts'
 
 /**
  * Convert string align values to p5.js constants
@@ -75,20 +77,43 @@ export class DrawP5 implements DrawingLibrary {
     this.p.line(x1, y1, x2, y2)
   }
 
-  polyline(points: Vec2[]): void {
-    this.p.beginShape()
-    for (const { x, y } of points) {
-      this.p.vertex(x, y)
-    }
-    this.p.endShape()
+  bezier(a: Vec2, b: Vec2, c: Vec2, d: Vec2): void {
+    this.p.bezier(a.x, a.y, b.x, b.y, c.x, c.y, d.x, d.y)
   }
 
-  polygon(points: Vec2[]): void {
+  polyline(points: Vec2[], closed: boolean): void {
     this.p.beginShape()
     for (const { x, y } of points) {
       this.p.vertex(x, y)
     }
-    this.p.endShape(this.p.CLOSE)
+    const close_flag = closed ? this.p.CLOSE : undefined
+    this.p.endShape(close_flag)
+  }
+
+  path(parts: (LineSegment | BezierCurve)[], closed: boolean): void {
+    if (parts.length < 1) {
+      return
+    }
+
+    this.p.beginShape()
+    const { x: start_x, y: start_y } = parts[0].start
+    this.p.vertex(start_x, start_y)
+    for (const part of parts) {
+      // Since paths are relative to the current point, we skip the
+      // start point of each path part
+      if (part instanceof LineSegment) {
+        const { x, y } = part.end
+        this.p.vertex(x, y)
+      } else {
+        const { b, c, d } = part
+        this.p.bezierVertex(b.x, b.y)
+        this.p.bezierVertex(c.x, c.y)
+        this.p.bezierVertex(d.x, d.y)
+      }
+    }
+
+    const close_flag = closed ? this.p.CLOSE : undefined
+    this.p.endShape(close_flag)
   }
 
   rect(x: number, y: number, width: number, height: number): void {
