@@ -15,7 +15,7 @@ export class StyleOp implements Drawable {
   }
 
   draw(lib: DrawingLibrary): void {
-    lib.apply_style(this.style)
+    lib.begin_style(this.style)
     this.child.draw(lib)
   }
 }
