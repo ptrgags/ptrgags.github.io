@@ -1,5 +1,7 @@
 import type { Style } from '../styling/Style.ts'
 import type { TextStyle } from '../styling/TextStyle.ts'
+import type { BezierCurve } from './BezierCurve.ts'
+import type { LineSegment } from './LineSegment.ts'
 import type { Vec2 } from './Vec2.ts'
 
 /**
@@ -44,16 +46,27 @@ export interface DrawingLibrary {
   segment(x1: number, y1: number, x2: number, y2: number): void
 
   /**
-   * Draw a polyline (open polygon)
-   * @param points The points to draw
+   * Draw many line segments at once
+   * @param vertices vertices
+   * @param closed If true, draw a final line segment from end to start. This makes a closed polygon
    */
-  polyline(points: Vec2[]): void
+  polyline(vertices: Vec2[], closed: boolean): void
 
   /**
-   * Draw a polygon (always closed)
-   * @param points The points to draw
+   * Draw a single bezier curve
+   * @param a Start point
+   * @param b Tangent point for start
+   * @param c Tangent point for end
+   * @param d End
    */
-  polygon(points: Vec2[]): void
+  bezier(a: Vec2, b: Vec2, c: Vec2, d: Vec2): void
+
+  /**
+   * Draw a path
+   * @param parts Line segments and bezier curves.
+   * @param closed If true, the path will be closed with a straight line
+   */
+  path(parts: (LineSegment | BezierCurve)[], closed: boolean): void
 
   /**
    * Draw a rectangle
