@@ -58,7 +58,7 @@ class PathTest implements SceneP5 {
     })
 
     this.primitive = group(
-      style(Style.lines(Color.CYAN), bezier.control_polygon),
+      style(Style.lines(Color.CYAN), bezier.control_polyline),
       style(Style.DEFAULT_LINES, bezier),
       style(Style.flat(Color.YELLOW), polygon),
       style(Style.flat(Color.RED), xform(Rigid.translation(new Direction2P(-64, 0)), path)),

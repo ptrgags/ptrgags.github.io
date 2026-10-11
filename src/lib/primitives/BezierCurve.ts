@@ -30,7 +30,10 @@ export class BezierCurve implements Drawable {
     return this.b
   }
 
-  get control_polygon(): Polyline {
+  /**
+   * Get a polyline through the 4 control points
+   */
+  get control_polyline(): Polyline {
     return new Polyline({ vertices: [this.a, this.b, this.c, this.d], closed: false })
   }
 
