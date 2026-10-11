@@ -1,5 +1,6 @@
 import type { Drawable } from './Drawable.ts'
 import type { DrawingLibrary } from './DrawingLibrary.ts'
+import { Polyline } from './Polyline.ts'
 import type { Vec2 } from './Vec2.ts'
 
 export class BezierCurve implements Drawable {
@@ -27,6 +28,10 @@ export class BezierCurve implements Drawable {
    */
   get end(): Vec2 {
     return this.b
+  }
+
+  get control_polygon(): Polyline {
+    return new Polyline({ vertices: [this.a, this.b, this.c, this.d], closed: false })
   }
 
   draw(lib: DrawingLibrary): void {
