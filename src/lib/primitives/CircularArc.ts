@@ -1,50 +1,11 @@
 import { divmod } from '../math/divmod.ts'
 import { is_nearly } from '../math/is_nearly.ts'
+import { quarter_circle_bezier, small_arc_bezier } from './arc_to_bezier.ts'
 import type { ArcAngles } from './ArcAngles.ts'
 import { BezierCurve } from './BezierCurve.ts'
 import type { Circle } from './Circle.ts'
 import type { Drawable } from './Drawable.ts'
 import type { DrawingLibrary } from './DrawingLibrary.ts'
-
-// TODO: The control points for the arc could be hard coded, then all we'd have to do is transform them
-function quarter_circle_bezier(circle: Circle, phase: number): BezierCurve {
-  const a = circle.position(phase)
-  const tangent_a = circle.unit_tangent(phase)
-  const d = circle.position(phase + Math.PI / 2)
-  const tangent_d = circle.unit_tangent(phase + Math.PI / 2)
-
-  // TODO: Need to revisit the derivation
-  const x = (circle.radius * (4 * (Math.SQRT2 - 1))) / 3
-
-  const b = a.add(tangent_a.scale(x))
-  const c = d.add(tangent_d.scale(x).neg())
-
-  return new BezierCurve(a, b, c, d)
-}
-
-/**
- * More general arc to bezier curve for an arc that subtends at most a quarter circle
- * @param circle
- * @param phase Start angle for the curve
- * @param subtended_angle Angle of the arc
- * @returns
- */
-function small_arc_bezier(circle: Circle, phase: number, subtended_angle: number): BezierCurve {
-  const a = circle.position(phase)
-  const tangent_a = circle.unit_tangent(phase)
-  const d = circle.position(phase + subtended_angle)
-  const tangent_d = circle.unit_tangent(phase + subtended_angle)
-
-  const mid = circle.position(phase + 0.5 * subtended_angle)
-
-  // TODO: Need to figure out this derivation
-  const x = (circle.radius * (4 * (Math.SQRT2 - 1))) / 3
-
-  const b = a.add(tangent_a.scale(x))
-  const c = d.add(tangent_d.scale(x).neg())
-
-  return new BezierCurve(a, b, c, d)
-}
 
 export class CircularArc implements Drawable {
   circle: Circle
@@ -90,8 +51,10 @@ export class CircularArc implements Drawable {
     if (!is_nearly(remaining, 0)) {
       const curve = small_arc_bezier(
         this.circle,
-        this.angles.start_angle + (quarters * Math.PI) / 2,
+        // subtended angle
         remaining,
+        // phase
+        this.angles.start_angle + (quarters * Math.PI) / 2,
       )
       result.push(curve)
     }
