@@ -31,4 +31,9 @@ export class ArcAngles {
   phase_shift(delta: number): ArcAngles {
     return new ArcAngles(this.start_angle + delta, this.end_angle + delta, this.orientation)
   }
+
+  static readonly SEMICIRCLES: [ArcAngles, ArcAngles] = [
+    new ArcAngles(0, Math.PI, AngleOrientation.POSITIVE),
+    new ArcAngles(Math.PI, 2.0 * Math.PI, AngleOrientation.POSITIVE),
+  ]
 }
