@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, computed } from 'vue'
-import { Engine, type Machine } from '../webgpu/Engine'
+import { Engine, type Machine } from '../lib/webgpu/Engine'
 
 const props = defineProps<{
   machine: Machine

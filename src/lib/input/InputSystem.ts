@@ -1,9 +1,9 @@
-import { UniformArray, UniformStruct, UniformType } from '../webgpu/UniformBuffer'
-import { GamepadInput } from './GamepadInput'
-import type { AnalogSignal, DigitalSignal } from './Signal'
-import { KeyboardInput } from './KeyboardInput'
-import { MidiInput } from './MidiInput'
-import { PointerInput } from './PointerInput'
+import { UniformArray, UniformStruct, UniformType } from '../webgpu/UniformBuffer.js'
+import { GamepadInput } from './GamepadInput.js'
+import type { AnalogSignal, DigitalSignal } from './Signal.js'
+import { KeyboardInput } from './KeyboardInput.js'
+import { MidiInput } from './MidiInput.js'
+import { PointerInput } from './PointerInput.js'
 import { LocalClock } from './LocalClock.js'
 
 const DIGITAL_VECTORS = 2

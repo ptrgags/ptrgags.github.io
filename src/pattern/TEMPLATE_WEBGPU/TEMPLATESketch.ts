@@ -1,6 +1,10 @@
-import type { Machine } from '../../webgpu/Engine.js'
-import { SHADER_LIBRARY } from '../../webgpu/ShaderLibrary'
-import { QuadMachine, QuadUVMode, type QuadMachineSketch } from '../../webgpu/machines/QuadMachine'
+import type { Machine } from '../../lib/webgpu/Engine.js'
+import { SHADER_LIBRARY } from '../../lib/webgpu/ShaderLibrary.js'
+import {
+  QuadMachine,
+  QuadUVMode,
+  type QuadMachineSketch,
+} from '../../lib/webgpu/machines/QuadMachine.js'
 import SHADER from './TEMPLATE.wgsl?url'
 
 export class TEMPLATESketch implements QuadMachineSketch {

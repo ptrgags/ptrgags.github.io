@@ -14,7 +14,7 @@ import XFORM_SHADER from '../shaders/libraries/transformations.wgsl?url'
 import CAMERA_SHADER from '../shaders/libraries/camera.wgsl?url'
 import ORTHO_SHADER from '../shaders/libraries/ortho.wgsl?url'
 import INPUT_UNIFORMS_SHADER from '../shaders/machines/input_uniforms.wgsl?url'
-import { fetch_text } from '../lib/fetch_text.ts'
+import { fetch_text } from '../fetch_text.ts'
 
 export class LazyShader {
   url: string
