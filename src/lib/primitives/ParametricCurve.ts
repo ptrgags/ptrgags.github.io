@@ -24,6 +24,7 @@ export class ParametricCurve implements Drawable {
   }
 
   draw(lib: DrawingLibrary): void {
-    lib.polyline(this.points)
+    const closed = false
+    lib.polyline(this.points, closed)
   }
 }
