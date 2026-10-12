@@ -10,7 +10,7 @@ export class SVGCommand {
   }
 
   static bezier_vertex(b: Vec2, c: Vec2, d: Vec2): string {
-    return `C ${b.x} ${b.y}, ${c.x} ${c.y}`
+    return `C ${b.x} ${b.y}, ${c.x} ${c.y}, ${d.x} ${d.y}`
   }
 
   static readonly CLOSE_PATH = 'Z'

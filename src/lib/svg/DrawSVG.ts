@@ -43,7 +43,9 @@ export class DrawSVG implements DrawingLibrary {
 
     const { x, y } = options.view_box.position
     const { width, height } = options.view_box.dimensions
-    svg.setAttribute('viewBox', `${x} ${y}, ${width}, ${height}`)
+    svg.setAttribute('viewBox', `${x} ${y} ${width} ${height}`)
+    svg.setAttribute('width', width.toString())
+    svg.setAttribute('height', height.toString())
 
     this.root = svg
     this.stack = [svg]
@@ -144,7 +146,7 @@ export class DrawSVG implements DrawingLibrary {
     throw new Error('Method not implemented.')
   }
 
-  apply_style(style: Style): void {
+  begin_style(style: Style): void {
     const attributes = {}
     apply_svg_style(attributes, style)
     const g = svg_tag('g', attributes)

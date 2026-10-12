@@ -91,7 +91,13 @@ export interface DrawingLibrary {
    * color.
    * @param style The style to apply
    */
-  apply_style(style: Style): void
+  begin_style(style: Style): void
+
+  /**
+   * Finish styling
+   * @param style
+   */
+  end_style(): void
 
   /**
    * Apply text styling, including font size and alignment
