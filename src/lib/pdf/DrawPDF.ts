@@ -1,9 +1,13 @@
+import type { BezierCurve } from '../primitives/BezierCurve.ts'
 import type { DrawingLibrary } from '../primitives/DrawingLibrary.ts'
+import { LineSegment } from '../primitives/LineSegment.ts'
 import type { Vec2 } from '../primitives/Vec2.ts'
 import { Color } from '../styling/Color.ts'
 import { Style } from '../styling/Style.ts'
 import type { TextStyle } from '../styling/TextStyle.ts'
 import {
+  appendBezierCurve,
+  closePath,
   fill,
   fillAndStroke,
   lineTo,
@@ -33,6 +37,16 @@ export class DrawPDF implements DrawingLibrary {
 
   constructor(page: PDFPage) {
     this.page = page
+
+    // TODO: Flip coordinates so the page is specified
+    // y-down like a screen.
+    // TODO: adjust the scale since the primitive is measured in
+    // pixels while PDF uses points (1/72 of an inch)
+    /*
+    const height = page.getHeight()
+    this.apply_rigid(0, height, 0, true)
+    */
+
     this.style_stack = []
   }
 
@@ -68,6 +82,37 @@ export class DrawPDF implements DrawingLibrary {
       this.page.pushOperators(lineTo(x, y))
     }
 
+    this.page.pushOperators(this.current_draw_command)
+  }
+
+  bezier(a: Vec2, b: Vec2, c: Vec2, d: Vec2): void {
+    this.page.pushOperators(
+      moveTo(a.x, a.y),
+      appendBezierCurve(b.x, b.y, c.x, c.y, d.x, d.y),
+      this.current_draw_command,
+    )
+  }
+
+  path(parts: (LineSegment | BezierCurve)[], closed: boolean): void {
+    if (parts.length === 0) {
+      return
+    }
+
+    const { x: start_x, y: start_y } = parts[0].start
+    this.page.pushOperators(moveTo(start_x, start_y))
+    for (const part of parts) {
+      if (part instanceof LineSegment) {
+        const { x, y } = part.end
+        this.page.pushOperators(lineTo(x, y))
+      } else {
+        const { b, c, d } = part
+        this.page.pushOperators(appendBezierCurve(b.x, b.y, c.x, c.y, d.x, d.y))
+      }
+    }
+
+    if (closed) {
+      this.page.pushOperators(closePath())
+    }
     this.page.pushOperators(this.current_draw_command)
   }
 

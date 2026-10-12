@@ -91,7 +91,7 @@ export class DrawP5 implements DrawingLibrary {
   }
 
   path(parts: (LineSegment | BezierCurve)[], closed: boolean): void {
-    if (parts.length < 1) {
+    if (parts.length === 0) {
       return
     }
 

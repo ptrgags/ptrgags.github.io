@@ -3,16 +3,19 @@ import type { Drawable } from '../primitives/Drawable.ts'
 import type { Dimensionlike } from '../primitives/Dimensionlike.ts'
 import { DrawPDF } from './DrawPDF.ts'
 
+// PDF uses 72 points per inch
+const INCH = 72
+
 export interface MakePDFOptions {
   filename: string
   scene: Drawable
-  page_size: Dimensionlike
+  page_size_inches: Dimensionlike
 }
 
 export async function make_pdf(options: MakePDFOptions): Promise<File> {
   const document = await PDFDocument.create()
-  const { width, height } = options.page_size
-  const page = document.addPage([width, height])
+  const { width, height } = options.page_size_inches
+  const page = document.addPage([width * INCH, height * INCH])
 
   const lib = new DrawPDF(page)
 
