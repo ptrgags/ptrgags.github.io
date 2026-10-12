@@ -19,26 +19,26 @@ import { SongMeterPrimitive } from './SongMeterPrimitive.ts'
 import { Rect } from '../../lib/primitives/Rect.ts'
 import type { Vec2 } from '../../lib/primitives/Vec2.ts'
 import { make_sketch, make_static_sketch, type SceneP5 } from '../../lib/p5-helpers/sketches.ts'
+import { SWATCH_WIDE } from '../../core/dimensions.ts'
 
-const ROW_SIZE = { width: 512, height: 128 }
 const TIMELINE_SIZE = { width: 384, height: 64 }
-const BOUNDS_ROW = new Rect({ x: 0, y: 0 }, ROW_SIZE)
-const BOUNDS_TIMELINE = BOUNDS_ROW.align(TIMELINE_SIZE, 'center', 'center')
+const BOUNDS_TIMELINE = SWATCH_WIDE.align(TIMELINE_SIZE, 'center', 'center')
 const PULSE_COUNT = 24
 const MEASURE_COUNT = PULSE_COUNT / 4
 const PIXELS_PER_PULSE = TIMELINE_SIZE.width / PULSE_COUNT
 const METER_RADIUS = (5 / 8) * TIMELINE_SIZE.height
 
 function make_size(rows: number): Dimensionlike {
+  const { width, height } = SWATCH_WIDE.dimensions
   return {
-    width: ROW_SIZE.width,
-    height: rows * ROW_SIZE.height,
+    width: width,
+    height: rows * height,
   }
 }
 
 function make_cursor(rows: number): TimelineCursor {
   const { x } = BOUNDS_TIMELINE.position
-  const r = 0.5 * rows * ROW_SIZE.height
+  const r = 0.5 * rows * SWATCH_WIDE.dimensions.height
 
   return new TimelineCursor({ x, y: r }, r, PIXELS_PER_PULSE)
 }
@@ -47,7 +47,7 @@ function meter_start(row: number): Vec2 {
   const { x, y } = BOUNDS_TIMELINE.position
   return {
     x: x,
-    y: row * ROW_SIZE.height + y + 0.5 * TIMELINE_SIZE.height,
+    y: row * SWATCH_WIDE.dimensions.height + y + 0.5 * TIMELINE_SIZE.height,
   }
 }
 
@@ -164,33 +164,22 @@ class CommonTime implements SceneP5 {
   }
 }
 
-class TimeSignatures implements SceneP5 {
-  canvas_size = make_size(4)
-  meters = [new Meter(4, 4, 1), new Meter(2, 2, 1), new Meter(3, 4, 1), new Meter(12, 8, 1)]
-  measure_counts = [6, 6, 8, 4]
-  meter_diagrams: MeterPrimitive[]
-  primitive: Drawable
+function time_signatures(): Drawable {
+  const meters = [new Meter(4, 4, 1), new Meter(2, 2, 1), new Meter(3, 4, 1), new Meter(12, 8, 1)]
+  const measure_counts = [6, 6, 8, 4]
+  const meter_diagrams = meters.map(
+    (x, i) =>
+      new MeterPrimitive({
+        meter: x,
+        measure_count: measure_counts[i],
+        position: meter_start(i),
+        radius: METER_RADIUS,
+        beat_spacing: PIXELS_PER_PULSE,
+        show_pickup_beats: false,
+      }),
+  )
 
-  constructor() {
-    this.meter_diagrams = this.meters.map(
-      (x, i) =>
-        new MeterPrimitive({
-          meter: x,
-          measure_count: this.measure_counts[i],
-          position: meter_start(i),
-          radius: METER_RADIUS,
-          beat_spacing: PIXELS_PER_PULSE,
-          show_pickup_beats: false,
-        }),
-    )
-
-    this.primitive = group(...this.meter_diagrams)
-  }
-
-  update(p: p5): void {}
-  draw(lib: DrawP5): void {
-    this.primitive.draw(lib)
-  }
+  return group(...meter_diagrams)
 }
 
 class MeasureNumbers implements SceneP5 {
@@ -334,10 +323,10 @@ class Showcase implements SceneP5 {
 }
 
 export const SKETCHES = {
-  pulse: make_sketch(new BasicPulse()),
-  common_time: make_sketch(new CommonTime()),
-  time_signatures: make_static_sketch(new TimeSignatures()),
-  measure_numbers: make_sketch(new MeasureNumbers()),
-  mixed_meters: make_sketch(new MixedMeter()),
-  showcase: make_sketch(new Showcase()),
+  pulse: make_sketch(make_size(1), new BasicPulse()),
+  common_time: make_sketch(make_size(2), new CommonTime()),
+  time_signatures: make_static_sketch(make_size(4), time_signatures()),
+  measure_numbers: make_sketch(make_size(1), new MeasureNumbers()),
+  mixed_meters: make_sketch(make_size(2), new MixedMeter()),
+  showcase: make_sketch(make_size(1), new Showcase()),
 }
