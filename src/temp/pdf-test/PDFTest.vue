@@ -13,6 +13,13 @@ const TEST_SCENE = group(
   style(Style.lines(Color.BLACK, 2), new Rect(new Point2P(10, 10), new Direction2P(100, 200))),
 )
 
+// Hide the PDF toolbar in the <object> tag to avoid including
+// an AI summary button (at least in Chromium browsers)
+function hide_toolbars(pdf_url: string): string {
+  // see https://stackoverflow.com/a/36715963
+  return `${pdf_url}#toolbar=0&navpanes=0`
+}
+
 onMounted(async () => {
   const file = await make_pdf({
     filename: 'test.pdf',
@@ -27,6 +34,24 @@ onMounted(async () => {
 </script>
 
 <template>
-  <!--<object v-if="pdf_url" type="application/pdf" width="500" height="700" :data="pdf_url"></object>-->
-  <embed v-if="pdf_url" type="application/pdf" width="500" height="700" :src="pdf_url + '#toolbar=0&navpanes=0'"></embed>
+  <object
+    class="pdf-viewer"
+    v-if="pdf_url"
+    type="application/pdf"
+    width="500"
+    height="700"
+    :data="hide_toolbars(pdf_url)"
+  ></object>
 </template>
+
+<style scoped>
+.pdf-viewer {
+  max-width: 60vw;
+}
+
+@media screen and (width >= 800px) {
+  .pdf-viewer {
+    max-width: none;
+  }
+}
+</style>
