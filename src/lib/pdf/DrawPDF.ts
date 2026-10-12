@@ -42,10 +42,8 @@ export class DrawPDF implements DrawingLibrary {
     // y-down like a screen.
     // TODO: adjust the scale since the primitive is measured in
     // pixels while PDF uses points (1/72 of an inch)
-    /*
     const height = page.getHeight()
     this.apply_rigid(0, height, 0, true)
-    */
 
     this.style_stack = []
   }

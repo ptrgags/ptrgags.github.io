@@ -10,10 +10,26 @@ import { Point2P } from '../../lib/math/pga2d/Point2P'
 import SketchP5 from '../../components/SketchP5.vue'
 import { make_static_sketch } from '../../lib/p5-helpers/sketches'
 import { ATC_SCREEN } from '../../core/dimensions'
+import { Path } from '../../lib/primitives/Path.ts'
+import { BezierCurve } from '../../lib/primitives/BezierCurve.ts'
 const pdf_url: Ref<string | undefined> = ref(undefined)
 
 const TEST_SCENE = group(
   style(Style.lines(Color.RED, 2), new Rect(new Point2P(10, 10), new Direction2P(100, 200))),
+  style(
+    Style.flat(Color.BLUE),
+    new Path({
+      parts: [
+        new BezierCurve(
+          new Point2P(0, 0),
+          new Point2P(128, 64),
+          new Point2P(128, 192),
+          new Point2P(0, 256),
+        ),
+      ],
+      closed: true,
+    }),
+  ),
 )
 
 // Hide the PDF toolbar in the <object> tag to avoid including
@@ -39,7 +55,10 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="horizontal">
+  <div class="vertical">
+    <SketchP5 :sketch="sketch"></SketchP5>
+    <br />
+
     <object
       class="pdf-viewer"
       v-if="pdf_url"
@@ -48,8 +67,6 @@ onMounted(async () => {
       height="700"
       :data="hide_toolbars(pdf_url)"
     ></object>
-
-    <SketchP5 :sketch="sketch"></SketchP5>
   </div>
 </template>
 
