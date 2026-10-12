@@ -1,8 +1,8 @@
 import { UniformArray, UniformStruct, UniformType } from '../webgpu/UniformBuffer.js'
-import { GamepadInput } from './GamepadInput.js'
-import type { AnalogSignal, DigitalSignal } from './Signal.js'
-import { KeyboardInput } from './KeyboardInput.js'
-import { MidiInput } from './MidiInput.js'
+//import { GamepadInput } from './GamepadInput.js'
+import type { AnalogSignal, DigitalSignal } from './Signal'
+//import { KeyboardInput } from './KeyboardInput.js'
+//import { MidiInput } from './MidiInput.js'
 import { PointerInput } from './PointerInput.js'
 import { LocalClock } from './LocalClock.js'
 
@@ -22,10 +22,10 @@ export interface UniformConfigDescriptor {
 }
 
 export class InputSystem {
-  midi: MidiInput
+  //midi: MidiInput
   use_midi: boolean
-  gamepad: GamepadInput
-  keyboard: KeyboardInput
+  //gamepad: GamepadInput
+  //keyboard: KeyboardInput
   pointer: PointerInput
   clock: LocalClock
 
@@ -34,10 +34,10 @@ export class InputSystem {
   analog_signals: AnalogSignal[] = []
 
   constructor(canvas: HTMLCanvasElement, use_midi: boolean) {
-    this.midi = new MidiInput()
+    //this.midi = new MidiInput()
     this.use_midi = use_midi
-    this.gamepad = new GamepadInput()
-    this.keyboard = new KeyboardInput()
+    //this.gamepad = new GamepadInput()
+    //this.keyboard = new KeyboardInput()
     this.pointer = new PointerInput(canvas)
     this.clock = new LocalClock()
 
@@ -64,12 +64,14 @@ export class InputSystem {
   }
 
   init() {
+    /*
     if (this.use_midi) {
       this.midi.request_midi()
     }
 
     this.gamepad.init()
     this.keyboard.init()
+    */
     this.pointer.init()
   }
 
@@ -105,7 +107,7 @@ export class InputSystem {
   }
 
   update(device: GPUDevice, time: number) {
-    this.gamepad.update()
+    //this.gamepad.update()
 
     this.update_digital(time)
     this.update_analog(time)

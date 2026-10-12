@@ -1,5 +1,5 @@
-import { Vec2 } from '../core/Vec2'
-import { ObserverSignal, type AnalogSignal, type DigitalSignal } from './Signal'
+import type { Vec2 } from '../primitives/Vec2.ts'
+import { ObserverSignal, type AnalogSignal, type DigitalSignal } from './Signal.ts'
 
 export function prevent_mobile_scroll(canvas: HTMLCanvasElement) {
   const callback = (e: TouchEvent) => {
@@ -21,7 +21,7 @@ function compute_position(canvas: HTMLCanvasElement, client_x: number, client_y:
   const bounding_rect = canvas.getBoundingClientRect()
   const x = client_x - bounding_rect.left
   const y = client_y - bounding_rect.top
-  return new Vec2(x, y)
+  return { x, y }
 }
 
 function clamp(x: number, a: number, b: number): number {
@@ -41,7 +41,7 @@ export class PointerInput {
 
   constructor(canvas: HTMLCanvasElement) {
     this.pressed = false
-    this.position = new Vec2(0, 0)
+    this.position = { x: 0, y: 0 }
     this.canvas = canvas
   }
 

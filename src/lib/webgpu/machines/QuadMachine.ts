@@ -1,11 +1,13 @@
-import { fetch_text } from '../core/fetch_text'
-import type { Machine } from '../webgpu/Engine'
-import { VertexAttribute, VertexBuffer } from '../webgpu/VertexBuffer'
-import { compile_shader } from '../webgpu/compile_shader'
-import { RenderPipeline } from '../webgpu/RenderPipeline'
-import type { BindGroup } from '../webgpu/BindGroup'
-import type { InputSystem } from '../input/InputSystem'
-import { LazyShader, MACHINE_LIBRARY } from '../core/ShaderLibrary'
+import type { Machine } from '../Engine'
+import { VertexAttribute, VertexBuffer } from '../VertexBuffer'
+import { compile_shader } from '../compile_shader'
+import type { BindGroup } from '../BindGroup'
+import type { InputSystem } from '../../input/InputSystem'
+import { fetch_text } from '../../fetch_text'
+import { RenderPipeline } from '../RenderPipeline'
+import URL_QUAD_SHADER from './quad_machine.wgsl?url'
+import { LazyShader } from '../LazyShader.ts'
+import { MACHINE_LIBRARY } from '../ShaderLibrary.ts'
 
 // This should go somewhere more common.
 const WIDTH = 500
@@ -78,6 +80,8 @@ export interface QuadMachineSketch {
   update?: (time: number) => void
 }
 
+const QUAD_SHADER = new LazyShader(URL_QUAD_SHADER)
+
 export class QuadMachine implements Machine {
   private sketch: QuadMachineSketch
   private vertex_buffer: VertexBuffer
@@ -115,7 +119,7 @@ export class QuadMachine implements Machine {
     const import_promises = imports.map((x) => x.fetch_wgsl())
     const shader_module = await compile_shader(device, [
       MACHINE_LIBRARY.input_uniforms.fetch_wgsl(),
-      MACHINE_LIBRARY.quad.fetch_wgsl(),
+      QUAD_SHADER.fetch_wgsl(),
       ...import_promises,
       fetch_text(this.sketch.shader_url),
     ])

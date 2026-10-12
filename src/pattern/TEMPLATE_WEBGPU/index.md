@@ -7,7 +7,7 @@ hide: true
 thumbnail: pattern/TEMPLATE/thumbnail.png
 ---
 <script setup lang="ts">
-import WebGPUCard from "../../components/WebGPUCard.vue"
+import SketchWebGPU from "../../components/SketchWebGPU.vue"
 import {TEMPLATESketch as Sketch} from "./TEMPLATESketch"
 const machine = Sketch.make_machine();
 </script>
@@ -15,4 +15,3 @@ const machine = Sketch.make_machine();
 <SketchWebGPU :machine="machine" />
 
 DESCRIPTION GOES HERE
-1
