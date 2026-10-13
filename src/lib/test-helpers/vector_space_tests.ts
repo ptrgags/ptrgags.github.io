@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest'
 import type { VectorSpace } from '../math/VectorSpace.ts'
-import type { Equals } from '../types/Equals.ts'
 
 export interface VectorTestOptions<V> {
   label: string
@@ -67,8 +66,11 @@ export function vector_space_tests<V>(options: VectorTestOptions<V>) {
       const [a, expected_neg] = options.add_inverse
 
       const result = vs.neg(a)
+      const sum = vs.add(a, result)
 
       expect(vs.equals(result, expected_neg)).toBe(true)
+      // verify that the inverse law holds
+      expect(vs.equals(sum, vs.zero())).toBe(true)
     })
 
     it('sub is the same as adding neg', () => {

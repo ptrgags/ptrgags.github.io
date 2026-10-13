@@ -13,6 +13,10 @@ export class Group<G> {
     this.ops = ops
   }
 
+  equals(a: G, b: G): Boolean {
+    return this.ops.equals(a, b)
+  }
+
   identity(): G {
     return this.ops.identity()
   }
