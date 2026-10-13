@@ -1,223 +1,237 @@
-import { is_inf } from "../is_inf"
-import { is_nearly } from "../is_nearly"
+import { is_inf } from '../is_inf'
+import { is_nearly } from '../is_nearly'
 
 export class Complex {
-    real: number
-    imag: number
+  real: number
+  imag: number
 
-    constructor(real: number, imag: number = 0) {
-        if (isNaN(real) || isNaN(imag)) {
-            throw new Error("NaN NaN NaN NaN NaN NaN NaN NaN BatNaN!")
-        }
-
-        if (is_nearly(real, 0) && is_nearly(imag, 0)) {
-            this.real = 0
-            this.imag = 0
-        }
-
-        if (is_inf(real) || is_inf(imag)) {
-            this.real = Infinity
-            this.imag = Infinity
-        }
-
-        this.real = real
-        this.imag = imag
+  constructor(real: number, imag: number = 0) {
+    if (isNaN(real) || isNaN(imag)) {
+      throw new Error('NaN NaN NaN NaN NaN NaN NaN NaN BatNaN!')
     }
 
-    get is_inf() {
-        // The constructor enforces that both components will be infinity
-        // if either of them were.
-        return this.real === Infinity
+    if (is_nearly(real, 0) && is_nearly(imag, 0)) {
+      this.real = 0
+      this.imag = 0
     }
 
-    get is_zero() {
-        // The constructor enforces that both components will be exactly 0
-        return this.real === 0 && this.imag === 0
+    if (is_inf(real) || is_inf(imag)) {
+      this.real = Infinity
+      this.imag = Infinity
     }
 
-    static from_polar(r: number, theta: number): Complex {
-        if (r === 0.0) {
-            return Complex.ZERO;
-        }
+    this.real = real
+    this.imag = imag
+  }
 
-        let (s, c) = theta.sin_cos();
-        Complex.Finite(r * c, r * s)
+  get is_inf() {
+    // The constructor enforces that both components will be infinity
+    // if either of them were.
+    return this.real === Infinity
+  }
+
+  get is_zero() {
+    // The constructor enforces that both components will be exactly 0
+    return this.real === 0 && this.imag === 0
+  }
+
+  static from_polar(r: number, theta: number): Complex {
+    if (r === 0.0) {
+      return Complex.ZERO
     }
 
-    static roots_of_unity(n: number): Complex[] {
-        let angle = (number.consts.TAU) / (n as number);
-        (0..n)
-            .map(|i| {
-                let theta = (i as number) * angle;
-                let (s, c) = theta.sin_cos();
-                Complex.Finite(c, s)
-            })
-            .collect()
+    const s = Math.sin(theta)
+    const c = Math.cos(theta)
+
+    return new Complex(r * c, r * s)
+  }
+
+  static roots_of_unity(n: number): Complex[] {
+    const result = new Array(n)
+    for (let i = 0; i < n; i++) {
+      const angle = (2.0 * Math.PI) / n
+      const c = Math.cos(i * angle)
+      const s = Math.sin(i * angle)
+      result[i] = new Complex(c, s)
+    }
+    return result
+  }
+
+  get is_real(): boolean {
+    return is_nearly(this.imag, 0.0)
+  }
+
+  get is_imag(): boolean {
+    return is_nearly(this.real, 0.0)
+  }
+
+  get is_finite(): boolean {
+    return !this.is_zero && !this.is_inf
+  }
+
+  get norm(): number {
+    if (this.is_inf) {
+      return Infinity
     }
 
-    get is_real(): boolean {
-        is_nearly(this.imag, 0.0)
+    if (this.is_zero) {
+      return 0
     }
 
-    is_imag(): boolean {
-        is_nearly(this.real, 0.0)
+    const { real, imag } = this
+    return real * real + imag * imag
+  }
+
+  get mag(): number {
+    return Math.sqrt(this.norm)
+  }
+
+  get arg(): number | undefined {
+    if (this.is_inf || this.is_zero) {
+      return undefined
     }
 
-    get is_finite(): boolean {
-        return !(this.is_zero) && !this.is_inf
+    return Math.atan2(this.imag, this.real)
+  }
+
+  get conj(): Complex {
+    if (this.is_zero || this.is_inf) {
+      return this
     }
 
-    get norm(): number {
-        if (this.is_inf) {
-            return Infinity
-        }
+    return new Complex(this.real, -this.imag)
+  }
 
-        if (this.is_zero) {
-            return 0
-        }
-
-        const {real, imag} = this
-        return real * real + imag * imag
+  get inv(): Complex {
+    if (this.is_inf) {
+      return Complex.ZERO
     }
 
-    get mag(): number {
-        return Math.sqrt(this.norm)
+    if (this.is_zero) {
+      return Complex.INF
     }
 
-    get arg(): number | undefined {
-        if (this.is_inf || this.is_zero) {
-            return undefined
-        }
+    const { real: a, imag: b } = this
 
-        return Math.atan2(this.imag, this.real)
+    // 1/z = conj(z) / |z|^2 = (a - bi) / (a^2 + b^2)
+
+    const denom = a * a + b * b
+    return new Complex(a / denom, -b / denom)
+  }
+
+  get sqrt(): Complex {
+    if (this.is_zero || this.is_inf) {
+      return this
     }
 
-    get conj(): Complex {
-        if (this.is_zero || this.is_inf) {
-            return this
-        }
+    const r = this.mag
+    // We already handled 0 and inf but TypeScript can't infer that.
+    const theta = this.arg ?? 0
 
-        return new Complex(this.real, -this.imag)
+    const sqrt_r = Math.sqrt(r)
+    const half_theta = theta / 2.0
+    return Complex.from_polar(sqrt_r, half_theta)
+  }
+
+  add(other: Complex): Complex {
+    if (this.is_inf || other.is_inf) {
+      return Complex.INF
     }
 
-    inv(): Complex {
-        match Complex {
-            Complex.Zero => Complex.Infinity,
-            Complex.Infinity => Complex.Zero,
-            // 1/z = conj(z) / |z|^2 = (a - bi) / (a^2 + b^2)
-            Complex.Finite(a, b) => {
-                let denom = a * a + b * b;
-                Complex.Finite(a / denom, -b / denom)
-            }
-        }
+    const { real: a, imag: b } = this
+    const { real: c, imag: d } = other
+    return new Complex(a + c, b + d)
+  }
+
+  sub(other: Complex): Complex {
+    if (this.is_inf && other.is_inf) {
+      throw new Error("can't subtract infinity from infinity!")
     }
 
-    sqrt(): Complex {
-        match Complex {
-            Complex.Zero => Complex.Zero,
-            Complex.Infinity => Complex.Infinity,
-            Complex.Finite(_, _) => {
-                let r = Complex.mag();
-                let theta = Complex.arg().expect("arg z = None for finite complex number!");
-
-                let sqrt_r = r.sqrt();
-                let half_theta = theta / 2.0;
-                Complex.from_polar(sqrt_r, half_theta)
-            }
-        }
+    if (this.is_inf || other.is_inf) {
+      return Complex.INF
     }
 
-    fn add(Complex, rhs: Complex): Complex.Output {
-        match (Complex, rhs) {
-            (Complex.Zero, rhs) => rhs,
-            (Complex.Infinity, _) => Complex.Infinity,
-            (lhs, Complex.Zero) => lhs,
-            (_, Complex.Infinity) => Complex.Infinity,
-            (Complex.Finite(a, b), Complex.Finite(c, d)) => Complex.new(a + c, b + d),
-        }
+    const { real: a, imag: b } = this
+    const { real: c, imag: d } = other
+    return new Complex(a - c, b - d)
+  }
+
+  mul(other: Complex): Complex {
+    if ((this.is_zero && other.is_inf) || (this.is_inf && other.is_zero)) {
+      throw new Error("can't multiply zero and infinity!")
     }
 
-    fn sub(Complex, rhs: Complex): Complex.Output {
-        Complex + (-rhs)
+    if (this.is_zero || other.is_zero) {
+      return Complex.ZERO
     }
 
-    mul(Complex, rhs: Complex): Complex.Output {
-        match (Complex, rhs) {
-            (Complex.Zero, Complex.Infinity) => panic!("Multiplying zero and infinity!"),
-            (Complex.Infinity, Complex.Zero) => panic!("Multiplying infinity and zero!"),
-            (Complex.Zero, _) => Complex.Zero,
-            (Complex.Infinity, _) => Complex.Infinity,
-            (_, Complex.Zero) => Complex.Zero,
-            (_, Complex.Infinity) => Complex.Infinity,
-            (Complex.Finite(a, b), Complex.Finite(c, d)) => {
-                Complex.Finite(a * c - b * d, a * d + b * c)
-            }
-        }
+    if (this.is_inf || other.is_inf) {
+      return Complex.INF
     }
 
-    get neg(): Complex {
-        if (this.is_inf) {
-            return Complex.INF
+    const { real: a, imag: b } = this
+    const { real: c, imag: d } = other
+    return new Complex(a * c - b * d, a * d + b * c)
+  }
 
-        }
-
-        if (this.is_zero) {
-            return Complex.ZERO
-        }
-
-        if (this.is_finite) {
-            const {real, imag} = this
-            return new Complex(-real, -imag)
-        }
+  get neg(): Complex {
+    if (this.is_inf) {
+      return Complex.INF
     }
 
-    div(other: Complex): Complext {
-        return this.mul(other.inv)
+    if (this.is_zero) {
+      return Complex.ZERO
     }
 
-    dot(other: Complex): number {
-        return this.mul(other.conj).real()
+    const { real, imag } = this
+    return new Complex(-real, -imag)
+  }
+
+  div(other: Complex): Complex {
+    return this.mul(other.inv)
+  }
+
+  dot(other: Complex): number {
+    return this.mul(other.conj).real
+  }
+
+  wedge(other: Complex): number {
+    return this.conj.mul(other).imag
+  }
+
+  equals(other: Complex): boolean {
+    if ((this.is_zero && other.is_zero) || (this.is_inf && other.is_inf)) {
+      return true
     }
 
-    wedge(other: Complex): number {
-        return (this.conj.mul(other)).imag()
+    if (this.is_finite && other.is_finite) {
+      return is_nearly(this.real, other.real) && is_nearly(this.imag, other.imag)
     }
 
-    equals(other: Complex): boolean {
-        if ((this.is_zero && other.is_zero) || (this.is_inf && other.is_inf)) {
-            return true
-        }
+    return false
+  }
 
-        if (this.is_finite && other.is_finite) {
-
-
-        return is_nearly(this.real, other.real) && is_nearly(this.imag, other.imag)
-        }
-
-        return false
+  toString(): string {
+    if (this.is_inf) {
+      return '♾️'
     }
 
-    toString(): string {
-        if (this.is_inf) {
-            return "♾️"
-        }
-
-        if (this.is_zero) {
-            return "0"
-        }
-
-
-        if (is_nearly(this.imag, 0.0)) {
-       return  format!("{:.3}", a)
-    } else if (is_nearly(this.real, 0.0)) {
-        return format!("{:.3}i", b)
-    } 
-        return format!("({:.3} + {:.3}i)", a, b)
-
+    if (this.is_zero) {
+      return '0'
     }
 
-    static readonly ZERO = new Complex(0)
-    static readonly ONE = new Complex(1)
-    static readonly I = new Complex(0, 1)
-    static readonly INF = new Complex(Infinity, Infinity)
+    if (this.is_real) {
+      return this.real.toFixed(3)
+    } else if (this.is_imag) {
+      return `${this.imag.toFixed(3)}i`
+    }
+
+    return `(${this.real.toFixed(3)} + ${this.imag.toFixed(3)}i)`
+  }
+
+  static readonly ZERO = new Complex(0)
+  static readonly ONE = new Complex(1)
+  static readonly I = new Complex(0, 1)
+  static readonly INF = new Complex(Infinity, Infinity)
 }
