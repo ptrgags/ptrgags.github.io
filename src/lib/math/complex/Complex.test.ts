@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { Complex, VSComplex } from './Complex'
+import { Complex, GComplexAdd, GComplexMul, VSComplex } from './Complex'
 import { vector_space_tests } from '../../test-helpers/vector_space_tests'
+import { group_tests } from '../../test-helpers/group_tests'
 
 describe('Complex', () => {
   it.for([
@@ -120,6 +121,22 @@ describe('Complex', () => {
 
     expect(result).toEqual(pole)
   })
+})
+
+group_tests({
+  label: 'Complex',
+  group: GComplexAdd,
+  associativity: [new Complex(1, 2), new Complex(-3, 5), new Complex(1, 2), new Complex(4, 4)],
+  identity_law: new Complex(3, -4),
+  inverse: [new Complex(2, 2), new Complex(1, 1)],
+})
+
+group_tests({
+  label: 'Complex',
+  group: GComplexMul,
+  associativity: [new Complex(1, 2), new Complex(-3, 5), new Complex(1, 2), new Complex(4, 4)],
+  identity_law: new Complex(3, -4),
+  inverse: [new Complex(2, 2), new Complex(1, 1)],
 })
 
 // see interface definition
