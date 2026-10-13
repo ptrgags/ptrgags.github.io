@@ -1,133 +1,122 @@
-#[cfg(test)]
-mod test {
-    use super::*;
-    use test_case::test_case;
+import { describe, it, expect } from 'vitest'
+import { Complex } from './Complex'
 
-    #[test]
-    pub fn missing_tests() {
-        todo!("wedge tests");
-    }
+describe('Complex', () => {
+  it.for([
+    { real: -3.0, imag: NaN, label: 'NaN in imaginary part' },
+    { real: NaN, imag: 3.0, label: 'NaN in real part' },
+    { real: NaN, imag: NaN, label: 'NaN in both components' },
+  ])('constructor throws for $label', ({ real, imag }) => {
+    expect(() => {
+      return new Complex(real, imag)
+    }).toThrow('nan')
+  })
 
-    #[test_case(-3.0, f64::NAN; "NaN in imaginary part")]
-    #[test_case(f64::NAN, 3.0; "NaN in real part")]
-    #[test_case(f64::NAN, f64::NAN; "NaN in both components")]
-    #[should_panic]
-    pub fn new_panics_for_nan(real: f64, imag: f64) {
-        Complex::new(real, imag);
-    }
+  it.for([
+    { real: Infinity, imag: 3.0, label: 'inf in real part' },
+    { real: -Infinity, imag: 3.0, label: 'neg inf in real part' },
+    { real: 4.0, imag: Infinity, label: 'inf in imag part' },
+    { real: 4.0, imag: -Infinity, label: 'neg inf in imag part' },
+    { real: Infinity, imag: -Infinity, label: 'inf in both parts' },
+  ])('constructor returns INF for $label', ({ real, imag }) => {
+    const result = new Complex(real, imag)
 
-    #[test_case(f64::INFINITY, 3.0; "inf in real part")]
-    #[test_case(-f64::INFINITY, 3.0; "neg inf in real part")]
-    #[test_case(4.0, f64::INFINITY; "inf in imag part")]
-    #[test_case(4.0, -f64::INFINITY; "neg inf in imag part")]
-    #[test_case(f64::INFINITY, -f64::INFINITY; "inf in both parts")]
-    pub fn new_returns_infinity_for_infinite_component(real: f64, imag: f64) {
-        let result = Complex::new(real, imag);
+    expect(result).toEqual(Complex.INF)
+  })
 
-        assert_eq!(result, Complex::Infinity)
-    }
+  it('new_returns_zero_for_exactly_zero', () => {
+    const result = new Complex(0.0, 0.0)
 
-    #[test]
-    pub fn new_returns_zero_for_exactly_zero() {
-        let result = Complex::new(0.0, 0.0);
+    expect(result).toEqual(Complex.ZERO)
+  })
 
-        assert_eq!(result, Complex::Zero);
-    }
+  it.for([
+    { real: 1.0, imag: 0.0, label: '1' },
+    { real: -1.0, imag: 0.0, label: 'negative 1' },
+    { real: 0.0, imag: 1.0, label: 'i' },
+    { real: 3.0, imag: -4.0, label: 'arbitrary complex number' },
+  ])('constructor with $label returns finite complex', ({ real, imag }) => {
+    const result = new Complex(real, imag)
 
-    #[test_case(1.0, 0.0; "1")]
-    #[test_case(-1.0, 0.0; "negative 1")]
-    #[test_case(0.0, 1.0; "i")]
-    #[test_case(3.0, -4.0; "arbitrary complex number")]
-    pub fn new_returns_finite_for_other_values(real: f64, imag: f64) {
-        let result = Complex::new(real, imag);
+    const expected = new Complex(real, imag)
+    expect(result).toEqual(expected)
+  })
 
-        assert_eq!(result, Complex::Finite(real, imag));
-    }
+  it('from_polar_computes_one', () => {
+    const result = Complex.from_polar(1, 0)
 
-    #[test]
-    pub fn from_polar_computes_one() {
-        let result = Complex::from_polar(1.0, 0.0);
+    expect(result).toEqual(Complex.ONE)
+  })
 
-        assert_eq!(result, Complex::Finite(1.0, 0.0));
-    }
+  it('from_polar with pi/2 computes I', () => {
+    const result = Complex.from_polar(1.0, Math.PI / 2)
 
-    #[test]
-    pub fn from_polar_computes_i() {
-        let result = Complex::from_polar(1.0, f64::consts::FRAC_PI_2);
+    expect(result).toEqual(Complex.I)
+  })
 
-        assert_eq!(result, Complex::Finite(0.0, 1.0));
-    }
+  it('from_polar computes arbitrary point', () => {
+    const result = Complex.from_polar(2.0, Math.PI / 3)
 
-    #[test]
-    pub fn from_polar_computes_arbitrary_point() {
-        let result = Complex::from_polar(2.0, f64::consts::FRAC_PI_3);
+    // From high school trig, a 30 degree angle will give (cos, sin) = (1/2, sqrt(3)/2)
+    // but the radius of 2 clears the denominator
+    let expected = new Complex(1.0, Math.sqrt(3))
+    expect(result).toEqual(expected)
+  })
 
-        // From high school trig, a 30 degree angle will give (cos, sin) = (1/2, sqrt(3)/2)
-        // but the radius of 2 clears the denominator
-        let expected = Complex::Finite(1.0, (3.0f64).sqrt());
-        assert_eq!(result, expected);
-    }
+  it('is_finite with infinity returns false', () => {
+    const result = Complex.INF.is_finite
 
-    #[test]
-    pub fn is_finite_with_infinity_returns_false() {
-        let result = Complex::Infinity.is_finite();
+    expect(result).toBe(false)
+  })
 
-        assert!(!result);
-    }
+  it('is_finite with zero returns true', () => {
+    const result = Complex.ZERO.is_finite
 
-    #[test]
-    pub fn is_finite_with_zero_returns_true() {
-        let result = Complex::Zero.is_finite();
+    expect(result).toBe(true)
+  })
 
-        assert!(result);
-    }
+  it('is_finite with finite complex returns true', () => {
+    const result = new Complex(1.0, 2.0).is_finite
 
-    #[test]
-    pub fn is_finite_with_finite_complex_returns_true() {
-        let result = Complex::Finite(1.0, 2.0).is_finite();
+    expect(result).toBe(true)
+  })
 
-        assert!(result);
-    }
+  it('sum_of_additive_inverses_is_zero', () => {
+    const a = new Complex(3.0, 4.0)
+    const b = new Complex(-3.0, -4.0)
 
-    #[test]
-    pub fn sum_of_additive_inverses_is_zero() {
-        let a = Complex::Finite(3.0, 4.0);
-        let b = Complex::Finite(-3.0, -4.0);
+    const sum = a.add(b)
 
-        let sum = a + b;
+    expect(sum).toEqual(Complex.ZERO)
+  })
 
-        assert_eq!(sum, Complex::Zero);
-    }
+  it('sum_of_finites_is_finite', () => {
+    const a = new Complex(10.0, 2.0)
+    const b = new Complex(3.0, 5.0)
 
-    #[test]
-    pub fn sum_of_finites_is_finite() {
-        let a = Complex::Finite(10.0, 2.0);
-        let b = Complex::Finite(3.0, 5.0);
+    const sum = a.add(b)
 
-        let sum = a + b;
+    expect(sum).toEqual(new Complex(13.0, 7.0))
+  })
 
-        assert_eq!(sum, Complex::Finite(13.0, 7.0));
-    }
+  it('display_formats_zero_as_zero', () => {
+    const result = Complex.ZERO.toString()
 
-    #[test]
-    pub fn display_formats_zero_as_zero() {
-        let result = format!("{}", Complex::Zero);
+    expect(result).toEqual('0')
+  })
 
-        assert_eq!(result, "0")
-    }
+  it('display_formats_infinity_as_emoji', () => {
+    const result = Complex.INF.toString()
 
-    #[test]
-    pub fn display_formats_infinity_as_emoji() {
-        let result = format!("{}", Complex::Infinity);
+    expect(result).toEqual('♾️')
+  })
 
-        assert_eq!(result, "♾️")
-    }
+  it.for([
+    { pole: Complex.ZERO, label: 'zero' },
+    { pole: Complex.INF, label: 'infinity' },
+  ])('sqrt fixes $label', ({ pole }) => {
+    const result = pole.sqrt
 
-    #[test_case(Complex::Zero; "zero")]
-    #[test_case(Complex::Infinity; "infinity")]
-    pub fn sqrt_fixes_poles(pole: Complex) {
-        let result = pole.sqrt();
-
-        assert_eq!(result, pole)
-    }
-}
+    expect(result).toEqual(pole)
+  })
+})
