@@ -1,7 +1,9 @@
+import type { Vec2 } from '../../primitives/Vec2'
 import { is_inf } from '../is_inf'
 import { is_nearly } from '../is_nearly'
+import { VectorSpace } from '../VectorSpace'
 
-export class Complex {
+export class Complex implements Vec2 {
   real: number
   imag: number
 
@@ -20,6 +22,14 @@ export class Complex {
       this.real = real
       this.imag = imag
     }
+  }
+
+  get x() {
+    return this.real
+  }
+
+  get y() {
+    return this.imag
   }
 
   get is_inf() {
@@ -233,3 +243,32 @@ export class Complex {
   static readonly I = new Complex(0, 1)
   static readonly INF = new Complex(Infinity, Infinity)
 }
+
+export const VSComplex = new VectorSpace<Complex>({
+  equals(a, b) {
+    return a.equals(b)
+  },
+  zero() {
+    return Complex.ZERO
+  },
+  add(a, b) {
+    return a.add(b)
+  },
+  neg(v) {
+    return v.neg
+  },
+  scale(k, v) {
+    return new Complex(k * v.real, k * v.imag)
+  },
+  efficient_combo(scalars, vectors) {
+    let real = 0
+    let imag = 0
+    for (let i = 0; i < scalars.length; i++) {
+      const k = scalars[i]
+      const { real: x, imag: y } = vectors[i]
+      real += k * x
+      imag += k * y
+    }
+    return new Complex(real, imag)
+  },
+})

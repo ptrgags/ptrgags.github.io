@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { Complex } from './Complex'
+import { Complex, VSComplex } from './Complex'
+import { vector_space_tests } from '../../test-helpers/vector_space_tests'
 
 describe('Complex', () => {
   it.for([
@@ -119,4 +120,34 @@ describe('Complex', () => {
 
     expect(result).toEqual(pole)
   })
+})
+
+// see interface definition
+vector_space_tests({
+  label: 'Complex',
+  vector_space: VSComplex,
+  add_commutativity: [
+    new Complex(3, -1),
+    new Complex(1, 2),
+    // expected sum
+    new Complex(4, 1),
+  ],
+  add_associativity: [
+    new Complex(1, 2),
+    new Complex(-3, -4),
+    new Complex(10, 7),
+    // expected sum
+    new Complex(8, 5),
+  ],
+  add_identity: new Complex(-5, 7),
+  add_inverse: [new Complex(3, -4), new Complex(-3, 4)],
+  sub: [new Complex(10, -10), new Complex(2, 2), new Complex(8, -12)],
+  scalar_associativity: [3, 5, new Complex(-6, 2), new Complex(-90, 30)],
+  distributivity: [4, new Complex(3, -2), new Complex(4, 7), new Complex(28, 20)],
+  scalar_identity: new Complex(-7, 11),
+  combo: [
+    [1, 0.5, -3],
+    [new Complex(1, 2), new Complex(-3, 4), new Complex(5, -6)],
+    new Complex(-15.5, 22),
+  ],
 })
