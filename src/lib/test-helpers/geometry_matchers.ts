@@ -1,7 +1,8 @@
 import type { MatcherResult, MatcherState } from 'vitest'
 import { custom_equality_matcher } from './matchermaking.ts'
 import { Rigid } from '../primitives/Rigid.ts'
-import { diff_float_property } from './diff_properties.ts'
+import { diff_float_property, diff_property } from './diff_properties.ts'
+import { diff_dir } from './pga_matchers.ts'
 
 export function diff_rigid(diffs: string[], received: unknown, expected: unknown): string[] {
   if (!(received instanceof Rigid)) {
