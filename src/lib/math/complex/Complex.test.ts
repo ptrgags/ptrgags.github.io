@@ -9,7 +9,7 @@ describe('Complex', () => {
   ])('constructor throws for $label', ({ real, imag }) => {
     expect(() => {
       return new Complex(real, imag)
-    }).toThrow('nan')
+    }).toThrow('NaN')
   })
 
   it.for([
@@ -21,7 +21,7 @@ describe('Complex', () => {
   ])('constructor returns INF for $label', ({ real, imag }) => {
     const result = new Complex(real, imag)
 
-    expect(result).toEqual(Complex.INF)
+    expect(result).toBeComplex(Complex.INF)
   })
 
   it('new_returns_zero_for_exactly_zero', () => {
@@ -45,13 +45,13 @@ describe('Complex', () => {
   it('from_polar_computes_one', () => {
     const result = Complex.from_polar(1, 0)
 
-    expect(result).toEqual(Complex.ONE)
+    expect(result).toBeComplex(Complex.ONE)
   })
 
   it('from_polar with pi/2 computes I', () => {
     const result = Complex.from_polar(1.0, Math.PI / 2)
 
-    expect(result).toEqual(Complex.I)
+    expect(result).toBeComplex(Complex.I)
   })
 
   it('from_polar computes arbitrary point', () => {
@@ -60,7 +60,7 @@ describe('Complex', () => {
     // From high school trig, a 30 degree angle will give (cos, sin) = (1/2, sqrt(3)/2)
     // but the radius of 2 clears the denominator
     let expected = new Complex(1.0, Math.sqrt(3))
-    expect(result).toEqual(expected)
+    expect(result).toBeComplex(expected)
   })
 
   it('is_finite with infinity returns false', () => {

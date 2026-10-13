@@ -13,15 +13,13 @@ export class Complex {
     if (is_nearly(real, 0) && is_nearly(imag, 0)) {
       this.real = 0
       this.imag = 0
-    }
-
-    if (is_inf(real) || is_inf(imag)) {
+    } else if (is_inf(real) || is_inf(imag)) {
       this.real = Infinity
       this.imag = Infinity
+    } else {
+      this.real = real
+      this.imag = imag
     }
-
-    this.real = real
-    this.imag = imag
   }
 
   get is_inf() {
@@ -66,7 +64,7 @@ export class Complex {
   }
 
   get is_finite(): boolean {
-    return !this.is_zero && !this.is_inf
+    return !this.is_inf
   }
 
   get norm(): number {
