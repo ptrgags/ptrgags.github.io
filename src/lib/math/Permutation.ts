@@ -1,34 +1,39 @@
-use std::{collections::HashSet, fmt::Display, ops::Mul, str::FromStr};
+/**
+ * Mathematical permutation of N elements. An element of the symmetric group S_N
+ */
+export class Permutation {
+    n: number
+    values: number[]
 
-use abstraction::{group::Group, monoid::Monoid, semigroup::Semigroup};
-
-use crate::{disjoint_cycles::DisjointCycles, permutation_error::PermutationError};
-
-/// Mathematical permutation of N elements. An element of the symmetric group S_N
-#[derive(Hash, PartialEq, Eq, Clone, Copy, Debug)]
-pub struct Permutation<const N: usize> {
-    values: [usize; N],
-}
-
-impl<const N: usize> Permutation<N> {
-    pub fn new(values: [usize; N]) -> Result<Self, PermutationError> {
-        let unique_values: HashSet<usize> = HashSet::from_iter(values.iter().cloned());
-        if unique_values.len() < values.len() {
-            return Err(PermutationError::RepeatElement);
+     constructor(n: number, values: number[]) {
+        const unique_values = [...new Set(values)]
+        if (unique_values.length < values.length) {
+            throw new Error("values must not include repeat elements")
         }
 
-        for value in values {
-            if value >= N {
-                return Err(PermutationError::ValueOutOfRange(value, N));
+        for (const value of values) {
+            if (value >= n) {
+                throw new Error(`permutation<${n}> value out of range: ${value}`)
             }
         }
 
-        Ok(Self { values })
+        this.n = n
+        this.values = values
     }
 
-    pub fn from_disjoint_cycles(
-        disjoint_cycles: DisjointCycles<N>,
-    ) -> Result<Self, PermutationError> {
+    equals(other: Permutation) {
+        return this.order === other.order && arrays_equal(this.values, other.values)
+    }
+
+    static from_str(str: string): Permutation{
+        let disjoint_cycles = s.parse::<DisjointCycles<N>>()?;
+
+        return Permutation.from_disjoint_cycles(disjoint_cycles)
+    }
+
+     static from_disjoint_cycles(
+        disjoint_cycles: DisjointCycles,
+    ): Permutation {
         let mut combined = [0; N];
         (0..N).for_each(|i| combined[i] = i);
 
@@ -42,7 +47,7 @@ impl<const N: usize> Permutation<N> {
         Self::new(combined)
     }
 
-    pub fn order(&self) -> usize {
+     order(&self): usize {
         let id = Self::identity();
         let mut current = *self;
         for power in 1.. {
@@ -56,18 +61,11 @@ impl<const N: usize> Permutation<N> {
         unreachable!();
     }
 
-    pub fn out_of_place(&self) -> usize {
-        let mut count: usize = 0;
-        for (i, value) in self.values.iter().enumerate() {
-            if *value != i {
-                count += 1;
-            }
-        }
-
-        count
+     count_out_of_place(): number {
+        return this.values.filter((x, i) => x !== i).count()
     }
 
-    pub fn cycle_decomposition(&self) -> DisjointCycles<N> {
+     cycle_decomposition() DisjointCycles {
         let mut visited = [false; N];
         let mut result = Vec::new();
 
@@ -92,28 +90,8 @@ impl<const N: usize> Permutation<N> {
 
         DisjointCycles::new(result).expect("unable to create DisjointCycles from Permutation")
     }
-}
 
-impl<const N: usize> FromStr for Permutation<N> {
-    type Err = PermutationError;
-
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let disjoint_cycles = s.parse::<DisjointCycles<N>>()?;
-
-        Self::from_disjoint_cycles(disjoint_cycles)
-    }
-}
-
-impl<const N: usize> Display for Permutation<N> {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        self.cycle_decomposition().fmt(f)
-    }
-}
-
-impl<const N: usize> Mul for Permutation<N> {
-    type Output = Self;
-
-    fn mul(self, rhs: Self) -> Self::Output {
+     mul(self, rhs: Self): Self::Output {
         let mut product = [0; N];
 
         for (i, rhs_value) in rhs.values.iter().enumerate() {
@@ -122,11 +100,8 @@ impl<const N: usize> Mul for Permutation<N> {
 
         Self { values: product }
     }
-}
 
-impl<const N: usize> Semigroup for Permutation<N> {}
-impl<const N: usize> Monoid for Permutation<N> {
-    fn identity() -> Self {
+     identity(): Self {
         let mut values = [0; N];
         for (i, value) in values.iter_mut().enumerate() {
             *value = i;
@@ -134,10 +109,8 @@ impl<const N: usize> Monoid for Permutation<N> {
 
         Self { values }
     }
-}
 
-impl<const N: usize> Group for Permutation<N> {
-    fn inverse(&self) -> Self {
+     inverse(&self): Self {
         let mut result = [0usize; N];
 
         for (i, x) in self.values.iter().enumerate() {
@@ -146,4 +119,17 @@ impl<const N: usize> Group for Permutation<N> {
 
         Self { values: result }
     }
+
+      toString(&self, f: &mut std::fmt::Formatter<'_>): std::fmt::Result {
+        self.cycle_decomposition().fmt(f)
+    }
+}
+
+    
+}
+
+impl<const N: usize> FromStr for Permutation<N> {
+    type Err = PermutationError;
+
+     
 }

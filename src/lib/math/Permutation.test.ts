@@ -1,49 +1,47 @@
-#[cfg(test)]
-mod test {
-    use abstraction::{test_associativity, test_group, test_identity, test_inverse};
+import {describe, it, expect} from 'vitest'
+import { Permutation } from './Permutation';
+import { DisjointCycles } from './DisjointCycles';
 
-    use super::*;
-
-    #[test]
-    pub fn new_with_out_of_range_element_returns_error() {
-        let result = Permutation::new([0, 1, 2, 10]);
+describe('Permutation', () => {
+    it('new_with_out_of_range_element_returns_error', () => {
+        let result = new Permutation(4, [0, 1, 2, 10]);
 
         assert!(matches!(
             result,
-            Err(PermutationError::ValueOutOfRange(_, _))
+            Err(PermutationError.ValueOutOfRange(_, _))
         ));
     }
 
-    #[test]
-    pub fn new_with_duplicate_element_returns_error() {
-        let result = Permutation::new([0, 2, 2, 1]);
+    
+    it('new_with_duplicate_element_returns_error', () => {
+        let result = new Permutation(4, [0, 2, 2, 1]);
 
-        assert!(matches!(result, Err(PermutationError::RepeatElement)));
+        assert!(matches!(result, Err(PermutationError.RepeatElement)));
     }
 
-    #[test]
-    pub fn new_returns_permutation_for_valid_elements() {
-        let result = Permutation::new([0, 2, 3, 1]);
+    
+    it('new_returns_permutation_for_valid_elements', () => {
+        let result = new Permutation(4, [0, 2, 3, 1]);
 
         assert!(result.is_ok());
     }
 
-    #[test]
-    pub fn from_disjoint_cycles_computes_correct_permutation() {
+    
+    it('from_disjoint_cycles_computes_correct_permutation', () => {
         // (0 2)(3 4)(1 5)
         // is the same as
         // [0 1 2 3 4 5]
         // [2 5 0 4 3 1]
-        let cycles = DisjointCycles::<6>::new(vec![vec![0, 2], vec![3, 4], vec![1, 5]]).unwrap();
-        let result = Permutation::from_disjoint_cycles(cycles).unwrap();
-        let expected = Permutation::new([2, 5, 0, 4, 3, 1]).unwrap();
+        let cycles = new DisjointCycles(6, [[0, 2], [3, 4], [1, 5]]);
+        let result = Permutation.from_disjoint_cycles(cycles);
+        let expected = new Permutation(6, [2, 5, 0, 4, 3, 1]);
         assert_eq!(result, expected);
     }
 
-    #[test]
-    pub fn multiplication_applies_a_after_b() {
-        let a = Permutation::new([0, 2, 3, 1]).unwrap();
-        let b = Permutation::new([0, 1, 3, 2]).unwrap();
+    
+    it('multiplication_applies_a_after_b', () => {
+        let a = new Permutation(4, [0, 2, 3, 1]);
+        let b = new Permutation(4, [0, 1, 3, 2]);
 
         let result = a * b;
 
@@ -51,10 +49,11 @@ mod test {
         // b = (2 3)
         // ab = (1 2 3)(2 3) = (1 2) <-- we want this one
         // ba = (2 3)(1 2 3) = (1 3)
-        let expected = Permutation::new([0, 2, 1, 3]).unwrap();
+        let expected = new Permutation([0, 2, 1, 3]);
         assert_eq!(result, expected);
     }
 
+    /*
     test_identity!(
         Permutation<4>,
         [
@@ -132,4 +131,5 @@ mod test {
             }
         )]
     );
-}
+    */
+})
