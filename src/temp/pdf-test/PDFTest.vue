@@ -13,7 +13,9 @@ import { ATC_SCREEN } from '../../core/dimensions'
 import { Path } from '../../lib/primitives/Path.ts'
 import { BezierCurve } from '../../lib/primitives/BezierCurve.ts'
 import { Zine } from '../../lib/zines/Zine.ts'
-const pdf_url: Ref<string | undefined> = ref(undefined)
+import PDFViewer from '../../components/PDFViewer.vue'
+
+const pdf_file: Ref<File | undefined> = ref(undefined)
 
 const TEST_SCENE = group(
   Zine.DEFAULT_PAGE,
@@ -40,25 +42,15 @@ const DEFAULT_ZINE = new Zine({
   },
 })
 
-// Hide the PDF toolbar in the <object> tag to avoid including
-// an AI summary button (at least in Chromium browsers)
-function hide_toolbars(pdf_url: string): string {
-  // see https://stackoverflow.com/a/36715963
-  return `${pdf_url}#toolbar=0&navpanes=0`
-}
-
 const sketch = make_static_sketch(ATC_SCREEN.dimensions, TEST_SCENE)
 
 onMounted(async () => {
-  const file = await make_pdf({
+  pdf_file.value = await make_pdf({
     filename: 'test.pdf',
     scene: DEFAULT_ZINE,
     page_size_inches: new Direction2P(10, 7),
     pixels_per_inch: 200,
   })
-
-  const url = URL.createObjectURL(file)
-  pdf_url.value = url
 })
 </script>
 
@@ -66,26 +58,6 @@ onMounted(async () => {
   <div class="vertical">
     <SketchP5 :sketch="sketch"></SketchP5>
     <br />
-
-    <object
-      class="pdf-viewer"
-      v-if="pdf_url"
-      type="application/pdf"
-      width="700"
-      height="500"
-      :data="pdf_url"
-    ></object>
+    <PDFViewer v-if="pdf_file" :width="700" :height="500" :file="pdf_file"></PDFViewer>
   </div>
 </template>
-
-<style scoped>
-.pdf-viewer {
-  max-width: 60vw;
-}
-
-@media screen and (width >= 800px) {
-  .pdf-viewer {
-    max-width: none;
-  }
-}
-</style>
