@@ -43,7 +43,7 @@ export class DrawPDF implements DrawingLibrary {
     // TODO: adjust the scale since the primitive is measured in
     // pixels while PDF uses points (1/72 of an inch)
     const height = page.getHeight()
-    this.apply_rigid(0, height, 0, true)
+    this.begin_xform_rigid(0, height, 0, true)
 
     this.style_stack = []
   }
@@ -141,16 +141,20 @@ export class DrawPDF implements DrawingLibrary {
     }
   }
 
-  end_style(style: Style): void {
+  end_style(): void {
     this.style_stack.pop()
   }
 
-  apply_text_style(text_style: TextStyle): void {
+  begin_text_style(text_style: TextStyle): void {
     // This is going to require some thought, I need to align text manually
     throw new Error('Method not implemented.')
   }
 
-  apply_rigid(
+  end_text_style(): void {
+    // Nothing to do here
+  }
+
+  begin_xform_rigid(
     translation_x: number,
     translation_y: number,
     rotation: number,
@@ -158,18 +162,19 @@ export class DrawPDF implements DrawingLibrary {
   ): void {
     const scale_y = flip_y ? -1 : 1
     this.page.pushOperators(
+      pushGraphicsState(),
       translate(translation_x, translation_y),
       rotateRadians(rotation),
       scale(1, scale_y),
     )
   }
 
-  push(): void {
-    this.page.pushOperators(pushGraphicsState())
+  end_xform(): void {
+    this.page.pushOperators(popGraphicsState())
   }
 
-  pop(): void {
-    this.page.pushOperators(popGraphicsState())
+  push(): void {
+    this.page.pushOperators()
   }
 
   get current_draw_command(): PDFOperator {

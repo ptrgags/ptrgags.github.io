@@ -143,11 +143,11 @@ export class DrawP5 implements DrawingLibrary {
     }
   }
 
-  end_style(style: Style): void {
+  end_style(): void {
     // Since we always set the stroke and fill, there's nothing to do here.
   }
 
-  apply_text_style(text_style: TextStyle): void {
+  begin_text_style(text_style: TextStyle): void {
     this.p.textSize(text_style.size)
 
     const h_align = get_horizontal_align(this.p, text_style.h_align)
@@ -155,23 +155,25 @@ export class DrawP5 implements DrawingLibrary {
     this.p.textAlign(h_align, v_align)
   }
 
-  apply_rigid(
+  end_text_style(): void {
+    // nothing to do here
+  }
+
+  begin_xform_rigid(
     translation_x: number,
     translation_y: number,
     rotation: number,
     flip_y: boolean,
   ): void {
+    this.p.push()
+
     this.p.translate(translation_x, translation_y)
     this.p.rotate(rotation)
     const scale_y = flip_y ? -1 : 1
     this.p.scale(1, scale_y)
   }
 
-  push(): void {
-    this.p.push()
-  }
-
-  pop(): void {
+  end_xform(): void {
     this.p.pop()
   }
 }
