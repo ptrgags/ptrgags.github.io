@@ -31,19 +31,26 @@ const OBNOXIOUSLY_PINK = new Style({
   stroke: Color.GREEN,
 })
 
+const POINTS_PER_INCH = 72
+
 export class DrawPDF implements DrawingLibrary {
   page: PDFPage
   style_stack: Style[]
 
-  constructor(page: PDFPage) {
+  constructor(page: PDFPage, pixels_per_inch: number) {
     this.page = page
 
-    // TODO: Flip coordinates so the page is specified
-    // y-down like a screen.
-    // TODO: adjust the scale since the primitive is measured in
-    // pixels while PDF uses points (1/72 of an inch)
+    // translate to top left corner and flip y so the coordinate system
+    // becomes like a screen
     const height = page.getHeight()
     this.begin_xform_rigid(0, height, 0, true)
+
+    // we're currently at 1 unit = 1 pt = 1/72 inch
+    // we want to produce a coordinate system in pixels
+    // so 1 unit = 1 px = 1/ppi inches
+    // so the scale factor is (1/ppi)/(1/72) = 72/pxpi
+    const points_per_pixel = POINTS_PER_INCH / pixels_per_inch
+    this.page.pushOperators(scale(points_per_pixel, points_per_pixel))
 
     this.style_stack = []
   }

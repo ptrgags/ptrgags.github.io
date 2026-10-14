@@ -14,6 +14,13 @@ import { Path } from '../../lib/primitives/Path.ts'
 import { BezierCurve } from '../../lib/primitives/BezierCurve.ts'
 const pdf_url: Ref<string | undefined> = ref(undefined)
 
+const PAGE_WITH_CAPTION = style(
+  Style.lines(Color.BLACK, 2),
+  ATC_SCREEN,
+  // the rectangle is 3/4 inch tall at the bottom
+  ATC_SCREEN.align(new Direction2P(500, 150), 'center', 'bottom'),
+)
+
 const TEST_SCENE = group(
   style(Style.lines(Color.RED, 2), new Rect(new Point2P(10, 10), new Direction2P(100, 200))),
   style(
@@ -44,9 +51,9 @@ const sketch = make_static_sketch(ATC_SCREEN.dimensions, TEST_SCENE)
 onMounted(async () => {
   const file = await make_pdf({
     filename: 'test.pdf',
-    // TODO: specify the scene in pixels
-    scene: TEST_SCENE,
-    page_size_inches: new Direction2P(8.5, 11),
+    scene: PAGE_WITH_CAPTION,
+    page_size_inches: new Direction2P(10, 7),
+    pixels_per_inch: 200,
   })
 
   const url = URL.createObjectURL(file)
@@ -63,9 +70,9 @@ onMounted(async () => {
       class="pdf-viewer"
       v-if="pdf_url"
       type="application/pdf"
-      width="500"
-      height="700"
-      :data="hide_toolbars(pdf_url)"
+      width="700"
+      height="500"
+      :data="pdf_url"
     ></object>
   </div>
 </template>

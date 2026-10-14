@@ -10,6 +10,7 @@ export interface MakePDFOptions {
   filename: string
   scene: Drawable
   page_size_inches: Dimensionlike
+  pixels_per_inch: number
 }
 
 export async function make_pdf(options: MakePDFOptions): Promise<File> {
@@ -17,7 +18,7 @@ export async function make_pdf(options: MakePDFOptions): Promise<File> {
   const { width, height } = options.page_size_inches
   const page = document.addPage([width * INCH, height * INCH])
 
-  const lib = new DrawPDF(page)
+  const lib = new DrawPDF(page, options.pixels_per_inch)
 
   options.scene.draw(lib)
 
