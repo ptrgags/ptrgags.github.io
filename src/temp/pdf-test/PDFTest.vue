@@ -12,14 +12,10 @@ import { make_static_sketch } from '../../lib/p5-helpers/sketches'
 import { ATC_SCREEN } from '../../core/dimensions'
 import { Path } from '../../lib/primitives/Path.ts'
 import { BezierCurve } from '../../lib/primitives/BezierCurve.ts'
+import { Zine } from '../../lib/zines/Zine.ts'
 const pdf_url: Ref<string | undefined> = ref(undefined)
 
-const PAGE_WITH_CAPTION = style(
-  Style.lines(Color.BLACK, 2),
-  ATC_SCREEN,
-  // the rectangle is 3/4 inch tall at the bottom
-  ATC_SCREEN.align(new Direction2P(500, 150), 'center', 'bottom'),
-)
+const DEFAULT_ZINE = new Zine({ pages: {} })
 
 const TEST_SCENE = group(
   style(Style.lines(Color.RED, 2), new Rect(new Point2P(10, 10), new Direction2P(100, 200))),
@@ -51,7 +47,7 @@ const sketch = make_static_sketch(ATC_SCREEN.dimensions, TEST_SCENE)
 onMounted(async () => {
   const file = await make_pdf({
     filename: 'test.pdf',
-    scene: PAGE_WITH_CAPTION,
+    scene: DEFAULT_ZINE,
     page_size_inches: new Direction2P(10, 7),
     pixels_per_inch: 200,
   })
