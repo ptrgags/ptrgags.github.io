@@ -10,7 +10,6 @@ const props = defineProps<{
 }>()
 
 const blob_url = URL.createObjectURL(props.file)
-
 const pdf_url: Ref<string> = ref(blob_url)
 
 // If the file changes, clean up the old blob URL and generate a new
@@ -30,9 +29,6 @@ watch(
 </script>
 
 <template>
-  <div>{{ props.file }}</div>
-  <div>{{ pdf_url }}</div>
-
   <object
     v-if="pdf_url"
     class="pdf-viewer"
