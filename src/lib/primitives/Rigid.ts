@@ -179,7 +179,7 @@ export class Rigid implements Transformation {
   }
 
   apply_transformation(lib: DrawingLibrary): void {
-    lib.apply_rigid(this.translation.x, this.translation.y, this.rotation, this.flip)
+    lib.begin_xform_rigid(this.translation.x, this.translation.y, this.rotation, this.flip)
   }
 
   static readonly IDENTITY = new Rigid({})
