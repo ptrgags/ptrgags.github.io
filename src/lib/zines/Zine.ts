@@ -100,4 +100,7 @@ export class Zine implements Drawable {
       lib.end_xform()
     }
   }
+
+  static readonly DEFAULT_COVER = DEFAULT_PAGE
+  static readonly DEFAULT_PAGE = DEFAULT_PAGE_WITH_CAPTION
 }

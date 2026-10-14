@@ -15,9 +15,8 @@ import { BezierCurve } from '../../lib/primitives/BezierCurve.ts'
 import { Zine } from '../../lib/zines/Zine.ts'
 const pdf_url: Ref<string | undefined> = ref(undefined)
 
-const DEFAULT_ZINE = new Zine({ pages: {} })
-
 const TEST_SCENE = group(
+  Zine.DEFAULT_PAGE,
   style(Style.lines(Color.RED, 2), new Rect(new Point2P(10, 10), new Direction2P(100, 200))),
   style(
     Style.flat(Color.BLUE),
@@ -34,6 +33,12 @@ const TEST_SCENE = group(
     }),
   ),
 )
+
+const DEFAULT_ZINE = new Zine({
+  pages: {
+    page2: TEST_SCENE,
+  },
+})
 
 // Hide the PDF toolbar in the <object> tag to avoid including
 // an AI summary button (at least in Chromium browsers)
