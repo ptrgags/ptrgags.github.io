@@ -320,7 +320,8 @@ export class Odd2C {
   unit_sandwich(other: Even2C): Even2C
   unit_sandwich(other: Even2C | Odd2C): Even2C | Odd2C {
     if (other instanceof Odd2C) {
-      return this.gp(other).gp(this.reverse())
+      // for odd sandwich odd, we need to negate the result
+      return this.gp(other).gp(this.reverse()).neg()
     }
 
     return this.gp(other).gp(this.reverse())
