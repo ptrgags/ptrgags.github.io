@@ -4,6 +4,7 @@ declare module 'vitest' {
   interface Matchers<R, T> {
     // Geometry matchers
     toBeRigid: (expected: T) => R
+    toBeRect: (expected: T) => R
 
     // PGA2D matchers
     toBeEven2P: (expected: T) => R

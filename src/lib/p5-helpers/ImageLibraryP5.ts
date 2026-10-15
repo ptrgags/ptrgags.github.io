@@ -1,0 +1,87 @@
+import { Direction } from '../pga2d/Direction.js'
+import { Point } from '../pga2d/Point.js'
+import { Image } from './Image.js'
+import { Tilemap } from './Tilemap.js'
+import { Sprite } from './Sprite.js'
+
+export class ImageLibrary {
+  /**
+   * Constructor
+   * @param {{[id: string]: string}} manifest Dictionary of image ID to URL for an image
+   */
+  constructor(manifest) {
+    this.manifest = manifest
+    /**
+     * @type {{[id: string]: import("p5").Image}}
+     */
+    this.images = {}
+  }
+
+  /**
+   * Await this in setup()
+   * @param {import("p5")} p
+   */
+  async preload(p) {
+    const promises = []
+
+    for (const [id, url] of Object.entries(this.manifest)) {
+      const load_func = async () => {
+        this.images[id] = await p.loadImage(url)
+      }
+      promises.push(load_func())
+    }
+    await Promise.all(promises)
+  }
+
+  /**
+   * Get a p5 Image from the library. This must be called in setup() or later
+   * timing-wise.
+   * @param {string} image_id Image ID. It must match one of the keys of the manifest
+   * @returns {import("p5").Image} The loaded image
+   */
+  get_p5_image(image_id) {
+    const img = this.images[image_id]
+    if (!img) {
+      throw new Error(`unknown image ID ${image_id}`)
+    }
+    return img
+  }
+
+  /**
+   * Shorthand for creating an image primitive
+   * @param {string} image_id ID. it must match one of the keys declared in the manifest
+   * @param {Point} position Initial position for the image
+   * @returns {Image}
+   */
+  make_image(image_id, position) {
+    const img = this.get_p5_image(image_id)
+    return new Image(img, position)
+  }
+
+  /**
+   * Shorthand for creating a sprite primitive
+   * @param {string} image_id image ID for the spritesheet. It must match
+   * @param {Direction} frame_size Size of each frame
+   * @param {Point} position Position on the screen for the sprite
+   * @param {Point} [origin=Point.ORIGIN] The anchor point for positioning the sprite
+   * @param {number} [frame_id=0] The frame to use
+   * @returns {Sprite}
+   */
+  make_sprite(image_id, frame_size, position, origin = Point.ORIGIN, frame_id = 0) {
+    const spritesheet = this.get_p5_image(image_id)
+    return new Sprite(spritesheet, frame_size, position, frame_id, origin)
+  }
+
+  /**
+   * Shorthand for making a tilemap
+   * @param {import("p5")} p p5 instance for allocating resources
+   * @param {string} image_id image ID for the spritesheet
+   * @param {Direction} tile_size (width, height) The size of a single tile in pixels
+   * @param {Direction} map_size (width_tiles, height_tiles) how big is the tileset measured in tiles
+   * @param {Point} [position=Point.ORIGIN] Where to draw the tilemap
+   */
+  make_tilemap(p, image_id, tile_size, map_size, position = Point.ORIGIN) {
+    const tileset = this.get_p5_image(image_id)
+    return new Tilemap(p, tileset, tile_size, map_size, position)
+  }
+}
