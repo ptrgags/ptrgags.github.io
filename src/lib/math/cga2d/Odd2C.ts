@@ -244,7 +244,7 @@ export class Odd2C {
    * @param {Odd2C} odd
    * @returns {Even2C}
    */
-  gp_odd(odd: Odd2C): Even2C {
+  #gp_odd(odd: Odd2C): Even2C {
     const { x: Ax, y: Ay, p: Ap, m: Am, xyp: Axyp, xym: Axym, xpm: Axpm, ypm: Aypm } = this
     const { x: Bx, y: By, p: Bp, m: Bm, xyp: Bxyp, xym: Bxym, xpm: Bxpm, ypm: Bypm } = odd
 
@@ -272,7 +272,7 @@ export class Odd2C {
    * @param {Even2C} even
    * @returns {Odd2C}
    */
-  gp_even(even: Even2C): Odd2C {
+  #gp_even(even: Even2C): Odd2C {
     const { x: Ax, y: Ay, p: Ap, m: Am, xyp: Axyp, xym: Axym, xpm: Axpm, ypm: Aypm } = this
     const { scalar: Bs, xy: Bxy, xp: Bxp, xm: Bxm, yp: Byp, ym: Bym, pm: Bpm, xypm: Bxypm } = even
     const x =
@@ -299,31 +299,14 @@ export class Odd2C {
    * @param {Odd2C | Even2C} other
    * @returns {Odd2C | Even2C}
    */
+  gp(other: Odd2C): Even2C
+  gp(other: Even2C): Odd2C
   gp(other: Odd2C | Even2C): Odd2C | Even2C {
     if (other instanceof Odd2C) {
-      return this.gp_odd(other)
+      return this.#gp_odd(other)
     }
 
-    return this.gp_even(other)
-  }
-
-  /**
-   * Unit sandwich for odd multivectors
-   * @param {Odd2C} odd
-   * @returns {Odd2C}
-   */
-  unit_sandwich_odd(odd: Odd2C): Odd2C {
-    // Note: For odd sandwich odd, we need to negate the result.
-    return this.gp_odd(odd).gp_odd(this.reverse()).neg()
-  }
-
-  /**
-   * Unit sandwich for even multivectors
-   * @param {Even2C} even
-   * @returns {Even2C}
-   */
-  unit_sandwich_even(even: Even2C): Even2C {
-    return this.gp_even(even).gp_odd(this.reverse())
+    return this.#gp_even(other)
   }
 
   /**
@@ -333,10 +316,13 @@ export class Odd2C {
    * @param {Even2C | Odd2C} other
    * @returns {Even2C | Odd2C}
    */
+  unit_sandwich(other: Odd2C): Odd2C
+  unit_sandwich(other: Even2C): Even2C
   unit_sandwich(other: Even2C | Odd2C): Even2C | Odd2C {
     if (other instanceof Odd2C) {
-      return this.unit_sandwich_odd(other)
+      return this.gp(other).gp(this.reverse())
     }
+
     return this.gp(other).gp(this.reverse())
   }
 

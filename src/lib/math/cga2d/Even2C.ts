@@ -226,7 +226,7 @@ export class Even2C {
    * @param {Even2C} even
    * @returns {Even2C}
    */
-  gp_even(even: Even2C): Even2C {
+  #gp_even(even: Even2C): Even2C {
     const { scalar: As, xy: Axy, xp: Axp, xm: Axm, yp: Ayp, ym: Aym, pm: Apm, xypm: Axypm } = this
     const { scalar: Bs, xy: Bxy, xp: Bxp, xm: Bxm, yp: Byp, ym: Bym, pm: Bpm, xypm: Bxypm } = even
 
@@ -311,7 +311,7 @@ export class Even2C {
    * @param {Odd2C} odd
    * @returns {Odd2C}
    */
-  gp_odd(odd: Odd2C): Odd2C {
+  #gp_odd(odd: Odd2C): Odd2C {
     const { scalar: As, xy: Axy, xp: Axp, xm: Axm, yp: Ayp, ym: Aym, pm: Apm, xypm: Axypm } = this
     const { x: Bx, y: By, p: Bp, m: Bm, xyp: Bxyp, xym: Bxym, xpm: Bxpm, ypm: Bypm } = odd
 
@@ -368,30 +368,14 @@ export class Even2C {
    * @param {Odd2C | Even2C} other
    * @returns {Odd2C | Even2C}
    */
+  gp(other: Odd2C): Odd2C
+  gp(other: Even2C): Even2C
   gp(other: Odd2C | Even2C): Odd2C | Even2C {
     if (other instanceof Even2C) {
-      return this.gp_even(other)
+      return this.#gp_even(other)
     }
 
-    return this.gp_odd(other)
-  }
-
-  /**
-   * Unit sandwich where the filling is an odd multivector
-   * @param {Odd2C} odd
-   * @returns {Odd2C}
-   */
-  unit_sandwich_odd(odd: Odd2C): Odd2C {
-    return this.gp_odd(odd).gp_even(this.reverse())
-  }
-
-  /**
-   * Unit sandwich where the filling is an even multivector
-   * @param {Even2C} even
-   * @returns {Even2C}
-   */
-  unit_sandwich_even(even: Even2C): Even2C {
-    return this.gp_even(even).gp_even(this.reverse())
+    return this.#gp_odd(other)
   }
 
   /**
@@ -400,7 +384,12 @@ export class Even2C {
    * @param {Even2C | Odd2C} other
    * @returns {Even2C | Odd2C}
    */
+  unit_sandwich(other: Even2C): Even2C
+  unit_sandwich(other: Odd2C): Odd2C
   unit_sandwich(other: Even2C | Odd2C): Even2C | Odd2C {
+    if (other instanceof Even2C) {
+      return this.gp(other).gp(this.reverse())
+    }
     return this.gp(other).gp(this.reverse())
   }
 
