@@ -16,15 +16,13 @@ export class ArcAngles {
     this.orientation = orientation
   }
 
-  angle(t: number): number {
-    return this.orientation === 1
-      ? this.start_angle + 0.5 * mod(this.end_angle - this.start_angle, 2.0 * Math.PI)
-      : this.end_angle + 0.5 * mod(this.start_angle - this.end_angle, 2.0 * Math.PI)
-  }
-
   get subtended_angle(): number {
     // This is probably not right in all cases.
     return mod(this.end_angle - this.start_angle, 2.0 * Math.PI)
+  }
+
+  angle(t: number): number {
+    return this.start_angle + t * this.orientation * this.subtended_angle
   }
 
   swap(): ArcAngles {
