@@ -8,7 +8,6 @@ describe('ArcAngles', () => {
 
       const result = angles.angle(0)
 
-      // or should it be reduced mod 2pi? need to think about this...
       const expected = -Math.PI / 2
       expect(result).toBeCloseTo(expected)
     })

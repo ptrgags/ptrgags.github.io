@@ -17,8 +17,9 @@ export class ArcAngles {
   }
 
   get subtended_angle(): number {
-    // This is probably not right in all cases.
-    return mod(this.end_angle - this.start_angle, 2.0 * Math.PI)
+    const angle_diff = Math.abs(this.end_angle - this.start_angle)
+
+    return mod(this.orientation * angle_diff, 2.0 * Math.PI)
   }
 
   angle(t: number): number {
