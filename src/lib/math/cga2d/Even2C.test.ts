@@ -43,7 +43,7 @@ describe('Even2C', () => {
     expect(result).toBeEven2C(expected)
   })
 
-  it('dual and antidual are the same in PGA2D', () => {
+  it('dual and antidual are the same in CGA2D', () => {
     const a = new Even2C(1, 2, 3, 4, 5, 6, 7, 8)
 
     const a_dual = a.dual()
