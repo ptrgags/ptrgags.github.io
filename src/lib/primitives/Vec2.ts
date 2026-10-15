@@ -13,6 +13,10 @@ export interface Vec2 {
   get y(): number
 }
 
+export function is_vec2(v: any): v is Vec2 {
+  return v.x !== undefined && v.y !== undefined
+}
+
 export const VSVec2 = new VectorSpace<Vec2>({
   equals: (a: Vec2, b: Vec2) => is_nearly(a.x, b.x) && is_nearly(a.y, b.y),
   zero: () => {

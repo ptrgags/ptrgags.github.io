@@ -4,7 +4,8 @@ import { BezierCurve } from './BezierCurve.ts'
 import type { Circle } from './Circle.ts'
 import type { Vec2 } from './Vec2.ts'
 
-const QUARTER_CIRCLE_TANGENT_LENGTH = (4 * Math.SQRT2) / 3
+// exposed to help unit tests
+export const QUARTER_CIRCLE_TANGENT_LENGTH = (4 * Math.SQRT2) / 3
 const QUARTER_UNIT_CIRCLE_POINTS = [
   new Point2P(1, 0),
   new Point2P(1, QUARTER_CIRCLE_TANGENT_LENGTH),

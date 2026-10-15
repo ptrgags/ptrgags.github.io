@@ -1,9 +1,10 @@
+import type { Equals } from '../types/Equals.ts'
 import type { Drawable } from './Drawable.ts'
 import type { DrawingLibrary } from './DrawingLibrary.ts'
 import { Polyline } from './Polyline.ts'
-import type { Vec2 } from './Vec2.ts'
+import { VSVec2, type Vec2 } from './Vec2.ts'
 
-export class BezierCurve implements Drawable {
+export class BezierCurve implements Equals<BezierCurve>, Drawable {
   a: Vec2
   b: Vec2
   c: Vec2
@@ -14,6 +15,15 @@ export class BezierCurve implements Drawable {
     this.b = b
     this.c = c
     this.d = d
+  }
+
+  equals(other: BezierCurve): boolean {
+    return (
+      VSVec2.equals(this.a, other.a) &&
+      VSVec2.equals(this.b, other.b) &&
+      VSVec2.equals(this.c, other.c) &&
+      VSVec2.equals(this.d, other.d)
+    )
   }
 
   /**
