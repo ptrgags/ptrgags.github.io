@@ -97,5 +97,16 @@ export function group_tests<G>(options: GroupTestOptions<G>) {
 
       expect(group.equals(result, expected)).toBe(true)
     })
+
+    if (options.abelian) {
+      const [a, b, expected] = options.abelian
+      it('obeys commutativity law', () => {
+        const ab = group.mul(a, b)
+        const ba = group.mul(b, a)
+
+        expect(group.equals(ab, ba)).toBe(true)
+        expect(group.equals(ab, expected)).toBe(true)
+      })
+    }
   })
 }

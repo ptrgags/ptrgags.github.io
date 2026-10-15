@@ -156,6 +156,7 @@ group_tests({
   identity_law: new Complex(3, -4),
   inverse: [new Complex(2, 2), new Complex(1 / 4, -1 / 4)],
   inv_product: [new Complex(2, 1), new Complex(3, -2), new Complex(8 / 65, 1 / 65)],
+  abelian: [new Complex(2, 4), new Complex(-5, 6), new Complex(-34, -8)],
   diff: [new Complex(1, 2), new Complex(1, -2), new Complex(-3 / 5, 4 / 5)],
   // Abelian group so sandwich returns the meat
   sandwich: [new Complex(3, -4), new Complex(4, 5), new Complex(4, 5)],
