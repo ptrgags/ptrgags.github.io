@@ -124,19 +124,41 @@ describe('Complex', () => {
 })
 
 group_tests({
-  label: 'Complex',
+  label: '(Complex, +)',
   group: GComplexAdd,
-  associativity: [new Complex(1, 2), new Complex(-3, 5), new Complex(1, 2), new Complex(4, 4)],
+  associativity: [
+    new Complex(1, 2),
+    new Complex(-3, -4),
+    new Complex(10, 7),
+    // expected sum
+    new Complex(8, 5),
+  ],
   identity_law: new Complex(3, -4),
-  inverse: [new Complex(2, 2), new Complex(1, 1)],
+  inverse: [new Complex(2, 2), new Complex(-2, -2)],
+  abelian: [
+    new Complex(3, -1),
+    new Complex(1, 2),
+    // expected sum
+    new Complex(4, 1),
+  ],
+  diff: [new Complex(10, -10), new Complex(2, 2), new Complex(8, -12)],
+  // Abelian group so sandwich product returns the meat
+  sandwich: [new Complex(3, -4), new Complex(5), new Complex(5)],
+  // Abelian group so commutator is always identity
+  commutator: [new Complex(3, -4), new Complex(5), Complex.ONE],
 })
 
 group_tests({
-  label: 'Complex',
+  label: '(Complex, *)',
   group: GComplexMul,
-  associativity: [new Complex(1, 2), new Complex(-3, 5), new Complex(1, 2), new Complex(4, 4)],
+  associativity: [new Complex(1, 2), new Complex(-3, 5), new Complex(2, 4), new Complex(-22, -54)],
   identity_law: new Complex(3, -4),
-  inverse: [new Complex(2, 2), new Complex(1, 1)],
+  inverse: [new Complex(2, 2), new Complex(1 / 4, -1 / 4)],
+  diff: [new Complex(1, 2), new Complex(-3, 5), new Complex(1, 1)],
+  // Abelian group so sandwich returns the meat
+  sandwich: [new Complex(3, -4), new Complex(4, 5), new Complex(4, 5)],
+  // Abelian group so commutator is always identity
+  commutator: [new Complex(3, -4), new Complex(1, 1), Complex.ONE],
 })
 
 // see interface definition
