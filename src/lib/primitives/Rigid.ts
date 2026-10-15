@@ -135,6 +135,15 @@ export class Rigid implements Transformation {
   }
 
   /**
+   * shorthand for n-fold rotation
+   * @param n How many rotations to complete a circle
+   * @returns A rigid transformation
+   */
+  static rot_n(n: number): Rigid {
+    return new Rigid({ rotation: (2 * Math.PI) / n })
+  }
+
+  /**
    * Convenience constructor for reflection in a line through the origin
    * but potentially rotated
    * @param {number} theta
@@ -170,7 +179,7 @@ export class Rigid implements Transformation {
   }
 
   apply_transformation(lib: DrawingLibrary): void {
-    lib.apply_rigid(this.translation.x, this.translation.y, this.rotation, this.flip)
+    lib.begin_xform_rigid(this.translation.x, this.translation.y, this.rotation, this.flip)
   }
 
   static readonly IDENTITY = new Rigid({})

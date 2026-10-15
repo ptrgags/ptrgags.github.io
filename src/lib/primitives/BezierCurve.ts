@@ -1,23 +1,14 @@
-import { Point2P } from '../math/pga2d/Point2P.js'
-import type { Drawable } from './Drawable.js'
-import type { DrawingLibrary } from './DrawingLibrary.js'
-import type { Vec2 } from './Vec2.js'
+import { Point2P } from '../math/pga2d/Point2P.ts'
+import type { Drawable } from './Drawable.ts'
+import type { DrawingLibrary } from './DrawingLibrary.ts'
+import { Polyline } from './Polyline.ts'
+import type { Vec2 } from './Vec2.ts'
 
-/**
- * Cubic Bezier curve
- */
 export class BezierCurve implements Drawable {
   a: Vec2
   b: Vec2
   c: Vec2
   d: Vec2
-  /**
-   * Constructor
-   * @param {Vec2} a Start point
-   * @param {Vec2} b First tangent point
-   * @param {Vec2} c Second tangent point
-   * @param {Vec2} d End point
-   */
   constructor(a: Vec2, b: Vec2, c: Vec2, d: Vec2) {
     this.a = a
     this.b = b
@@ -50,8 +41,10 @@ export class BezierCurve implements Drawable {
 
     // p1 and p2 are just 1/3 and 2/3 of the way across the line segment
     // between the middle points
-    const p1 = Point2P.lerp(b1, b2, 1 / 3)
-    const p2 = Point2P.lerp(b1, b2, 2 / 3)
+    const point_b1 = Point2P.from_vec2(b1)
+    const point_b2 = Point2P.from_vec2(b2)
+    const p1 = Point2P.lerp(point_b1, point_b2, 1 / 3)
+    const p2 = Point2P.lerp(point_b1, point_b2, 2 / 3)
 
     const p3 = new Point2P(sixth * (x1 + 4 * x2 + x3), sixth * (y1 + 4 * y2 + y3))
 
@@ -61,5 +54,26 @@ export class BezierCurve implements Drawable {
   draw(lib: DrawingLibrary): void {
     const { a, b, c, d } = this
     lib.bezier(a, b, c, d)
+  }
+
+  /**
+   * Alias for the first point
+   */
+  get start(): Vec2 {
+    return this.a
+  }
+
+  /**
+   * Alias for the last point
+   */
+  get end(): Vec2 {
+    return this.b
+  }
+
+  /**
+   * Get a polyline through the 4 control points
+   */
+  get control_polyline(): Polyline {
+    return new Polyline({ vertices: [this.a, this.b, this.c, this.d], closed: false })
   }
 }

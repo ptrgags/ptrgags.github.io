@@ -11,5 +11,8 @@ declare module 'vitest' {
     toBePoint2P: (expected: T) => R
     toBeDirection2P: (expected: T) => R
     toBeLine2P: (expected: T) => R
+
+    // Complex number matchers
+    toBeComplex: (expected: T) => R
   }
 }

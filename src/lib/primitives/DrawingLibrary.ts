@@ -1,5 +1,7 @@
 import type { Style } from '../styling/Style.ts'
 import type { TextStyle } from '../styling/TextStyle.ts'
+import type { BezierCurve } from './BezierCurve.ts'
+import type { LineSegment } from './LineSegment.ts'
 import type { Vec2 } from './Vec2.ts'
 
 /**
@@ -44,16 +46,27 @@ export interface DrawingLibrary {
   segment(x1: number, y1: number, x2: number, y2: number): void
 
   /**
-   * Draw a polyline (open polygon)
-   * @param points The points to draw
+   * Draw many line segments at once
+   * @param vertices vertices
+   * @param closed If true, draw a final line segment from end to start. This makes a closed polygon
    */
-  polyline(points: Vec2[]): void
+  polyline(vertices: Vec2[], closed: boolean): void
 
   /**
-   * Draw a polygon (always closed)
-   * @param points The points to draw
+   * Draw a single bezier curve
+   * @param a Start point
+   * @param b Tangent point for start
+   * @param c Tangent point for end
+   * @param d End
    */
-  polygon(points: Vec2[]): void
+  bezier(a: Vec2, b: Vec2, c: Vec2, d: Vec2): void
+
+  /**
+   * Draw a path
+   * @param parts Line segments and bezier curves.
+   * @param closed If true, the path will be closed with a straight line
+   */
+  path(parts: (LineSegment | BezierCurve)[], closed: boolean): void
 
   /**
    * Draw a single cubic bezier curve
@@ -89,30 +102,40 @@ export interface DrawingLibrary {
    * color.
    * @param style The style to apply
    */
-  apply_style(style: Style): void
+  begin_style(style: Style): void
+
+  /**
+   * Stop applying a style (for drawing libraries that need to do some cleanup)
+   */
+  end_style(): void
 
   /**
    * Apply text styling, including font size and alignment
    * @param text_style The style to apply
    */
-  apply_text_style(text_style: TextStyle): void
+  begin_text_style(text_style: TextStyle): void
 
   /**
-   * Apply a rigid transformation
+   * Stop applying text styling
+   */
+  end_text_style(): void
+
+  /**
+   * Start applying a Rigid transformation.
    * @param translation_x x-coordinate of translation
    * @param translation_y y-coordinate of translation
    * @param rotation Angle of rotation in radians
    * @param flip_y If true, flip the y-coordinate
    */
-  apply_rigid(translation_x: number, translation_y: number, rotation: number, flip_y: boolean): void
+  begin_xform_rigid(
+    translation_x: number,
+    translation_y: number,
+    rotation: number,
+    flip_y: boolean,
+  ): void
 
   /**
-   * Push rendering state
+   * Finish applying the most recent transformation
    */
-  push(): void
-
-  /**
-   * Pop rendering state
-   */
-  pop(): void
+  end_xform(): void
 }
