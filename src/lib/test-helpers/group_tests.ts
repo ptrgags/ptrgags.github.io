@@ -48,10 +48,17 @@ export function group_tests<G>(options: GroupTestOptions<G>) {
       const [g, expected] = options.inverse
 
       const result = group.inv(g)
+
+      expect(group.equals(result, expected)).toBe(true)
+    })
+
+    it('inv() obeys inverse law', () => {
+      const [g] = options.inverse
+
+      const result = group.inv(g)
       const g_inv = group.mul(g, result)
       const inv_g = group.mul(result, g)
 
-      expect(group.equals(result, expected)).toBe(true)
       // check that gg^-1 = I = g^-1g
       expect(group.equals(g_inv, inv_g)).toBe(true)
       expect(group.equals(g_inv, group.identity())).toBe(true)

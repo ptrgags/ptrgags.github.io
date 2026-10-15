@@ -66,10 +66,17 @@ export function vector_space_tests<V>(options: VectorTestOptions<V>) {
       const [a, expected_neg] = options.add_inverse
 
       const result = vs.neg(a)
-      const sum = vs.add(a, result)
 
       expect(vs.equals(result, expected_neg)).toBe(true)
-      // verify that the inverse law holds
+    })
+
+    it('neg() returns additive inverse', () => {
+      const [a] = options.add_inverse
+
+      const result = vs.neg(a)
+      const sum = vs.add(a, result)
+
+      // a + (-a) = 0
       expect(vs.equals(sum, vs.zero())).toBe(true)
     })
 
