@@ -15,17 +15,11 @@ import { SVGTransformation } from './SVGTransformation.ts'
  * @param {Style} style
  */
 function apply_svg_style(attributes: { [key: string]: string }, style: Style) {
-  if (style.stroke) {
-    attributes.stroke = style.stroke.to_hex_code()
-  }
+  attributes.stroke = style.stroke ? style.stroke.to_hex_code() : 'none'
 
-  if (style.fill) {
-    attributes.fill = style.fill.to_hex_code()
-  }
+  attributes.fill = style.fill ? style.fill.to_hex_code() : 'none'
 
-  if (style.stroke_width) {
-    attributes['stroke-width'] = style.stroke_width.toString()
-  }
+  attributes['stroke-width'] = style.stroke_width ? style.stroke_width.toString() : '1'
 }
 
 const SVG_NAMESPACE = 'http://www.w3.org/2000/svg'

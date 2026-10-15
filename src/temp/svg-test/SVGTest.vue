@@ -8,11 +8,14 @@ import { make_static_sketch } from '../../lib/p5-helpers/sketches'
 import { BezierCurve } from '../../lib/primitives/BezierCurve'
 import { LineSegment } from '../../lib/primitives/LineSegment'
 import { Path } from '../../lib/primitives/Path'
-import { style } from '../../lib/primitives/shorthand'
+import { group, style, xform } from '../../lib/primitives/shorthand'
 import { Color } from '../../lib/styling/Color'
 import { Style } from '../../lib/styling/Style'
 import { DrawSVG } from '../../lib/svg/DrawSVG'
 import { encode_svg_file } from '../../lib/svg/encode_svg'
+import { Rect } from '../../lib/primitives/Rect.ts'
+import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
+import { Rigid } from '../../lib/primitives/Rigid.ts'
 
 const PATH = new Path({
   parts: [
@@ -34,7 +37,17 @@ const PATH = new Path({
   closed: true,
 })
 
-const SCENE = style(Style.flat(Color.RED), PATH)
+const SCENE = group(
+  style(Style.flat(Color.RED), PATH),
+
+  xform(
+    new Rigid({
+      translation: new Direction2P(32, 32),
+      rotation: Math.PI / 4,
+    }),
+    style(Style.lines(Color.BLUE), new Rect(Point2P.ORIGIN, new Direction2P(200, 100))),
+  ),
+)
 
 const sketch = make_static_sketch(SWATCH.dimensions, SCENE)
 
