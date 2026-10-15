@@ -8,6 +8,8 @@ export interface GroupTestOptions<G> {
   identity_law: G
   // (g, expected_inv)
   inverse: [G, G]
+  // (a, b, expected_ab_inv)
+  inv_product: [G, G, G]
   // (a, b, expected_product)
   abelian?: [G, G, G]
   // (a, b, expected_diff)
@@ -55,6 +57,38 @@ export function group_tests<G>(options: GroupTestOptions<G>) {
       expect(group.equals(g_inv, group.identity())).toBe(true)
     })
 
-    // TODO: diff, sandwich, commutator
+    it('inv() of product is the reversed inverse of parts', () => {
+      const [a, b, expected] = options.inv_product
+
+      const b_inv_a_inv = group.mul(group.inv(b), group.inv(a))
+      const ab_inv = group.inv(group.mul(a, b))
+
+      expect(group.equals(b_inv_a_inv, ab_inv)).toBe(true)
+      expect(group.equals(ab_inv, expected)).toBe(true)
+    })
+
+    it('diff() returns ab^-1', () => {
+      const [a, b, expected] = options.diff
+
+      const result = group.diff(a, b)
+
+      expect(group.equals(result, expected)).toBe(true)
+    })
+
+    it('sandwich() returns aba^-1', () => {
+      const [a, b, expected] = options.sandwich
+
+      const result = group.sandwich(a, b)
+
+      expect(group.equals(result, expected)).toBe(true)
+    })
+
+    it('commutator() returns aba^-1b^-1', () => {
+      const [a, b, expected] = options.commutator
+
+      const result = group.commutator(a, b)
+
+      expect(group.equals(result, expected)).toBe(true)
+    })
   })
 }

@@ -58,6 +58,7 @@ export class Group<G> {
    */
   commutator(a: G, b: G): G {
     const ab = this.ops.mul(a, b)
-    return this.diff(ab, this.ops.inv(ab))
+    const ba = this.ops.mul(b, a)
+    return this.diff(ab, ba)
   }
 }

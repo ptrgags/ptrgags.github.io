@@ -135,6 +135,7 @@ group_tests({
   ],
   identity_law: new Complex(3, -4),
   inverse: [new Complex(2, 2), new Complex(-2, -2)],
+  inv_product: [new Complex(2, 3), new Complex(-4, -5), new Complex(2, 2)],
   abelian: [
     new Complex(3, -1),
     new Complex(1, 2),
@@ -145,7 +146,7 @@ group_tests({
   // Abelian group so sandwich product returns the meat
   sandwich: [new Complex(3, -4), new Complex(5), new Complex(5)],
   // Abelian group so commutator is always identity
-  commutator: [new Complex(3, -4), new Complex(5), Complex.ONE],
+  commutator: [new Complex(3, -4), new Complex(5), Complex.ZERO],
 })
 
 group_tests({
@@ -154,7 +155,8 @@ group_tests({
   associativity: [new Complex(1, 2), new Complex(-3, 5), new Complex(2, 4), new Complex(-22, -54)],
   identity_law: new Complex(3, -4),
   inverse: [new Complex(2, 2), new Complex(1 / 4, -1 / 4)],
-  diff: [new Complex(1, 2), new Complex(-3, 5), new Complex(1, 1)],
+  inv_product: [new Complex(2, 1), new Complex(3, -2), new Complex(8 / 65, 1 / 65)],
+  diff: [new Complex(1, 2), new Complex(1, -2), new Complex(-3 / 5, 4 / 5)],
   // Abelian group so sandwich returns the meat
   sandwich: [new Complex(3, -4), new Complex(4, 5), new Complex(4, 5)],
   // Abelian group so commutator is always identity
