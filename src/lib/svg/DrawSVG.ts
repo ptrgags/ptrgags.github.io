@@ -7,6 +7,7 @@ import type { Style } from '../styling/Style.ts'
 import type { TextStyle } from '../styling/TextStyle.ts'
 import { svg_tag } from './svg_tag.ts'
 import { SVGCommand } from './SVGCommand.ts'
+import { SVGTransformation } from './SVGTransformation.ts'
 
 /**
  * Apply a Style as SVG attributes
@@ -140,9 +141,18 @@ export class DrawSVG implements DrawingLibrary {
   }
 
   rect(x: number, y: number, width: number, height: number): void {
-    throw new Error('Method not implemented.')
+    const rect = svg_tag('rect', {
+      x: x.toString(),
+      y: y.toString(),
+      width: width.toString(),
+      height: height.toString(),
+    })
+    this.add_child(rect)
   }
+
   text(value: string, x: number, y: number): void {
+    const text = svg_tag('text', { x: x.toString(), y: y.toString() })
+    text.innerHTML = value
     throw new Error('Method not implemented.')
   }
 
@@ -157,22 +167,31 @@ export class DrawSVG implements DrawingLibrary {
     this.end_group()
   }
 
-  apply_text_style(text_style: TextStyle): void {
+  begin_text_style(text_style: TextStyle): void {
     throw new Error('Method not implemented.')
   }
 
-  apply_rigid(
+  end_text_style(): void {
+    throw new Error('not implemented')
+  }
+
+  begin_xform_rigid(
     translation_x: number,
     translation_y: number,
     rotation: number,
     flip_y: boolean,
   ): void {
-    throw new Error('Method not implemented.')
+    const translate = SVGTransformation.translate(translation_x, translation_y)
+    const rotate = SVGTransformation.rotate(rotation)
+
+    const scale_factor = flip_y ? -1 : 1
+    const scale = SVGTransformation.scale(1, scale_factor)
+
+    const g = svg_tag('g', { transform: `${translate} ${rotate} ${scale}` })
+    this.begin_group(g as SVGGElement)
   }
-  push(): void {
-    throw new Error('Method not implemented.')
-  }
-  pop(): void {
-    throw new Error('Method not implemented.')
+
+  end_xform(): void {
+    this.end_group()
   }
 }
