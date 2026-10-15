@@ -72,5 +72,5 @@ onMounted(() => {
   <SketchP5 :sketch="sketch" />
 
   <div ref="converted"></div>
-  <button @click="download">You wouldn't download an SVG file</button>
+  <button @click="download">YoU wOuLdNt DoWnLoAd An SvG FiLe</button>
 </template>
