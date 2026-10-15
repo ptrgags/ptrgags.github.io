@@ -6,7 +6,16 @@ export interface GroupTestOptions<G> {
   group: Group<G>
   associativity: [G, G, G, G]
   identity_law: G
+  // (g, expected_inv)
   inverse: [G, G]
+  // (a, b, expected_product)
+  abelian?: [G, G, G]
+  // (a, b, expected_diff)
+  diff: [G, G, G]
+  // (a, b, expected_sandwich)
+  sandwich: [G, G, G]
+  // (a, b, expected_commutator)
+  commutator: [G, G, G]
 }
 
 export function group_tests<G>(options: GroupTestOptions<G>) {
