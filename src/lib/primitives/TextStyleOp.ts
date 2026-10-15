@@ -11,7 +11,7 @@ export class TextStyleOp implements Drawable {
   }
 
   draw(lib: DrawingLibrary): void {
-    lib.apply_text_style(this.text_style)
+    lib.begin_text_style(this.text_style)
     this.child.draw(lib)
   }
 }

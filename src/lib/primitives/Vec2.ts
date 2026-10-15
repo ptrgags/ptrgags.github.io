@@ -37,8 +37,8 @@ export const VSVec2 = new VectorSpace<Vec2>({
     for (let i = 0; i < scalars.length; i++) {
       const k = scalars[i]
       const { x: vx, y: vy } = vecs[i]
-      x += k * x
-      y += k * y
+      x += k * vx
+      y += k * vy
     }
 
     return { x, y }
