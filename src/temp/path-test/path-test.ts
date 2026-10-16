@@ -102,7 +102,7 @@ function arc_test(): Drawable {
     closed: true,
   })
   return group(
-    style(Style.lines(Oklch.grey(0.5), 8), circle, arc.circle, negative_arc),
+    style(Style.lines(Oklch.grey(0.5), 8), circle, arc, negative_arc),
     style(Style.lines(Oklch.grey(0.75), 2), control_lines),
     style(Style.lines(Color.GREEN, 2), arc_path, circle_path, negative_path),
   )
