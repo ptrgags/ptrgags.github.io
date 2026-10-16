@@ -3,12 +3,12 @@ import { AngleOrientation, ArcAngles } from './ArcAngles.ts'
 
 describe('ArcAngles', () => {
   describe('angle', () => {
-    it('with 0 returns start angle', () => {
+    it('with 0 returns reduced start angle', () => {
       const angles = new ArcAngles(-Math.PI / 2, Math.PI / 4, AngleOrientation.POSITIVE)
 
       const result = angles.angle(0)
 
-      const expected = -Math.PI / 2
+      const expected = (3 * Math.PI) / 2
       expect(result).toBeCloseTo(expected)
     })
 
@@ -26,7 +26,7 @@ describe('ArcAngles', () => {
 
       const result = angles.angle(0.5)
 
-      const expected = -Math.PI / 4
+      const expected = (15 * Math.PI) / 8
       expect(result).toBeCloseTo(expected)
     })
 
@@ -35,7 +35,7 @@ describe('ArcAngles', () => {
 
       const result = angles.angle(0.5)
 
-      const expected = (3 * Math.PI) / 4
+      const expected = (7 * Math.PI) / 8
       expect(result).toEqual(expected)
     })
   })

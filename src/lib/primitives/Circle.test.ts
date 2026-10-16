@@ -75,7 +75,9 @@ describe('Circle', () => {
           new Point2P(r, 0).add(displacement),
         ),
       ]
-      expect(result).toEqual(expected)
+      expect_arrays(result, expected, (result, expected) => {
+        expect(result).toBeBezier(expected)
+      })
     })
   })
 })

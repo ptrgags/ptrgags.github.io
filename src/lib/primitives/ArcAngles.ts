@@ -23,7 +23,7 @@ export class ArcAngles {
   }
 
   angle(t: number): number {
-    return this.start_angle + t * this.orientation * this.subtended_angle
+    return mod(this.start_angle + t * this.orientation * this.subtended_angle, 2.0 * Math.PI)
   }
 
   swap(): ArcAngles {
