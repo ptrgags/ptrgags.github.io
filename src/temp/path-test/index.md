@@ -19,3 +19,7 @@ Quick test of paths
 Converting arcs to bezier curves
 
 <SketchP5 :sketch="SKETCHES.arc_test" />
+
+Let's see it animated
+
+<SketchP5 :sketch="SKETCHES.growing_arc" />

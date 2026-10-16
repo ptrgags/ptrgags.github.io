@@ -17,6 +17,7 @@ import { AngleOrientation, ArcAngles } from '../../lib/primitives/ArcAngles.ts'
 import { Oklch } from '../../lib/styling/Oklch.ts'
 import { Rigid } from '../../lib/primitives/Rigid.ts'
 import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
+import type { Group } from '../../lib/primitives/Group.ts'
 
 function path_test(): Drawable {
   const bezier = new BezierCurve(
@@ -106,7 +107,45 @@ function arc_test(): Drawable {
   )
 }
 
+class GrowingArc implements SceneP5 {
+  primitive: Drawable
+
+  arc: CircularArc
+  polyline_group: Group
+  bezier_group: Group
+
+  constructor() {
+    this.polyline_group = group()
+    this.bezier_group = group()
+
+    this.arc = new CircularArc(
+      new Circle(SWATCH.center, 64),
+      new ArcAngles(0, 0, AngleOrientation.POSITIVE),
+    )
+
+    this.primitive = group(
+      style(Style.lines(Oklch.grey(0.75), 2), this.polyline_group),
+      style(Style.lines(Color.GREEN, 2), this.bezier_group),
+    )
+  }
+
+  update(p: p5): void {
+    const t = p.frameCount / 60
+    const f = 0.5
+
+    this.arc.angles.end_angle = 2.0 * Math.PI * f * t
+    const beziers = this.arc.to_bezier_curves()
+    this.bezier_group.regroup(...beziers)
+    this.polyline_group.regroup(...beziers.map((x) => x.control_polyline))
+  }
+
+  draw(lib: DrawP5): void {
+    this.primitive.draw(lib)
+  }
+}
+
 export const SKETCHES = {
   path_test: make_static_sketch(SWATCH.dimensions, path_test()),
   arc_test: make_static_sketch(SWATCH.dimensions, arc_test()),
+  growing_arc: make_sketch(SWATCH.dimensions, new GrowingArc()),
 }
