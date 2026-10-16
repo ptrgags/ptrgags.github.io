@@ -42,13 +42,15 @@ export class CircularArc implements Drawable {
     // How many quarter circles is this arc?
     const [quarters, remaining] = divmod(angle, Math.PI / 2)
 
-    const flip = false //this.angles.orientation === AngleOrientation.NEGATIVE
+    const orientation = this.angles.orientation
+
+    const flip = orientation === AngleOrientation.NEGATIVE
 
     const result = []
     for (let i = 0; i < quarters; i++) {
       const curve = quarter_circle_bezier(
         this.circle,
-        this.angles.start_angle + (i * Math.PI) / 2,
+        this.angles.start_angle + (orientation * (i * Math.PI)) / 2,
         flip,
       )
       result.push(curve)
@@ -59,8 +61,8 @@ export class CircularArc implements Drawable {
         this.circle,
         // subtended angle
         remaining,
-        // phase
-        this.angles.start_angle + (quarters * Math.PI) / 2,
+        // phase of start point
+        this.angles.start_angle + (orientation * (quarters * Math.PI)) / 2,
         flip,
       )
       result.push(curve)

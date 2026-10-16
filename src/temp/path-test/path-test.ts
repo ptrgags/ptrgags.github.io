@@ -81,7 +81,7 @@ function arc_test(): Drawable {
 
   const negative_arc = new CircularArc(
     new Circle(new Point2P(180, 180), 32),
-    new ArcAngles(Math.PI / 4, -Math.PI / 2, AngleOrientation.NEGATIVE),
+    new ArcAngles(Math.PI / 4, (3 * Math.PI) / 2, AngleOrientation.NEGATIVE),
   )
   const negative_path = new Path({
     parts: [negative_arc],
@@ -102,7 +102,7 @@ function arc_test(): Drawable {
     closed: true,
   })
   return group(
-    style(Style.lines(Oklch.grey(0.5), 8), circle, arc.circle, negative_arc.circle),
+    style(Style.lines(Oklch.grey(0.5), 8), circle, arc.circle, negative_arc),
     style(Style.lines(Oklch.grey(0.75), 2), control_lines),
     style(Style.lines(Color.GREEN, 2), arc_path, circle_path, negative_path),
   )

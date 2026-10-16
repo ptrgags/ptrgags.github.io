@@ -47,29 +47,20 @@ export function small_arc_bezier(
   phase: number,
   flip: boolean,
 ): BezierCurve {
-  // Compute a similar arc on the unit circle from [-angle/2, angle/2]
-  const half_angle = 0.5 * subtended_angle
+  // Create an arc from [0, subtended_angle) in the positive direction on
+  // the unit circle. We'll transform this at the end to get the desired arc
 
-  // First point is on the circle
-  const unit_a = Complex.from_polar(1, -half_angle)
+  // c = 1
+  const unit_a = Complex.ONE
+  // a = tangent_length * i
+  const unit_b = new Complex(1, tangent_length(subtended_angle))
+  // (skip c, it's easier to compute d first)
+  // d = exp(i * subtended_angle)
+  const unit_d = Complex.from_polar(1, subtended_angle)
+  // c is a flipped and rotated copy of b. d here is reinterpreted as
+  // a rotation
+  const unit_c = unit_d.mul(unit_b.conj)
 
-  // Second point is `a + x * unit_tangent`
-  const tangent_a = Complex.I.mul(unit_a)
-  const x = new Complex(tangent_length(subtended_angle))
-  const unit_b = unit_a.add(x.mul(tangent_a))
-
-  // The arrangement here has nice symmetry, the second tangent and end
-  // point are just mirror images of `b` and `a` across the real line!
-  const unit_c = unit_b.conj
-  const unit_d = unit_a.conj
-
-  const [a, b, c, d] = transform_points(
-    [unit_a, unit_b, unit_c, unit_d],
-    circle,
-    // The unit arc spans [-angle/2, angle/2], but
-    // transform_points assumes [0, angle] so we add half_angle
-    phase + half_angle,
-    flip,
-  )
+  const [a, b, c, d] = transform_points([unit_a, unit_b, unit_c, unit_d], circle, phase, flip)
   return new BezierCurve(a, b, c, d)
 }
