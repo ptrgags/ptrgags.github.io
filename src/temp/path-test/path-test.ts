@@ -169,7 +169,7 @@ class SymmetricArc implements SceneP5 {
 
     this.primitive = group(
       style(Style.lines(Oklch.grey(0.75), 2), this.polyline_group),
-      style(Style.lines(Color.GREEN, 2), this.bezier_group),
+      style(Style.flat(Color.GREEN), this.bezier_group),
     )
   }
 
@@ -182,7 +182,18 @@ class SymmetricArc implements SceneP5 {
     this.arc.angles.end_angle = Math.PI + abs_angle
 
     const beziers = this.arc.to_bezier_curves()
-    this.bezier_group.regroup(...beziers)
+    const last_bezier = beziers.at(-1)
+    if (last_bezier) {
+      this.bezier_group.regroup(
+        new Path({
+          parts: [...beziers, new LineSegment(last_bezier.end, this.arc.circle.center)],
+          closed: true,
+        }),
+      )
+    } else {
+      this.bezier_group.regroup()
+    }
+
     this.polyline_group.regroup(...beziers.map((x) => x.control_polyline))
   }
 
