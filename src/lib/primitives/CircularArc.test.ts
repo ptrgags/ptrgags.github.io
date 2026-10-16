@@ -78,7 +78,7 @@ describe('CircularArc', () => {
         new BezierCurve(p0, p0.mul(quarter_tangent), p1.mul(quarter_tangent.conj), p1),
         new BezierCurve(p1, p1.mul(quarter_tangent), p2.mul(quarter_tangent.conj), p2),
         // The last part of the arc is half the size, i.e. 1/8 of a circle
-        new BezierCurve(p2, p2.mul(eighth_tangent), p1.mul(eighth_tangent.conj), p3),
+        new BezierCurve(p2, p2.mul(eighth_tangent), p3.mul(eighth_tangent.conj), p3),
       ]
       expect_arrays(result, expected, (result, expected) => {
         expect(result).toBeBezier(expected)

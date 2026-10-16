@@ -24,19 +24,20 @@ export function tangent_length(subtended_angle: number) {
   return (4 * Math.tan(half_angle / 2)) / 3
 }
 
-function transform_points(points: Vec2[], circle: Circle, phase: number): Complex[] {
+function transform_points(points: Vec2[], circle: Circle, phase: number, flip: boolean): Complex[] {
   const translation = Complex.from_vec2(circle.center)
   const spiral = Complex.from_polar(circle.radius, phase)
 
   return points.map((p) => {
     const p_complex = Complex.from_vec2(p)
+    const flipped = flip ? p_complex.conj : p_complex
 
-    return spiral.mul(p_complex).add(translation)
+    return spiral.mul(flipped).add(translation)
   })
 }
 
-export function quarter_circle_bezier(circle: Circle, phase: number): BezierCurve {
-  const [a, b, c, d] = transform_points(QUARTER_UNIT_CIRCLE_POINTS, circle, phase)
+export function quarter_circle_bezier(circle: Circle, phase: number, flip: boolean): BezierCurve {
+  const [a, b, c, d] = transform_points(QUARTER_UNIT_CIRCLE_POINTS, circle, phase, flip)
   return new BezierCurve(a, b, c, d)
 }
 
@@ -44,6 +45,7 @@ export function small_arc_bezier(
   circle: Circle,
   subtended_angle: number,
   phase: number,
+  flip: boolean,
 ): BezierCurve {
   // Compute a similar arc on the unit circle from [-angle/2, angle/2]
   const half_angle = 0.5 * subtended_angle
@@ -67,6 +69,7 @@ export function small_arc_bezier(
     // The unit arc spans [-angle/2, angle/2], but
     // transform_points assumes [0, angle] so we add half_angle
     phase + half_angle,
+    flip,
   )
   return new BezierCurve(a, b, c, d)
 }
