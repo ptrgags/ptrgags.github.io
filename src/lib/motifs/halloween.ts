@@ -22,13 +22,17 @@ function circle_to_arcs(circle: Circle): [CircularArc, CircularArc] {
   return [top, bottom]
 }
 
+function transform_segment(segment: LineSegment, f: (x: Complex) => Complex): LineSegment {
+  const start = Complex.from_vec2(segment.start)
+  const end = Complex.from_vec2(segment.end)
+  return new LineSegment(f(start), f(end))
+}
+
 // Don't have time to do this properly right now, so hacking things together
 function transform_path(path: Path, f: (x: Complex) => Complex): Path {
   const parts = path.parts.map((part) => {
     if (part instanceof LineSegment) {
-      const start = Complex.from_vec2(part.start)
-      const end = Complex.from_vec2(part.end)
-      return new LineSegment(f(start), f(end))
+      return transform_segment(part, f)
     } else {
       const a = Complex.from_vec2(part.a)
       const b = Complex.from_vec2(part.b)
@@ -267,11 +271,6 @@ export function bone(length: number, circle: Circle): Path {
   return transform_path(big_bone, (x) => {
     return zoom(shrink.mul(x))
   })
-
-  /*
-    const shrink = scale(2.0 / length);
-    Ok(big_bone.transform(shrink))
-    */
 }
 
 /// Create a motif shaped like a witch's hat.
@@ -328,9 +327,18 @@ export function witch_hat(): LayeredDrawable {
   }
 }
 
+export const SKULL_STYLES = [
+  // body
+  Style.flat(Color.WHITE),
+  // eyes
+  Style.flat(Color.BLACK),
+  // lines for the teeth
+  Style.lines(Color.BLACK, 2),
+]
+
 /// Create a skull motif that _nearly_ fits in the unit circle. the teeth
 /// stick out a tiny bit.
-export function skull(): LayeredDrawable {
+export function skull(circle: Circle): LayeredDrawable {
   const top_circle = new Circle(Point2P.ORIGIN, 2.0)
   const left_circle = new Circle(Complex.ONE.neg, 1.0)
   const right_circle = new Circle(Complex.ONE, 1.0)
@@ -362,9 +370,6 @@ export function skull(): LayeredDrawable {
   const left_eye = new Circle(new Complex(-EYE_X, EYE_Y), EYE_RADIUS)
   const right_eye = new Circle(new Complex(EYE_X, EYE_Y), EYE_RADIUS)
 
-  const [left_eye_top, left_eye_bottom] = circle_to_arcs(left_eye)
-  const [right_eye_top, right_eye_bottom] = circle_to_arcs(right_eye)
-
   const skull = new Path({
     parts: [
       arc_right,
@@ -377,25 +382,21 @@ export function skull(): LayeredDrawable {
     closed: false,
   })
 
-  // TODO: the lines for the teeth are lines, but the rest could be filled.
-  // Detail for the eyes and teeth
-  const detail = new Path({
-    parts: [
-      teeth_verticals[1],
-      teeth_verticals[2],
-      teeth_verticals[3],
-      left_eye_top,
-      left_eye_bottom,
-      right_eye_top,
-      right_eye_bottom,
-    ],
-    closed: false,
-  })
+  const zoom = zoom_circle(circle)
+  const shrink = new Complex(0.5)
+  const transform_point = (x: Complex) => {
+    return zoom(shrink.mul(x))
+  }
 
-  // TODO: shrink
-  //const shrink = scale(0.5);
+  const eye_circles = [left_eye, right_eye].map((x) => transform_circle(x, transform_point))
+  const eyes = group(...eye_circles)
+
+  const teeth_lines = teeth_verticals.slice(1, 4).map((x) => {
+    return transform_segment(x, transform_point)
+  })
+  const lines = group(...teeth_lines)
 
   return {
-    layers: [skull, detail],
+    layers: [transform_path(skull, transform_point), eyes, lines],
   }
 }
