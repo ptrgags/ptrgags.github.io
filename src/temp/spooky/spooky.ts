@@ -12,6 +12,8 @@ import {
   ghost_styles,
   skull,
   SKULL_STYLES,
+  witch_hat,
+  WITCH_HAT_STYLES,
 } from '../../lib/motifs/halloween.ts'
 import { Circle } from '../../lib/primitives/Circle.ts'
 import { StyleLayers } from '../../lib/primitives/StyleLayers.ts'
@@ -60,10 +62,15 @@ function skull_stamp(): Drawable {
   return new StyleLayers(SKULL_STYLES, skull(UNIT_CIRCLE))
 }
 
+function witch_hat_stamp(): Drawable {
+  return new StyleLayers(WITCH_HAT_STYLES, witch_hat(UNIT_CIRCLE))
+}
+
 export const SKETCHES = {
   template: make_sketch(SWATCH.dimensions, new TEMPLATE()),
   ghost: make_static_sketch(SWATCH.dimensions, ghost_stamp()),
   candy_corn: make_static_sketch(SWATCH.dimensions, candy_corn_stamp()),
   bone: make_static_sketch(SWATCH.dimensions, bone_stamp()),
   skull: make_static_sketch(SWATCH.dimensions, skull_stamp()),
+  witch_hat: make_static_sketch(SWATCH.dimensions, witch_hat_stamp()),
 }

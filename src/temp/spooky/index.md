@@ -1,7 +1,7 @@
 ---
 layout: article
-title: TEMPLATE
-date: 'YYYY-MM-DD'
+title: s p o o k y
+date: '2026-10-'
 hide: true
 # URL relative to BACKBLAZE assets root
 thumbnail: pattern/TEMPLATE/thumbnail.png
@@ -16,3 +16,4 @@ import {SKETCHES} from './spooky'
 <SketchP5 :sketch="SKETCHES.candy_corn" />
 <SketchP5 :sketch="SKETCHES.bone" />
 <SketchP5 :sketch="SKETCHES.skull" />
+<SketchP5 :sketch="SKETCHES.witch_hat" />

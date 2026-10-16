@@ -273,9 +273,11 @@ export function bone(length: number, circle: Circle): Path {
   })
 }
 
+export const WITCH_HAT_STYLES = [Style.lines('#9261ba', 2), Style.lines('#ffff00', 2)]
+
 /// Create a motif shaped like a witch's hat.
 /// It's normalized so it fits in the unit circle
-export function witch_hat(): LayeredDrawable {
+export function witch_hat(circle: Circle): LayeredDrawable {
   // The circles can be found at https://www.desmos.com/calculator/nrdpneh58g
   // The brim of the hat is made from 3 circular arcs
   const circle_brim_bottom = new Circle(Complex.ZERO, 2.0)
@@ -321,9 +323,14 @@ export function witch_hat(): LayeredDrawable {
   })
 
   // TODO: scale down everything
-  //const shrink = scale(1.0 / 4.0);
+  const zoom = zoom_circle(circle)
+  const shrink = new Complex(0.25)
+  const transform_point = (x: Complex) => {
+    return zoom(shrink.mul(x))
+  }
+
   return {
-    layers: [outside, band],
+    layers: [transform_path(outside, transform_point), transform_path(band, transform_point)],
   }
 }
 
