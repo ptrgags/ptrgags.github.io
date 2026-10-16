@@ -44,6 +44,15 @@ export class Complex implements Vec2 {
     return this.real === 0 && this.imag === 0
   }
 
+  static from_vec2(v: Vec2): Complex {
+    if (v instanceof Complex) {
+      return v
+    }
+
+    const { x, y } = v
+    return new Complex(x, y)
+  }
+
   static from_polar(r: number, theta: number): Complex {
     if (r === 0.0) {
       return Complex.ZERO
