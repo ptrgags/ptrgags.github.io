@@ -3,7 +3,7 @@
 import { Complex, VSComplex } from '../math/complex/Complex.ts'
 import { range } from '../math/iteration/range.ts'
 import { Point2P } from '../math/pga2d/Point2P.ts'
-import { ArcAngles } from '../primitives/ArcAngles.ts'
+import { AngleOrientation, ArcAngles } from '../primitives/ArcAngles.ts'
 import { Circle } from '../primitives/Circle.ts'
 import { CircularArc } from '../primitives/CircularArc.ts'
 import { LineSegment } from '../primitives/LineSegment.ts'
@@ -25,13 +25,15 @@ export function ghost(): StyleLayers {
   const CIRCLE_SPACING = 2.0 / 5.0
   const BOTTOM_CIRCLE_RADIUS = 1.0 / 5.0
   const head_circle = Circle.UNIT_CIRCLE
-  const bottom_circles = range(5).map(
-    (i) =>
-      new Circle(
-        new Complex(((-2.0 + i) as number) * CIRCLE_SPACING, -SIDE_HEIGHT),
-        BOTTOM_CIRCLE_RADIUS,
-      ),
-  )
+  const bottom_circles = range(5)
+    .map(
+      (i) =>
+        new Circle(
+          new Complex(((-2.0 + i) as number) * CIRCLE_SPACING, -SIDE_HEIGHT),
+          BOTTOM_CIRCLE_RADIUS,
+        ),
+    )
+    .toArray()
 
   const left_eye = new Circle(new Complex(-0.5, 0.0), 0.25)
   const right_eye = new Circle(new Complex(0.5, 0.0), 0.25)
@@ -54,9 +56,9 @@ export function ghost(): StyleLayers {
       new LineSegment(Complex.ONE.neg, new Complex(-1.0, -SIDE_HEIGHT)),
       // Five semi-circles for the bottom
       new CircularArc(bottom_circles[0], lower),
-      new CircularArc(bottom_circles[1], upper.reverse()),
+      new CircularArc(bottom_circles[1], upper.reverse_orientation().swap()),
       new CircularArc(bottom_circles[2], lower),
-      new CircularArc(bottom_circles[3], upper.reverse()),
+      new CircularArc(bottom_circles[3], upper.reverse_orientation().swap()),
       new CircularArc(bottom_circles[4], lower),
       // Right side
       new LineSegment(new Complex(1.0, -SIDE_HEIGHT), Complex.ONE),
@@ -131,9 +133,9 @@ export function candy_corn(): StyleLayers {
   const circle_a = new Circle(center_a, radius)
   const circle_b = new Circle(center_b, radius)
   const circle_c = new Circle(center_c, radius)
-  const angles_a = new ArcAngles(-Math.PI / 3, Math.PI / 3)
-  const angles_b = new ArcAngles(Math.PI / 3, PI)
-  const angles_c = new ArcAngles(-PI, -Math.PI / 3)
+  const angles_a = new ArcAngles(-Math.PI / 3, Math.PI / 3, AngleOrientation.POSITIVE)
+  const angles_b = new ArcAngles(Math.PI / 3, Math.PI, AngleOrientation.POSITIVE)
+  const angles_c = new ArcAngles(-Math.PI, -Math.PI / 3, AngleOrientation.POSITIVE)
   const arc_a = new CircularArc(circle_a, angles_a)
   const arc_b = new CircularArc(circle_b, angles_b)
   const arc_c = new CircularArc(circle_c, angles_c)
@@ -144,7 +146,11 @@ export function candy_corn(): StyleLayers {
   const radius2 = 2.0 * radius1
   const circle1 = new Circle(a, radius1)
   const circle2 = new Circle(a, radius2)
-  const divider_angles = new ArcAngles((5.0 * Math.PI) / 6, (7.0 * Math.PI) / 6)
+  const divider_angles = new ArcAngles(
+    (5.0 * Math.PI) / 6,
+    (7.0 * Math.PI) / 6,
+    AngleOrientation.POSITIVE,
+  )
   const arc1 = new CircularArc(circle1, divider_angles)
   const arc2 = new CircularArc(circle2, divider_angles)
 
@@ -191,10 +197,10 @@ export function bone(length: number): Path {
   const circle_bottom_left = new Circle(center_bottom_left, 1.0)
   const circle_bottom_right = new Circle(center_bottom_right, 1.0)
 
-  const angles_top_left = new ArcAngles(0.0, (3.0 * Math.PI) / 2)
-  const angles_top_right = new ArcAngles(-Math.PI / 2, PI)
-  const angles_bottom_left = new ArcAngles(Math.PI / 2, TAU)
-  const angles_bottom_right = new ArcAngles(-PI, Math.PI / 2)
+  const angles_top_left = new ArcAngles(0.0, (3.0 * Math.PI) / 2, AngleOrientation.POSITIVE)
+  const angles_top_right = new ArcAngles(-Math.PI / 2, Math.PI, AngleOrientation.POSITIVE)
+  const angles_bottom_left = new ArcAngles(Math.PI / 2, 2 * Math.PI, AngleOrientation.POSITIVE)
+  const angles_bottom_right = new ArcAngles(-Math.PI, Math.PI / 2, AngleOrientation.POSITIVE)
   const arc_top_left = new CircularArc(circle_top_left, angles_top_left)
   const arc_top_right = new CircularArc(circle_top_right, angles_top_right)
   const arc_bottom_left = new CircularArc(circle_bottom_left, angles_bottom_left)
@@ -229,7 +235,7 @@ export function bone(length: number): Path {
 export function witch_hat(): LayeredDrawable {
   // The circles can be found at https://www.desmos.com/calculator/nrdpneh58g
   // The brim of the hat is made from 3 circular arcs
-  const circle_brim_bottom = new Circle(Point2P.ZERO, 2.0)
+  const circle_brim_bottom = new Circle(Complex.ZERO, 2.0)
   const circle_brim_left = new Circle(Complex.ONE.neg, 1.0)
   const circle_brim_right = new Circle(Complex.ONE, 1.0)
   // This hat is very pointy! in fact the angle at the point is 0!
@@ -237,11 +243,11 @@ export function witch_hat(): LayeredDrawable {
   const circle_point_top = new Circle(new Complex(1.0, 1.0), 2.0)
 
   // Outline the outside of the hat
-  const angles_brim_left = new ArcAngles(Math.PI / 2, PI)
-  const angles_brim_bottom = new ArcAngles(-PI, 0.0)
-  const angles_brim_right = new ArcAngles(0.0, Math.PI / 2)
-  const angles_point_bottom = new ArcAngles(PI, 0.0)
-  const angles_point_top = new ArcAngles(0.0, PI)
+  const angles_brim_left = new ArcAngles(Math.PI / 2, Math.PI, AngleOrientation.POSITIVE)
+  const angles_brim_bottom = new ArcAngles(-Math.PI, 0.0, AngleOrientation.POSITIVE)
+  const angles_brim_right = new ArcAngles(0.0, Math.PI / 2, AngleOrientation.POSITIVE)
+  const angles_point_bottom = new ArcAngles(Math.PI, 0.0, AngleOrientation.NEGATIVE)
+  const angles_point_top = new ArcAngles(0.0, Math.PI, AngleOrientation.POSITIVE)
   const arc_brim_left = new CircularArc(circle_brim_left, angles_brim_left)
   const arc_brim_bottom = new CircularArc(circle_brim_bottom, angles_brim_bottom)
   const arc_brim_right = new CircularArc(circle_brim_right, angles_brim_right)
@@ -257,10 +263,13 @@ export function witch_hat(): LayeredDrawable {
   const circle_band_top = new Circle(new Complex(0.0, 2.0), Math.SQRT2)
   const circle_band_bottom = new Circle(Complex.I, Math.SQRT2)
 
-  const angles_band = new ArcAngles(-Math.PI / 4, (-3.0 * Math.PI) / 4)
+  const angles_band = new ArcAngles(-Math.PI / 4, (-3.0 * Math.PI) / 4, AngleOrientation.NEGATIVE)
   const arc_band_top = new CircularArc(circle_band_top, angles_band)
   const band_left = new LineSegment(new Complex(-1.0, 1.0), Complex.ONE.neg)
-  const arc_band_bottom = new CircularArc(circle_band_bottom, angles_band.reverse())
+  const arc_band_bottom = new CircularArc(
+    circle_band_bottom,
+    angles_band.reverse_orientation().swap(),
+  )
   const band_right = new LineSegment(Complex.ONE, new Complex(1.0, 1.0))
 
   const band = new Path({
@@ -282,9 +291,9 @@ export function skull(): LayeredDrawable {
   const left_circle = new Circle(Complex.ONE.neg, 1.0)
   const right_circle = new Circle(Complex.ONE, 1.0)
 
-  const angles_top = new ArcAngles(0.0, PI)
-  const angles_left = new ArcAngles(PI, (3.0 * Math.PI) / 2)
-  const angles_right = new ArcAngles(-Math.PI / 2, 0.0)
+  const angles_top = new ArcAngles(0.0, Math.PI, AngleOrientation.POSITIVE)
+  const angles_left = new ArcAngles(Math.PI, (3.0 * Math.PI) / 2, AngleOrientation.POSITIVE)
+  const angles_right = new ArcAngles(-Math.PI / 2, 0.0, AngleOrientation.POSITIVE)
   const arc_top = new CircularArc(top_circle, angles_top)
   const arc_left = new CircularArc(left_circle, angles_left)
   const arc_right = new CircularArc(right_circle, angles_right)
@@ -296,10 +305,12 @@ export function skull(): LayeredDrawable {
     teeth_left.add(bottom_offset),
     teeth_left.add(new Complex(4 * teeth_spacing)).add(bottom_offset),
   )
-  const teeth_verticals = range(5).map((i) => {
-    const x_offset = new Complex(teeth_spacing * i)
-    return new LineSegment(teeth_left.add(x_offset), teeth_left.add(bottom_offset).add(x_offset))
-  })
+  const teeth_verticals = range(5)
+    .map((i) => {
+      const x_offset = new Complex(teeth_spacing * i)
+      return new LineSegment(teeth_left.add(x_offset), teeth_left.add(bottom_offset).add(x_offset))
+    })
+    .toArray()
 
   const EYE_RADIUS: number = 0.5
   const EYE_X: number = 0.8
