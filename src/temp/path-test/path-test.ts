@@ -2,7 +2,7 @@ import type p5 from 'p5'
 import type { DrawP5 } from '../../lib/p5-helpers/DrawP5.ts'
 import { make_sketch, type SceneP5 } from '../../lib/p5-helpers/sketches.ts'
 import type { Drawable } from '../../lib/primitives/Drawable.ts'
-import { group, style, xform } from '../../lib/primitives/shorthand.ts'
+import { group, style } from '../../lib/primitives/shorthand.ts'
 import { SWATCH } from '../../core/dimensions.ts'
 import { Style } from '../../lib/styling/Style.ts'
 import { BezierCurve } from '../../lib/primitives/BezierCurve.ts'
@@ -11,11 +11,10 @@ import { Polyline } from '../../lib/primitives/Polyline.ts'
 import { Color } from '../../lib/styling/Color.ts'
 import { Path } from '../../lib/primitives/Path.ts'
 import { LineSegment } from '../../lib/primitives/LineSegment.ts'
-import { Rigid } from '../../lib/primitives/Rigid.ts'
-import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
 import { CircularArc } from '../../lib/primitives/CircularArc.ts'
 import { Circle } from '../../lib/primitives/Circle.ts'
 import { AngleOrientation, ArcAngles } from '../../lib/primitives/ArcAngles.ts'
+import { Oklch } from '../../lib/styling/Oklch.ts'
 
 class PathTest implements SceneP5 {
   primitive: Drawable
@@ -70,12 +69,24 @@ class PathTest implements SceneP5 {
       closed: true,
     })
 
+    const circle = new Circle(new Point2P(64, 64), 48)
+    const circle_beziers = circle.to_bezier_curves()
+    const control_lines = group(...circle_beziers.map((x) => x.control_polyline))
+
+    const circle_path = new Path({
+      parts: circle.to_bezier_curves(),
+      closed: true,
+    })
+
     this.primitive = group(
-      style(Style.lines(Color.CYAN), bezier.control_polyline),
-      style(Style.DEFAULT_LINES, bezier),
-      style(Style.flat(Color.YELLOW), polygon),
-      style(Style.flat(Color.RED), xform(Rigid.translation(new Direction2P(-64, 0)), path)),
+      //style(Style.lines(Color.CYAN), bezier.control_polyline),
+      //style(Style.DEFAULT_LINES, bezier),
+      //style(Style.flat(Color.YELLOW), polygon),
+      //style(Style.flat(Color.RED), xform(Rigid.translation(new Direction2P(-64, 0)), path)),
       style(Style.lines(Color.BLUE, 8), arc_path),
+      style(Style.lines(Oklch.grey(0.5), 4), circle),
+      style(Style.lines(Oklch.grey(0.75), 2), control_lines),
+      style(Style.lines(Color.GREEN, 2), circle_path),
     )
   }
 

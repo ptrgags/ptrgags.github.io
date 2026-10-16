@@ -34,7 +34,7 @@ export class Circle implements Drawable {
       quarter_circle_bezier(this, 0),
       quarter_circle_bezier(this, Math.PI / 2),
       quarter_circle_bezier(this, Math.PI),
-      quarter_circle_bezier(this, (3 * Math.PI) / 4),
+      quarter_circle_bezier(this, (3 * Math.PI) / 2),
     ]
   }
 
