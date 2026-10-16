@@ -120,10 +120,19 @@ function lerp(a: Complex, b: Complex, t: number): Complex {
   return VSComplex.combo([1 - t, t], [a, b])
 }
 
+export const CANDY_CORN_STYLES = [
+  // Yellow base
+  Style.flat(new Color(255, 255, 0)),
+  // Orange middle
+  Style.flat(new Color(255, 127, 0)),
+  // White tip
+  Style.flat(new Color(255, 255, 255)),
+]
+
 /// Make a candy corn motif
 /// See my [desmos sketch](https://www.desmos.com/calculator/4gidpmhf7c) for
 /// an illustration
-export function candy_corn(): StyleLayers {
+export function candy_corn(circle: Circle): LayeredDrawable {
   // Start with a triangle at the third roots of unity
   const a = Complex.ONE
   const b = Complex.from_polar(1.0, (2.0 * Math.PI) / 3)
@@ -200,16 +209,9 @@ export function candy_corn(): StyleLayers {
   const mid = new Path({ parts: [line_ab1_ab2, arc2, line_ac2_ac1, arc1.reverse()], closed: true })
   const tip = new Path({ parts: [arc_a, line_a_ab1, arc1, line_ac1_a], closed: true })
 
-  const styles = [
-    // Yellow base
-    Style.flat(new Color(255, 255, 0)),
-    // Orange middle
-    Style.flat(new Color(255, 127, 0)),
-    // White tip
-    Style.flat(new Color(255, 255, 255)),
-  ]
+  const zoom = zoom_circle(circle)
 
-  return new StyleLayers(styles, { layers: [base, mid, tip] })
+  return { layers: [base, mid, tip].map((x) => transform_path(x, zoom)) }
 }
 
 /// Create a vertical cartoon bone that fits in [-2, 2] x [- (length/2 + 1), (length/2 + 1)]

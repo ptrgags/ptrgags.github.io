@@ -13,5 +13,4 @@ import {SKETCHES} from './spooky'
 
 
 <SketchP5 :sketch="SKETCHES.ghost" />
-
-lorem ipsum blah blah blah
+<SketchP5 :sketch="SKETCHES.candy_corn" />
