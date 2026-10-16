@@ -4,10 +4,12 @@ import { Complex, VSComplex } from '../math/complex/Complex.ts'
 import { range } from '../math/iteration/range.ts'
 import { Point2P } from '../math/pga2d/Point2P.ts'
 import { AngleOrientation, ArcAngles } from '../primitives/ArcAngles.ts'
+import { BezierCurve } from '../primitives/BezierCurve.ts'
 import { Circle } from '../primitives/Circle.ts'
 import { CircularArc } from '../primitives/CircularArc.ts'
 import { LineSegment } from '../primitives/LineSegment.ts'
 import { Path } from '../primitives/Path.ts'
+import { group } from '../primitives/shorthand.ts'
 import { StyleLayers, type LayeredDrawable } from '../primitives/StyleLayers.ts'
 import { Color } from '../styling/Color.ts'
 import { Style } from '../styling/Style.ts'
@@ -20,7 +22,51 @@ function circle_to_arcs(circle: Circle): [CircularArc, CircularArc] {
   return [top, bottom]
 }
 
-export function ghost(): StyleLayers {
+// Don't have time to do this properly right now, so hacking things together
+function transform_path(path: Path, f: (x: Complex) => Complex): Path {
+  const parts = path.parts.map((part) => {
+    if (part instanceof LineSegment) {
+      const start = Complex.from_vec2(part.start)
+      const end = Complex.from_vec2(part.end)
+      return new LineSegment(f(start), f(end))
+    } else {
+      const a = Complex.from_vec2(part.a)
+      const b = Complex.from_vec2(part.b)
+      const c = Complex.from_vec2(part.c)
+      const d = Complex.from_vec2(part.d)
+      return new BezierCurve(f(a), f(b), f(c), f(d))
+    }
+  })
+  return new Path({
+    parts,
+    closed: path.closed,
+  })
+}
+
+function transform_circle(circle: Circle, f: (x: Complex) => Complex): Circle {
+  const { center } = circle
+  const xformed_center = f(Complex.from_vec2(center))
+  const xformed_point = f(Complex.from_vec2(circle.position(0)))
+  const xformed_radius = xformed_point.sub(xformed_center).mag
+  return new Circle(xformed_center, xformed_radius)
+}
+
+function zoom_circle(circle: Circle): (x: Complex) => Complex {
+  const k = new Complex(circle.radius)
+  const d = Complex.from_vec2(circle.center)
+  return (x) => {
+    // the conj here is to handle y-down
+    return k.mul(x.conj).add(d)
+  }
+}
+
+export function ghost_styles(): Style[] {
+  const style_body = Style.flat('#c5f2fa')
+  const style_eyes_mouth = Style.flat(Color.BLACK)
+  return [style_body, style_eyes_mouth, style_eyes_mouth]
+}
+
+export function ghost(circle: Circle): LayeredDrawable {
   const SIDE_HEIGHT = 1.5
   const CIRCLE_SPACING = 2.0 / 5.0
   const BOTTOM_CIRCLE_RADIUS = 1.0 / 5.0
@@ -38,13 +84,6 @@ export function ghost(): StyleLayers {
   const left_eye = new Circle(new Complex(-0.5, 0.0), 0.25)
   const right_eye = new Circle(new Complex(0.5, 0.0), 0.25)
   const mouth = new Circle(new Complex(0.0, -0.5), 0.125)
-
-  // TODO: These semicircles might not be needed
-  /*
-  const [left_eye_top, left_eye_bottom] = circle_to_arcs(left_eye)
-  const [right_eye_top, right_eye_bottom] = circle_to_arcs(right_eye)
-  const [mouth_top, mouth_bottom] = circle_to_arcs(mouth)
-  */
 
   const [upper, lower] = ArcAngles.SEMICIRCLES
 
@@ -66,16 +105,15 @@ export function ghost(): StyleLayers {
     closed: true,
   })
 
-  //const left_eye = new Path({ parts: [left_eye_top, left_eye_bottom], closed: true })
-  //const right_eye = new Path({ parts: [right_eye_top, right_eye_bottom], closed: true })
-  //const mouth = new Path({ parts: [mouth_top, mouth_bottom], closed: true })
+  const zoom = zoom_circle(circle)
 
-  const style_body = Style.flat('#c5f2fa')
-  const style_eyes_mouth = Style.flat(Color.BLACK)
-
-  return new StyleLayers([style_body, style_eyes_mouth, style_eyes_mouth, style_eyes_mouth], {
-    layers: [ghost_body, left_eye, right_eye, mouth],
-  })
+  return {
+    layers: [
+      transform_path(ghost_body, zoom),
+      group(transform_circle(left_eye, zoom), transform_circle(right_eye, zoom)),
+      transform_circle(mouth, zoom),
+    ],
+  }
 }
 
 function lerp(a: Complex, b: Complex, t: number): Complex {
