@@ -23,3 +23,6 @@ Converting arcs to bezier curves
 Let's see it animated
 
 <SketchP5 :sketch="SKETCHES.growing_arc" />
+
+Chomp.
+<SketchP5 :sketch="SKETCHES.symmetric_arc" />
