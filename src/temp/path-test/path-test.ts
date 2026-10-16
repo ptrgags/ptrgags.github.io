@@ -77,9 +77,22 @@ function arc_test(): Drawable {
     closed: false,
   })
 
-  const circle = new Circle(new Point2P(64, 64), 48)
+  const negative_arc = new CircularArc(
+    new Circle(new Point2P(180, 180), 32),
+    new ArcAngles(Math.PI / 4, -Math.PI / 2, AngleOrientation.NEGATIVE),
+  )
+  const negative_path = new Path({
+    parts: [negative_arc],
+    closed: false,
+  })
 
-  const beziers = [...arc.to_bezier_curves(), ...circle.to_bezier_curves()]
+  const circle = new Circle(new Point2P(64, 64), 48)
+  const beziers = [
+    ...arc.to_bezier_curves(),
+    ...circle.to_bezier_curves(),
+    ...negative_arc.to_bezier_curves(),
+  ]
+
   const control_lines = group(...beziers.map((x) => x.control_polyline))
 
   const circle_path = new Path({
@@ -87,9 +100,9 @@ function arc_test(): Drawable {
     closed: true,
   })
   return group(
-    style(Style.lines(Oklch.grey(0.5), 8), circle, arc.circle),
+    style(Style.lines(Oklch.grey(0.5), 8), circle, arc.circle, negative_arc.circle),
     style(Style.lines(Oklch.grey(0.75), 2), control_lines),
-    style(Style.lines(Color.GREEN, 2), arc_path, circle_path),
+    style(Style.lines(Color.GREEN, 2), arc_path, circle_path, negative_path),
   )
 }
 
