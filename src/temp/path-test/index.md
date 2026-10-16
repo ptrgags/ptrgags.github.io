@@ -14,4 +14,8 @@ import {SKETCHES} from './path-test'
 
 Quick test of paths
 
-<SketchP5 :sketch="SKETCHES.template" />
+<SketchP5 :sketch="SKETCHES.path_test" />
+
+Converting arcs to bezier curves
+
+<SketchP5 :sketch="SKETCHES.arc_test" />

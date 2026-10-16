@@ -44,7 +44,7 @@ export class CircularArc implements Drawable {
 
     const result = []
     for (let i = 0; i < quarters; i++) {
-      const curve = quarter_circle_bezier(this.circle, this.angles.start_angle)
+      const curve = quarter_circle_bezier(this.circle, this.angles.start_angle + (i * Math.PI) / 2)
       result.push(curve)
     }
 
