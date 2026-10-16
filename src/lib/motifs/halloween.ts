@@ -220,7 +220,7 @@ export function candy_corn(circle: Circle): LayeredDrawable {
 /// Since that's rather large, this shrinks the result down so the epiphyses
 /// are at -i and i. So the length parameter really determines the length
 /// to width ratio in practice.
-export function bone(length: number): Path {
+export function bone(length: number, circle: Circle): Path {
   const half_width = Complex.ONE
   const half_height = new Complex(0.0, 0.5 * length)
 
@@ -262,7 +262,11 @@ export function bone(length: number): Path {
     closed: true,
   })
 
-  return big_bone
+  const zoom = zoom_circle(circle)
+  const shrink = new Complex(2 / length)
+  return transform_path(big_bone, (x) => {
+    return zoom(shrink.mul(x))
+  })
 
   /*
     const shrink = scale(2.0 / length);
