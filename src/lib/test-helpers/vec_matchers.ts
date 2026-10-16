@@ -8,6 +8,8 @@ export function diff_vec2(diffs: string[], received: unknown, expected: unknown)
     return diffs
   }
 
+  diffs.push(`${received} | ${expected}`)
+
   diff_float_property(diffs, received, expected, 'x')
   diff_float_property(diffs, received, expected, 'y')
 

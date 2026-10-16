@@ -13,6 +13,17 @@ const QUARTER_UNIT_CIRCLE_POINTS = [
   new Point2P(0, 1),
 ]
 
+// How long are the bezier tangents to give a good approximation for the arc?
+// TODO: Need to write out the derivation of this in an article, see notebooks
+export function tangent_length(subtended_angle: number) {
+  const half_angle = 0.5 * subtended_angle
+  // Originally I had the formula 4/3 * (1-cos(half_angle))/sin(half_angle)
+  // but when I graphed it, I realized that there's a relevant tangent identity
+  // tan(theta/2) = (1 - cos(theta))/sin(theta)
+  // see https://en.wikipedia.org/wiki/Tangent_half-angle_formula#Geometric_proofs
+  return (4 * Math.tan(half_angle / 2)) / 3
+}
+
 function transform_points(points: Vec2[], circle: Circle, phase: number): Point2P[] {
   const cos = Math.cos(phase)
   const sin = Math.sin(phase)
@@ -44,11 +55,10 @@ export function small_arc_bezier(
   const half_angle = 0.5 * subtended_angle
   const cos = Math.cos(half_angle)
   const sin = Math.sin(half_angle)
-  const tangent_length = (4 * (1 - cos)) / (3 * sin)
 
   const unit_a = new Direction2P(cos, -sin)
   const tangent_a = unit_a.rot90()
-  const unit_b = unit_a.add(tangent_a.scale(tangent_length))
+  const unit_b = unit_a.add(tangent_a.scale(tangent_length(subtended_angle)))
   const unit_c = unit_b.flip_y()
   const unit_d = unit_a.flip_y()
 

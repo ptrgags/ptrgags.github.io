@@ -9,6 +9,8 @@ function diff_complex(diffs: string[], received: unknown, expected: unknown): st
     return diffs
   }
 
+  diffs.push(`${received} | ${expected}`)
+
   diff_float_property(diffs, received, expected, 'real')
   diff_float_property(diffs, received, expected, 'imag')
 

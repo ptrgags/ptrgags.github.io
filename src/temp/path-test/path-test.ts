@@ -13,6 +13,9 @@ import { Path } from '../../lib/primitives/Path.ts'
 import { LineSegment } from '../../lib/primitives/LineSegment.ts'
 import { Rigid } from '../../lib/primitives/Rigid.ts'
 import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
+import { CircularArc } from '../../lib/primitives/CircularArc.ts'
+import { Circle } from '../../lib/primitives/Circle.ts'
+import { AngleOrientation, ArcAngles } from '../../lib/primitives/ArcAngles.ts'
 
 class PathTest implements SceneP5 {
   primitive: Drawable
@@ -57,11 +60,22 @@ class PathTest implements SceneP5 {
       closed: true,
     })
 
+    const arc_path = new Path({
+      parts: [
+        new CircularArc(
+          new Circle(new Point2P(128, 128), 64),
+          new ArcAngles(0, Math.PI, AngleOrientation.POSITIVE),
+        ),
+      ],
+      closed: true,
+    })
+
     this.primitive = group(
       style(Style.lines(Color.CYAN), bezier.control_polyline),
       style(Style.DEFAULT_LINES, bezier),
       style(Style.flat(Color.YELLOW), polygon),
       style(Style.flat(Color.RED), xform(Rigid.translation(new Direction2P(-64, 0)), path)),
+      style(Style.lines(Color.BLUE, 8), arc_path),
     )
   }
 
