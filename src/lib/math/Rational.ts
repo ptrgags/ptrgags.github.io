@@ -1,0 +1,241 @@
+import { gcd, lcm } from './gcd'
+import { mod } from './mod'
+
+/**
+ * like Math.sign, but sign_nonzero(0) = 1, not 0.
+ * @param {number} x Input number
+ * @returns {number} 1 if x is >= 0, -1 otherwise
+ */
+function sign_nonzero(x: number): number {
+  if (x < 0) {
+    return -1
+  }
+
+  return 1
+}
+
+/**
+ * Rational number a / b stored in lowest terms. For negative fractions,
+ * this is normalized so the negative sign is in the numerator
+ */
+export class Rational {
+  numerator: number
+  denominator: number
+
+  /**
+   * Constructor
+   * @param {number} numerator Integer numerator
+   * @param {number} [denominator=1] Integer denominator
+   */
+  constructor(numerator: number, denominator: number = 1) {
+    if (numerator === 0 && denominator === 0) {
+      throw new Error('cannot divide 0 by 0')
+    }
+
+    const a = Math.abs(numerator)
+    const b = Math.abs(denominator)
+    const sign = sign_nonzero(numerator) * sign_nonzero(denominator)
+
+    const d = gcd(a, b)
+    this.numerator = sign * (a / d)
+    this.denominator = b / d
+  }
+
+  /**
+   * Get the quotient (integer part of numerator/denominator)
+   * @type {number}
+   */
+  get quotient() {
+    return Math.floor(this.numerator / this.denominator)
+  }
+
+  /**
+   * Get the integer remainder of numerator/denominator. This will always
+   * be an integer in [0, denominator)
+   * @type {number}
+   */
+  get remainder() {
+    return mod(this.numerator, this.denominator)
+  }
+
+  /**
+   * Convert to a number
+   * @type {number}
+   */
+  get real() {
+    return this.numerator / this.denominator
+  }
+
+  /**
+   * Get the reciprocal of this fraction
+   * @type {Rational}
+   */
+  get reciprocal() {
+    return new Rational(this.denominator, this.numerator)
+  }
+
+  /**
+   * Add two rational numbers
+   * @param {Rational} other Another rational number
+   * @returns {Rational} The sum
+   */
+  add(other: Rational): Rational {
+    const { numerator: a, denominator: b } = this
+    const { numerator: c, denominator: d } = other
+    const numerator = a * d + b * c
+    const denominator = b * d
+
+    // The constructor puts the fraction in lowest terms
+    return new Rational(numerator, denominator)
+  }
+
+  /**
+   * Subtract two rational numbers
+   * @param {Rational} other Another rational number
+   * @returns {Rational} The difference between the rational numbers
+   */
+  sub(other: Rational): Rational {
+    const { numerator: a, denominator: b } = this
+    const { numerator: c, denominator: d } = other
+    const numerator = a * d - b * c
+    const denominator = b * d
+
+    return new Rational(numerator, denominator)
+  }
+
+  /**
+   * Multiply two rational numbers
+   * @param {Rational} other Another rational number
+   * @returns {Rational} The product
+   */
+  mul(other: Rational): Rational {
+    const { numerator: a, denominator: b } = this
+    const { numerator: c, denominator: d } = other
+
+    return new Rational(a * c, b * d)
+  }
+
+  /**
+   * Divide two fractions
+   * @param {Rational} other Another rational number
+   * @returns {Rational} the division of this / other
+   */
+  div(other: Rational): Rational {
+    const { numerator: a, denominator: b } = this
+    const { numerator: c, denominator: d } = other
+
+    return new Rational(a * d, b * c)
+  }
+
+  /**
+   * Compute the maximum of two rational numbers
+   * @param {Rational} other Another rational number to compare with
+   * @returns {Rational} The larger rational number
+   */
+  max(other: Rational): Rational {
+    if (this.real >= other.real) {
+      return this
+    }
+
+    return other
+  }
+
+  /**
+   * Check if two rational numbers are the same number
+   * @param {Rational} other The other rational number
+   * @returns {boolean} true if the rational numbers are the same
+   */
+  equals(other: Rational): boolean {
+    const { numerator: a, denominator: b } = this
+    const { numerator: c, denominator: d } = other
+    // Since numerator/denominator are stored in lowest terms, this is a
+    // simple equality test
+    return a === c && b === d
+  }
+
+  /**
+   * Check if this is strictly less than other. All the other
+   * comparisons are defined in terms of this one.
+   * @param {Rational} other The other rational number to check
+   * @returns {boolean} true if this < other
+   */
+  lt(other: Rational): boolean {
+    const { numerator: a, denominator: b } = this
+    const { numerator: c, denominator: d } = other
+
+    // a/b < c/d is the same as saying
+    // ad < cb, so long as the denominators are nonnegative
+    // which is enforced by the constructor.
+    return a * d < c * b
+  }
+
+  /**
+   * Greater than
+   * @param {Rational} other
+   * @returns {boolean}
+   */
+  gt(other: Rational): boolean {
+    return other.lt(this)
+  }
+
+  /**
+   * Less than or equal
+   * @param {Rational} other
+   * @returns {boolean}
+   */
+  le(other: Rational): boolean {
+    return !this.gt(other)
+  }
+
+  /**
+   * Greater than or equal to
+   * @param {Rational} other
+   * @returns {boolean}
+   */
+  ge(other: Rational): boolean {
+    return !this.lt(other)
+  }
+
+  /**
+   * Compute the GCD of two positive rational numbers
+   * @param {Rational} other Another rational number
+   * @returns {Rational} gcd(a/b, c/d) = gcd(a,c)/lcm(b, d)
+   */
+  gcd(other: Rational): Rational {
+    if (other.lt(Rational.ZERO)) {
+      throw new Error('other must be nonnegative')
+    }
+
+    const { numerator: a, denominator: b } = this
+    const { numerator: c, denominator: d } = other
+    return new Rational(gcd(a, c), lcm(b, d))
+  }
+
+  /**
+   * Compute the LCM of two positive rational numbers
+   * @param {Rational} other Another rational number
+   * @returns {Rational} lcm(a/b, c/d) = lcm(a, c)/gcd(b,d)
+   */
+  lcm(other: Rational): Rational {
+    if (other.le(Rational.ZERO)) {
+      throw new Error('other must be positive')
+    }
+
+    const { numerator: a, denominator: b } = this
+    const { numerator: c, denominator: d } = other
+    return new Rational(lcm(a, c), gcd(b, d))
+  }
+
+  /**
+   * Format as a string "a/b"
+   * @returns {string}
+   */
+  toString(): string {
+    return `${this.numerator}/${this.denominator}`
+  }
+
+  static readonly ZERO = new Rational(0, 1)
+  static readonly ONE = new Rational(1, 1)
+  static readonly INF = new Rational(1, 0)
+  static readonly NEG_INF = new Rational(-1, 0)
+}

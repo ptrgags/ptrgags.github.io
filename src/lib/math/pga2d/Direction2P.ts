@@ -41,6 +41,10 @@ export class Direction2P implements Vec2, Dimensionlike {
   }
 
   static from_dimensions(dimensions: Dimensionlike): Direction2P {
+    if (dimensions instanceof Direction2P) {
+      return dimensions
+    }
+
     const { width, height } = dimensions
     return new Direction2P(width, height)
   }
@@ -339,7 +343,7 @@ export class Direction2P implements Vec2, Dimensionlike {
   static readonly ZERO = new Direction2P(0, 0)
 }
 
-const DIRECTION2P_VEC_OPS: VectorOps<Direction2P> = {
+export const VS2P = new VectorSpace<Direction2P>({
   equals: (a: Direction2P, b: Direction2P) => a.equals(b),
   zero: () => Direction2P.ZERO,
   add: (a: Direction2P, b: Direction2P) => a.add(b),
@@ -357,6 +361,4 @@ const DIRECTION2P_VEC_OPS: VectorOps<Direction2P> = {
 
     return new Direction2P(x, y)
   },
-}
-
-export const VS2P = new VectorSpace(DIRECTION2P_VEC_OPS)
+})
