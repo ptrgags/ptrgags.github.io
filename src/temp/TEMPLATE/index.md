@@ -4,7 +4,7 @@ title: TEMPLATE
 ---
 
 <script setup lang="ts">
-import TempComponent from './TemplateComponent.vue'
+import TempComponent from './TempComponent.vue'
 </script>
 
-<SVGTest />
+<TempComponent />
