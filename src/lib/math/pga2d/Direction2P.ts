@@ -73,7 +73,7 @@ export class Direction2P implements Vec2, Dimensionlike {
     return new Direction2P(x, y)
   }
 
-  to_point() {
+  to_point(): Point2P {
     return new Point2P(this.x, this.y)
   }
 
