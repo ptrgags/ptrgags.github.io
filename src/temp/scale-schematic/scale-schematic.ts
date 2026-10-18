@@ -11,6 +11,11 @@ import { Circle } from '../../lib/primitives/Circle.ts'
 import { Oklch } from '../../lib/styling/Oklch.ts'
 import { Text } from '../../lib/primitives/Text.ts'
 import { TextStyle } from '../../lib/styling/TextStyle.ts'
+import { PianoScaleSchematic } from './PianoScaleSchematic.ts'
+import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
+
+const ORIGIN = new Point2P(16, 128)
+const SPACING = new Direction2P(32, 32)
 
 const Y_UPPER = 128 - 16
 const Y_LOWER = 128 + 16
@@ -72,15 +77,19 @@ function make_schematic(notes: [string, boolean][]): Drawable {
   )
 }
 
-const SCHEMATIC_E_FLAT = make_schematic([
-  ['Eb', true],
-  ['F', false],
-  ['G', false],
-  ['Ab', true],
-  ['Bb', true],
-  ['C', false],
-  ['D', false],
-])
+const SCHEMATIC_E_FLAT = new PianoScaleSchematic({
+  spacing: SPACING,
+  origin: ORIGIN,
+  notes: [
+    ['Eb', true],
+    ['F', false],
+    ['G', false],
+    ['Ab', true],
+    ['Bb', true],
+    ['C', false],
+    ['D', false],
+  ],
+})
 
 export const SKETCHES = {
   scale_schematic: make_static_sketch(SWATCH.dimensions, SCHEMATIC_E_FLAT),
