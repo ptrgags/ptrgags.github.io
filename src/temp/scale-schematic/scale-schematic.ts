@@ -1,26 +1,15 @@
 import type p5 from 'p5'
-import type { DrawP5 } from '../../lib/p5-helpers/DrawP5.ts'
-import { make_sketch, make_static_sketch, type SceneP5 } from '../../lib/p5-helpers/sketches.ts'
+import { make_static_sketch } from '../../lib/p5-helpers/sketches.ts'
 import type { Drawable } from '../../lib/primitives/Drawable.ts'
-import { group, style, xform } from '../../lib/primitives/shorthand.ts'
+import { group, style } from '../../lib/primitives/shorthand.ts'
 import { SWATCH } from '../../core/dimensions.ts'
 import { Style } from '../../lib/styling/Style.ts'
-import { BezierCurve } from '../../lib/primitives/BezierCurve.ts'
 import { Point2P } from '../../lib/math/pga2d/Point2P.ts'
 import { Polyline } from '../../lib/primitives/Polyline.ts'
 import { Color } from '../../lib/styling/Color.ts'
-import { Path } from '../../lib/primitives/Path.ts'
-import { LineSegment } from '../../lib/primitives/LineSegment.ts'
-import { CircularArc } from '../../lib/primitives/CircularArc.ts'
 import { Circle } from '../../lib/primitives/Circle.ts'
-import { AngleOrientation, ArcAngles } from '../../lib/primitives/ArcAngles.ts'
 import { Oklch } from '../../lib/styling/Oklch.ts'
-import { Rigid } from '../../lib/primitives/Rigid.ts'
-import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
-import type { Group } from '../../lib/primitives/Group.ts'
-import { Wave } from '../../lib/animation/Wave.ts'
 import { Text } from '../../lib/primitives/Text.ts'
-import { TextStyleOp } from '../../lib/primitives/TextStyleOp.ts'
 import { TextStyle } from '../../lib/styling/TextStyle.ts'
 
 const Y_UPPER = 128 - 16
@@ -36,8 +25,10 @@ const STYLE_WHITE_KEYS = Style.flat(Color.WHITE)
 
 function make_schematic(notes: [string, boolean][]): Drawable {
   const circles = []
-  const labels = []
-  const vertices = []
+  const upper_labels: Text[] = []
+  const lower_labels: Text[] = []
+  const vertices_left: Point2P[] = []
+  const vertices_right: Point2P[] = []
 
   for (let i = 0; i < 7; i++) {
     const [note_name, upper] = notes[i]
@@ -47,20 +38,36 @@ function make_schematic(notes: [string, boolean][]): Drawable {
     const key_style = upper ? STYLE_BLACK_KEYS : STYLE_WHITE_KEYS
     const circle = style(key_style, new Circle(position, RADIUS))
     const text = new Text(note_name, position)
+
+    // divide scale into two parts. the left is 1-2-3, the right is 4-5-6-7
+    const vertices = i < 3 ? vertices_left : vertices_right
+    const labels = upper ? upper_labels : lower_labels
+
     vertices.push(position)
     circles.push(circle)
     labels.push(text)
   }
 
   return group(
-    style(Style.DEFAULT_LINES, new Polyline({ vertices, closed: false })),
+    style(
+      Style.DEFAULT_LINES,
+      new Polyline({ vertices: vertices_left, closed: false }),
+      new Polyline({ vertices: vertices_right, closed: false }),
+    ),
     ...circles,
     style(
       {
         style: Style.flat(Color.WHITE),
         text_style: new TextStyle(12, 'center', 'center'),
       },
-      ...labels,
+      ...upper_labels,
+    ),
+    style(
+      {
+        style: Style.flat(Color.BLACK),
+        text_style: new TextStyle(12, 'center', 'center'),
+      },
+      ...lower_labels,
     ),
   )
 }
