@@ -1,4 +1,5 @@
 import type { BezierCurve } from '../primitives/BezierCurve.ts'
+import { Circle } from '../primitives/Circle.ts'
 import type { DrawingLibrary } from '../primitives/DrawingLibrary.ts'
 import { LineSegment } from '../primitives/LineSegment.ts'
 import type { Vec2 } from '../primitives/Vec2.ts'
@@ -55,9 +56,10 @@ export class DrawPDF implements DrawingLibrary {
     this.style_stack = []
   }
 
-  circle(cx: number, cy: number, radius: number): void {
-    // This will require splitting a circle into 4 bezier curves
-    throw new Error('Method not implemented.')
+  circle(circ: Circle): void {
+    for (const { a, b, c, d } of circ.to_bezier_curves()) {
+      this.bezier(a, b, c, d)
+    }
   }
 
   arc(
