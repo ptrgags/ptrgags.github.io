@@ -1,7 +1,9 @@
+import { Direction2P } from '../math/pga2d/Direction2P.ts'
 import type { BezierCurve } from '../primitives/BezierCurve.ts'
 import { Circle } from '../primitives/Circle.ts'
 import type { DrawingLibrary } from '../primitives/DrawingLibrary.ts'
 import { LineSegment } from '../primitives/LineSegment.ts'
+import { Rect } from '../primitives/Rect.ts'
 import type { Vec2 } from '../primitives/Vec2.ts'
 import { Color } from '../styling/Color.ts'
 import { Style } from '../styling/Style.ts'
@@ -16,6 +18,7 @@ import {
   fillAndStroke,
   lineTo,
   moveTo,
+  PDFFont,
   PDFHexString,
   PDFOperator,
   PDFPage,
@@ -30,6 +33,7 @@ import {
   setStrokingRgbColor,
   setTextMatrix,
   showText,
+  StandardFonts,
   stroke,
   translate,
 } from 'pdf-lib'
@@ -43,10 +47,12 @@ const POINTS_PER_INCH = 72
 
 export class DrawPDF implements DrawingLibrary {
   page: PDFPage
+  font: PDFFont
   style_stack: Style[]
 
-  constructor(page: PDFPage, pixels_per_inch: number) {
+  constructor(page: PDFPage, pixels_per_inch: number, font: PDFFont) {
     this.page = page
+    this.font = font
 
     // translate to top left corner and flip y so the coordinate system
     // becomes like a screen
@@ -135,7 +141,26 @@ export class DrawPDF implements DrawingLibrary {
   }
 
   text(value: string, x: number, y: number): void {
-    this.page.drawText(value, { x, y })
+    const text_size = 12
+    // these measurements are in points
+    const height = this.font.heightAtSize(text_size, { descender: true })
+    const height_minus_decender = this.font.heightAtSize(text_size, { descender: false })
+    // I believe this will be the height of the baseline above the bottom
+    const descender = height - height_minus_decender
+    const width = this.font.widthOfTextAtSize(value, text_size)
+    console.log('width', width)
+    console.log('height', height)
+    console.log('minus_descender', height_minus_decender)
+    console.log('descender', descender)
+
+    // wait... I'm going to need to do this in pixels... I need to think about this
+    // but getting closer
+    const origin = new Direction2P(x, y)
+    const text_dimensions = new Direction2P(width, height)
+    const max_bounds = Rect.from_center(origin, text_dimensions.scale(2))
+    const aligned_bounds = max_bounds.align(text_dimensions, 'center', 'center')
+    const target = origin.add(Direction2P.DIR_Y.scale(descender))
+    this.page.drawText(value, { x, y, font: this.font })
   }
 
   begin_style(style: Style): void {
