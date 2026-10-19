@@ -17,6 +17,7 @@ import { PDFDoc } from '../../lib/pdf/PDFDoc.ts'
 import { Circle } from '../../lib/primitives/Circle.ts'
 import { Text } from '../../lib/primitives/Text.ts'
 import { Rigid } from '../../lib/primitives/Rigid.ts'
+import { LineSegment } from '../../lib/primitives/LineSegment.ts'
 
 const pdf_file: Ref<File | undefined> = ref(undefined)
 
@@ -50,6 +51,11 @@ const TEST_CIRCLE = group(
 const TEST_TEXT = group(
   Zine.DEFAULT_PAGE,
   style(Style.flat(Color.CYAN), Rect.from_center(new Point2P(250, 350), new Direction2P(200, 100))),
+  style(
+    Style.lines(Color.CYAN, 2),
+    new LineSegment(new Point2P(250, 0), new Point2P(250, 700)),
+    new LineSegment(new Point2P(0, 350), new Point2P(500, 350)),
+  ),
   style(Style.flat(Color.BLUE), new Text('Synthesizer', new Direction2P(250, 350))),
 )
 

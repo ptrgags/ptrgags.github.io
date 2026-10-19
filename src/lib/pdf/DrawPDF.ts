@@ -32,9 +32,11 @@ import {
   setLineWidth,
   setStrokingRgbColor,
   setTextMatrix,
+  setTextRenderingMode,
   showText,
   StandardFonts,
   stroke,
+  TextRenderingMode,
   translate,
 } from 'pdf-lib'
 
@@ -147,6 +149,9 @@ export class DrawPDF implements DrawingLibrary {
     const height_minus_decender = this.font.heightAtSize(text_size, { descender: false })
     // I believe this will be the height of the baseline above the bottom
     const descender = height - height_minus_decender
+    // This only works for a single time. If \n is used, then we need to split manually
+    // and check line-by-line and also check the spacing between lines... let's avoid this
+    // if we can.
     const width = this.font.widthOfTextAtSize(value, text_size)
     console.log('width', width)
     console.log('height', height)
@@ -160,7 +165,10 @@ export class DrawPDF implements DrawingLibrary {
     const max_bounds = Rect.from_center(origin, text_dimensions.scale(2))
     const aligned_bounds = max_bounds.align(text_dimensions, 'center', 'center')
     const target = origin.add(Direction2P.DIR_Y.scale(descender))
-    this.page.drawText(value, { x, y, font: this.font })
+
+    this.page.pushOperators(pushGraphicsState(), translate(x, y), scale(1, -1))
+    this.page.drawText(value, { font: this.font })
+    this.page.pushOperators(popGraphicsState())
   }
 
   begin_style(style: Style): void {
