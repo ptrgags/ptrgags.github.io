@@ -17,6 +17,6 @@ import {backblaze_link} from '../core/links'
 
 <img :src="backblaze_link('pattern/PATTERN_ID/thumbnail.png')" />
 
-See the [PATTERN NAME](../pattern/PATTERN_ID/) page on this website.
+See the `../pattern/PATTERN_ID/` page on this website.
 
 DESCRIPTION

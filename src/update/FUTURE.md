@@ -69,7 +69,7 @@ TAGLINE: what notes did I just play?
 
 THUMBNAIL: pixel art similar to other MIDI tools
 
-See the [🚧 MIDI Note Summary](../tool/midi-note-summary/) page on this website.
+LINK: MIDI note summary
 
 I made another MIDI tool. This one gathers all the note on messages and
 
@@ -89,7 +89,7 @@ THUMBNAIL: Take a photo of a printed zine
 
 IMG: photo of folded zine
 
-See the [Zine Template](../tool/zine-template/) page on this website.
+LINK: Zine Template
 
 ❓LINK to old Bluesky thread? and/or past zine
 
@@ -107,7 +107,7 @@ A little before my website design, I had started making a PDF exporter in `p5-sk
 
 <img :src="backblaze_link('pattern/PATTERN_ID/thumbnail.png')" />
 
-See the [PATTERN NAME](../pattern/PATTERN_ID/) page on this website.
+LINK to `../pattern/PATTERN_ID/`
 
 DESCRIPTION
 
