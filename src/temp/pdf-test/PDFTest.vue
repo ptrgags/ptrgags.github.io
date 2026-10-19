@@ -15,6 +15,7 @@ import { Zine } from '../../lib/zines/Zine.ts'
 import PDFViewer from '../../components/PDFViewer.vue'
 import { PDFDoc } from '../../lib/pdf/PDFDoc.ts'
 import { Circle } from '../../lib/primitives/Circle.ts'
+import { Text } from '../../lib/primitives/Text.ts'
 
 const pdf_file: Ref<File | undefined> = ref(undefined)
 
@@ -45,10 +46,17 @@ const TEST_CIRCLE = group(
   ),
 )
 
+const TEST_TEXT = group(
+  Zine.DEFAULT_PAGE,
+  style(Style.flat(Color.CYAN), Rect.from_center(new Point2P(250, 350), new Direction2P(200, 100))),
+  style(Style.flat(Color.BLUE), new Text('Hello World', new Direction2P(250, 350))),
+)
+
 const DEFAULT_ZINE = new Zine({
   pages: {
     page1: TEST_SCENE,
     page2: TEST_CIRCLE,
+    page3: TEST_TEXT,
   },
 })
 

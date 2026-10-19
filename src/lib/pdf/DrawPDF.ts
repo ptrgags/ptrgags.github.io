@@ -8,11 +8,15 @@ import { Style } from '../styling/Style.ts'
 import type { TextStyle } from '../styling/TextStyle.ts'
 import {
   appendBezierCurve,
+  beginText,
   closePath,
+  drawText,
+  endText,
   fill,
   fillAndStroke,
   lineTo,
   moveTo,
+  PDFHexString,
   PDFOperator,
   PDFPage,
   popGraphicsState,
@@ -21,8 +25,11 @@ import {
   rotateRadians,
   scale,
   setFillingRgbColor,
+  setFontAndSize,
   setLineWidth,
   setStrokingRgbColor,
+  setTextMatrix,
+  showText,
   stroke,
   translate,
 } from 'pdf-lib'
@@ -128,8 +135,7 @@ export class DrawPDF implements DrawingLibrary {
   }
 
   text(value: string, x: number, y: number): void {
-    // This will require some thought
-    throw new Error('Method not implemented.')
+    this.page.drawText(value, { x, y })
   }
 
   begin_style(style: Style): void {
