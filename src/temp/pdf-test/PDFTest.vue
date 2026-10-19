@@ -14,6 +14,7 @@ import { Path } from '../../lib/primitives/Path.ts'
 import { BezierCurve } from '../../lib/primitives/BezierCurve.ts'
 import { Zine } from '../../lib/zines/Zine.ts'
 import PDFViewer from '../../components/PDFViewer.vue'
+import { PDFDoc } from '../../lib/pdf/PDFDoc.ts'
 
 const pdf_file: Ref<File | undefined> = ref(undefined)
 
@@ -44,13 +45,17 @@ const DEFAULT_ZINE = new Zine({
 
 const sketch = make_static_sketch(ATC_SCREEN.dimensions, TEST_SCENE)
 
+const PDF = new PDFDoc({
+  page_size_inches: new Direction2P(10, 7),
+  pixels_per_inch: 200,
+})
+
 onMounted(async () => {
-  pdf_file.value = await make_pdf({
-    filename: 'test.pdf',
-    scene: DEFAULT_ZINE,
-    page_size_inches: new Direction2P(10, 7),
-    pixels_per_inch: 200,
-  })
+  await PDF.init()
+  PDF.add_page(DEFAULT_ZINE)
+  PDF.add_page(new Zine({ pages: {} }))
+
+  pdf_file.value = await PDF.finish('test-multipage.pdf')
 })
 </script>
 
