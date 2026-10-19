@@ -50,7 +50,7 @@ const TEST_CIRCLE = group(
 const TEST_TEXT = group(
   Zine.DEFAULT_PAGE,
   style(Style.flat(Color.CYAN), Rect.from_center(new Point2P(250, 350), new Direction2P(200, 100))),
-  style(Style.flat(Color.BLUE), new Text('Hello World', new Direction2P(250, 350))),
+  style(Style.flat(Color.BLUE), new Text('Synthesizer', new Direction2P(250, 350))),
 )
 
 const DEFAULT_ZINE = new Zine({
