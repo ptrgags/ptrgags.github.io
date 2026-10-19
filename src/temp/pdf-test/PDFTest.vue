@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type Ref, ref, onMounted } from 'vue'
 import { Direction2P } from '../../lib/math/pga2d/Direction2P'
-import { group, style } from '../../lib/primitives/shorthand'
+import { group, style, xform } from '../../lib/primitives/shorthand'
 import { Style } from '../../lib/styling/Style'
 import { Color } from '../../lib/styling/Color'
 import { Rect } from '../../lib/primitives/Rect'
@@ -16,6 +16,7 @@ import PDFViewer from '../../components/PDFViewer.vue'
 import { PDFDoc } from '../../lib/pdf/PDFDoc.ts'
 import { Circle } from '../../lib/primitives/Circle.ts'
 import { Text } from '../../lib/primitives/Text.ts'
+import { Rigid } from '../../lib/primitives/Rigid.ts'
 
 const pdf_file: Ref<File | undefined> = ref(undefined)
 
@@ -56,7 +57,7 @@ const DEFAULT_ZINE = new Zine({
   pages: {
     page1: TEST_SCENE,
     page2: TEST_CIRCLE,
-    page3: TEST_TEXT,
+    page5: TEST_TEXT,
   },
 })
 
