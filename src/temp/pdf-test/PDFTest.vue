@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { type Ref, ref, onMounted } from 'vue'
-import { make_pdf } from '../../lib/pdf/make_pdf'
 import { Direction2P } from '../../lib/math/pga2d/Direction2P'
 import { group, style } from '../../lib/primitives/shorthand'
 import { Style } from '../../lib/styling/Style'
