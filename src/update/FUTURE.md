@@ -83,23 +83,6 @@ In the stuff I've been working on behind the scenes, I've been using a bunch
 of different patterns. I figured I should at least show them off even if I
 can't 
 
-## New Tool: Mini Foldable Zine Template
-
-THUMBNAIL: Take a photo of a printed zine
-
-IMG: photo of folded zine
-
-LINK: Zine Template
-
-❓LINK to old Bluesky thread? and/or past zine
-
-A creative goal for me is to find more tangible forms for my art. I'd like to make more zines.
-
-A little before my website design, I had started making a PDF exporter in `p5-sketchbook`.  I ported some of that code. So far I just made a printable zine template. 
-
-❓ Find instructions for how to fold the zine, include this on the tools page
-
-
 # Future Targets =====
 
 
