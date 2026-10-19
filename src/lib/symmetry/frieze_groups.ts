@@ -40,7 +40,7 @@ interface FriezeOptions<S> {
   children: Drawable | ((slot: S) => Drawable)
 }
 
-export class FriezeP1 {
+export class FriezeP1 implements Drawable {
   primitive: SymmetryNode
 
   constructor(options: FriezeOptions<FriezeP1Slot>) {
@@ -57,7 +57,7 @@ export class FriezeP1 {
 
     let children: Drawable | Drawable[]
     if (typeof options.children === 'function') {
-      children = new Array(2 * count)
+      children = new Array(count)
       for (let i = 0; i < count; i++) {
         children[i] = options.children({ i })
       }
