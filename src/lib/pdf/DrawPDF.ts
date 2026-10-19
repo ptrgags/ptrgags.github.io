@@ -57,9 +57,9 @@ export class DrawPDF implements DrawingLibrary {
   }
 
   circle(circ: Circle): void {
-    for (const { a, b, c, d } of circ.to_bezier_curves()) {
-      this.bezier(a, b, c, d)
-    }
+    // PDF doesn't have a dedicated circle command! So convert to bezier curves
+    // and render those as a closed path.
+    this.path(circ.to_bezier_curves(), true)
   }
 
   arc(

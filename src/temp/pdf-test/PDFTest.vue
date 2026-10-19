@@ -14,6 +14,7 @@ import { BezierCurve } from '../../lib/primitives/BezierCurve.ts'
 import { Zine } from '../../lib/zines/Zine.ts'
 import PDFViewer from '../../components/PDFViewer.vue'
 import { PDFDoc } from '../../lib/pdf/PDFDoc.ts'
+import { Circle } from '../../lib/primitives/Circle.ts'
 
 const pdf_file: Ref<File | undefined> = ref(undefined)
 
@@ -36,9 +37,18 @@ const TEST_SCENE = group(
   ),
 )
 
+const TEST_CIRCLE = group(
+  Zine.DEFAULT_PAGE,
+  style(
+    new Style({ stroke: Color.RED, width: 4, fill: Color.YELLOW }),
+    new Circle(ATC_SCREEN.center, 100),
+  ),
+)
+
 const DEFAULT_ZINE = new Zine({
   pages: {
-    page2: TEST_SCENE,
+    page1: TEST_SCENE,
+    page2: TEST_CIRCLE,
   },
 })
 
