@@ -50,19 +50,20 @@ const TEST_CIRCLE = group(
 
 const TEST_TEXT = group(
   Zine.DEFAULT_PAGE,
-  style(Style.flat(Color.CYAN), Rect.from_center(new Point2P(250, 350), new Direction2P(200, 100))),
+  //  style(Style.flat(Color.CYAN), Rect.from_center(new Point2P(250, 350), new Direction2P(200, 100))),
   style(
     Style.lines(Color.CYAN, 2),
     new LineSegment(new Point2P(250, 0), new Point2P(250, 700)),
     new LineSegment(new Point2P(0, 350), new Point2P(500, 350)),
   ),
-  style(Style.flat(Color.BLUE), new Text('Synthesizer', new Direction2P(250, 350))),
+  style(Style.flat(Color.BLUE), new Text('ABCDE', new Direction2P(250, 350))),
 )
 
 const DEFAULT_ZINE = new Zine({
   pages: {
     page1: TEST_SCENE,
     page2: TEST_CIRCLE,
+    page3: TEST_TEXT,
     page5: TEST_TEXT,
   },
 })

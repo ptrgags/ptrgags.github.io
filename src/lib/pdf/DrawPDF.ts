@@ -1,4 +1,5 @@
 import { Direction2P } from '../math/pga2d/Direction2P.ts'
+import { Point2P } from '../math/pga2d/Point2P.ts'
 import type { BezierCurve } from '../primitives/BezierCurve.ts'
 import { Circle } from '../primitives/Circle.ts'
 import type { DrawingLibrary } from '../primitives/DrawingLibrary.ts'
@@ -50,10 +51,12 @@ const POINTS_PER_INCH = 72
 export class DrawPDF implements DrawingLibrary {
   page: PDFPage
   font: PDFFont
+  pixels_per_inch: number
   style_stack: Style[]
 
   constructor(page: PDFPage, pixels_per_inch: number, font: PDFFont) {
     this.page = page
+    this.pixels_per_inch = pixels_per_inch
     this.font = font
 
     // translate to top left corner and flip y so the coordinate system
@@ -144,30 +147,55 @@ export class DrawPDF implements DrawingLibrary {
 
   text(value: string, x: number, y: number): void {
     const text_size = 12
-    // these measurements are in points
-    const height = this.font.heightAtSize(text_size, { descender: true })
-    const height_minus_decender = this.font.heightAtSize(text_size, { descender: false })
+    const height_points = this.font.heightAtSize(text_size, { descender: true })
+    const height_above_baseline = this.font.heightAtSize(text_size, { descender: false })
     // I believe this will be the height of the baseline above the bottom
-    const descender = height - height_minus_decender
+    const descender_height_points = height_points - height_above_baseline
     // This only works for a single time. If \n is used, then we need to split manually
     // and check line-by-line and also check the spacing between lines... let's avoid this
     // if we can.
-    const width = this.font.widthOfTextAtSize(value, text_size)
-    console.log('width', width)
-    console.log('height', height)
-    console.log('minus_descender', height_minus_decender)
-    console.log('descender', descender)
+    const width_points = this.font.widthOfTextAtSize(value, text_size)
+
+    const pixels_per_point = POINTS_PER_INCH / this.pixels_per_inch
+    const text_dimensions_px = new Direction2P(width_points, height_points).scale(pixels_per_point)
+    // We're always going to anchor the text at the local origin. Depending on the alignment,
+    // this can be anywhere in [-w, w] x [h x h]
+    const bounding_box_px = Rect.from_center(Point2P.ORIGIN, text_dimensions_px.scale(2))
+    const aligned_bounds_px = bounding_box_px.align(text_dimensions_px, 'left', 'top')
+
+    const descender_height_px = descender_height_points * pixels_per_point
+    const baseline_origin_px = aligned_bounds_px.position.add(
+      new Direction2P(0, descender_height_px),
+    )
 
     // wait... I'm going to need to do this in pixels... I need to think about this
     // but getting closer
+    /*
     const origin = new Direction2P(x, y)
     const text_dimensions = new Direction2P(width, height)
     const max_bounds = Rect.from_center(origin, text_dimensions.scale(2))
     const aligned_bounds = max_bounds.align(text_dimensions, 'center', 'center')
     const target = origin.add(Direction2P.DIR_Y.scale(descender))
+    */
 
     this.page.pushOperators(pushGraphicsState(), translate(x, y), scale(1, -1))
-    this.page.drawText(value, { font: this.font })
+    this.page.drawText(value, {
+      // center text
+      /*
+      x: -width_points,
+      y: descender_height_points - height_points,
+      */
+      // left baseline
+      //x: 0,
+      //y: 0,
+      // right baseline... why do I need this scale factor of 2 for it to look right???
+      //x: -2 * width_points,
+      //y: 0,
+      // left top
+      x: 0,
+      y: -2 * (height_points - descender_height_points),
+      font: this.font,
+    })
     this.page.pushOperators(popGraphicsState())
   }
 
