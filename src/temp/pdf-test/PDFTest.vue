@@ -16,8 +16,8 @@ import PDFViewer from '../../components/PDFViewer.vue'
 import { PDFDoc } from '../../lib/pdf/PDFDoc.ts'
 import { Circle } from '../../lib/primitives/Circle.ts'
 import { Text } from '../../lib/primitives/Text.ts'
-import { Rigid } from '../../lib/primitives/Rigid.ts'
 import { LineSegment } from '../../lib/primitives/LineSegment.ts'
+import { TradingCard } from '../../lib/printables/TradingCard.ts'
 
 const pdf_file: Ref<File | undefined> = ref(undefined)
 
@@ -59,16 +59,27 @@ const TEST_TEXT = group(
   style(Style.flat(Color.BLUE), new Text('ABCDE', new Direction2P(250, 350))),
 )
 
+const TRADING_CARD_TEST = new TradingCard({
+  body: style(Style.flat(Color.CYAN), new Circle(new Point2P(100, 100), 100)),
+  swatch: style(
+    Style.flat(Color.RED),
+    new Circle(new Point2P(200, 200), 0.5 * TradingCard.BOUNDS_SWATCH.dimensions.x),
+  ),
+  caption: 'Trading Card Test',
+})
+
 const DEFAULT_ZINE = new Zine({
   pages: {
     page1: TEST_SCENE,
     page2: TEST_CIRCLE,
     page3: TEST_TEXT,
+    page4: TradingCard.BLANK_WITH_CAPTION_BOX,
     page5: TEST_TEXT,
+    page6: TRADING_CARD_TEST,
   },
 })
 
-const sketch = make_static_sketch(ATC_SCREEN.dimensions, TEST_SCENE)
+const sketch = make_static_sketch(ATC_SCREEN.dimensions, TRADING_CARD_TEST)
 
 const PDF = new PDFDoc({
   page_size_inches: new Direction2P(10, 7),

@@ -1,5 +1,6 @@
 import { mod } from '../math/mod.js'
 import { P8 } from './intervals.js'
+import type { PitchClass } from './pitches.js'
 
 /**
  * Stack of musical intervals. This is a helper class used by both
@@ -47,14 +48,14 @@ export class IntervalStack {
  * music theory analysis than practical use.
  */
 export class PitchClassStack {
-  pitch_class: number
+  pitch_class: PitchClass
   intervals: IntervalStack
   /**
    * Constructor
    * @param {IntervalStack} intervals
    * @param {number} pitch_class Pitch class (e.g. C)
    */
-  constructor(intervals: IntervalStack, pitch_class: number) {
+  constructor(intervals: IntervalStack, pitch_class: PitchClass) {
     this.pitch_class = pitch_class
     this.intervals = intervals
   }
@@ -71,8 +72,8 @@ export class PitchClassStack {
    * @param {number} index Index of pitch class relative to the start
    * @returns {number} An pitch class at the selected index
    */
-  value(index: number): number {
-    return mod(this.pitch_class + this.intervals.value(index), 12)
+  value(index: number): PitchClass {
+    return mod(this.pitch_class + this.intervals.value(index), 12) as PitchClass
   }
 }
 
