@@ -127,7 +127,6 @@ onMounted(async () => {
   <div class="vertical">
     <SketchP5 :sketch="sketch"></SketchP5>
     <br />
-    <!--<PDFViewer v-if="pdf_file" :width="700" :height="500" :file="pdf_file"></PDFViewer>-->
-    <PDFViewer v-if="pdf_file" :width="500" :height="700" :file="pdf_file"></PDFViewer>
+    <PDFViewer v-if="pdf_file" :width="700" :height="500" :file="pdf_file"></PDFViewer>
   </div>
 </template>

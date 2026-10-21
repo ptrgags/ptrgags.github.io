@@ -8,7 +8,7 @@ import { Rect } from '../primitives/Rect.ts'
 import type { Vec2 } from '../primitives/Vec2.ts'
 import { Color } from '../styling/Color.ts'
 import { Style } from '../styling/Style.ts'
-import type { TextStyle } from '../styling/TextStyle.ts'
+import { TextStyle } from '../styling/TextStyle.ts'
 import {
   appendBezierCurve,
   beginText,
@@ -53,6 +53,7 @@ export class DrawPDF implements DrawingLibrary {
   font: PDFFont
   pixels_per_inch: number
   style_stack: Style[]
+  text_style_stack: TextStyle[]
 
   constructor(page: PDFPage, pixels_per_inch: number, font: PDFFont) {
     this.page = page
@@ -72,6 +73,7 @@ export class DrawPDF implements DrawingLibrary {
     //this.page.pushOperators(scale(points_per_pixel, points_per_pixel))
 
     this.style_stack = []
+    this.text_style_stack = []
   }
 
   circle(circ: Circle): void {
@@ -146,7 +148,10 @@ export class DrawPDF implements DrawingLibrary {
   }
 
   text(value: string, x: number, y: number): void {
-    const text_size = 24
+    const text_style = this.text_style_stack.at(-1) ?? TextStyle.DEFAULT
+
+    const text_size = text_style.size
+
     const height_points = this.font.heightAtSize(text_size, { descender: true })
     const height_above_baseline = this.font.heightAtSize(text_size, { descender: false })
     // I believe this will be the height of the baseline above the bottom
@@ -199,7 +204,7 @@ export class DrawPDF implements DrawingLibrary {
     })
     this.page.pushOperators(popGraphicsState())
     */
-    this.page.drawText(value, { x, y, font: this.font })
+    this.page.drawText(value, { x, y, font: this.font, size: text_size })
   }
 
   begin_style(style: Style): void {
@@ -225,12 +230,13 @@ export class DrawPDF implements DrawingLibrary {
   }
 
   begin_text_style(text_style: TextStyle): void {
-    // This is going to require some thought, I need to align text manually
-    //throw new Error('Method not implemented.')
+    // unfortunately, pdf-lib doesn't have an easy way to set text alignment
+    // so I need to manually compute it for every string. See text()
+    this.text_style_stack.push(text_style)
   }
 
   end_text_style(): void {
-    // Nothing to do here
+    this.text_style_stack.pop()
   }
 
   begin_xform_rigid(
