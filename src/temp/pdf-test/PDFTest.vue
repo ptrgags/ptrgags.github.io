@@ -18,6 +18,7 @@ import { Circle } from '../../lib/primitives/Circle.ts'
 import { Text } from '../../lib/primitives/Text.ts'
 import { LineSegment } from '../../lib/primitives/LineSegment.ts'
 import { TradingCard } from '../../lib/printables/TradingCard.ts'
+import { TextStyle } from '../../lib/styling/TextStyle.ts'
 
 const pdf_file: Ref<File | undefined> = ref(undefined)
 
@@ -86,12 +87,39 @@ const PDF = new PDFDoc({
   pixels_per_inch: 200,
 })
 
+const ALIGNMENT_PDF = new PDFDoc({
+  page_size_inches: new Direction2P(8.5, 11),
+  pixels_per_inch: 0,
+})
+
+const PAGE_CENTER = new Direction2P(8.5, 11).scale(72 / 2)
+const ALIGNMENT_TEST = group(
+  style(
+    Style.lines(Color.RED, 2),
+    new LineSegment(new Direction2P(8.5 / 2, 0).scale(72), new Direction2P(8.5 / 2, 11).scale(72)),
+    new LineSegment(new Direction2P(0, 11 / 2).scale(72), new Direction2P(8.5, 11 / 2).scale(72)),
+    // manually computed from font
+    new Rect(PAGE_CENTER, new Direction2P(155.976, 22.200000000000003)),
+  ),
+  style(
+    {
+      style: Style.flat(Color.BLUE),
+      text_style: new TextStyle(24, 'left', 'baseline'),
+    },
+    new Text('Alignment Test', PAGE_CENTER),
+  ),
+)
+
 onMounted(async () => {
   await PDF.init()
-  PDF.add_page(DEFAULT_ZINE)
+  //PDF.add_page(DEFAULT_ZINE)
   PDF.add_page(new Zine({ pages: {} }))
 
-  pdf_file.value = await PDF.finish('test-multipage.pdf')
+  //pdf_file.value = await PDF.finish('test-multipage.pdf')
+
+  await ALIGNMENT_PDF.init()
+  ALIGNMENT_PDF.add_page(ALIGNMENT_TEST)
+  pdf_file.value = await ALIGNMENT_PDF.finish('test-alignment.pdf')
 })
 </script>
 
@@ -99,6 +127,7 @@ onMounted(async () => {
   <div class="vertical">
     <SketchP5 :sketch="sketch"></SketchP5>
     <br />
-    <PDFViewer v-if="pdf_file" :width="700" :height="500" :file="pdf_file"></PDFViewer>
+    <!--<PDFViewer v-if="pdf_file" :width="700" :height="500" :file="pdf_file"></PDFViewer>-->
+    <PDFViewer v-if="pdf_file" :width="500" :height="700" :file="pdf_file"></PDFViewer>
   </div>
 </template>

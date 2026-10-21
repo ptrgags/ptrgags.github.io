@@ -61,15 +61,15 @@ export class DrawPDF implements DrawingLibrary {
 
     // translate to top left corner and flip y so the coordinate system
     // becomes like a screen
-    const height = page.getHeight()
-    this.begin_xform_rigid(0, height, 0, true)
+    //const height = page.getHeight()
+    //this.begin_xform_rigid(0, height, 0, true)
 
     // we're currently at 1 unit = 1 pt = 1/72 inch
     // we want to produce a coordinate system in pixels
     // so 1 unit = 1 px = 1/ppi inches
     // so the scale factor is (1/ppi)/(1/72) = 72/pxpi
-    const points_per_pixel = POINTS_PER_INCH / pixels_per_inch
-    this.page.pushOperators(scale(points_per_pixel, points_per_pixel))
+    //const points_per_pixel = POINTS_PER_INCH / pixels_per_inch
+    //this.page.pushOperators(scale(points_per_pixel, points_per_pixel))
 
     this.style_stack = []
   }
@@ -146,7 +146,7 @@ export class DrawPDF implements DrawingLibrary {
   }
 
   text(value: string, x: number, y: number): void {
-    const text_size = 12
+    const text_size = 24
     const height_points = this.font.heightAtSize(text_size, { descender: true })
     const height_above_baseline = this.font.heightAtSize(text_size, { descender: false })
     // I believe this will be the height of the baseline above the bottom
@@ -168,6 +168,8 @@ export class DrawPDF implements DrawingLibrary {
       new Direction2P(0, descender_height_px),
     )
 
+    console.log(width_points, height_points)
+
     // wait... I'm going to need to do this in pixels... I need to think about this
     // but getting closer
     /*
@@ -178,13 +180,12 @@ export class DrawPDF implements DrawingLibrary {
     const target = origin.add(Direction2P.DIR_Y.scale(descender))
     */
 
+    /*
     this.page.pushOperators(pushGraphicsState(), translate(x, y), scale(1, -1))
     this.page.drawText(value, {
       // center text
-      /*
-      x: -width_points,
-      y: descender_height_points - height_points,
-      */
+      //x: -width_points,
+      //y: descender_height_points - height_points,
       // left baseline
       //x: 0,
       //y: 0,
@@ -197,6 +198,8 @@ export class DrawPDF implements DrawingLibrary {
       font: this.font,
     })
     this.page.pushOperators(popGraphicsState())
+    */
+    this.page.drawText(value, { x, y, font: this.font })
   }
 
   begin_style(style: Style): void {
