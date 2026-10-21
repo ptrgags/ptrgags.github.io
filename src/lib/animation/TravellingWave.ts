@@ -34,7 +34,7 @@ export interface TravellingWaveOptions {
  * Create a wave from a single-cycle waveform. This is intended for use
  * with animation
  */
-export class Wave {
+export class TravelingWave {
   waveform: (t: number) => number
   amp: number
   freq: number
@@ -88,8 +88,8 @@ export class Wave {
    * @param options Wave parameters
    * @returns A sine wave object
    */
-  static sine(options: TravellingWaveOptions = {}): Wave {
-    return new Wave(Waveform.sine, options)
+  static sine(options: TravellingWaveOptions = {}): TravelingWave {
+    return new TravelingWave(Waveform.sine, options)
   }
 
   /**
@@ -97,7 +97,7 @@ export class Wave {
    * @param options Wave parameters
    * @returns A square wave object
    */
-  static square(options: TravellingWaveOptions = {}): Wave {
-    return new Wave(Waveform.square, options)
+  static square(options: TravellingWaveOptions = {}): TravelingWave {
+    return new TravelingWave(Waveform.square, options)
   }
 }

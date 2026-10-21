@@ -12,8 +12,10 @@ import {SKETCHES} from './spooky'
 </script>
 
 
+<SketchP5 :sketch="SKETCHES.spine" />
 <SketchP5 :sketch="SKETCHES.ghost" />
 <SketchP5 :sketch="SKETCHES.candy_corn" />
 <SketchP5 :sketch="SKETCHES.bone" />
 <SketchP5 :sketch="SKETCHES.skull" />
 <SketchP5 :sketch="SKETCHES.witch_hat" />
+
