@@ -1,18 +1,25 @@
+import { Direction2P } from '../math/pga2d/Direction2P.ts'
 import type { BezierCurve } from '../primitives/BezierCurve.ts'
 import { Circle } from '../primitives/Circle.ts'
 import type { DrawingLibrary } from '../primitives/DrawingLibrary.ts'
 import { LineSegment } from '../primitives/LineSegment.ts'
+import { Rect } from '../primitives/Rect.ts'
 import type { Vec2 } from '../primitives/Vec2.ts'
 import { Color } from '../styling/Color.ts'
 import { Style } from '../styling/Style.ts'
 import type { TextStyle } from '../styling/TextStyle.ts'
 import {
   appendBezierCurve,
+  beginText,
   closePath,
+  drawText,
+  endText,
   fill,
   fillAndStroke,
   lineTo,
   moveTo,
+  PDFFont,
+  PDFHexString,
   PDFOperator,
   PDFPage,
   popGraphicsState,
@@ -21,9 +28,15 @@ import {
   rotateRadians,
   scale,
   setFillingRgbColor,
+  setFontAndSize,
   setLineWidth,
   setStrokingRgbColor,
+  setTextMatrix,
+  setTextRenderingMode,
+  showText,
+  StandardFonts,
   stroke,
+  TextRenderingMode,
   translate,
 } from 'pdf-lib'
 
@@ -36,10 +49,12 @@ const POINTS_PER_INCH = 72
 
 export class DrawPDF implements DrawingLibrary {
   page: PDFPage
+  font: PDFFont
   style_stack: Style[]
 
-  constructor(page: PDFPage, pixels_per_inch: number) {
+  constructor(page: PDFPage, pixels_per_inch: number, font: PDFFont) {
     this.page = page
+    this.font = font
 
     // translate to top left corner and flip y so the coordinate system
     // becomes like a screen
@@ -128,8 +143,9 @@ export class DrawPDF implements DrawingLibrary {
   }
 
   text(value: string, x: number, y: number): void {
-    // This will require some thought
-    throw new Error('Method not implemented.')
+    this.page.pushOperators(pushGraphicsState(), translate(x, y), scale(1, -1))
+    this.page.drawText(value, { font: this.font })
+    this.page.pushOperators(popGraphicsState())
   }
 
   begin_style(style: Style): void {

@@ -1,4 +1,4 @@
-import { PDFDocument } from 'pdf-lib'
+import { PDFDocument, PDFFont, StandardFonts } from 'pdf-lib'
 import { Direction2P } from '../math/pga2d/Direction2P.ts'
 import type { Dimensionlike } from '../primitives/Dimensionlike.ts'
 import type { Drawable } from '../primitives/Drawable.ts'
@@ -15,6 +15,7 @@ export class PDFDoc {
   page_size_points: Dimensionlike
   pixels_per_inch: number
   document?: PDFDocument
+  font?: PDFFont
   constructor(options: PDFDocOptions) {
     this.page_size_points = Direction2P.from_dimensions(options.page_size_inches).scale(
       POINTS_PER_INCH,
@@ -24,16 +25,17 @@ export class PDFDoc {
 
   async init() {
     this.document = await PDFDocument.create()
+    this.font = await this.document.embedFont(StandardFonts.Helvetica)
   }
 
   add_page(scene: Drawable) {
-    if (!this.document) {
+    if (!this.document || !this.font) {
       throw new Error('remember to await init() before add_page')
     }
 
     const { width, height } = this.page_size_points
     const page = this.document.addPage([width, height])
-    const lib = new DrawPDF(page, this.pixels_per_inch)
+    const lib = new DrawPDF(page, this.pixels_per_inch, this.font)
 
     scene.draw(lib)
   }

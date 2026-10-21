@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type Ref, ref, onMounted } from 'vue'
 import { Direction2P } from '../../lib/math/pga2d/Direction2P'
-import { group, style } from '../../lib/primitives/shorthand'
+import { group, style, xform } from '../../lib/primitives/shorthand'
 import { Style } from '../../lib/styling/Style'
 import { Color } from '../../lib/styling/Color'
 import { Rect } from '../../lib/primitives/Rect'
@@ -15,6 +15,9 @@ import { Zine } from '../../lib/zines/Zine.ts'
 import PDFViewer from '../../components/PDFViewer.vue'
 import { PDFDoc } from '../../lib/pdf/PDFDoc.ts'
 import { Circle } from '../../lib/primitives/Circle.ts'
+import { Text } from '../../lib/primitives/Text.ts'
+import { Rigid } from '../../lib/primitives/Rigid.ts'
+import { LineSegment } from '../../lib/primitives/LineSegment.ts'
 
 const pdf_file: Ref<File | undefined> = ref(undefined)
 
@@ -45,10 +48,22 @@ const TEST_CIRCLE = group(
   ),
 )
 
+const TEST_TEXT = group(
+  Zine.DEFAULT_PAGE,
+  style(Style.flat(Color.CYAN), Rect.from_center(new Point2P(250, 350), new Direction2P(200, 100))),
+  style(
+    Style.lines(Color.CYAN, 2),
+    new LineSegment(new Point2P(250, 0), new Point2P(250, 700)),
+    new LineSegment(new Point2P(0, 350), new Point2P(500, 350)),
+  ),
+  style(Style.flat(Color.BLUE), new Text('Synthesizer', new Direction2P(250, 350))),
+)
+
 const DEFAULT_ZINE = new Zine({
   pages: {
     page1: TEST_SCENE,
     page2: TEST_CIRCLE,
+    page5: TEST_TEXT,
   },
 })
 
