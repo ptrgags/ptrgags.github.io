@@ -41,7 +41,7 @@ export class PianoScaleSchematic implements Drawable {
 
     const y_upper = origin.y - spacing.height
     const y_lower = origin.y + spacing.height
-    const radius = 0.5 * spacing.width
+    const radius = (7 / 16) * spacing.width
     const text_style = new TextStyle(radius, 'center', 'center')
 
     for (let i = 0; i < 7; i++) {
