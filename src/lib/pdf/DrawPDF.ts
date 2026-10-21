@@ -3,23 +3,22 @@ import type { BezierCurve } from '../primitives/BezierCurve.ts'
 import { Circle } from '../primitives/Circle.ts'
 import type { DrawingLibrary } from '../primitives/DrawingLibrary.ts'
 import { LineSegment } from '../primitives/LineSegment.ts'
-import { Rect } from '../primitives/Rect.ts'
 import type { Vec2 } from '../primitives/Vec2.ts'
 import { Color } from '../styling/Color.ts'
 import { Style } from '../styling/Style.ts'
-import type { TextStyle } from '../styling/TextStyle.ts'
+import {
+  TextStyle,
+  type HorizontalTextAlign,
+  type VerticalTextAlign,
+} from '../styling/TextStyle.ts'
 import {
   appendBezierCurve,
-  beginText,
   closePath,
-  drawText,
-  endText,
   fill,
   fillAndStroke,
   lineTo,
   moveTo,
   PDFFont,
-  PDFHexString,
   PDFOperator,
   PDFPage,
   popGraphicsState,
@@ -28,17 +27,80 @@ import {
   rotateRadians,
   scale,
   setFillingRgbColor,
-  setFontAndSize,
   setLineWidth,
   setStrokingRgbColor,
-  setTextMatrix,
-  setTextRenderingMode,
-  showText,
-  StandardFonts,
   stroke,
-  TextRenderingMode,
   translate,
 } from 'pdf-lib'
+
+function get_x_align(
+  text: string,
+  h_align: HorizontalTextAlign,
+  font: PDFFont,
+  font_size_points: number,
+): number {
+  if (h_align === 'left') {
+    // text is aligned left by default in PDF
+    return 0
+  }
+
+  // Compute the size of the text at the given font size
+  const width_points = font.widthOfTextAtSize(text, font_size_points)
+
+  if (h_align === 'right') {
+    // To align right, we need to shift left by the entire string's width
+    return -width_points
+  }
+
+  // Center is halfway between the two options above
+  return -0.5 * width_points
+}
+
+function get_y_align(v_align: VerticalTextAlign, font: PDFFont, font_size_points: number): number {
+  // See https://discourse.mcneel.com/t/proper-font-sizes-in-rhino/142515 for a diagram
+  // of font terminology
+
+  if (v_align === 'baseline') {
+    // fonts render from the baseline by default, so no offset is needed
+    return 0
+  }
+
+  // pdf-lib is a bit limited in terms of font measurements.
+  const full_height = font.heightAtSize(font_size_points, { descender: true })
+  const without_descender = font.heightAtSize(font_size_points, { descender: false })
+  // this is the length from the descender line to the baseline. This is how
+  // we know where we are within the whole bounding box of the text.
+  const descender_height = full_height - without_descender
+
+  if (v_align === 'bottom') {
+    // the baseline is above the bottom, so we need to shift the box
+    // up by the part that hangs down (descender)
+    return descender_height
+  }
+
+  if (v_align === 'top') {
+    // we're already at the baseline, so to align top we only need to
+    // shift down the rest of the way
+    return -without_descender
+  }
+
+  // for center, align 'bottom' then shift the box down by half of the
+  // full height
+  return descender_height - 0.5 * full_height
+}
+
+function align_text(
+  text: string,
+  h_align: HorizontalTextAlign,
+  v_align: VerticalTextAlign,
+  font: PDFFont,
+  font_size_points: number,
+): Direction2P {
+  return new Direction2P(
+    get_x_align(text, h_align, font, font_size_points),
+    get_y_align(v_align, font, font_size_points),
+  )
+}
 
 const OBNOXIOUSLY_PINK = new Style({
   fill: Color.MAGENTA,
@@ -50,7 +112,10 @@ const POINTS_PER_INCH = 72
 export class DrawPDF implements DrawingLibrary {
   page: PDFPage
   font: PDFFont
+  points_per_pixel: number
+  pixels_per_point: number
   style_stack: Style[]
+  text_style_stack: TextStyle[]
 
   constructor(page: PDFPage, pixels_per_inch: number, font: PDFFont) {
     this.page = page
@@ -58,17 +123,19 @@ export class DrawPDF implements DrawingLibrary {
 
     // translate to top left corner and flip y so the coordinate system
     // becomes like a screen
-    const height = page.getHeight()
-    this.begin_xform_rigid(0, height, 0, true)
+    const height_points = page.getHeight()
 
     // we're currently at 1 unit = 1 pt = 1/72 inch
     // we want to produce a coordinate system in pixels
     // so 1 unit = 1 px = 1/ppi inches
     // so the scale factor is (1/ppi)/(1/72) = 72/pxpi
     const points_per_pixel = POINTS_PER_INCH / pixels_per_inch
-    this.page.pushOperators(scale(points_per_pixel, points_per_pixel))
+    this.page.pushOperators(translate(0, height_points), scale(points_per_pixel, -points_per_pixel))
 
+    this.points_per_pixel = points_per_pixel
+    this.pixels_per_point = 1 / points_per_pixel
     this.style_stack = []
+    this.text_style_stack = []
   }
 
   circle(circ: Circle): void {
@@ -143,8 +210,33 @@ export class DrawPDF implements DrawingLibrary {
   }
 
   text(value: string, x: number, y: number): void {
+    const text_style = this.text_style_stack.at(-1) ?? TextStyle.DEFAULT
+    const { size: size_px, h_align, v_align } = text_style
+    const size_points = size_px * this.points_per_pixel
+
+    // Using the font, compute the offset where the first character's left baseline
+    // should go. This will be done in units of points, so we have to convert
+    // to our local coordinate system's units (pixels)
+    //
+    // NOTE: pdf-lib produces slightly different bounds than p5.js so results
+    // may vary slightly
+    const offset_points = align_text(value, h_align, v_align, this.font, size_points)
+    const offset_px = offset_points.scale(this.pixels_per_point)
+
+    // PDF text renders +y up, but we flipped y in the constructor to get a
+    // screen-like coordinate system. So we flip the text again, but at the
+    // local origin, not the page origin. So we apply some temporary
+    // transformations here
     this.page.pushOperators(pushGraphicsState(), translate(x, y), scale(1, -1))
-    this.page.drawText(value, { font: this.font })
+
+    // draw the text. units are in _pixels_ here.
+    this.page.drawText(value, {
+      x: offset_px.x,
+      y: offset_px.y,
+      font: this.font,
+      size: size_px,
+    })
+
     this.page.pushOperators(popGraphicsState())
   }
 
@@ -171,12 +263,13 @@ export class DrawPDF implements DrawingLibrary {
   }
 
   begin_text_style(text_style: TextStyle): void {
-    // This is going to require some thought, I need to align text manually
-    //throw new Error('Method not implemented.')
+    // unfortunately, pdf-lib doesn't have an easy way to set text alignment
+    // so I need to manually compute it for every string. See text()
+    this.text_style_stack.push(text_style)
   }
 
   end_text_style(): void {
-    // Nothing to do here
+    this.text_style_stack.pop()
   }
 
   begin_xform_rigid(

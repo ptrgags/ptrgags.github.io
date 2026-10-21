@@ -12,7 +12,7 @@ export class TextStyle {
 
   /**
    * Constructor. Defaults are based on P5.js
-   * @param size Text size
+   * @param size Text size in pixels (not points!)
    * @param h_align How to align the text horizontally
    * @param v_align how to align the text vertically
    */
