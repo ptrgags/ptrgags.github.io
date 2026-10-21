@@ -8,7 +8,11 @@ import { Rect } from '../primitives/Rect.ts'
 import type { Vec2 } from '../primitives/Vec2.ts'
 import { Color } from '../styling/Color.ts'
 import { Style } from '../styling/Style.ts'
-import { TextStyle } from '../styling/TextStyle.ts'
+import {
+  TextStyle,
+  type HorizontalTextAlign,
+  type VerticalTextAlign,
+} from '../styling/TextStyle.ts'
 import {
   appendBezierCurve,
   beginText,
@@ -40,6 +44,75 @@ import {
   TextRenderingMode,
   translate,
 } from 'pdf-lib'
+
+function get_x_align(
+  text: string,
+  h_align: HorizontalTextAlign,
+  font: PDFFont,
+  font_size: number,
+): number {
+  if (h_align === 'left') {
+    // text is aligned left by default in PDF
+    return 0
+  }
+
+  // Compute the size of the text at the given font size
+  const width_points = font.widthOfTextAtSize(text, font_size)
+
+  if (h_align === 'right') {
+    // To align right, we need to shift left by the entire string's width
+    return -width_points
+  }
+
+  // Center is halfway between the two options above
+  return -0.5 * width_points
+}
+
+function get_y_align(v_align: VerticalTextAlign, font: PDFFont, font_size: number): number {
+  // See https://discourse.mcneel.com/t/proper-font-sizes-in-rhino/142515 for a diagram
+  // of font terminology
+
+  if (v_align === 'baseline') {
+    // fonts render from the baseline by default, so no offset is needed
+    return 0
+  }
+
+  // pdf-lib is a bit limited in terms of font measurements.
+  const full_height = font.heightAtSize(font_size, { descender: true })
+  const without_descender = font.heightAtSize(font_size, { descender: false })
+  // this is the length from the descender line to the baseline. This is how
+  // we know where we are within the whole bounding box of the text.
+  const descender_height = full_height - without_descender
+
+  if (v_align === 'bottom') {
+    // the baseline is above the bottom, so we need to shift the box
+    // up by the part that hangs down (descender)
+    return descender_height
+  }
+
+  if (v_align === 'top') {
+    // we're already at the baseline, so to align top we only need to
+    // shift down the rest of the way
+    return -without_descender
+  }
+
+  // for center, align 'bottom' then shift the box down by half of the
+  // full height
+  return descender_height - 0.5 * full_height
+}
+
+function align_text(
+  text: string,
+  h_align: HorizontalTextAlign,
+  v_align: VerticalTextAlign,
+  font: PDFFont,
+  font_size: number,
+): Direction2P {
+  return new Direction2P(
+    get_x_align(text, h_align, font, font_size),
+    get_y_align(v_align, font, font_size),
+  )
+}
 
 const OBNOXIOUSLY_PINK = new Style({
   fill: Color.MAGENTA,
@@ -151,36 +224,7 @@ export class DrawPDF implements DrawingLibrary {
     const text_style = this.text_style_stack.at(-1) ?? TextStyle.DEFAULT
     const { size, h_align, v_align } = text_style
 
-    // handle the width
-    let align_x
-    if (h_align === 'left') {
-      align_x = 0
-    } else if (h_align === 'right') {
-      align_x = -this.font.widthOfTextAtSize(value, size)
-    } else {
-      // center
-      align_x = -0.5 * this.font.widthOfTextAtSize(value, size)
-    }
-
-    // handle the height
-    let align_y
-    if (v_align === 'baseline') {
-      align_y = 0
-    } else if (v_align === 'bottom') {
-      const with_descender = this.font.heightAtSize(size, { descender: true })
-      const without_descender = this.font.heightAtSize(size, { descender: false })
-      const descender_height = with_descender - without_descender
-      align_y = descender_height
-    } else if (v_align === 'top') {
-      const without_descender = this.font.heightAtSize(size, { descender: false })
-      align_y = -without_descender
-    } else {
-      // center
-      const with_descender = this.font.heightAtSize(size, { descender: true })
-      const without_descender = this.font.heightAtSize(size, { descender: false })
-      const descender_height = with_descender - without_descender
-      align_y = descender_height - 0.5 * with_descender
-    }
+    const text_offset = align_text(value, h_align, v_align, this.font, size)
 
     /*
     const height_points = this.font.heightAtSize(text_size, { descender: true })
@@ -237,7 +281,7 @@ export class DrawPDF implements DrawingLibrary {
     })
     this.page.pushOperators(popGraphicsState())
     */
-    this.page.drawText(value, { x: x + align_x, y: y + align_y, font: this.font, size })
+    this.page.drawText(value, { x: x + text_offset.x, y: y + text_offset.y, font: this.font, size })
   }
 
   begin_style(style: Style): void {
