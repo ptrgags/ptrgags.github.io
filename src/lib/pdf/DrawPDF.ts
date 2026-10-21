@@ -124,27 +124,28 @@ const POINTS_PER_INCH = 72
 export class DrawPDF implements DrawingLibrary {
   page: PDFPage
   font: PDFFont
-  pixels_per_inch: number
+  points_per_pixel: number
+  pixels_per_point: number
   style_stack: Style[]
   text_style_stack: TextStyle[]
 
   constructor(page: PDFPage, pixels_per_inch: number, font: PDFFont) {
     this.page = page
-    this.pixels_per_inch = pixels_per_inch
     this.font = font
 
     // translate to top left corner and flip y so the coordinate system
     // becomes like a screen
-    //const height = page.getHeight()
-    //this.begin_xform_rigid(0, height, 0, true)
+    const height_points = page.getHeight()
 
     // we're currently at 1 unit = 1 pt = 1/72 inch
     // we want to produce a coordinate system in pixels
     // so 1 unit = 1 px = 1/ppi inches
     // so the scale factor is (1/ppi)/(1/72) = 72/pxpi
-    //const points_per_pixel = POINTS_PER_INCH / pixels_per_inch
-    //this.page.pushOperators(scale(points_per_pixel, points_per_pixel))
+    const points_per_pixel = POINTS_PER_INCH / pixels_per_inch
+    this.page.pushOperators(translate(0, height_points), scale(points_per_pixel, -points_per_pixel))
 
+    this.points_per_pixel = points_per_pixel
+    this.pixels_per_point = 1 / points_per_pixel
     this.style_stack = []
     this.text_style_stack = []
   }
@@ -222,66 +223,30 @@ export class DrawPDF implements DrawingLibrary {
 
   text(value: string, x: number, y: number): void {
     const text_style = this.text_style_stack.at(-1) ?? TextStyle.DEFAULT
-    const { size, h_align, v_align } = text_style
+    const { size: size_px, h_align, v_align } = text_style
+    const size_points = size_px * this.points_per_pixel
 
-    const text_offset = align_text(value, h_align, v_align, this.font, size)
+    // Using the font, compute the offset where the first character's left baseline
+    // should go. This will be done in units of points, so we have to convert
+    // to our local coordinate system's units (pixels)
+    const offset_points = align_text(value, h_align, v_align, this.font, size_points)
+    const offset_px = offset_points.scale(this.pixels_per_point)
 
-    /*
-    const height_points = this.font.heightAtSize(text_size, { descender: true })
-    const height_above_baseline = this.font.heightAtSize(text_size, { descender: false })
-    // I believe this will be the height of the baseline above the bottom
-    const descender_height_points = height_points - height_above_baseline
-    // This only works for a single time. If \n is used, then we need to split manually
-    // and check line-by-line and also check the spacing between lines... let's avoid this
-    // if we can.
-    const width_points = this.font.widthOfTextAtSize(value, text_size)
-
-    const pixels_per_point = POINTS_PER_INCH / this.pixels_per_inch
-    const text_dimensions_px = new Direction2P(width_points, height_points).scale(pixels_per_point)
-    // We're always going to anchor the text at the local origin. Depending on the alignment,
-    // this can be anywhere in [-w, w] x [h x h]
-    const bounding_box_px = Rect.from_center(Point2P.ORIGIN, text_dimensions_px.scale(2))
-    const aligned_bounds_px = bounding_box_px.align(text_dimensions_px, 'left', 'top')
-
-    const descender_height_px = descender_height_points * pixels_per_point
-    const baseline_origin_px = aligned_bounds_px.position.add(
-      new Direction2P(0, descender_height_px),
-    )
-
-    console.log(width_points, height_points)
-    console.log(descender_height_points)
-    */
-
-    // wait... I'm going to need to do this in pixels... I need to think about this
-    // but getting closer
-    /*
-    const origin = new Direction2P(x, y)
-    const text_dimensions = new Direction2P(width, height)
-    const max_bounds = Rect.from_center(origin, text_dimensions.scale(2))
-    const aligned_bounds = max_bounds.align(text_dimensions, 'center', 'center')
-    const target = origin.add(Direction2P.DIR_Y.scale(descender))
-    */
-
-    /*
+    // PDF text renders +y up, but we flipped y in the constructor to get a
+    // screen-like coordinate system. So we flip the text again, but at the
+    // local origin, not the page origin. So we apply some temporary
+    // transformations here
     this.page.pushOperators(pushGraphicsState(), translate(x, y), scale(1, -1))
+
+    // draw the text. units are in _pixels_ here.
     this.page.drawText(value, {
-      // center text
-      //x: -width_points,
-      //y: descender_height_points - height_points,
-      // left baseline
-      //x: 0,
-      //y: 0,
-      // right baseline... why do I need this scale factor of 2 for it to look right???
-      //x: -2 * width_points,
-      //y: 0,
-      // left top
-      x: 0,
-      y: -2 * (height_points - descender_height_points),
+      x: offset_px.x,
+      y: offset_px.y,
       font: this.font,
+      size: size_px,
     })
+
     this.page.pushOperators(popGraphicsState())
-    */
-    this.page.drawText(value, { x: x + text_offset.x, y: y + text_offset.y, font: this.font, size })
   }
 
   begin_style(style: Style): void {

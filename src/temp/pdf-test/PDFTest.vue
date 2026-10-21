@@ -57,7 +57,10 @@ const TEST_TEXT = group(
     new LineSegment(new Point2P(250, 0), new Point2P(250, 700)),
     new LineSegment(new Point2P(0, 350), new Point2P(500, 350)),
   ),
-  style(Style.flat(Color.BLUE), new Text('ABCDE', new Direction2P(250, 350))),
+  style(
+    { text_style: new TextStyle(48, 'center', 'center'), style: Style.flat(Color.BLUE) },
+    new Text('ABCDE', new Direction2P(250, 350)),
+  ),
 )
 
 const TRADING_CARD_TEST = new TradingCard({
@@ -89,26 +92,23 @@ const PDF = new PDFDoc({
 
 const ALIGNMENT_PDF = new PDFDoc({
   page_size_inches: new Direction2P(8.5, 11),
-  pixels_per_inch: 0,
+  pixels_per_inch: 200,
 })
 
-const TWIDTH = 155.976
-const THEIGHT = 22.2
-const TDESC = 4.96
-
-const PAGE_CENTER = new Direction2P(8.5, 11).scale(72 / 2)
+const PAGE_CENTER = new Direction2P(8.5, 11).scale(200 / 2)
 const ALIGNMENT_TEST = group(
   style(
     Style.lines(Color.RED, 2),
-    new LineSegment(new Direction2P(8.5 / 2, 0).scale(72), new Direction2P(8.5 / 2, 11).scale(72)),
-    new LineSegment(new Direction2P(0, 11 / 2).scale(72), new Direction2P(8.5, 11 / 2).scale(72)),
-    // manually computed from font
-    new Rect(PAGE_CENTER.add(new Direction2P(0, -TDESC)), new Direction2P(TWIDTH, THEIGHT)),
+    new LineSegment(
+      new Direction2P(8.5 / 2, 0).scale(200),
+      new Direction2P(8.5 / 2, 11).scale(200),
+    ),
+    new LineSegment(new Direction2P(0, 11 / 2).scale(200), new Direction2P(8.5, 11 / 2).scale(200)),
   ),
   style(
     {
       style: Style.flat(Color.BLUE),
-      text_style: new TextStyle(24, 'left', 'baseline'),
+      text_style: new TextStyle(78, 'center', 'center'),
     },
     new Text('Alignment Test', PAGE_CENTER),
   ),
@@ -116,14 +116,14 @@ const ALIGNMENT_TEST = group(
 
 onMounted(async () => {
   await PDF.init()
-  //PDF.add_page(DEFAULT_ZINE)
+  PDF.add_page(DEFAULT_ZINE)
   PDF.add_page(new Zine({ pages: {} }))
 
-  //pdf_file.value = await PDF.finish('test-multipage.pdf')
+  pdf_file.value = await PDF.finish('test-multipage.pdf')
 
   await ALIGNMENT_PDF.init()
   ALIGNMENT_PDF.add_page(ALIGNMENT_TEST)
-  pdf_file.value = await ALIGNMENT_PDF.finish('test-alignment.pdf')
+  //pdf_file.value = await ALIGNMENT_PDF.finish('test-alignment.pdf')
 })
 </script>
 
