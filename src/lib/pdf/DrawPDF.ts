@@ -149,9 +149,40 @@ export class DrawPDF implements DrawingLibrary {
 
   text(value: string, x: number, y: number): void {
     const text_style = this.text_style_stack.at(-1) ?? TextStyle.DEFAULT
+    const { size, h_align, v_align } = text_style
 
-    const text_size = text_style.size
+    // handle the width
+    let align_x
+    if (h_align === 'left') {
+      align_x = 0
+    } else if (h_align === 'right') {
+      align_x = -this.font.widthOfTextAtSize(value, size)
+    } else {
+      // center
+      align_x = -0.5 * this.font.widthOfTextAtSize(value, size)
+    }
 
+    // handle the height
+    let align_y
+    if (v_align === 'baseline') {
+      align_y = 0
+    } else if (v_align === 'bottom') {
+      const with_descender = this.font.heightAtSize(size, { descender: true })
+      const without_descender = this.font.heightAtSize(size, { descender: false })
+      const descender_height = with_descender - without_descender
+      align_y = descender_height
+    } else if (v_align === 'top') {
+      const without_descender = this.font.heightAtSize(size, { descender: false })
+      align_y = -without_descender
+    } else {
+      // center
+      const with_descender = this.font.heightAtSize(size, { descender: true })
+      const without_descender = this.font.heightAtSize(size, { descender: false })
+      const descender_height = with_descender - without_descender
+      align_y = descender_height - 0.5 * with_descender
+    }
+
+    /*
     const height_points = this.font.heightAtSize(text_size, { descender: true })
     const height_above_baseline = this.font.heightAtSize(text_size, { descender: false })
     // I believe this will be the height of the baseline above the bottom
@@ -174,6 +205,8 @@ export class DrawPDF implements DrawingLibrary {
     )
 
     console.log(width_points, height_points)
+    console.log(descender_height_points)
+    */
 
     // wait... I'm going to need to do this in pixels... I need to think about this
     // but getting closer
@@ -204,7 +237,7 @@ export class DrawPDF implements DrawingLibrary {
     })
     this.page.pushOperators(popGraphicsState())
     */
-    this.page.drawText(value, { x, y, font: this.font, size: text_size })
+    this.page.drawText(value, { x: x + align_x, y: y + align_y, font: this.font, size })
   }
 
   begin_style(style: Style): void {

@@ -92,6 +92,10 @@ const ALIGNMENT_PDF = new PDFDoc({
   pixels_per_inch: 0,
 })
 
+const TWIDTH = 155.976
+const THEIGHT = 22.2
+const TDESC = -4.96
+
 const PAGE_CENTER = new Direction2P(8.5, 11).scale(72 / 2)
 const ALIGNMENT_TEST = group(
   style(
@@ -99,12 +103,15 @@ const ALIGNMENT_TEST = group(
     new LineSegment(new Direction2P(8.5 / 2, 0).scale(72), new Direction2P(8.5 / 2, 11).scale(72)),
     new LineSegment(new Direction2P(0, 11 / 2).scale(72), new Direction2P(8.5, 11 / 2).scale(72)),
     // manually computed from font
-    new Rect(PAGE_CENTER, new Direction2P(155.976, 22.200000000000003)),
+    new Rect(
+      PAGE_CENTER.add(new Direction2P(-0.5 * TWIDTH, -0.5 * THEIGHT)),
+      new Direction2P(TWIDTH, THEIGHT),
+    ),
   ),
   style(
     {
       style: Style.flat(Color.BLUE),
-      text_style: new TextStyle(24, 'left', 'baseline'),
+      text_style: new TextStyle(24, 'center', 'center'),
     },
     new Text('Alignment Test', PAGE_CENTER),
   ),
