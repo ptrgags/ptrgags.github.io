@@ -172,7 +172,7 @@ export class DrawPDF implements DrawingLibrary {
 
   begin_text_style(text_style: TextStyle): void {
     // This is going to require some thought, I need to align text manually
-    throw new Error('Method not implemented.')
+    //throw new Error('Method not implemented.')
   }
 
   end_text_style(): void {

@@ -66,7 +66,7 @@ export class TradingCard implements Drawable {
       ? xform(Rigid.translation(TradingCard.BOUNDS_SWATCH.position), options.swatch)
       : Group.EMPTY
 
-    this.primitive = group(style(STYLE_OUTLINE, TradingCard.BOUNDS), caption, swatch)
+    this.primitive = group(style(STYLE_OUTLINE, TradingCard.BOUNDS), options.body, caption, swatch)
   }
 
   draw(lib: DrawingLibrary): void {
@@ -84,4 +84,12 @@ export class TradingCard implements Drawable {
     'center',
     'center',
   )
+
+  static readonly BLANK = new TradingCard({
+    body: Group.EMPTY,
+  })
+  static readonly BLANK_WITH_CAPTION_BOX = new TradingCard({
+    body: Group.EMPTY,
+    caption: '',
+  })
 }
