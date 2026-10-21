@@ -1,10 +1,8 @@
 import { Direction2P } from '../math/pga2d/Direction2P.ts'
-import { Point2P } from '../math/pga2d/Point2P.ts'
 import type { BezierCurve } from '../primitives/BezierCurve.ts'
 import { Circle } from '../primitives/Circle.ts'
 import type { DrawingLibrary } from '../primitives/DrawingLibrary.ts'
 import { LineSegment } from '../primitives/LineSegment.ts'
-import { Rect } from '../primitives/Rect.ts'
 import type { Vec2 } from '../primitives/Vec2.ts'
 import { Color } from '../styling/Color.ts'
 import { Style } from '../styling/Style.ts'
@@ -15,16 +13,12 @@ import {
 } from '../styling/TextStyle.ts'
 import {
   appendBezierCurve,
-  beginText,
   closePath,
-  drawText,
-  endText,
   fill,
   fillAndStroke,
   lineTo,
   moveTo,
   PDFFont,
-  PDFHexString,
   PDFOperator,
   PDFPage,
   popGraphicsState,
@@ -33,15 +27,9 @@ import {
   rotateRadians,
   scale,
   setFillingRgbColor,
-  setFontAndSize,
   setLineWidth,
   setStrokingRgbColor,
-  setTextMatrix,
-  setTextRenderingMode,
-  showText,
-  StandardFonts,
   stroke,
-  TextRenderingMode,
   translate,
 } from 'pdf-lib'
 
@@ -49,7 +37,7 @@ function get_x_align(
   text: string,
   h_align: HorizontalTextAlign,
   font: PDFFont,
-  font_size: number,
+  font_size_points: number,
 ): number {
   if (h_align === 'left') {
     // text is aligned left by default in PDF
@@ -57,7 +45,7 @@ function get_x_align(
   }
 
   // Compute the size of the text at the given font size
-  const width_points = font.widthOfTextAtSize(text, font_size)
+  const width_points = font.widthOfTextAtSize(text, font_size_points)
 
   if (h_align === 'right') {
     // To align right, we need to shift left by the entire string's width
@@ -68,7 +56,7 @@ function get_x_align(
   return -0.5 * width_points
 }
 
-function get_y_align(v_align: VerticalTextAlign, font: PDFFont, font_size: number): number {
+function get_y_align(v_align: VerticalTextAlign, font: PDFFont, font_size_points: number): number {
   // See https://discourse.mcneel.com/t/proper-font-sizes-in-rhino/142515 for a diagram
   // of font terminology
 
@@ -78,8 +66,8 @@ function get_y_align(v_align: VerticalTextAlign, font: PDFFont, font_size: numbe
   }
 
   // pdf-lib is a bit limited in terms of font measurements.
-  const full_height = font.heightAtSize(font_size, { descender: true })
-  const without_descender = font.heightAtSize(font_size, { descender: false })
+  const full_height = font.heightAtSize(font_size_points, { descender: true })
+  const without_descender = font.heightAtSize(font_size_points, { descender: false })
   // this is the length from the descender line to the baseline. This is how
   // we know where we are within the whole bounding box of the text.
   const descender_height = full_height - without_descender
@@ -106,11 +94,11 @@ function align_text(
   h_align: HorizontalTextAlign,
   v_align: VerticalTextAlign,
   font: PDFFont,
-  font_size: number,
+  font_size_points: number,
 ): Direction2P {
   return new Direction2P(
-    get_x_align(text, h_align, font, font_size),
-    get_y_align(v_align, font, font_size),
+    get_x_align(text, h_align, font, font_size_points),
+    get_y_align(v_align, font, font_size_points),
   )
 }
 
