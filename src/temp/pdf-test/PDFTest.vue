@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type Ref, ref, onMounted } from 'vue'
 import { Direction2P } from '../../lib/math/pga2d/Direction2P'
-import { group, style, xform } from '../../lib/primitives/shorthand'
+import { group, style } from '../../lib/primitives/shorthand'
 import { Style } from '../../lib/styling/Style'
 import { Color } from '../../lib/styling/Color'
 import { Rect } from '../../lib/primitives/Rect'
@@ -51,7 +51,6 @@ const TEST_CIRCLE = group(
 
 const TEST_TEXT = group(
   Zine.DEFAULT_PAGE,
-  //  style(Style.flat(Color.CYAN), Rect.from_center(new Point2P(250, 350), new Direction2P(200, 100))),
   style(
     Style.lines(Color.CYAN, 2),
     new LineSegment(new Point2P(250, 0), new Point2P(250, 700)),
@@ -90,40 +89,12 @@ const PDF = new PDFDoc({
   pixels_per_inch: 200,
 })
 
-const ALIGNMENT_PDF = new PDFDoc({
-  page_size_inches: new Direction2P(8.5, 11),
-  pixels_per_inch: 200,
-})
-
-const PAGE_CENTER = new Direction2P(8.5, 11).scale(200 / 2)
-const ALIGNMENT_TEST = group(
-  style(
-    Style.lines(Color.RED, 2),
-    new LineSegment(
-      new Direction2P(8.5 / 2, 0).scale(200),
-      new Direction2P(8.5 / 2, 11).scale(200),
-    ),
-    new LineSegment(new Direction2P(0, 11 / 2).scale(200), new Direction2P(8.5, 11 / 2).scale(200)),
-  ),
-  style(
-    {
-      style: Style.flat(Color.BLUE),
-      text_style: new TextStyle(78, 'center', 'center'),
-    },
-    new Text('Alignment Test', PAGE_CENTER),
-  ),
-)
-
 onMounted(async () => {
   await PDF.init()
   PDF.add_page(DEFAULT_ZINE)
   PDF.add_page(new Zine({ pages: {} }))
 
   pdf_file.value = await PDF.finish('test-multipage.pdf')
-
-  await ALIGNMENT_PDF.init()
-  ALIGNMENT_PDF.add_page(ALIGNMENT_TEST)
-  //pdf_file.value = await ALIGNMENT_PDF.finish('test-alignment.pdf')
 })
 </script>
 
