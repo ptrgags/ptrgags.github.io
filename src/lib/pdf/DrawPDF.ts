@@ -143,29 +143,6 @@ export class DrawPDF implements DrawingLibrary {
   }
 
   text(value: string, x: number, y: number): void {
-    const text_size = 12
-    // these measurements are in points
-    const height = this.font.heightAtSize(text_size, { descender: true })
-    const height_minus_decender = this.font.heightAtSize(text_size, { descender: false })
-    // I believe this will be the height of the baseline above the bottom
-    const descender = height - height_minus_decender
-    // This only works for a single time. If \n is used, then we need to split manually
-    // and check line-by-line and also check the spacing between lines... let's avoid this
-    // if we can.
-    const width = this.font.widthOfTextAtSize(value, text_size)
-    console.log('width', width)
-    console.log('height', height)
-    console.log('minus_descender', height_minus_decender)
-    console.log('descender', descender)
-
-    // wait... I'm going to need to do this in pixels... I need to think about this
-    // but getting closer
-    const origin = new Direction2P(x, y)
-    const text_dimensions = new Direction2P(width, height)
-    const max_bounds = Rect.from_center(origin, text_dimensions.scale(2))
-    const aligned_bounds = max_bounds.align(text_dimensions, 'center', 'center')
-    const target = origin.add(Direction2P.DIR_Y.scale(descender))
-
     this.page.pushOperators(pushGraphicsState(), translate(x, y), scale(1, -1))
     this.page.drawText(value, { font: this.font })
     this.page.pushOperators(popGraphicsState())
