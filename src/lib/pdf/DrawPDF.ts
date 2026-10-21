@@ -217,6 +217,9 @@ export class DrawPDF implements DrawingLibrary {
     // Using the font, compute the offset where the first character's left baseline
     // should go. This will be done in units of points, so we have to convert
     // to our local coordinate system's units (pixels)
+    //
+    // NOTE: pdf-lib produces slightly different bounds than p5.js so results
+    // may vary slightly
     const offset_points = align_text(value, h_align, v_align, this.font, size_points)
     const offset_px = offset_points.scale(this.pixels_per_point)
 
