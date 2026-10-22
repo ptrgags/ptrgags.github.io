@@ -107,4 +107,11 @@ describe('Rect', () => {
 
     expect(result).toEqual(expected)
   })
+
+  it('from_dimensions computes rectangle at origin', () => {
+    const result = Rect.from_dimensions({ width: 500, height: 700 })
+
+    const expected = new Rect({ x: 0, y: 0 }, { width: 500, height: 700 })
+    expect(result).toEqual(expected)
+  })
 })
