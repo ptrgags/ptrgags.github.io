@@ -1,4 +1,5 @@
 import type { Vec2 } from '../../primitives/Vec2'
+import { Group } from '../Group'
 import { is_inf } from '../is_inf'
 import { is_nearly } from '../is_nearly'
 import { VectorSpace } from '../VectorSpace'
@@ -41,6 +42,15 @@ export class Complex implements Vec2 {
   get is_zero() {
     // The constructor enforces that both components will be exactly 0
     return this.real === 0 && this.imag === 0
+  }
+
+  static from_vec2(v: Vec2): Complex {
+    if (v instanceof Complex) {
+      return v
+    }
+
+    const { x, y } = v
+    return new Complex(x, y)
   }
 
   static from_polar(r: number, theta: number): Complex {
@@ -243,6 +253,44 @@ export class Complex implements Vec2 {
   static readonly I = new Complex(0, 1)
   static readonly INF = new Complex(Infinity, Infinity)
 }
+
+// Group (Complex - {inf}, +)
+export const GComplexAdd = new Group<Complex>({
+  equals(a, b) {
+    return a.equals(b)
+  },
+
+  identity() {
+    return Complex.ZERO
+  },
+
+  mul(a, b) {
+    return a.add(b)
+  },
+
+  inv(g) {
+    return g.neg
+  },
+})
+
+// Group (Complex - {0, inf}, *)
+export const GComplexMul = new Group<Complex>({
+  equals(a, b) {
+    return a.equals(b)
+  },
+
+  identity() {
+    return Complex.ONE
+  },
+
+  mul(a, b) {
+    return a.mul(b)
+  },
+
+  inv(g) {
+    return g.inv
+  },
+})
 
 export const VSComplex = new VectorSpace<Complex>({
   equals(a, b) {

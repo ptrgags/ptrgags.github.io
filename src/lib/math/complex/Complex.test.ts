@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { Complex, VSComplex } from './Complex'
+import { Complex, GComplexAdd, GComplexMul, VSComplex } from './Complex'
 import { vector_space_tests } from '../../test-helpers/vector_space_tests'
+import { group_tests } from '../../test-helpers/group_tests'
 
 describe('Complex', () => {
   it.for([
@@ -120,6 +121,47 @@ describe('Complex', () => {
 
     expect(result).toEqual(pole)
   })
+})
+
+group_tests({
+  label: '(Complex, +)',
+  group: GComplexAdd,
+  associativity: [
+    new Complex(1, 2),
+    new Complex(-3, -4),
+    new Complex(10, 7),
+    // expected sum
+    new Complex(8, 5),
+  ],
+  identity_law: new Complex(3, -4),
+  inverse: [new Complex(2, 2), new Complex(-2, -2)],
+  inv_product: [new Complex(2, 3), new Complex(-4, -5), new Complex(2, 2)],
+  abelian: [
+    new Complex(3, -1),
+    new Complex(1, 2),
+    // expected sum
+    new Complex(4, 1),
+  ],
+  diff: [new Complex(10, -10), new Complex(2, 2), new Complex(8, -12)],
+  // Abelian group so sandwich product returns the meat
+  sandwich: [new Complex(3, -4), new Complex(5), new Complex(5)],
+  // Abelian group so commutator is always identity
+  commutator: [new Complex(3, -4), new Complex(5), Complex.ZERO],
+})
+
+group_tests({
+  label: '(Complex, *)',
+  group: GComplexMul,
+  associativity: [new Complex(1, 2), new Complex(-3, 5), new Complex(2, 4), new Complex(-22, -54)],
+  identity_law: new Complex(3, -4),
+  inverse: [new Complex(2, 2), new Complex(1 / 4, -1 / 4)],
+  inv_product: [new Complex(2, 1), new Complex(3, -2), new Complex(8 / 65, 1 / 65)],
+  abelian: [new Complex(2, 4), new Complex(-5, 6), new Complex(-34, -8)],
+  diff: [new Complex(1, 2), new Complex(1, -2), new Complex(-3 / 5, 4 / 5)],
+  // Abelian group so sandwich returns the meat
+  sandwich: [new Complex(3, -4), new Complex(4, 5), new Complex(4, 5)],
+  // Abelian group so commutator is always identity
+  commutator: [new Complex(3, -4), new Complex(1, 1), Complex.ONE],
 })
 
 // see interface definition

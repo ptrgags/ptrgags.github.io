@@ -1,4 +1,5 @@
 import { mod } from '../math/mod.ts'
+import { Waveform } from './Waveform.ts'
 
 export interface WaveOptions {
   /**
@@ -79,7 +80,7 @@ export class Wave {
    * @returns A sine wave object
    */
   static sine(options: WaveOptions = {}): Wave {
-    return new Wave((t) => Math.sin(2.0 * Math.PI * t), options)
+    return new Wave(Waveform.sine, options)
   }
 
   /**
@@ -88,6 +89,6 @@ export class Wave {
    * @returns A square wave object
    */
   static square(options: WaveOptions = {}): Wave {
-    return new Wave((t) => (t < 0.5 ? -1 : 1), options)
+    return new Wave(Waveform.square, options)
   }
 }

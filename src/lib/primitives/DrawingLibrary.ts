@@ -1,6 +1,7 @@
 import type { Style } from '../styling/Style.ts'
 import type { TextStyle } from '../styling/TextStyle.ts'
 import type { BezierCurve } from './BezierCurve.ts'
+import type { Circle } from './Circle.ts'
 import type { LineSegment } from './LineSegment.ts'
 import type { Vec2 } from './Vec2.ts'
 
@@ -11,12 +12,9 @@ import type { Vec2 } from './Vec2.ts'
  */
 export interface DrawingLibrary {
   /**
-   * Draw a circle with center (cx, cy) and radius r
-   * @param cx x-coordinate of center
-   * @param cy y-coordinate of center
-   * @param radius radius
+   * Draw the specified circle
    */
-  circle(cx: number, cy: number, radius: number): void
+  circle(circ: Circle): void
 
   /**
    * Draw a circular arc
