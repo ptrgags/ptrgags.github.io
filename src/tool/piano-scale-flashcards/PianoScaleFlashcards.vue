@@ -65,7 +65,7 @@ const PITCHES_CIRCLE_OF_FOURTHS: PitchClass[] = [C, F, Bb, Eb, Ab, Db, Gb, B, E,
 const PITCH_LETTERS = ['C', 'F', 'B', 'E', 'A', 'D', 'G', 'B', 'E', 'A', 'D', 'G']
 
 const XFORM_POSITION_SCALE = new Rigid({
-  translation: new Direction2P(250, TradingCard.BOUNDS_MAIN.dimensions.height - 32),
+  translation: new Direction2P(250, TradingCard.BOUNDS_MAIN.dimensions.height - 75),
   rotation: -Math.PI / 2,
 })
 
