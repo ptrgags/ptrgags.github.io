@@ -75,6 +75,10 @@ export class Rect implements Drawable {
     lib.rect(x, y, width, height)
   }
 
+  static from_dimensions(dimensions: Dimensionlike): Rect {
+    return new Rect(Point2P.ORIGIN, dimensions)
+  }
+
   static from_center(center: Vec2, dimensions: Dimensionlike): Rect {
     const { x, y } = center
     const { width, height } = dimensions

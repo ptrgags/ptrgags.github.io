@@ -102,7 +102,7 @@ onMounted(async () => {
   PDF.add_page(new Zine({ pages: {} }))
 
   await PDF2.init()
-  PDF2.add_page(ATC3x3.BLANK)
+  PDF2.add_centered_page(ATC3x3.BLANK, ATC3x3.DIMENSIONS)
 
   pdf_file.value = await PDF2.finish('test-multipage.pdf')
 })
