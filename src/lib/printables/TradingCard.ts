@@ -43,19 +43,8 @@ const STYLE_CAPTION_TEXT = {
   text_style: new TextStyle(24, 'center', 'center'),
 }
 
-function make_caption(caption: string | undefined): Drawable {
-  if (!caption) {
-    return Group.EMPTY
-  }
-
-  const caption_box = style(STYLE_CAPTION_BOX, TradingCard.BOUNDS_CAPTION)
-  const caption_text = style(
-    STYLE_CAPTION_TEXT,
-    new Text(caption, TradingCard.BOUNDS_CAPTION.center),
-  )
-
-  return group(caption_box, caption_text)
-}
+// Need to define this here to avoid referencing TradingCard before initialization
+const BOUNDS_CAPTION = ATC_SCREEN.align(new Direction2P(500, 150), 'center', 'bottom')
 
 export class TradingCard implements Drawable {
   primitive: Drawable
@@ -75,7 +64,7 @@ export class TradingCard implements Drawable {
 
   static readonly BOUNDS = ATC_SCREEN
   // 3/4 inch tall rectangle at the bottom for the caption
-  static readonly BOUNDS_CAPTION = ATC_SCREEN.align(new Direction2P(500, 150), 'center', 'bottom')
+  static readonly BOUNDS_CAPTION = BOUNDS_CAPTION
   // The rest of the card is the "main portion"
   static readonly BOUNDS_MAIN = ATC_SCREEN.align(new Direction2P(500, 550), 'center', 'top')
   // Center a 2" square in the middle of the main rectangle for a "swatch"
@@ -92,4 +81,15 @@ export class TradingCard implements Drawable {
     body: Group.EMPTY,
     caption: '',
   })
+}
+
+function make_caption(caption: string | undefined): Drawable {
+  if (caption === undefined) {
+    return Group.EMPTY
+  }
+
+  const caption_box = style(STYLE_CAPTION_BOX, BOUNDS_CAPTION)
+  const caption_text = style(STYLE_CAPTION_TEXT, new Text(caption, BOUNDS_CAPTION.center))
+
+  return group(caption_box, caption_text)
 }
