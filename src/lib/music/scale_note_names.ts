@@ -21,11 +21,11 @@ import {
 } from './pitches.ts'
 import type { ScaleSymbol } from './Scale.ts'
 
-const SHARP = '♯'
-const DOUBLESHARP = '𝄪'
+const SHARP = '#' //'♯'
+const DOUBLESHARP = 'x' //'𝄪'
 const NATURAL = ''
-const DOUBLEFLAT = '𝄫'
-const FLAT = '𝄬'
+const DOUBLEFLAT = 'bb' //'𝄫'
+const FLAT = 'b' //'𝄬'
 
 // Access as ACCIDENTALS[pitch_class][letter]
 type AccidentalEntry = { [letter: string]: string }
@@ -67,7 +67,7 @@ function is_black_key(pitch_class: PitchClass): boolean {
   }
 }
 
-function get_note_name(pitch_class: PitchClass, letter: string): string {
+export function get_note_name(pitch_class: PitchClass, letter: string): string {
   const accidental = ACCIDENTALS[pitch_class][letter]
   return `${letter}${accidental}`
 }
