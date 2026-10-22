@@ -3,9 +3,10 @@ layout: article
 title: p5.js TEMPLATE
 date: 'YYYY-MM-DD'
 sort_key: 'YYYY-MM-DD:NN'
-hide: true
+hide: false # true
 # URL relative to BACKBLAZE assets root. The thumbnail must be 250x350 px
-thumbnail: artwork/P5_TEMPLATE/thumbnail.png
+# if not specified, a placeholder image will be used
+#thumbnail: artwork/P5_TEMPLATE/thumbnail.png
 ---
 <script setup lang="ts">
 import SketchP5 from '../../components/SketchP5.vue'
