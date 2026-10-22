@@ -16,7 +16,12 @@ const STYLE_BLACK_KEYS = new Style({
   stroke: Oklch.grey(0.5),
   fill: Color.BLACK,
 })
-const STYLE_WHITE_KEYS = Style.flat(Color.WHITE)
+const STYLE_WHITE_KEYS = new Style({
+  stroke: Color.BLACK,
+  fill: Color.WHITE,
+})
+
+const STYLE_LINES = Style.lines(Oklch.grey(0.5), 4)
 
 export interface PianoScaleSchematicOptions {
   spacing: Dimensionlike
@@ -67,7 +72,7 @@ export class PianoScaleSchematic implements Drawable {
 
     this.primitive = group(
       style(
-        Style.DEFAULT_LINES,
+        STYLE_LINES,
         new Polyline({ vertices: vertices_left, closed: false }),
         new Polyline({ vertices: vertices_right, closed: false }),
       ),
