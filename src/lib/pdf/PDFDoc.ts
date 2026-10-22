@@ -3,6 +3,9 @@ import { Direction2P } from '../math/pga2d/Direction2P.ts'
 import type { Dimensionlike } from '../primitives/Dimensionlike.ts'
 import type { Drawable } from '../primitives/Drawable.ts'
 import { DrawPDF } from './DrawPDF.ts'
+import { xform } from '../primitives/shorthand.ts'
+import { Rigid } from '../primitives/Rigid.ts'
+import { Rect } from '../primitives/Rect.ts'
 
 export interface PDFDocOptions {
   page_size_inches: Dimensionlike
@@ -13,19 +16,27 @@ const POINTS_PER_INCH = 72
 
 export class PDFDoc {
   page_size_points: Dimensionlike
+  bounds_px: Rect
   pixels_per_inch: number
   document?: PDFDocument
   font?: PDFFont
   constructor(options: PDFDocOptions) {
-    this.page_size_points = Direction2P.from_dimensions(options.page_size_inches).scale(
-      POINTS_PER_INCH,
-    )
+    const dimensions_inches = Direction2P.from_dimensions(options.page_size_inches)
+    this.page_size_points = dimensions_inches.scale(POINTS_PER_INCH)
     this.pixels_per_inch = options.pixels_per_inch
+
+    this.bounds_px = Rect.from_dimensions(dimensions_inches.scale(this.pixels_per_inch))
   }
 
   async init() {
     this.document = await PDFDocument.create()
     this.font = await this.document.embedFont(StandardFonts.Helvetica)
+  }
+
+  add_centered_page(scene: Drawable, dimensions: Dimensionlike) {
+    const rect = this.bounds_px.align(dimensions, 'center', 'center')
+    const centered = xform(Rigid.translation(rect.position), scene)
+    this.add_page(centered)
   }
 
   add_page(scene: Drawable) {
