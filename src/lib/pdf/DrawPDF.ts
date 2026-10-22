@@ -24,6 +24,7 @@ import {
   popGraphicsState,
   pushGraphicsState,
   rectangle,
+  rgb,
   rotateRadians,
   scale,
   setFillingRgbColor,
@@ -229,12 +230,15 @@ export class DrawPDF implements DrawingLibrary {
     // transformations here
     this.page.pushOperators(pushGraphicsState(), translate(x, y), scale(1, -1))
 
+    const fill = this.current_style.fill ?? Color.BLACK
+
     // draw the text. units are in _pixels_ here.
     this.page.drawText(value, {
       x: offset_px.x,
       y: offset_px.y,
       font: this.font,
       size: size_px,
+      color: rgb(fill.r / 255, fill.g / 255, fill.b / 255),
     })
 
     this.page.pushOperators(popGraphicsState())
@@ -295,8 +299,12 @@ export class DrawPDF implements DrawingLibrary {
     this.page.pushOperators()
   }
 
+  get current_style(): Style {
+    return this.style_stack.at(-1) ?? OBNOXIOUSLY_PINK
+  }
+
   get current_draw_command(): PDFOperator {
-    const current_style = this.style_stack.at(-1) ?? OBNOXIOUSLY_PINK
+    const current_style = this.current_style
 
     if (current_style.stroke && current_style.fill) {
       return fillAndStroke()
