@@ -32,7 +32,6 @@ import { get_note_name, scale_to_note_names } from '../../lib/music/scale_note_n
 import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
 import { Point2P } from '../../lib/math/pga2d/Point2P.ts'
 import { PDFDoc } from '../../lib/pdf/PDFDoc.ts'
-import { divmod } from '../../lib/math/divmod.ts'
 import { ATC3x3 } from '../../lib/printables/ATC3x3.ts'
 import { Rigid } from '../../lib/primitives/Rigid.ts'
 import { xform } from '../../lib/primitives/shorthand.ts'
@@ -103,8 +102,7 @@ onMounted(async () => {
   const page_count = Math.ceil(all_flashcards.length / 9)
   for (let i = 0; i < page_count; i++) {
     const page_cards = all_flashcards.slice(9 * i, 9 * (i + 1))
-    const page = new ATC3x3(page_cards)
-    doc.add_page(page)
+    doc.add_centered_page(new ATC3x3(page_cards), ATC3x3.DIMENSIONS)
   }
 
   pdf_file.value = await doc.finish('piano-scale-flashcards.pdf')
