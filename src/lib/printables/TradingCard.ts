@@ -43,8 +43,19 @@ const STYLE_CAPTION_TEXT = {
   text_style: new TextStyle(24, 'center', 'center'),
 }
 
-// Need to define this here to avoid referencing TradingCard before initialization
+// Need to define this here to avoid referencing `TradingCard` before initialization
 const BOUNDS_CAPTION = ATC_SCREEN.align(new Direction2P(500, 150), 'center', 'bottom')
+
+function make_caption(caption: string | undefined): Drawable {
+  if (caption === undefined) {
+    return Group.EMPTY
+  }
+
+  const caption_box = style(STYLE_CAPTION_BOX, BOUNDS_CAPTION)
+  const caption_text = style(STYLE_CAPTION_TEXT, new Text(caption, BOUNDS_CAPTION.center))
+
+  return group(caption_box, caption_text)
+}
 
 export class TradingCard implements Drawable {
   primitive: Drawable
@@ -81,15 +92,4 @@ export class TradingCard implements Drawable {
     body: Group.EMPTY,
     caption: '',
   })
-}
-
-function make_caption(caption: string | undefined): Drawable {
-  if (caption === undefined) {
-    return Group.EMPTY
-  }
-
-  const caption_box = style(STYLE_CAPTION_BOX, BOUNDS_CAPTION)
-  const caption_text = style(STYLE_CAPTION_TEXT, new Text(caption, BOUNDS_CAPTION.center))
-
-  return group(caption_box, caption_text)
 }
