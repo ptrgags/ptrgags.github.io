@@ -1,4 +1,4 @@
-import { range } from '../../lib/math/iteration/range.ts'
+import { range } from '../math/iteration/range.ts'
 import {
   A,
   Ab,
@@ -18,8 +18,8 @@ import {
   Gb,
   GS,
   type PitchClass,
-} from '../../lib/music/pitches.ts'
-import type { ScaleSymbol } from '../../lib/music/Scale.ts'
+} from './pitches.ts'
+import type { ScaleSymbol } from './Scale.ts'
 
 const SHARP = '♯'
 const DOUBLESHARP = '𝄪'

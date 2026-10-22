@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { HARMONIC_MINOR_SCALE, MAJOR_SCALE, NATURAL_MINOR_SCALE } from '../../lib/music/scales.ts'
-import { A, Ab, C, FS, Gb } from '../../lib/music/pitches.ts'
+import { HARMONIC_MINOR_SCALE, MAJOR_SCALE, NATURAL_MINOR_SCALE } from './scales.ts'
+import { A, Ab, C, FS, Gb } from './pitches.ts'
 import { scale_to_note_names } from './scale_note_names.ts'
 
 describe('scale_note_names', () => {
