@@ -19,6 +19,8 @@ import { Text } from '../../lib/primitives/Text.ts'
 import { LineSegment } from '../../lib/primitives/LineSegment.ts'
 import { TradingCard } from '../../lib/printables/TradingCard.ts'
 import { TextStyle } from '../../lib/styling/TextStyle.ts'
+import { ATC3x3 } from '../../lib/printables/ATC3x3.ts'
+import { range } from '../../lib/math/iteration/range.ts'
 
 const pdf_file: Ref<File | undefined> = ref(undefined)
 
@@ -89,12 +91,20 @@ const PDF = new PDFDoc({
   pixels_per_inch: 200,
 })
 
+const PDF2 = new PDFDoc({
+  page_size_inches: new Direction2P(8.5, 11),
+  pixels_per_inch: 200,
+})
+
 onMounted(async () => {
   await PDF.init()
   PDF.add_page(DEFAULT_ZINE)
   PDF.add_page(new Zine({ pages: {} }))
 
-  pdf_file.value = await PDF.finish('test-multipage.pdf')
+  await PDF2.init()
+  PDF2.add_page(ATC3x3.BLANK)
+
+  pdf_file.value = await PDF2.finish('test-multipage.pdf')
 })
 </script>
 
