@@ -15,7 +15,7 @@ import {backblaze_link} from '../core/links'
 
 ## New Tool: Mini Foldable Zine Template
 
-THUMBNAIL: Take a photo of a printed zine
+<img :src="backblaze_link('update/2026-10-04/zine-template-thumbnail.png')" />
 
 See the [Zine Template](../tool/zine-template/) page on this website
 
