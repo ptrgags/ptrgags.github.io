@@ -38,7 +38,7 @@ export const SKULL_STYLES = [
 
 /// Create a skull motif that _nearly_ fits in the unit circle. the teeth
 /// stick out a tiny bit.
-export function skull(circle: Circle): LayeredDrawable {
+export function skull(unit_circle: Circle): LayeredDrawable {
   const top_circle = new Circle(Point2P.ORIGIN, 2.0)
   const left_circle = new Circle(Complex.ONE.neg, 1.0)
   const right_circle = new Circle(Complex.ONE, 1.0)
@@ -87,7 +87,7 @@ export function skull(circle: Circle): LayeredDrawable {
     closed: false,
   })
 
-  const zoom = zoom_circle(circle)
+  const zoom = zoom_circle(unit_circle)
   const shrink = new Complex(0.5)
   const transform_point = (x: Complex) => {
     return zoom(shrink.mul(x))
@@ -117,16 +117,16 @@ export const SKULL_JAW_STYLES = [
   Style.lines(Color.BLACK, 2),
 ]
 
-export function skull_jaw(circle: Circle): LayeredDrawable {
+export function skull_jaw(unit_circle: Circle): LayeredDrawable {
   const body = new Rect(
-    new Point2P(-0.5 * circle.radius, 0),
-    new Direction2P(circle.radius, 0.5 * circle.radius),
+    new Point2P(-0.5 * unit_circle.radius, 0),
+    new Direction2P(unit_circle.radius, 0.5 * unit_circle.radius),
   )
 
   const teeth_lines = range(1, 4)
     .map((i) => {
-      const x = circle.radius * (-1 / 2 + (i * 1) / 4)
-      return new LineSegment(new Point2P(x, 0), new Point2P(x, 0.25 * circle.radius))
+      const x = unit_circle.radius * (-1 / 2 + (i * 1) / 4)
+      return new LineSegment(new Point2P(x, 0), new Point2P(x, 0.25 * unit_circle.radius))
     })
     .toArray()
 
@@ -135,25 +135,25 @@ export function skull_jaw(circle: Circle): LayeredDrawable {
   }
 }
 
-export function vertebra(circle: Circle): Drawable {
+export function vertebra(unit_circle: Circle): Drawable {
   const thick_part = Rect.from_center(
     Point2P.ORIGIN,
-    new Direction2P(0.5 * circle.radius, 0.5 * circle.radius),
+    new Direction2P(0.5 * unit_circle.radius, 0.5 * unit_circle.radius),
   )
   const thin_part = Rect.from_center(
     Point2P.ORIGIN,
-    new Direction2P(circle.radius, 0.25 * circle.radius),
+    new Direction2P(unit_circle.radius, 0.25 * unit_circle.radius),
   )
 
   return group(thin_part, thick_part)
 }
 
-export function tailbone(circle: Circle): Drawable {
+export function tailbone(unit_circle: Circle): Drawable {
   return new Polyline({
     vertices: [
-      new Point2P(0.25 * circle.radius, 0),
-      new Point2P(-0.25 * circle.radius, 0),
-      new Point2P(0, 0.5 * circle.radius),
+      new Point2P(0.25 * unit_circle.radius, 0),
+      new Point2P(-0.25 * unit_circle.radius, 0),
+      new Point2P(0, 0.5 * unit_circle.radius),
     ],
     closed: true,
   })
