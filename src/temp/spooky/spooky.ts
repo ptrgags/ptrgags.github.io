@@ -63,11 +63,13 @@ function bone_stamp(): Drawable {
 }
 
 function skull_stamp(): Drawable {
+  const SKULL_CIRCLE = new Circle(new Complex(128, 64), 64)
+
   return group(
-    style(Style.flat(Color.CYAN), UNIT_CIRCLE),
-    new StyleLayers(SKULL_STYLES, skull(UNIT_CIRCLE)),
+    style(Style.flat(Color.CYAN), SKULL_CIRCLE),
+    new StyleLayers(SKULL_STYLES, skull(SKULL_CIRCLE)),
     xform(
-      Rigid.translation(new Direction2P(128, 192 + 16)),
+      Rigid.translation(new Direction2P(128, 128)),
       new StyleLayers(SKULL_JAW_STYLES, skull_jaw(UNIT_CIRCLE)),
     ),
   )

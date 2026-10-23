@@ -56,7 +56,12 @@ export function skull(circle: Circle): LayeredDrawable {
   const teeth_verticals = range(5)
     .map((i) => {
       const x_offset = new Complex(teeth_spacing * i)
-      return new LineSegment(teeth_left.add(x_offset), teeth_left.add(bottom_offset).add(x_offset))
+      const y = i === 0 || i === 4 ? 0 : 0.5
+      const y_offset = new Complex(0, -y)
+      return new LineSegment(
+        teeth_left.add(x_offset).add(y_offset),
+        teeth_left.add(bottom_offset).add(x_offset),
+      )
     })
     .toArray()
 
