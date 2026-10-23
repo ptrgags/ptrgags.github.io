@@ -72,7 +72,7 @@ export class Rect implements Drawable {
   transpose(): Rect {
     const { x, y } = this.position
     const { width, height } = this.dimensions
-    return new Rect(new Point2P(y, x), new Direction2P(height, width))
+    return new Rect(new Point2P(x, y), new Direction2P(height, width))
   }
 
   draw(lib: DrawingLibrary): void {
