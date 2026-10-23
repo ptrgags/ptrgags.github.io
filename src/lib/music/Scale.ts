@@ -1,6 +1,7 @@
 //import { Chord, ChordQuality, ChordSymbol } from './Chord'
 import { range } from '../math/iteration/range.ts'
 import { IntervalStack, PitchClassStack, PitchStack } from './IntervalStack'
+import type { PitchClass } from './pitches.ts'
 
 /**
  * Measure intervals from the first value
@@ -81,7 +82,7 @@ export class ScaleQuality {
    * @param {number} pitch_class The pitch class
    * @returns {ScaleSymbol}
    */
-  to_symbol(pitch_class: number): ScaleSymbol {
+  to_symbol(pitch_class: PitchClass): ScaleSymbol {
     return new ScaleSymbol(this.intervals.intervals, pitch_class)
   }
 
@@ -102,7 +103,7 @@ export class ScaleSymbol {
    * @param {number[]} intervals
    * @param {number} pitch_class
    */
-  constructor(intervals: number[], pitch_class: number) {
+  constructor(intervals: number[], pitch_class: PitchClass) {
     this.pitch_classes = new PitchClassStack(new IntervalStack(intervals), pitch_class)
   }
 
@@ -110,12 +111,17 @@ export class ScaleSymbol {
     return this.pitch_classes.length
   }
 
+  /** Shorthand for this.value(0) */
+  get tonic(): PitchClass {
+    return this.value(0)
+  }
+
   /**
    * Get the pitch class at the given scale degree
    * @param {number} degree Scale degree measured from 0 at the tonic
    * @returns {number} the pitch class
    */
-  value(degree: number): number {
+  value(degree: number): PitchClass {
     return this.pitch_classes.value(degree)
   }
 
