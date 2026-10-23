@@ -4,7 +4,7 @@ title: Creative Recap for 2026-10-04/24
 sort_key: '2026-10-24'
 blog_date: '2026-10-24'
 summary: >
-     
+     A Halloween math pun
 thumbnail: path/to/thumbnail.png
 hide: true
 ---
@@ -18,5 +18,4 @@ import {backblaze_link} from '../core/links'
 
 See the [Spine Wave](../artwork/spine-wave/) page on this website for the animated version.
 
-DESCRIPTION
-
+I took a skull motif I had made a couple Halloweens ago (see [Math Notebook](../project/math-notebook/)) and turned it into this animation!

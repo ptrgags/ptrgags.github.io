@@ -14,3 +14,10 @@ import {SKETCHES} from './spine-wave'
 </script>
 
 <SketchP5 :sketch="SKETCHES.spine_wave" />
+
+## Background
+
+The skull motif was originally from my past project `math-notebook` (See 
+artworks [Rib Cage](../math-notebook/2024-10-30_RibCage.md) and 
+[Bone Tree](../math-notebook/2024-10-30_BoneTree.md)). This year, I reimagined
+it as this wiggly animation.
