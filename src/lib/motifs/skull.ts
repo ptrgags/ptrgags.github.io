@@ -36,8 +36,12 @@ export const SKULL_STYLES = [
   Style.lines(Color.BLACK, 2),
 ]
 
-/// Create a skull motif that _nearly_ fits in the unit circle. the teeth
-/// stick out a tiny bit.
+/**
+ * Create a skull motif that _nearly_ fits in the unit circle. the teeth
+ * stick out a tiny bit at the corners
+ * Origin is in the center of the skull
+ * @param unit_circle The unit circle for sizing
+ */
 export function skull(unit_circle: Circle): LayeredDrawable {
   const top_circle = new Circle(Point2P.ORIGIN, 2.0)
   const left_circle = new Circle(Complex.ONE.neg, 1.0)
@@ -117,6 +121,13 @@ export const SKULL_JAW_STYLES = [
   Style.lines(Color.BLACK, 2),
 ]
 
+/**
+ * Rectangle and lines representing the lower jaw of the skull
+ *
+ * Origin is in the top center
+ * @param unit_circle
+ * @returns
+ */
 export function skull_jaw(unit_circle: Circle): LayeredDrawable {
   const body = new Rect(
     new Point2P(-0.5 * unit_circle.radius, 0),
@@ -135,6 +146,12 @@ export function skull_jaw(unit_circle: Circle): LayeredDrawable {
   }
 }
 
+/**
+ * Create rectangles that look somewhat like a single vertebra in a spine
+ * The origin is the top center
+ * @param unit_circle Unit circle for sizing
+ * @returns
+ */
 export function vertebra(unit_circle: Circle): Drawable {
   const thick_part = Rect.from_center(
     Point2P.ORIGIN,
@@ -148,6 +165,13 @@ export function vertebra(unit_circle: Circle): Drawable {
   return group(thin_part, thick_part)
 }
 
+/**
+ * Downwards pointing triangle representing the tailbone
+ *
+ * The origin is the top center
+ * @param unit_circle
+ * @returns
+ */
 export function tailbone(unit_circle: Circle): Drawable {
   return new Polyline({
     vertices: [
