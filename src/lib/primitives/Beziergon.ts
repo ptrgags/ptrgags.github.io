@@ -1,11 +1,14 @@
-import type { BezierCurve } from './BezierCurve.ts'
+import { BezierCurve } from './BezierCurve.ts'
+import type { Drawable } from './Drawable.ts'
+import type { DrawingLibrary } from './DrawingLibrary.ts'
+import type { Vec2 } from './Vec2.ts'
 
 /**
  * A curved polygon where the edges are Bezier curves. The shape is always
  * closed
  * @implements {Primitive}
  */
-export class Beziergon {
+export class Beziergon implements Drawable {
   curves: BezierCurve[]
   /**
    * Constructor
@@ -22,10 +25,10 @@ export class Beziergon {
 
   /**
    * Interpolate a set of points using B-splines, phrased as a beziergon
-   * @param {Point[]} points Points
-   * @returns {BeziergonPrimitive} A beziergon interpolating the points
+   * @param  points Points
+   * @returns A beziergon interpolating the points
    */
-  static interpolate_points(points: Point[]): BeziergonPrimitive {
+  static interpolate_points(points: Vec2[]): Beziergon {
     const bezier_curves = []
     const n = points.length
 
@@ -34,10 +37,12 @@ export class Beziergon {
       const b = points[(i + 1) % n]
       const c = points[(i + 2) % n]
       const d = points[(i + 3) % n]
-      const curve = BezierPrimitive.from_b_spline(a, b, c, d)
+      const curve = BezierCurve.from_b_spline(a, b, c, d)
       bezier_curves.push(curve)
     }
 
-    return new BeziergonPrimitive(bezier_curves)
+    return new Beziergon(bezier_curves)
   }
+
+  draw(lib: DrawingLibrary): void {}
 }

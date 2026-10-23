@@ -1,20 +1,20 @@
-import { Direction } from '../sketchlib/pga2d/Direction.js'
-import { Point } from '../sketchlib/pga2d/Point.js'
-import { is_nearly } from '../sketchlib/is_nearly.js'
-import { BeziergonPrimitive } from '../sketchlib/primitives/BeziergonPrimitive.js'
-import { Circle } from '../sketchlib/primitives/Circle.js'
-import { GroupPrimitive } from '../sketchlib/primitives/GroupPrimitive.js'
-import { group } from '../sketchlib/primitives/shorthand.js'
+import { is_nearly } from '../math/is_nearly.ts'
+import { Direction2P } from '../math/pga2d/Direction2P.ts'
+import type { Point2P } from '../math/pga2d/Point2P.ts'
+import { Beziergon } from './Beziergon.ts'
+import { Circle } from './Circle.ts'
+import type { Drawable } from './Drawable.ts'
+import { group } from './shorthand.ts'
 
 /**
  * Take two unit directions and compute the direction halfway between
- * @param {Direction} a The first unit direction
- * @param {Direction} b The second unit direction
- * @param {Direction} tiebreak If the vectors are at 180 degrees, return this
+ * @param {Direction2P} a The first unit direction
+ * @param {Direction2P} b The second unit direction
+ * @param {Direction2P} tiebreak If the vectors are at 180 degrees, return this
  * direction
- * @return {Direction} The halfway direction CCW from a to b as a unit direction
+ * @return {Direction2P} The halfway direction CCW from a to b as a unit direction
  */
-function halfway(a: Direction, b: Direction, tiebreak: Direction): Direction {
+function halfway(a: Direction2P, b: Direction2P, tiebreak: Direction2P): Direction2P {
   // Tie break for straight angles
   if (is_nearly(a.dot(b), -1)) {
     return tiebreak
@@ -36,7 +36,7 @@ function halfway(a: Direction, b: Direction, tiebreak: Direction): Direction {
  * @param {CoralNode} parent
  * @returns
  */
-function get_forward_dir(node: CoralNode, parent: CoralNode) {
+function get_forward_dir(node: CoralNode, parent?: CoralNode): Direction2P {
   if (parent) {
     return parent.circle.center.sub(node.circle.center).normalize()
   }
@@ -49,16 +49,14 @@ function get_forward_dir(node: CoralNode, parent: CoralNode) {
   // children directions and negate it? not needed yet.
 
   // Only a single root node, the direction is arbitrary.
-  return Direction.DIR_X
+  return Direction2P.DIR_X
 }
 
-/**
- * @typedef {{
- *  left?: boolean,
- *  right?: boolean
- *  between?: boolean[]
- * }} SkipSettings
- */
+export interface SkipSettings {
+  left?: boolean
+  right?: boolean
+  between?: boolean[]
+}
 
 /**
  * Make an array of boolean flags (all false) equal to num_children.length - 1
@@ -75,6 +73,12 @@ function make_skip_between(num_children: number): boolean[] {
 }
 
 export class CoralNode {
+  circle: Circle
+  children: CoralNode[]
+  skip_left: boolean
+  skip_right: boolean
+  skip_between: boolean[]
+  skip: SkipSettings
   /**
    * Constructor
    * @param {Circle} circle The circle for the boundary
@@ -97,10 +101,10 @@ export class CoralNode {
    * Do an inorder traversal of the tree, placing vertices based on the
    * circle radii. The skip settings from the constructor are used to
    * skip some points to tweak the shape the way I like
-   * @param {Point[]} output Output vertices to populate
+   * @param {Point2P[]} output Output vertices to populate
    * @param {CoralNode} [parent] The parent node
    */
-  get_outline_vertices(output: Point[], parent: CoralNode) {
+  get_outline_vertices(output: Point2P[], parent?: CoralNode) {
     const center = this.circle.center
     const radius = this.circle.radius
 
@@ -158,7 +162,7 @@ export class CoralNode {
       this.children[i].get_outline_vertices(output, this)
     }
 
-    // Point on the right after all the children
+    // Point2P on the right after all the children
     const dir_after = halfway(to_children[to_children.length - 1], dir_forward, dir_right)
     const after_point = center.add(dir_after.scale(radius))
 
@@ -181,6 +185,7 @@ export class CoralNode {
 }
 
 export class CoralTree {
+  root: CoralNode
   /**
    * Constructor
    * @param {CoralNode} root Root node of tree
@@ -190,10 +195,10 @@ export class CoralTree {
   }
 
   /**
-   * @returns {Point[]}
+   * @returns {Point2P[]}
    */
-  get_outline_vertices(): Point[] {
-    const vertices = []
+  get_outline_vertices(): Point2P[] {
+    const vertices: Point2P[] = []
     this.root.get_outline_vertices(vertices)
     return vertices
   }
@@ -202,20 +207,21 @@ export class CoralTree {
    * Render the tree as an intricate beziergon
    * @returns {BeziergonPrimitive}
    */
-  render(): BeziergonPrimitive {
-    return BeziergonPrimitive.interpolate_points(this.get_outline_vertices())
+  render(): Beziergon {
+    return Beziergon.interpolate_points(this.get_outline_vertices())
   }
 
   /**
    *
    * @returns {GroupPrimitive}
    */
-  debug_render(): GroupPrimitive {
-    const nodes = []
+  debug_render(): Drawable {
+    const nodes: CoralNode[] = []
     this.root.get_all_nodes(nodes)
     const circle_prims = nodes.map((node) => node.circle)
 
-    const vertex_prims = this.get_outline_vertices()
+    const VERTEX_RADIUS = 4
+    const vertex_prims = this.get_outline_vertices().map((x) => new Circle(x, VERTEX_RADIUS))
     return group(...circle_prims, ...vertex_prims)
   }
 }
