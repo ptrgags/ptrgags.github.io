@@ -6,7 +6,7 @@ import { C, E, G, G4 } from '../../lib/music/pitches.ts'
 import { Meter } from '../../pattern/musical-meter/Meter.ts'
 import { DefaultDict } from '../../lib/data_structures/DefaultDict.ts'
 import { FrequencyDistribution } from '../../lib/data_structures/FrequencyDistribution.ts'
-import { MIDINoteMessage } from '../../lib/midi/MIDIEvent.ts'
+import { MIDIMessageType, MIDINoteMessage } from '../../lib/midi/MIDIEvent.ts'
 import { MIDIPitch } from '../../lib/midi/MIDIPitch.ts'
 
 const song_pitches: Ref<[string, number][]> = ref([])
@@ -25,9 +25,7 @@ function load_file(file: MIDIFile) {
   let max_measure = 0
 
   abs_file
-    // PR 4: Add a method to find messages matching a predicate. The other tools could benefit from this too.
-    // (e.g. finding program change messages in channel splitter)
-    .find_all(([, x]) => x instanceof MIDINoteMessage)
+    .find_all(([, x]) => x instanceof MIDINoteMessage && x.message_type === MIDIMessageType.NOTE_ON)
     .map(([t, x]) => {
       const { measures } = MIDI_METER.pulses_to_measures(t / ppq)
       return [measures, (x as MIDINoteMessage).pitch]
@@ -40,10 +38,6 @@ function load_file(file: MIDIFile) {
       overall.count(pitch_class_str)
     })
 
-  // Fake the pitches for now - they should be the pitches found in the file
-  // listed from most frequent to least frequent.
-  //
-  // These should really be (pitch, count) pairs, but we'll get there.
   song_pitches.value = overall.frequencies
 
   const rows = []
