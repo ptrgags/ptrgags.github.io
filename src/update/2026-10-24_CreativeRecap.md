@@ -14,7 +14,7 @@ import {backblaze_link} from '../core/links'
 
 ## New Tool: Musical Scale Flashcards
 
-THUMBNAIL: Screenshot of one of the major scale diagrams
+<img :src="backblaze_link('update/2026-10-04/piano-scale-flashcards-thumbnail.png')" />
 
 See the [Piano Scale Flashcards](../tool/piano-scale-flashcards/) page on this website.
 
