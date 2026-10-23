@@ -4,7 +4,7 @@ title: Creative Recap for 2026-10-04/24
 sort_key: '2026-10-24'
 blog_date: '2026-10-24'
 summary: >
-     -- 
+     -- spooky coasters
 thumbnail: path/to/thumbnail.png
 hide: true
 ---
@@ -12,11 +12,12 @@ hide: true
 import {backblaze_link} from '../core/links'
 </script>
 
+## Halloween Coasters
 
-## New Pattern: YYY
+<img :src="backblaze_link('update/2026-10-04/ghoster-thumbnail2.png')" />
+<img :src="backblaze_link('update/2026-10-04/ghoster-thumbnail1.png')" />
 
-<img :src="backblaze_link('pattern/PATTERN_ID/thumbnail.png')" />
 
-See the `../pattern/PATTERN_ID/` page on this website.
+See [Bluesky thread](https://bsky.app/profile/ptrgags.bsky.social/post/3mxhx7h53bk2d) for more photos
 
-DESCRIPTION
+To add to my fiber arts repertoire, I tried double knitting! With Halloween around the corner, I made these spooky coasters. one is a bunch of little ghosts running around the boneyard. The other is a couple of jack-o-lanterns, adapted from one of the [LEGO mosaics](./2026-09-05_CreativeRecap.md#lego-mosaics) I made in September.
