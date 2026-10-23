@@ -1,6 +1,7 @@
 ---
 layout: article
 title: Piano Scale Flashcards
+date: 2026-10-23
 ---
 <script setup lang="ts">
 import PianoScaleFlashcards from './PianoScaleFlashcards.vue'
