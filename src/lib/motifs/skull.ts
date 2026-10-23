@@ -18,14 +18,18 @@ import { Path } from '../primitives/Path.ts'
 import { range } from '../math/iteration/range.ts'
 import { Rect } from '../primitives/Rect.ts'
 import { Direction2P } from '../math/pga2d/Direction2P.ts'
+import type { Drawable } from '../primitives/Drawable.ts'
+import { Polyline } from '../primitives/Polyline.ts'
+
+export const BONE_STYLE = new Style({
+  fill: Color.WHITE,
+  stroke: Color.BLACK,
+  width: 2,
+})
 
 export const SKULL_STYLES = [
   // body
-  new Style({
-    fill: Color.WHITE,
-    stroke: Color.BLACK,
-    width: 2,
-  }),
+  BONE_STYLE,
   // eyes
   Style.flat(Color.BLACK),
   // lines for the teeth
@@ -129,4 +133,28 @@ export function skull_jaw(circle: Circle): LayeredDrawable {
   return {
     layers: [body, group(...teeth_lines)],
   }
+}
+
+export function vertebra(circle: Circle): Drawable {
+  const thick_part = Rect.from_center(
+    Point2P.ORIGIN,
+    new Direction2P(0.5 * circle.radius, 0.5 * circle.radius),
+  )
+  const thin_part = Rect.from_center(
+    Point2P.ORIGIN,
+    new Direction2P(circle.radius, 0.25 * circle.radius),
+  )
+
+  return group(thin_part, thick_part)
+}
+
+export function tailbone(circle: Circle): Drawable {
+  return new Polyline({
+    vertices: [
+      new Point2P(0.25 * circle.radius, 0),
+      new Point2P(-0.25 * circle.radius, 0),
+      new Point2P(0, 0.5 * circle.radius),
+    ],
+    closed: true,
+  })
 }

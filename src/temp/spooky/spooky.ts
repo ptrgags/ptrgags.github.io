@@ -25,7 +25,15 @@ import { Rect } from '../../lib/primitives/Rect.ts'
 import { range } from '../../lib/math/iteration/range.ts'
 import { Point2P } from '../../lib/math/pga2d/Point2P.ts'
 import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
-import { skull, skull_jaw, SKULL_JAW_STYLES, SKULL_STYLES } from '../../lib/motifs/skull.ts'
+import {
+  BONE_STYLE,
+  skull,
+  skull_jaw,
+  SKULL_JAW_STYLES,
+  SKULL_STYLES,
+  tailbone,
+  vertebra,
+} from '../../lib/motifs/skull.ts'
 
 class TEMPLATE implements SceneP5 {
   primitive: Drawable
@@ -71,6 +79,14 @@ function skull_stamp(): Drawable {
     xform(
       Rigid.translation(new Direction2P(128, 128)),
       new StyleLayers(SKULL_JAW_STYLES, skull_jaw(UNIT_CIRCLE)),
+    ),
+    xform(
+      Rigid.translation(new Direction2P(128, 128 + 64)),
+      style(BONE_STYLE, vertebra(SKULL_CIRCLE)),
+    ),
+    xform(
+      Rigid.translation(new Direction2P(128, 128 + 80 + 4)),
+      style(BONE_STYLE, tailbone(SKULL_CIRCLE)),
     ),
   )
 }
