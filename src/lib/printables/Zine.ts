@@ -1,11 +1,14 @@
 import { ATC_SCREEN } from '../../core/dimensions.ts'
 import { Direction2P } from '../math/pga2d/Direction2P.ts'
+import { Point2P } from '../math/pga2d/Point2P.ts'
 import type { Drawable } from '../primitives/Drawable.ts'
 import type { DrawingLibrary } from '../primitives/DrawingLibrary.ts'
 import { Rigid } from '../primitives/Rigid.ts'
 import { style } from '../primitives/shorthand.ts'
+import { Text } from '../primitives/Text.ts'
 import { Color } from '../styling/Color.ts'
 import { Style } from '../styling/Style.ts'
+import { TextStyle } from '../styling/TextStyle.ts'
 import { ATC_INCHES } from './dimensions.ts'
 import { TradingCard } from './TradingCard.ts'
 
@@ -68,6 +71,28 @@ const BLANK_PAGES = {
   back: TradingCard.BLANK,
 }
 
+const STYLE_LABELS = {
+  text_style: new TextStyle(144, 'center', 'center'),
+  style: Style.flat(Color.RED),
+}
+
+function label_page(label: string): TradingCard {
+  return new TradingCard({
+    body: style(STYLE_LABELS, new Text(label, TradingCard.BOUNDS.center)),
+  })
+}
+
+const LABELED_PAGES = {
+  front: label_page('Front'),
+  page1: label_page('1'),
+  page2: label_page('2'),
+  page3: label_page('3'),
+  page4: label_page('4'),
+  page5: label_page('5'),
+  page6: label_page('6'),
+  back: label_page('Back'),
+}
+
 const BLANK_PAGES_WITH_CAPTION_BOXES = {
   front: TradingCard.BLANK,
   page1: TradingCard.BLANK_WITH_CAPTION_BOX,
@@ -110,4 +135,5 @@ export class Zine implements Drawable {
 
   static readonly BLANK = new Zine({ pages: {} })
   static readonly BLANK_WITH_CAPTION_BOXES = new Zine({ pages: BLANK_PAGES_WITH_CAPTION_BOXES })
+  static readonly LABELED = new Zine({ pages: LABELED_PAGES })
 }
