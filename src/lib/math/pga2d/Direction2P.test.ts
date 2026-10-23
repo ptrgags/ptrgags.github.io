@@ -1,13 +1,14 @@
 import { describe, it, expect } from 'vitest'
-import { Direction2P } from './Direction2P.ts'
+import { Direction2P, VS2P } from './Direction2P.ts'
 import { Point2P } from './Point2P.ts'
 import { Line2P } from './Line2P.ts'
+import { vector_space_tests } from '../../test-helpers/vector_space_tests.ts'
 
 describe('Direction2P', () => {
   it('from_point with Direction2P returns same object', () => {
     const direction = new Direction2P(1, 2)
 
-    const result = Direction2P.from_point(direction)
+    const result = Direction2P.from_vec2(direction)
 
     expect(result).toBe(direction)
   })
@@ -15,7 +16,24 @@ describe('Direction2P', () => {
   it('from_point with other pointlike returns Direction2P', () => {
     const point = { x: 3, y: 4 }
 
-    const result = Direction2P.from_point(point)
+    const result = Direction2P.from_vec2(point)
+
+    const expected = new Direction2P(3, 4)
+    expect(result).toBeDirection2P(expected)
+  })
+
+  it('from_dimensions with Direction2P returns same object', () => {
+    const direction = new Direction2P(1, 2)
+
+    const result = Direction2P.from_dimensions(direction)
+
+    expect(result).toBe(direction)
+  })
+
+  it('from_dimensions with other dimensionlike returns Direction2P', () => {
+    const dimensions = { width: 3, height: 4 }
+
+    const result = Direction2P.from_dimensions(dimensions)
 
     const expected = new Direction2P(3, 4)
     expect(result).toBeDirection2P(expected)
@@ -324,4 +342,34 @@ describe('Direction2P', () => {
       expect(result).toBeDirection2P(expected)
     })
   })
+})
+
+// see interface definition
+vector_space_tests({
+  label: 'Direction2P',
+  vector_space: VS2P,
+  add_commutativity: [
+    new Direction2P(3, -1),
+    new Direction2P(1, 2),
+    // expected sum
+    new Direction2P(4, 1),
+  ],
+  add_associativity: [
+    new Direction2P(1, 2),
+    new Direction2P(-3, -4),
+    new Direction2P(10, 7),
+    // expected sum
+    new Direction2P(8, 5),
+  ],
+  add_identity: new Direction2P(-5, 7),
+  add_inverse: [new Direction2P(3, -4), new Direction2P(-3, 4)],
+  sub: [new Direction2P(10, -10), new Direction2P(2, 2), new Direction2P(8, -12)],
+  scalar_associativity: [3, 5, new Direction2P(-6, 2), new Direction2P(-90, 30)],
+  distributivity: [4, new Direction2P(3, -2), new Direction2P(4, 7), new Direction2P(28, 20)],
+  scalar_identity: new Direction2P(-7, 11),
+  combo: [
+    [1, 0.5, -3],
+    [new Direction2P(1, 2), new Direction2P(-3, 4), new Direction2P(5, -6)],
+    new Direction2P(-15.5, 22),
+  ],
 })

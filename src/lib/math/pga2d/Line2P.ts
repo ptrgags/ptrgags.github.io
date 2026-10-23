@@ -154,8 +154,8 @@ export class Line2P {
    */
   static from_segment(segment: LineSegment) {
     const { start, end } = segment
-    const start_point = Point2P.from_point(start)
-    const end_point = Point2P.from_point(end)
+    const start_point = Point2P.from_vec2(start)
+    const end_point = Point2P.from_vec2(end)
 
     if (start_point.equals(end_point)) {
       throw new Error('line segment must have two different end points')

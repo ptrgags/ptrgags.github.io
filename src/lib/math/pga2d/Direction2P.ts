@@ -1,6 +1,7 @@
 import type { Dimensionlike } from '../../primitives/Dimensionlike.js'
-import type { Pointlike } from '../../primitives/Pointlike.js'
+import type { Vec2 } from '../../primitives/Vec2.js'
 import { is_nearly } from '../is_nearly.js'
+import { VectorSpace, type VectorOps } from '../VectorSpace.js'
 import { Even2P } from './Even2P.js'
 import { Line2P } from './Line2P.js'
 import { Point2P } from './Point2P.js'
@@ -14,7 +15,7 @@ import { Point2P } from './Point2P.js'
  * the representation so the xy component 0. However, this is hidden to the
  * caller.
  */
-export class Direction2P implements Pointlike, Dimensionlike {
+export class Direction2P implements Vec2, Dimensionlike {
   bivec: Even2P
 
   /**
@@ -30,7 +31,7 @@ export class Direction2P implements Pointlike, Dimensionlike {
     this.bivec = new Even2P(0, xy, xo, yo)
   }
 
-  static from_point(point: Pointlike): Direction2P {
+  static from_vec2(point: Vec2): Direction2P {
     if (point instanceof Direction2P) {
       return point
     }
@@ -40,6 +41,10 @@ export class Direction2P implements Pointlike, Dimensionlike {
   }
 
   static from_dimensions(dimensions: Dimensionlike): Direction2P {
+    if (dimensions instanceof Direction2P) {
+      return dimensions
+    }
+
     const { width, height } = dimensions
     return new Direction2P(width, height)
   }
@@ -337,3 +342,23 @@ export class Direction2P implements Pointlike, Dimensionlike {
   static readonly DIR_Y = new Direction2P(0, 1)
   static readonly ZERO = new Direction2P(0, 0)
 }
+
+export const VS2P = new VectorSpace<Direction2P>({
+  equals: (a: Direction2P, b: Direction2P) => a.equals(b),
+  zero: () => Direction2P.ZERO,
+  add: (a: Direction2P, b: Direction2P) => a.add(b),
+  neg: (v: Direction2P) => v.neg(),
+  scale: (k: number, v: Direction2P) => v.scale(k),
+  efficient_combo(scalars: number[], vecs: Direction2P[]): Direction2P {
+    let x = 0
+    let y = 0
+    for (let i = 0; i < scalars.length; i++) {
+      const k = scalars[i]
+      const { x: vx, y: vy } = vecs[i]
+      x += k * vx
+      y += k * vy
+    }
+
+    return new Direction2P(x, y)
+  },
+})

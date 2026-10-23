@@ -28,7 +28,6 @@ const CLOCK = new Clock()
 const BIG_CIRCLE = new Circle(CENTER, RADIUS_BIG)
 
 export class CenteredTrochoidScene implements SceneP5 {
-  canvas_size = { width: 512, height: 256 }
   r: number
   p: number
   anim_circle: CircularMotion
@@ -54,8 +53,8 @@ export class CenteredTrochoidScene implements SceneP5 {
     )
 
     this.curve = new ParametricCurve(1000, (t: number) => {
-      const circle_center = Direction2P.from_point(this.anim_circle.position(MAX_CURVE_TIME * t))
-      const pen_offset = Direction2P.from_point(this.anim_pen.position(MAX_CURVE_TIME * t))
+      const circle_center = Direction2P.from_vec2(this.anim_circle.position(MAX_CURVE_TIME * t))
+      const pen_offset = Direction2P.from_vec2(this.anim_pen.position(MAX_CURVE_TIME * t))
       return circle_center.add(pen_offset)
     })
     this.trajectory = new Trajectory(TRAJECTORY_LENGTH)
@@ -103,8 +102,8 @@ export class CenteredTrochoidScene implements SceneP5 {
 
   update(p: p5): void {
     const t = CLOCK.elapsed_time - this.start_time
-    const center = Point2P.from_point(this.anim_circle.position(t))
-    const pen_offset = Direction2P.from_point(this.anim_pen.position(t))
+    const center = Point2P.from_vec2(this.anim_circle.position(t))
+    const pen_offset = Direction2P.from_vec2(this.anim_pen.position(t))
 
     const small_circle = new Circle(center, this.r)
 

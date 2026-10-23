@@ -3,11 +3,11 @@ import { lerp } from '../math/lerp.js'
 import { mod } from '../math/mod.js'
 import { Direction2P } from '../math/pga2d/Direction2P.js'
 import type { DrawingLibrary } from './DrawingLibrary.js'
-import type { Pointlike } from './Pointlike.js'
+import type { Vec2 } from './Vec2.js'
 import type { Transformation } from './TransformationOp.js'
 
 export interface RigidOptions {
-  translation?: Pointlike
+  translation?: Vec2
   rotation?: number
   flip?: boolean
 }
@@ -29,7 +29,7 @@ export class Rigid implements Transformation {
    * @param {RigidOptions} options Settings for the rigid transformation
    */
   constructor(options: RigidOptions) {
-    this.translation = Direction2P.from_point(options.translation ?? Direction2P.ZERO)
+    this.translation = Direction2P.from_vec2(options.translation ?? Direction2P.ZERO)
     this.rotation = mod(options.rotation ?? 0, 2 * Math.PI)
     this.flip = options.flip ?? false
   }
@@ -118,10 +118,10 @@ export class Rigid implements Transformation {
 
   /**
    * Convenience constructor for a translation
-   * @param {Direction2P} offset
-   * @returns {Rigid}
+   * @param offset
+   * @returns
    */
-  static translation(offset: Direction2P): Rigid {
+  static translation(offset: Vec2): Rigid {
     return new Rigid({ translation: offset })
   }
 
@@ -132,6 +132,15 @@ export class Rigid implements Transformation {
    */
   static rotation(angle: number): Rigid {
     return new Rigid({ rotation: angle })
+  }
+
+  /**
+   * shorthand for n-fold rotation
+   * @param n How many rotations to complete a circle
+   * @returns A rigid transformation
+   */
+  static rot_n(n: number): Rigid {
+    return new Rigid({ rotation: (2 * Math.PI) / n })
   }
 
   /**
@@ -170,7 +179,7 @@ export class Rigid implements Transformation {
   }
 
   apply_transformation(lib: DrawingLibrary): void {
-    lib.apply_rigid(this.translation.x, this.translation.y, this.rotation, this.flip)
+    lib.begin_xform_rigid(this.translation.x, this.translation.y, this.rotation, this.flip)
   }
 
   static readonly IDENTITY = new Rigid({})
