@@ -28,7 +28,11 @@ import {
   type PitchClass,
 } from '../../lib/music/pitches.ts'
 import { PianoScaleSchematic } from '../../lib/music/PianoScaleSchematic.ts'
-import { get_note_name, scale_to_note_names } from '../../lib/music/scale_note_names.ts'
+import {
+  AccidentalEncoding,
+  get_note_name,
+  scale_to_note_names,
+} from '../../lib/music/scale_note_names.ts'
 import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
 import { Point2P } from '../../lib/math/pga2d/Point2P.ts'
 import { PDFDoc } from '../../lib/pdf/PDFDoc.ts'
@@ -76,11 +80,12 @@ function make_flashcards(): TradingCard[] {
       const schematic = new PianoScaleSchematic({
         spacing: new Direction2P(64, 32),
         origin: Point2P.ORIGIN,
-        notes: scale_to_note_names(scale_symbol),
+        // The default PDF font doesn't include unicode accidental symbols so use ASCII
+        notes: scale_to_note_names(scale_symbol, AccidentalEncoding.ASCII),
       })
 
       const root_letter = PITCH_LETTERS[j]
-      const root_name = get_note_name(pitch_class, root_letter)
+      const root_name = get_note_name(pitch_class, root_letter, AccidentalEncoding.ASCII)
       const scale_name = `${root_name} ${scale_quality}`
 
       return new TradingCard({
