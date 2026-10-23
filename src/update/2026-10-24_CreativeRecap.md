@@ -4,7 +4,7 @@ title: Creative Recap for 2026-10-04/24
 sort_key: '2026-10-24'
 blog_date: '2026-10-24'
 summary: >
-     -- 
+     
 thumbnail: path/to/thumbnail.png
 hide: true
 ---
@@ -12,11 +12,11 @@ hide: true
 import {backblaze_link} from '../core/links'
 </script>
 
+## New Artwork: Spine Wave
 
-## New Pattern: YYY
+<img :src="backblaze_link('update/2026-10-04/spine-wave.png')" />
 
-<img :src="backblaze_link('pattern/PATTERN_ID/thumbnail.png')" />
-
-See the `../pattern/PATTERN_ID/` page on this website.
+See the [Spine Wave](../artwork/spine-wave/) page on this website for the animated version.
 
 DESCRIPTION
+
