@@ -4,7 +4,7 @@ title: Creative Recap for 2026-10-04/24
 sort_key: '2026-10-24'
 blog_date: '2026-10-24'
 summary: >
-     -- 
+     memorizing piano scales
 thumbnail: path/to/thumbnail.png
 hide: true
 ---
@@ -12,11 +12,12 @@ hide: true
 import {backblaze_link} from '../core/links'
 </script>
 
+## New Tool: Musical Scale Flashcards
 
-## New Pattern: YYY
+THUMBNAIL: Screenshot of one of the major scale diagrams
 
-<img :src="backblaze_link('pattern/PATTERN_ID/thumbnail.png')" />
+See the [Piano Scale Flashcards](../tool/piano-scale-flashcards/) page on this website.
 
-See the `../pattern/PATTERN_ID/` page on this website.
-
-DESCRIPTION
+Though I know a reasonable amount of music theory regarding scales and keys,
+I don't have many scales memorized on keyboard 😅. I made myself a deck of
+flashcards to help with the process.
