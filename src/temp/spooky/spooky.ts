@@ -10,8 +10,6 @@ import {
   CANDY_CORN_STYLES,
   ghost,
   ghost_styles,
-  skull,
-  SKULL_STYLES,
   witch_hat,
   WITCH_HAT_STYLES,
 } from '../../lib/motifs/halloween.ts'
@@ -27,6 +25,7 @@ import { Rect } from '../../lib/primitives/Rect.ts'
 import { range } from '../../lib/math/iteration/range.ts'
 import { Point2P } from '../../lib/math/pga2d/Point2P.ts'
 import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
+import { skull, skull_jaw, SKULL_JAW_STYLES, SKULL_STYLES } from '../../lib/motifs/skull.ts'
 
 class TEMPLATE implements SceneP5 {
   primitive: Drawable
@@ -64,7 +63,14 @@ function bone_stamp(): Drawable {
 }
 
 function skull_stamp(): Drawable {
-  return new StyleLayers(SKULL_STYLES, skull(UNIT_CIRCLE))
+  return group(
+    style(Style.flat(Color.CYAN), UNIT_CIRCLE),
+    new StyleLayers(SKULL_STYLES, skull(UNIT_CIRCLE)),
+    xform(
+      Rigid.translation(new Direction2P(128, 192 + 16)),
+      new StyleLayers(SKULL_JAW_STYLES, skull_jaw(UNIT_CIRCLE)),
+    ),
+  )
 }
 
 function witch_hat_stamp(): Drawable {

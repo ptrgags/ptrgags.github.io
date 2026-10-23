@@ -2,67 +2,16 @@
 
 import { Complex, VSComplex } from '../math/complex/Complex.ts'
 import { range } from '../math/iteration/range.ts'
-import { Point2P } from '../math/pga2d/Point2P.ts'
 import { AngleOrientation, ArcAngles } from '../primitives/ArcAngles.ts'
-import { BezierCurve } from '../primitives/BezierCurve.ts'
 import { Circle } from '../primitives/Circle.ts'
 import { CircularArc } from '../primitives/CircularArc.ts'
 import { LineSegment } from '../primitives/LineSegment.ts'
 import { Path } from '../primitives/Path.ts'
 import { group } from '../primitives/shorthand.ts'
-import { StyleLayers, type LayeredDrawable } from '../primitives/StyleLayers.ts'
+import { type LayeredDrawable } from '../primitives/StyleLayers.ts'
 import { Color } from '../styling/Color.ts'
 import { Style } from '../styling/Style.ts'
-
-function circle_to_arcs(circle: Circle): [CircularArc, CircularArc] {
-  const [upper_half, lower_half] = ArcAngles.SEMICIRCLES
-  const top = new CircularArc(circle, upper_half)
-  const bottom = new CircularArc(circle, lower_half)
-
-  return [top, bottom]
-}
-
-function transform_segment(segment: LineSegment, f: (x: Complex) => Complex): LineSegment {
-  const start = Complex.from_vec2(segment.start)
-  const end = Complex.from_vec2(segment.end)
-  return new LineSegment(f(start), f(end))
-}
-
-// Don't have time to do this properly right now, so hacking things together
-function transform_path(path: Path, f: (x: Complex) => Complex): Path {
-  const parts = path.parts.map((part) => {
-    if (part instanceof LineSegment) {
-      return transform_segment(part, f)
-    } else {
-      const a = Complex.from_vec2(part.a)
-      const b = Complex.from_vec2(part.b)
-      const c = Complex.from_vec2(part.c)
-      const d = Complex.from_vec2(part.d)
-      return new BezierCurve(f(a), f(b), f(c), f(d))
-    }
-  })
-  return new Path({
-    parts,
-    closed: path.closed,
-  })
-}
-
-function transform_circle(circle: Circle, f: (x: Complex) => Complex): Circle {
-  const { center } = circle
-  const xformed_center = f(Complex.from_vec2(center))
-  const xformed_point = f(Complex.from_vec2(circle.position(0)))
-  const xformed_radius = xformed_point.sub(xformed_center).mag
-  return new Circle(xformed_center, xformed_radius)
-}
-
-function zoom_circle(circle: Circle): (x: Complex) => Complex {
-  const k = new Complex(circle.radius)
-  const d = Complex.from_vec2(circle.center)
-  return (x) => {
-    // the conj here is to handle y-down
-    return k.mul(x.conj).add(d)
-  }
-}
+import { transform_circle, transform_path, zoom_circle } from './transform_prims.ts'
 
 export function ghost_styles(): Style[] {
   const style_body = Style.flat('#c5f2fa')
@@ -331,79 +280,5 @@ export function witch_hat(circle: Circle): LayeredDrawable {
 
   return {
     layers: [transform_path(outside, transform_point), transform_path(band, transform_point)],
-  }
-}
-
-export const SKULL_STYLES = [
-  // body
-  Style.flat(Color.WHITE),
-  // eyes
-  Style.flat(Color.BLACK),
-  // lines for the teeth
-  Style.lines(Color.BLACK, 2),
-]
-
-/// Create a skull motif that _nearly_ fits in the unit circle. the teeth
-/// stick out a tiny bit.
-export function skull(circle: Circle): LayeredDrawable {
-  const top_circle = new Circle(Point2P.ORIGIN, 2.0)
-  const left_circle = new Circle(Complex.ONE.neg, 1.0)
-  const right_circle = new Circle(Complex.ONE, 1.0)
-
-  const angles_top = new ArcAngles(0.0, Math.PI, AngleOrientation.POSITIVE)
-  const angles_left = new ArcAngles(Math.PI, (3.0 * Math.PI) / 2, AngleOrientation.POSITIVE)
-  const angles_right = new ArcAngles(-Math.PI / 2, 0.0, AngleOrientation.POSITIVE)
-  const arc_top = new CircularArc(top_circle, angles_top)
-  const arc_left = new CircularArc(left_circle, angles_left)
-  const arc_right = new CircularArc(right_circle, angles_right)
-
-  const teeth_left = new Complex(-1.0, -1.0)
-  const teeth_spacing = 0.5
-  const bottom_offset = Complex.I.neg
-  const teeth_bottom = new LineSegment(
-    teeth_left.add(bottom_offset),
-    teeth_left.add(new Complex(4 * teeth_spacing)).add(bottom_offset),
-  )
-  const teeth_verticals = range(5)
-    .map((i) => {
-      const x_offset = new Complex(teeth_spacing * i)
-      return new LineSegment(teeth_left.add(x_offset), teeth_left.add(bottom_offset).add(x_offset))
-    })
-    .toArray()
-
-  const EYE_RADIUS: number = 0.5
-  const EYE_X: number = 0.8
-  const EYE_Y: number = 1.0 / 3.0
-  const left_eye = new Circle(new Complex(-EYE_X, EYE_Y), EYE_RADIUS)
-  const right_eye = new Circle(new Complex(EYE_X, EYE_Y), EYE_RADIUS)
-
-  const skull = new Path({
-    parts: [
-      arc_right,
-      arc_top,
-      arc_left,
-      teeth_verticals[0],
-      teeth_bottom,
-      teeth_verticals[4].reverse(),
-    ],
-    closed: false,
-  })
-
-  const zoom = zoom_circle(circle)
-  const shrink = new Complex(0.5)
-  const transform_point = (x: Complex) => {
-    return zoom(shrink.mul(x))
-  }
-
-  const eye_circles = [left_eye, right_eye].map((x) => transform_circle(x, transform_point))
-  const eyes = group(...eye_circles)
-
-  const teeth_lines = teeth_verticals.slice(1, 4).map((x) => {
-    return transform_segment(x, transform_point)
-  })
-  const lines = group(...teeth_lines)
-
-  return {
-    layers: [transform_path(skull, transform_point), eyes, lines],
   }
 }
