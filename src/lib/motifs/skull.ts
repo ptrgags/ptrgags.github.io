@@ -153,12 +153,16 @@ export function skull_jaw(unit_circle: Circle): LayeredDrawable {
  * @returns
  */
 export function vertebra(unit_circle: Circle): Drawable {
-  const thick_part = Rect.from_center(
-    Point2P.ORIGIN,
-    new Direction2P(0.5 * unit_circle.radius, 0.5 * unit_circle.radius),
+  const thick_width = (5 / 8) * unit_circle.radius
+  const thin_width = unit_circle.radius
+
+  const thick_part = new Rect(
+    new Point2P(-0.5 * thick_width, 0),
+    new Direction2P(thick_width, 0.5 * unit_circle.radius),
   )
-  const thin_part = Rect.from_center(
-    Point2P.ORIGIN,
+
+  const thin_part = new Rect(
+    new Point2P(-0.5 * thin_width, (1 / 8) * unit_circle.radius),
     new Direction2P(unit_circle.radius, 0.25 * unit_circle.radius),
   )
 

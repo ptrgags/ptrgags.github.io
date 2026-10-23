@@ -78,10 +78,10 @@ function skull_stamp(): Drawable {
     new StyleLayers(SKULL_STYLES, skull(SKULL_CIRCLE)),
     xform(
       Rigid.translation(new Direction2P(128, 128)),
-      new StyleLayers(SKULL_JAW_STYLES, skull_jaw(UNIT_CIRCLE)),
+      new StyleLayers(SKULL_JAW_STYLES, skull_jaw(SKULL_CIRCLE)),
     ),
     xform(
-      Rigid.translation(new Direction2P(128, 128 + 64)),
+      Rigid.translation(new Direction2P(128, 128 + 32 + 8)),
       style(BONE_STYLE, vertebra(SKULL_CIRCLE)),
     ),
     xform(
