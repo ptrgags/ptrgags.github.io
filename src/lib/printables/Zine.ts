@@ -7,6 +7,7 @@ import { style } from '../primitives/shorthand.ts'
 import { Color } from '../styling/Color.ts'
 import { Style } from '../styling/Style.ts'
 import { ATC_INCHES } from './dimensions.ts'
+import { TradingCard } from './TradingCard.ts'
 
 export interface ZinePages {
   // Front cover
@@ -55,23 +56,27 @@ function make_page_xforms(ppi: number): Record<keyof ZinePages, Rigid> {
 
 // I tend to make ATCs at 500x700px on the screen, which is 2.5x3.5" at 200 PPI
 const DEFAULT_PPI = 200
-const DEFAULT_PAGE = style(Style.lines(Color.BLACK, 2), ATC_SCREEN)
-const DEFAULT_PAGE_WITH_CAPTION = style(
-  Style.lines(Color.BLACK, 2),
-  ATC_SCREEN,
-  // the rectangle is 3/4 inch tall at the bottom
-  ATC_SCREEN.align(new Direction2P(500, 150), 'center', 'bottom'),
-)
 
-const EMPTY_PAGES = {
-  front: DEFAULT_PAGE,
-  page1: DEFAULT_PAGE_WITH_CAPTION,
-  page2: DEFAULT_PAGE_WITH_CAPTION,
-  page3: DEFAULT_PAGE_WITH_CAPTION,
-  page4: DEFAULT_PAGE_WITH_CAPTION,
-  page5: DEFAULT_PAGE_WITH_CAPTION,
-  page6: DEFAULT_PAGE_WITH_CAPTION,
-  back: DEFAULT_PAGE,
+const BLANK_PAGES = {
+  front: TradingCard.BLANK,
+  page1: TradingCard.BLANK,
+  page2: TradingCard.BLANK,
+  page3: TradingCard.BLANK,
+  page4: TradingCard.BLANK,
+  page5: TradingCard.BLANK,
+  page6: TradingCard.BLANK,
+  back: TradingCard.BLANK,
+}
+
+const BLANK_PAGES_WITH_CAPTION_BOXES = {
+  front: TradingCard.BLANK,
+  page1: TradingCard.BLANK_WITH_CAPTION_BOX,
+  page2: TradingCard.BLANK_WITH_CAPTION_BOX,
+  page3: TradingCard.BLANK_WITH_CAPTION_BOX,
+  page4: TradingCard.BLANK_WITH_CAPTION_BOX,
+  page5: TradingCard.BLANK_WITH_CAPTION_BOX,
+  page6: TradingCard.BLANK_WITH_CAPTION_BOX,
+  back: TradingCard.BLANK,
 }
 
 export interface ZineOptions {
@@ -87,7 +92,7 @@ export class Zine implements Drawable {
   constructor(options: ZineOptions) {
     const ppi = options.pixels_per_inch ?? DEFAULT_PPI
     this.transforms = make_page_xforms(ppi)
-    this.pages = { ...EMPTY_PAGES, ...options.pages }
+    this.pages = { ...BLANK_PAGES, ...options.pages }
 
     this.dimensions = ATC_INCHES.dimensions.scale(ppi).mul_components(new Direction2P(4, 2))
   }
@@ -103,7 +108,6 @@ export class Zine implements Drawable {
     }
   }
 
-  static readonly DEFAULT_ZINE = new Zine({ pages: {} })
-  static readonly DEFAULT_COVER = DEFAULT_PAGE
-  static readonly DEFAULT_PAGE = DEFAULT_PAGE_WITH_CAPTION
+  static readonly BLANK = new Zine({ pages: {} })
+  static readonly BLANK_WITH_CAPTION_BOXES = new Zine({ pages: BLANK_PAGES_WITH_CAPTION_BOXES })
 }

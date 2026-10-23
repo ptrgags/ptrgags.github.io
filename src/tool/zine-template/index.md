@@ -5,6 +5,7 @@ title: Printable Zine Template
 
 <script setup lang="ts">
 import ZinePrintable from './ZinePrintable.vue'
+import {Zine} from '../../lib/printables/Zine'
 </script>
 
 In an effort to make my art more tangible, I want to turn my designs into
@@ -12,11 +13,15 @@ physical things like printable zines. As a first step, I made these zine templat
 
 ## Blank Template
 
-<ZinePrintable />
+The most basic template has 
+
+<ZinePrintable :zine="Zine.BLANK"/>
 
 ## Template with Caption Boxes
 
-TODO
+This variation includes 
+
+<ZinePrintable :zine="Zine.BLANK_WITH_CAPTION_BOXES"/>
 
 ## Folding Instructions
 
