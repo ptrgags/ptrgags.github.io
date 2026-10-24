@@ -4,9 +4,9 @@ title: Creative Recap for 2026-10-04/24
 sort_key: '2026-10-24'
 blog_date: '2026-10-24'
 summary: >
-     A spooky math pun -- spooky coasters -- memorizing piano scales -- printable zine templates -- What notes did I just play?
+     A Halloween math pun -- spooky coasters -- memorizing piano scales -- printable zine templates -- what notes did I just play?
 thumbnail: update/2026-10-04/spine-wave.png
-hide: true
+hide: false
 ---
 <script setup lang="ts">
 import {backblaze_link} from '../core/links'
