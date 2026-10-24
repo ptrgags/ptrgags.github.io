@@ -17,15 +17,7 @@ This is an unlisted page. It's a staging area for drafts of future blog updates.
 
 # This Week's Targets =====
 
-## Halloween Coasters
 
-TAGLINE: spooky coasters
-
-THUMBNAIL: Picture of coasters
-
-See [Bluesky thread](https://bsky.app/profile/ptrgags.bsky.social/post/3mxhx7h53bk2d) for more photos
-
-To add to my fiber arts repertoire, I tried double knitting! With Halloween around the corner, I made these spooky coasters. one is a bunch of little ghosts running around the boneyard. The other is a couple of jack-o-lanterns, adapted from one of the [LEGO mosaics](./2026-09-05_CreativeRecap.md#lego-mosaics) I made in September.
 
 ## PICO-8: Seven Segment Display
 
@@ -37,13 +29,7 @@ LINK to Lexaloffle page
 
 I made these PICO-8 cartridges back in (❓ when did I make this?), but only now got around to publishing them. This one is a 7-segment display visualizer
 
-## New Artwork: Spine Wave
 
-IMG: Swatch of one skull and spine
-
-LINK to artwork page once available
-
-DESCRIPTION
 
 ## New Artwork: Ghost of the Number Line (❓)
 
@@ -74,23 +60,6 @@ IMGS: the most interesting pattern swatches
 In the stuff I've been working on behind the scenes, I've been using a bunch
 of different patterns. I figured I should at least show them off even if I
 can't 
-
-## New Tool: Mini Foldable Zine Template
-
-THUMBNAIL: Take a photo of a printed zine
-
-IMG: photo of folded zine
-
-LINK: Zine Template
-
-❓LINK to old Bluesky thread? and/or past zine
-
-A creative goal for me is to find more tangible forms for my art. I'd like to make more zines.
-
-A little before my website design, I had started making a PDF exporter in `p5-sketchbook`.  I ported some of that code. So far I just made a printable zine template. 
-
-❓ Find instructions for how to fold the zine, include this on the tools page
-
 
 # Future Targets =====
 

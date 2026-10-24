@@ -1,13 +1,13 @@
 import { describe, it, expect } from 'vitest'
-import { HARMONIC_MINOR_SCALE, MAJOR_SCALE, NATURAL_MINOR_SCALE } from '../../lib/music/scales.ts'
-import { A, Ab, C, FS, Gb } from '../../lib/music/pitches.ts'
-import { scale_to_note_names } from './scale_note_names.ts'
+import { HARMONIC_MINOR_SCALE, MAJOR_SCALE, NATURAL_MINOR_SCALE } from './scales.ts'
+import { A, Ab, C, FS, Gb } from './pitches.ts'
+import { AccidentalEncoding, scale_to_note_names } from './scale_note_names.ts'
 
 describe('scale_note_names', () => {
   it('with C major uses only white keys and no accidentals', () => {
     const scale = MAJOR_SCALE.to_symbol(C)
 
-    const result = scale_to_note_names(scale)
+    const result = scale_to_note_names(scale, AccidentalEncoding.UNICODE)
 
     const expected = [
       ['C', false],
@@ -24,7 +24,7 @@ describe('scale_note_names', () => {
   it('with Ab major uses correct names', () => {
     const scale = MAJOR_SCALE.to_symbol(Ab)
 
-    const result = scale_to_note_names(scale)
+    const result = scale_to_note_names(scale, AccidentalEncoding.UNICODE)
 
     const expected = [
       ['A𝄬', true],
@@ -41,7 +41,7 @@ describe('scale_note_names', () => {
   it('With A major uses correct sharps', () => {
     const scale = MAJOR_SCALE.to_symbol(A)
 
-    const result = scale_to_note_names(scale)
+    const result = scale_to_note_names(scale, AccidentalEncoding.UNICODE)
 
     const expected = [
       ['A', false],
@@ -58,7 +58,7 @@ describe('scale_note_names', () => {
   it('with Gb major returns scale with flats', () => {
     const scale = MAJOR_SCALE.to_symbol(Gb)
 
-    const result = scale_to_note_names(scale)
+    const result = scale_to_note_names(scale, AccidentalEncoding.UNICODE)
 
     const expected = [
       ['G𝄬', true],
@@ -76,7 +76,7 @@ describe('scale_note_names', () => {
     // This is the one ambiguity that the implementation has.
     const scale = MAJOR_SCALE.to_symbol(FS)
 
-    const result = scale_to_note_names(scale)
+    const result = scale_to_note_names(scale, AccidentalEncoding.UNICODE)
 
     const expected = [
       ['G𝄬', true],
@@ -93,7 +93,7 @@ describe('scale_note_names', () => {
   it('with A minor returns the alphabet', () => {
     const scale = NATURAL_MINOR_SCALE.to_symbol(A)
 
-    const result = scale_to_note_names(scale)
+    const result = scale_to_note_names(scale, AccidentalEncoding.UNICODE)
 
     const expected = [
       ['A', false],
@@ -110,7 +110,7 @@ describe('scale_note_names', () => {
   it('with A harmonic major includes G#', () => {
     const scale = HARMONIC_MINOR_SCALE.to_symbol(A)
 
-    const result = scale_to_note_names(scale)
+    const result = scale_to_note_names(scale, AccidentalEncoding.UNICODE)
 
     const expected = [
       ['A', false],
@@ -120,6 +120,23 @@ describe('scale_note_names', () => {
       ['E', false],
       ['F', false],
       ['G♯', true],
+    ]
+    expect(result).toEqual(expected)
+  })
+
+  it('with AccidentalEncoding.ASCII uses ascii rather than unicode accidentals', () => {
+    const scale = MAJOR_SCALE.to_symbol(Ab)
+
+    const result = scale_to_note_names(scale, AccidentalEncoding.ASCII)
+
+    const expected = [
+      ['Ab', true],
+      ['Bb', true],
+      ['C', false],
+      ['Db', true],
+      ['Eb', true],
+      ['F', false],
+      ['G', false],
     ]
     expect(result).toEqual(expected)
   })
