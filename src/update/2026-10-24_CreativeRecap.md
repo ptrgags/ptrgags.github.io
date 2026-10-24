@@ -28,5 +28,5 @@ I took a skull motif I had made a couple of Halloweens ago (see [Math Notebook](
 
 See [Bluesky thread](https://bsky.app/profile/ptrgags.bsky.social/post/3mxhx7h53bk2d) for more photos
 
-To add to my fiber arts repertoire, I tried double knitting! With Halloween around the corner, I made these spooky coasters. one is a bunch of little ghosts running around the boneyard. The other is a couple of jack-o-lanterns, adapted from one of the [LEGO mosaics](./2026-09-05_CreativeRecap.md#lego-mosaics) I made in September.
+To add to my fiber arts repertoire, I tried double knitting! With Halloween around the corner, I made these spooky coasters. One design is a bunch of little ghosts running around the boneyard. The other design is a pair of jack-o'-lanterns, adapted from one of the [LEGO mosaics](./2026-09-05_CreativeRecap.md#lego-mosaics) I made in September.
 
