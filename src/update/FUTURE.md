@@ -17,15 +17,7 @@ This is an unlisted page. It's a staging area for drafts of future blog updates.
 
 # This Week's Targets =====
 
-## Halloween Coasters
 
-TAGLINE: spooky coasters
-
-THUMBNAIL: Picture of coasters
-
-See [Bluesky thread](https://bsky.app/profile/ptrgags.bsky.social/post/3mxhx7h53bk2d) for more photos
-
-To add to my fiber arts repertoire, I tried double knitting! With Halloween around the corner, I made these spooky coasters. one is a bunch of little ghosts running around the boneyard. The other is a couple of jack-o-lanterns, adapted from one of the [LEGO mosaics](./2026-09-05_CreativeRecap.md#lego-mosaics) I made in September.
 
 ## PICO-8: Seven Segment Display
 
