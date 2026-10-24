@@ -4,14 +4,13 @@ title: Creative Recap for 2026-10-04/24
 sort_key: '2026-10-24'
 blog_date: '2026-10-24'
 summary: >
-     A spooky math pun -- spooky coasters -- memorizing piano scales
+     A spooky math pun -- spooky coasters -- memorizing piano scales -- printable zine templates
 thumbnail: update/2026-10-04/spine-wave.png
 hide: true
 ---
 <script setup lang="ts">
 import {backblaze_link} from '../core/links'
 </script>
-
 
 ## New Artwork: Spine Wave
 
@@ -40,3 +39,19 @@ See the [Piano Scale Flashcards](../tool/piano-scale-flashcards/) page on this w
 I know a reasonable amount of music theory regarding scales and keys. However,
 I haven't memorized many scales 😅. I made this deck of
 flashcards to help with the learning process.
+
+## New Tool: Mini Foldable Zine Template
+
+<img :src="backblaze_link('update/2026-10-04/zine-template-thumbnail.png')" />
+
+See the [Zine Template](../tool/zine-template/) page on this website.
+
+In an effort to make my art more tangible, I want to make zines and other printable content.
+This mini zine template will be a starting place for printing digital creations.
+I can also use it to sketch zines by hand.
+
+Just before my website redesign, I had started making a PDF exporter in 
+`p5-sketchbook`. Though that code never got merged, I did use it to make 
+[This zine of LEGO mosaic patterns](https://bsky.app/profile/ptrgags.bsky.social/post/3muew5lz3lc24). 
+I ported that PDF code here and added some improvements. This is used for both 
+this zine template and the piano scale flashcards mentioned above.
