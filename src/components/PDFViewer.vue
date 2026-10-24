@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, toRef, watch, type Ref } from 'vue'
+import { download_file } from '../lib/dom/download_file.ts'
 
 const props = defineProps<{
   // Dimensions of the _viewer_, regardless of the PDF page size
@@ -11,6 +12,10 @@ const props = defineProps<{
 
 const blob_url = URL.createObjectURL(props.file)
 const pdf_url: Ref<string> = ref(blob_url)
+
+function download() {
+  download_file(props.file)
+}
 
 // If the file changes, clean up the old blob URL and generate a new
 // one
@@ -29,13 +34,16 @@ watch(
 </script>
 
 <template>
-  <object
-    v-if="pdf_url"
-    class="pdf-viewer"
-    :width="$props.width"
-    :height="$props.height"
-    :data="pdf_url"
-  ></object>
+  <div class="vertical">
+    <object
+      v-if="pdf_url"
+      class="pdf-viewer"
+      :width="$props.width"
+      :height="$props.height"
+      :data="pdf_url"
+    ></object>
+    <button @click="download">Download PDF</button>
+  </div>
 </template>
 
 <style scoped>

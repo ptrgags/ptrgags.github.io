@@ -203,6 +203,10 @@ canvas.p5Canvas {
   background-color: oklch(43.362% 0.06531 264.933);
 }
 
+.custom-block.tip {
+  background-color: var(--color-main-dark);
+}
+
 .custom-block.details {
   background-color: var(--color-main-dark);
   margin-bottom: 10px;

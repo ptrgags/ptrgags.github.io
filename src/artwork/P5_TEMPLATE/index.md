@@ -3,7 +3,7 @@ layout: article
 title: p5.js TEMPLATE
 date: 'YYYY-MM-DD'
 sort_key: 'YYYY-MM-DD:NN'
-hide: false # true
+hide: true
 # URL relative to BACKBLAZE assets root. The thumbnail must be 250x350 px
 # if not specified, a placeholder image will be used
 #thumbnail: artwork/P5_TEMPLATE/thumbnail.png
