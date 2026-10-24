@@ -20,7 +20,6 @@ import { LineSegment } from '../../lib/primitives/LineSegment.ts'
 import { TradingCard } from '../../lib/printables/TradingCard.ts'
 import { TextStyle } from '../../lib/styling/TextStyle.ts'
 import { ATC3x3 } from '../../lib/printables/ATC3x3.ts'
-import { range } from '../../lib/math/iteration/range.ts'
 
 const pdf_file: Ref<File | undefined> = ref(undefined)
 
