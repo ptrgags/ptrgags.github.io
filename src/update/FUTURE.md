@@ -29,13 +29,7 @@ LINK to Lexaloffle page
 
 I made these PICO-8 cartridges back in (❓ when did I make this?), but only now got around to publishing them. This one is a 7-segment display visualizer
 
-## New Artwork: Spine Wave
 
-IMG: Swatch of one skull and spine
-
-LINK to artwork page once available
-
-DESCRIPTION
 
 ## New Artwork: Ghost of the Number Line (❓)
 
