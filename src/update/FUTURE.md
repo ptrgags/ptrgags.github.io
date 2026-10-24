@@ -49,15 +49,7 @@ LINK to tool once available
 
 DESCRIPTION
 
-## New Tool: MIDI Note Summary
 
-TAGLINE: what notes did I just play?
-
-THUMBNAIL: pixel art similar to other MIDI tools
-
-LINK: MIDI note summary
-
-I made another MIDI tool. This one gathers all the note on messages and
 
 ## Pattern Lightning Round ⚡
 
