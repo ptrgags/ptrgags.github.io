@@ -2,6 +2,7 @@
 
 import { Complex, VSComplex } from '../math/complex/Complex.ts'
 import { range } from '../math/iteration/range.ts'
+import { Point2P } from '../math/pga2d/Point2P.ts'
 import { AngleOrientation, ArcAngles } from '../primitives/ArcAngles.ts'
 import { Circle } from '../primitives/Circle.ts'
 import { CircularArc } from '../primitives/CircularArc.ts'
@@ -219,6 +220,45 @@ export function bone(length: number, circle: Circle): Path {
   const shrink = new Complex(2 / length)
   return transform_path(big_bone, (x) => {
     return zoom(shrink.mul(x))
+  })
+}
+
+export function bone2(length: number, radius: number): Path {
+  const circle_top_left = new Circle(new Complex(0, -radius), radius)
+  const circle_top_right = new Circle(new Complex(length, -radius), radius)
+  const circle_bottom_left = new Circle(new Complex(0, radius), radius)
+  const circle_bottom_right = new Circle(new Complex(length, radius), radius)
+
+  // tracing counterclockwise from the top left circle
+  const arc_top_left = new CircularArc(
+    circle_top_left,
+    new ArcAngles(0, (-3 * Math.PI) / 2, AngleOrientation.NEGATIVE),
+  )
+  const arc_bottom_left = new CircularArc(
+    circle_bottom_left,
+    new ArcAngles((3 * Math.PI) / 2, 0, AngleOrientation.NEGATIVE),
+  )
+  const arc_bottom_right = new CircularArc(
+    circle_bottom_right,
+    new ArcAngles(Math.PI, (-3 * Math.PI) / 2, AngleOrientation.NEGATIVE),
+  )
+  const arc_top_right = new CircularArc(
+    circle_top_right,
+    new ArcAngles(Math.PI / 2, -Math.PI, AngleOrientation.NEGATIVE),
+  )
+
+  const side_bottom = new LineSegment(
+    new Point2P(radius, radius),
+    new Point2P(length - radius, radius),
+  )
+  const side_top = new LineSegment(
+    new Point2P(length - radius, -radius),
+    new Point2P(radius, -radius),
+  )
+
+  return new Path({
+    parts: [arc_top_left, arc_bottom_left, side_bottom, arc_bottom_right, arc_top_right, side_top],
+    closed: true,
   })
 }
 
