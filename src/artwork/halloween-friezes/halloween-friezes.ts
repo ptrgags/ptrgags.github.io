@@ -20,7 +20,7 @@ function p1m1_skull_and_bones(): Drawable {
   const head = new StyleLayers(SKULL_STYLES, skull(unit_circle))
   const bone_prim = xform(
     new Rigid({
-      translation: new Direction2P(64, -32),
+      translation: new Direction2P(64, 0),
       rotation: Math.PI / 2,
     }),
     style(Style.flat(Color.WHITE), bone2(64, 8)),
@@ -34,14 +34,31 @@ function p1m1_skull_and_bones(): Drawable {
 }
 
 function p11g_braided_bones(): Drawable {
-  const slash = new LineSegment(new Point2P(0, 64), new Point2P(64, 0))
-  const back_slash = new LineSegment(new Point2P(0, 0), new Point2P(64, 64))
+  const length = 48
+  const bone_prim = bone2(length, 4)
+
+  const bone_slash = xform(
+    new Rigid({
+      translation: new Direction2P(32, 32),
+      rotation: -Math.PI / 4,
+    }),
+    bone_prim,
+  )
+
+  const bone_backslash = xform(
+    new Rigid({
+      translation: new Direction2P(32, 32),
+      rotation: Math.PI / 4,
+    }),
+    bone_prim,
+  )
+
+  const joint = new Circle(Point2P.ORIGIN, 8)
 
   const crossing = group(
-    // these styles will need to be adjusted since the bone is a closed shape
-    style(Style.lines(Color.WHITE, 25), back_slash),
-    style(Style.lines(Color.BLACK, 35), slash),
-    style(Style.lines(Color.WHITE, 25), slash),
+    style(Style.flat(Color.WHITE), bone_backslash),
+    //style(Style.lines(Color.BLACK, 4), bone_slash),
+    style(Style.flat(Color.WHITE), /*bone_slash,*/ joint),
   )
 
   return new FriezeP11G({

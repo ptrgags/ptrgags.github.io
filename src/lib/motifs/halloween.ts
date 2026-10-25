@@ -224,10 +224,11 @@ export function bone(length: number, circle: Circle): Path {
 }
 
 export function bone2(length: number, radius: number): Path {
-  const circle_top_left = new Circle(new Complex(0, -radius), radius)
-  const circle_top_right = new Circle(new Complex(length, -radius), radius)
-  const circle_bottom_left = new Circle(new Complex(0, radius), radius)
-  const circle_bottom_right = new Circle(new Complex(length, radius), radius)
+  const half_length = 0.5 * length
+  const circle_top_left = new Circle(new Complex(-half_length, -radius), radius)
+  const circle_top_right = new Circle(new Complex(half_length, -radius), radius)
+  const circle_bottom_left = new Circle(new Complex(-half_length, radius), radius)
+  const circle_bottom_right = new Circle(new Complex(half_length, radius), radius)
 
   // tracing counterclockwise from the top left circle
   const arc_top_left = new CircularArc(
@@ -248,12 +249,12 @@ export function bone2(length: number, radius: number): Path {
   )
 
   const side_bottom = new LineSegment(
-    new Point2P(radius, radius),
-    new Point2P(length - radius, radius),
+    new Point2P(-half_length + radius, radius),
+    new Point2P(half_length - radius, radius),
   )
   const side_top = new LineSegment(
-    new Point2P(length - radius, -radius),
-    new Point2P(radius, -radius),
+    new Point2P(half_length - radius, -radius),
+    new Point2P(-half_length + radius, -radius),
   )
 
   return new Path({
