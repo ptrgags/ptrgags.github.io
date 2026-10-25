@@ -6,12 +6,12 @@ import { zip } from '../../lib/iteration/zip.ts'
 import { CRS12 } from '../../lib/math/CRS12.ts'
 import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
 import { AngleOrientation, ArcAngles } from '../../lib/primitives/ArcAngles.ts'
-import { ArcArrow } from '../../lib/primitives/ArcArrow.ts'
+import { ArcArrow, type ArrowOptions } from '../../lib/primitives/ArcArrow.ts'
 import { Circle } from '../../lib/primitives/Circle.ts'
 import { CircularArc } from '../../lib/primitives/CircularArc.ts'
 import type { Drawable } from '../../lib/primitives/Drawable.ts'
 import type { DrawingLibrary } from '../../lib/primitives/DrawingLibrary.ts'
-import type { Path } from '../../lib/primitives/Path.ts'
+import { Path } from '../../lib/primitives/Path.ts'
 import type { Vec2 } from '../../lib/primitives/Vec2.ts'
 
 export enum ArcConvention {
@@ -57,7 +57,7 @@ const ANGLES_BY_TYPE = {
 
 type ArcType = keyof typeof ANGLES_BY_TYPE
 
-function make_arc(crs: CRS12, a: number, b: number, arc_type: ArcType): ArcArrow | undefined {
+function make_arc(crs: CRS12, a: number, b: number, arc_type: ArcType): CircularArc | undefined {
   // Arc is 0 size, skip over it
   if (a === b) {
     return undefined
@@ -70,10 +70,10 @@ function make_arc(crs: CRS12, a: number, b: number, arc_type: ArcType): ArcArrow
   const index = a < b ? 0 : 1
   const angles = ANGLES_BY_TYPE[arc_type][index]
 
-  return new ArcArrow({ circle, angles })
+  return new CircularArc(circle, angles)
 }
 
-function make_arcs(crs: CRS12, points: number[], arc_convention: ArcConvention): ArcArrow[] {
+function make_arcs(crs: CRS12, points: number[], arc_convention: ArcConvention): CircularArc[] {
   const type_seq = get_arc_types(arc_convention)
 
   const result = []
@@ -130,7 +130,7 @@ export class NumberLineArcs {
     this.arc_convention = options.arc_convention
   }
 
-  make_arc(a: number, b: number): ArcArrow | undefined {
+  make_arc(a: number, b: number): CircularArc | undefined {
     const arc_seq = get_arc_types(this.arc_convention)
     const arc_type = first(arc_seq)
 
@@ -142,7 +142,37 @@ export class NumberLineArcs {
     return make_arc(this.crs, a, b, arc_type)
   }
 
-  make_path(points: number[]): Path | undefined {
-    throw new Error('not implemented')
+  make_path(points: number[], closed: boolean): Path {
+    const arcs = make_arcs(this.crs, points, this.arc_convention)
+    return new Path({ parts: arcs, closed })
+  }
+
+  make_arrow(
+    a: number,
+    b: number,
+    arrow_options: Partial<ArrowOptions> = {},
+  ): ArcArrow | undefined {
+    const arc = this.make_arc(a, b)
+    if (arc) {
+      return new ArcArrow({
+        circle: arc.circle,
+        angles: arc.angles,
+        ...arrow_options,
+      })
+    }
+
+    return undefined
+  }
+
+  make_arrows(points: number[], arrow_options: Partial<ArrowOptions> = {}): ArcArrow[] {
+    const arcs = make_arcs(this.crs, points, this.arc_convention)
+    return arcs.map(
+      (x) =>
+        new ArcArrow({
+          circle: x.circle,
+          angles: x.angles,
+          ...arrow_options,
+        }),
+    )
   }
 }
