@@ -24,14 +24,15 @@ class NumberLineArcTest implements SceneP5 {
 
     const arrow_options = { arrow_radii: new Direction2P(8, 8) }
 
-    const single_arc = arcs.make_arc(0, 1) ?? Group.EMPTY
-    const single_arrow = arcs.make_arrow(2, 0, arrow_options) ?? Group.EMPTY
+    const single_arc = arcs.make_arc(0, 1)
+    const single_arrow = arcs.make_arrow(2, 0, arrow_options)
     const path = arcs.make_path([3, 5, 4, 3], true)
     const path_arrows = arcs.make_arrows([3, 5, 4, 3], arrow_options)
+    const degenerate = arcs.make_arrow(2, 2, arrow_options)
 
     this.primitive = group(
       style(Style.flat(Color.RED), path),
-      style(Style.DEFAULT_LINES, single_arc, single_arrow, ...path_arrows),
+      style(Style.DEFAULT_LINES, single_arc, single_arrow, ...path_arrows, degenerate),
     )
   }
 

@@ -57,12 +57,7 @@ const ANGLES_BY_TYPE = {
 
 type ArcType = keyof typeof ANGLES_BY_TYPE
 
-function make_arc(crs: CRS12, a: number, b: number, arc_type: ArcType): CircularArc | undefined {
-  // Arc is 0 size, skip over it
-  if (a === b) {
-    return undefined
-  }
-
+function make_arc(crs: CRS12, a: number, b: number, arc_type: ArcType): CircularArc {
   const point_a = crs.position(a)
   const point_b = crs.position(b)
   const circle = Circle.from_two_points(point_a, point_b)
@@ -130,7 +125,7 @@ export class NumberLineArcs {
     this.arc_convention = options.arc_convention
   }
 
-  make_arc(a: number, b: number): CircularArc | undefined {
+  make_arc(a: number, b: number): CircularArc {
     const arc_seq = get_arc_types(this.arc_convention)
     const arc_type = first(arc_seq)
 
@@ -147,21 +142,14 @@ export class NumberLineArcs {
     return new Path({ parts: arcs, closed })
   }
 
-  make_arrow(
-    a: number,
-    b: number,
-    arrow_options: Partial<ArrowOptions> = {},
-  ): ArcArrow | undefined {
+  make_arrow(a: number, b: number, arrow_options: Partial<ArrowOptions> = {}): ArcArrow {
     const arc = this.make_arc(a, b)
-    if (arc) {
-      return new ArcArrow({
-        circle: arc.circle,
-        angles: arc.angles,
-        ...arrow_options,
-      })
-    }
 
-    return undefined
+    return new ArcArrow({
+      circle: arc.circle,
+      angles: arc.angles,
+      ...arrow_options,
+    })
   }
 
   make_arrows(points: number[], arrow_options: Partial<ArrowOptions> = {}): ArcArrow[] {
