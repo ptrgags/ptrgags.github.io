@@ -12,6 +12,21 @@ import {SKETCHES} from './number-line-arcs'
 </script>
 
 
-<SketchP5 :sketch="SKETCHES.template" />
+Above:
+<SketchP5 :sketch="SKETCHES.above" />
 
-lorem ipsum blah blah blah
+Below:
+<SketchP5 :sketch="SKETCHES.below" />
+
+Path (start above)
+<SketchP5 :sketch="SKETCHES.path_above" />
+
+
+Path (start below)
+<SketchP5 :sketch="SKETCHES.path_below" />
+
+Positive: 
+<SketchP5 :sketch="SKETCHES.positive" />
+
+Negative:
+<SketchP5 :sketch="SKETCHES.negative" />
