@@ -41,16 +41,16 @@ class NumberLineArcTest implements SceneP5 {
 }
 
 export const SKETCHES = {
-  above: make_static_sketch(SWATCH.dimensions, new NumberLineArcTest(ArcConvention.ABOVE)),
-  below: make_static_sketch(SWATCH.dimensions, new NumberLineArcTest(ArcConvention.BELOW)),
-  path_above: make_static_sketch(
+  pos_y: make_static_sketch(SWATCH.dimensions, new NumberLineArcTest(ArcConvention.POS_Y)),
+  neg_y: make_static_sketch(SWATCH.dimensions, new NumberLineArcTest(ArcConvention.NEG_Y)),
+  path_pos_y: make_static_sketch(
     SWATCH.dimensions,
-    new NumberLineArcTest(ArcConvention.PATH_START_ABOVE),
+    new NumberLineArcTest(ArcConvention.PATH_START_POS_Y),
   ),
-  path_below: make_static_sketch(
+  path_neg_y: make_static_sketch(
     SWATCH.dimensions,
-    new NumberLineArcTest(ArcConvention.PATH_START_BELOW),
+    new NumberLineArcTest(ArcConvention.PATH_START_NEG_Y),
   ),
-  positive: make_static_sketch(SWATCH.dimensions, new NumberLineArcTest(ArcConvention.POSITIVE)),
-  negative: make_static_sketch(SWATCH.dimensions, new NumberLineArcTest(ArcConvention.NEGATIVE)),
+  pos_angle: make_static_sketch(SWATCH.dimensions, new NumberLineArcTest(ArcConvention.POS_ANGLE)),
+  neg_angle: make_static_sketch(SWATCH.dimensions, new NumberLineArcTest(ArcConvention.NEG_ANGLE)),
 }

@@ -1,5 +1,6 @@
 import { by_pairs } from '../../lib/iteration/by_pairs.ts'
 import { cycle } from '../../lib/iteration/cycle.ts'
+import { first } from '../../lib/iteration/first.ts'
 import { repeat } from '../../lib/iteration/repeat.ts'
 import { zip } from '../../lib/iteration/zip.ts'
 import { CRS12 } from '../../lib/math/CRS12.ts'
@@ -15,63 +16,43 @@ import type { Vec2 } from '../../lib/primitives/Vec2.ts'
 
 export enum ArcConvention {
   /**
-   * All arcs are traced in the positive direction (clockwise)
+   * All arcs are traced in the positive direction
    */
-  POSITIVE,
+  POS_ANGLE,
   /**
-   * All arcs are traced in the negative direction (negative)
+   * All arcs are traced in the negative direction
    */
-  NEGATIVE,
+  NEG_ANGLE,
   /**
-   * All arcs will be traced above the number line (assuming p5 default of y-down)
+   * All arcs will be traced on the +y side of the number line
    */
-  ABOVE,
+  POS_Y,
   /**
-   * All arcs will be traced below the number line (assuming p5 default of y-down)
+   * All arcs will be traced on the -y side of the number line
    */
-  BELOW,
+  NEG_Y,
   /**
    * Alternate between upper and lower halves of the number line so the
-   * arcs form a C1 continuous path. This version puts the first arc
-   * above the number line (in y-down coordinates)
+   * arcs form a C1 continuous path. This version puts the first arc on the +y side of the number line
    */
-  PATH_START_ABOVE,
+  PATH_START_POS_Y,
   /**
-   * Same as PATH_UPPER but the first arc is below the number line (in y-down coordinates)
+   * Same as PATH_UPPER but the first arc is on the -y side of the number line
    */
-  PATH_START_BELOW,
+  PATH_START_NEG_Y,
 }
 
-export interface NumberLineArcsOptions {
-  /**
-   * Origin of the coordinate system
-   */
-  origin: Vec2
-  /**
-   * Spacing between integers on the number line (always in the +x direction)
-   */
-  spacing: number
-  /**
-   * Which style of drawing arcs to use
-   */
-  arc_convention: ArcConvention
-}
+const ANGLES_POS_Y_POSITIVE = new ArcAngles(0, Math.PI, AngleOrientation.POSITIVE)
+const ANGLES_POS_Y_NEGATIVE = new ArcAngles(Math.PI, 0, AngleOrientation.NEGATIVE)
+const ANGLES_NEG_Y_POSITIVE = new ArcAngles(Math.PI, 2 * Math.PI, AngleOrientation.POSITIVE)
+const ANGLES_NEG_Y_NEGATIVE = new ArcAngles(0, -Math.PI, AngleOrientation.NEGATIVE)
 
-const ANGLES = [
-  // assuming y-down coordinates, these are:
-  new ArcAngles(0, Math.PI, AngleOrientation.POSITIVE), // positive, below
-  new ArcAngles(0, Math.PI, AngleOrientation.NEGATIVE), // negative, above
-  new ArcAngles(Math.PI, 0, AngleOrientation.POSITIVE), // positive, above
-  new ArcAngles(Math.PI, 0, AngleOrientation.NEGATIVE), // negative, below
-]
-
+// Index as ANGLES_BY_TYPE[arc_type][Number(b > a)]
 const ANGLES_BY_TYPE = {
-  above: [ANGLES[1], ANGLES[2]],
-  below: [ANGLES[0], ANGLES[3]],
-  // wrong
-  positive: [ANGLES[0], ANGLES[2]],
-  // wrong
-  negative: [ANGLES[1], ANGLES[3]],
+  above: [ANGLES_POS_Y_NEGATIVE, ANGLES_POS_Y_POSITIVE],
+  below: [ANGLES_NEG_Y_POSITIVE, ANGLES_NEG_Y_NEGATIVE],
+  positive: [ANGLES_NEG_Y_POSITIVE, ANGLES_POS_Y_POSITIVE],
+  negative: [ANGLES_POS_Y_NEGATIVE, ANGLES_NEG_Y_NEGATIVE],
 }
 
 type ArcType = keyof typeof ANGLES_BY_TYPE
@@ -93,20 +74,7 @@ function make_arc(crs: CRS12, a: number, b: number, arc_type: ArcType): ArcArrow
 }
 
 function make_arcs(crs: CRS12, points: number[], arc_convention: ArcConvention): ArcArrow[] {
-  let type_seq: Iterable<ArcType>
-  if (arc_convention === ArcConvention.PATH_START_ABOVE) {
-    type_seq = cycle(['above', 'below'])
-  } else if (arc_convention === ArcConvention.PATH_START_BELOW) {
-    type_seq = cycle(['below', 'above'])
-  } else if (arc_convention === ArcConvention.ABOVE) {
-    type_seq = repeat('above')
-  } else if (arc_convention === ArcConvention.BELOW) {
-    type_seq = repeat('below')
-  } else if (arc_convention === ArcConvention.POSITIVE) {
-    type_seq = repeat('positive')
-  } else {
-    type_seq = repeat('negative')
-  }
+  const type_seq = get_arc_types(arc_convention)
 
   const result = []
   for (const [[a, b], arc_type] of zip(by_pairs(points), type_seq)) {
@@ -116,6 +84,41 @@ function make_arcs(crs: CRS12, points: number[], arc_convention: ArcConvention):
     }
   }
   return result
+}
+
+function get_arc_types(arc_convention: ArcConvention): Iterable<ArcType> {
+  if (arc_convention === ArcConvention.PATH_START_POS_Y) {
+    return cycle(['above', 'below'])
+  }
+  if (arc_convention === ArcConvention.PATH_START_NEG_Y) {
+    return cycle(['below', 'above'])
+  }
+  if (arc_convention === ArcConvention.POS_Y) {
+    return repeat('above')
+  }
+  if (arc_convention === ArcConvention.NEG_Y) {
+    return repeat('below')
+  }
+  if (arc_convention === ArcConvention.POS_ANGLE) {
+    return repeat('positive')
+  }
+  // NEG_ANGLE
+  return repeat('negative')
+}
+
+export interface NumberLineArcsOptions {
+  /**
+   * Origin of the coordinate system
+   */
+  origin: Vec2
+  /**
+   * Spacing between integers on the number line (always in the +x direction)
+   */
+  spacing: number
+  /**
+   * Which style of drawing arcs to use
+   */
+  arc_convention: ArcConvention
 }
 
 export class NumberLineArcs {
@@ -128,17 +131,15 @@ export class NumberLineArcs {
   }
 
   make_arc(a: number, b: number): ArcArrow | undefined {
-    if (a === b) {
-      return undefined
+    const arc_seq = get_arc_types(this.arc_convention)
+    const arc_type = first(arc_seq)
+
+    if (!arc_type) {
+      // All the sequences are infinite, so first will always return
+      throw Error('impossible')
     }
 
-    const point_a = this.crs.position(a)
-    const point_b = this.crs.position(b)
-    const circle = Circle.from_two_points(point_a, point_b)
-    return new ArcArrow({
-      circle,
-      angles: new ArcAngles(0, Math.PI, AngleOrientation.POSITIVE),
-    })
+    return make_arc(this.crs, a, b, arc_type)
   }
 
   make_path(points: number[]): Path | undefined {

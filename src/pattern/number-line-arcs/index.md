@@ -12,21 +12,21 @@ import {SKETCHES} from './number-line-arcs'
 </script>
 
 
-Above:
-<SketchP5 :sketch="SKETCHES.above" />
++y
+<SketchP5 :sketch="SKETCHES.pos_y" />
 
-Below:
-<SketchP5 :sketch="SKETCHES.below" />
+-y
+<SketchP5 :sketch="SKETCHES.neg_y" />
 
-Path (start above)
-<SketchP5 :sketch="SKETCHES.path_above" />
+Path (start +y)
+<SketchP5 :sketch="SKETCHES.path_pos_y" />
 
 
-Path (start below)
-<SketchP5 :sketch="SKETCHES.path_below" />
+Path (start -y)
+<SketchP5 :sketch="SKETCHES.path_neg_y" />
 
-Positive: 
-<SketchP5 :sketch="SKETCHES.positive" />
+Positive angle (clockwise)
+<SketchP5 :sketch="SKETCHES.pos_angle" />
 
-Negative:
-<SketchP5 :sketch="SKETCHES.negative" />
+Negative angle (counterclockwise)
+<SketchP5 :sketch="SKETCHES.neg_angle" />
