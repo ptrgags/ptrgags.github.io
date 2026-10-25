@@ -20,3 +20,7 @@ import {SKETCHES} from './halloween-friezes'
 `p11g` (translation, glide reflection)
 
 <SketchP5 :sketch="SKETCHES.p11g" />
+
+`p2mg` (translation, 2-fold rotation, vertical mirrors, glide reflections)
+
+<SketchP5 :sketch="SKETCHES.p2mg" />
