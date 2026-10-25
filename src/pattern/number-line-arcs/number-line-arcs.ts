@@ -8,6 +8,7 @@ import { Point2P } from '../../lib/math/pga2d/Point2P.ts'
 import { ArcConvention, NumberLineArcs } from './NumberLineArcs.ts'
 import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
 import { SWATCH } from '../../core/dimensions.ts'
+import { Group } from '../../lib/primitives/Group.ts'
 
 /*
 new NumberLineArcs({
@@ -22,15 +23,14 @@ class NumberLineArcTest implements SceneP5 {
   primitive: Drawable
 
   constructor(arc_convention: ArcConvention) {
-    this.primitive = style(
-      Style.DEFAULT_LINES,
-      new NumberLineArcs({
-        origin: new Point2P(0, 128),
-        spacing: 48,
-        arc_convention,
-        points: [0, 1, 2, 5, 3, 4, 0],
-      }),
-    )
+    const arcs = new NumberLineArcs({
+      origin: new Point2P(0, 128),
+      spacing: 48,
+      arc_convention,
+    })
+    //points: [0, 1, 2, 5, 3, 4, 0],
+
+    this.primitive = style(Style.DEFAULT_LINES, arcs.make_arc(0, 1) ?? Group.EMPTY)
   }
 
   update(p: p5): void {}

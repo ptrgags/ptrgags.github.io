@@ -10,6 +10,7 @@ import { Circle } from '../../lib/primitives/Circle.ts'
 import { CircularArc } from '../../lib/primitives/CircularArc.ts'
 import type { Drawable } from '../../lib/primitives/Drawable.ts'
 import type { DrawingLibrary } from '../../lib/primitives/DrawingLibrary.ts'
+import type { Path } from '../../lib/primitives/Path.ts'
 import type { Vec2 } from '../../lib/primitives/Vec2.ts'
 
 export enum ArcConvention {
@@ -54,10 +55,6 @@ export interface NumberLineArcsOptions {
    * Which style of drawing arcs to use
    */
   arc_convention: ArcConvention
-  /**
-   * List of integers to determine where the arcs go
-   */
-  points: number[]
 }
 
 const ANGLES = [
@@ -121,16 +118,30 @@ function make_arcs(crs: CRS12, points: number[], arc_convention: ArcConvention):
   return result
 }
 
-export class NumberLineArcs implements Drawable {
+export class NumberLineArcs {
   crs: CRS12
-  arcs: ArcArrow[]
+  arc_convention: ArcConvention
 
   constructor(options: NumberLineArcsOptions) {
     this.crs = new CRS12(options.origin, Direction2P.DIR_X.scale(options.spacing))
-    this.arcs = make_arcs(this.crs, options.points, options.arc_convention)
+    this.arc_convention = options.arc_convention
   }
 
-  draw(lib: DrawingLibrary): void {
-    this.arcs.forEach((x) => x.draw(lib))
+  make_arc(a: number, b: number): ArcArrow | undefined {
+    if (a === b) {
+      return undefined
+    }
+
+    const point_a = this.crs.position(a)
+    const point_b = this.crs.position(b)
+    const circle = Circle.from_two_points(point_a, point_b)
+    return new ArcArrow({
+      circle,
+      angles: new ArcAngles(0, Math.PI, AngleOrientation.POSITIVE),
+    })
+  }
+
+  make_path(points: number[]): Path | undefined {
+    throw new Error('not implemented')
   }
 }
