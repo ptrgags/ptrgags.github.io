@@ -17,7 +17,73 @@ This is an unlisted page. It's a staging area for drafts of future blog updates.
 
 # This Week's Targets =====
 
+## The Ephemeral Jukebox
 
+IMG: Thumbnail version of album cover
+
+DESCRIPTION
+
+## New Artwork: Coral Skeleton
+
+Tagline: skeleton coral
+
+IMG: Thumbnail of coral skeleton (or maybe a simplified version?)
+
+I love drawing these coral-like shapes. I have some code for rendering
+them in `p5-sketchbook` (see [Animated Tangle](https://ptrgags.dev/p5-sketchbook/AnimatedTangle/)), so I ported that here.
+Since it's spooky season, I thought I'd make a Halloween version.
+
+There is some visual humor built into this one. Coral colonies do have skeletons! 
+However, they're not _bones_ like this, but rather rocky accretions that push the polyps away from the seafloor towards sunlight.
+The bright green outline was chosen to fit the "cartoon x-ray" vibe. However, corals are often fluorescent, so under UV light,
+coral may indeed appear bright green (or several other colors)
+
+:::warning TODO: find references
+Somewhere in my notes I have links to these coral facts, find them and link them here!
+:::
+
+## New Artwork: Halloween Friezes
+
+TAGLINE: `spooky spooky spooky spooky spooky`
+
+IMG: Thumbnail of my favorite frieze
+
+Earlier this month I had added some code for making symmetric patterns.
+To show off what I have so far, I made some Halloween-themed friezes. There
+are 7 in total, one for each of the 7 possible [frieze groups](https://en.wikipedia.org/wiki/Frieze_group).
+
+## New Artwork: Spider Gait
+
+Tagline - creepy crawlers
+
+IMG: Closeup of spider
+
+A few years ago I had seen a section in the book 📗_Patterns in Nature_ that talked
+about animal gaits. I've been itching to try it ever since, but wasn't set up
+for animation at the time. Then I forgot about it 😅. But Halloween is always
+a good inspiration, so better late than never!
+
+:::warning TODO: check the book title and author
+it's on my shelf... I'll check it when I get around to it.
+:::
+
+## New Artwork: Jack-o'-Lantern Isometric Grid
+
+Tagline - Isometric Pumpkin
+
+IMG: Thumbnail version
+
+Eventually I want to do stuff with isometric grids. For now, I revisited the 
+[isometric grid](https://github.com/ptrgags/paper-toaster#iso-grid-2022-07-24) 
+designs I made in paper-toaster. This time I used color and a heightmap to create a design.
+
+In this case, I used this same jack-o'-lantern sprite. I've been finding a surprising
+number of uses for it this year:
+
+- [Halloween Coasters](./2026-10-24_CreativeRecap.md#halloween-coasters)
+- [LEGO mosaics](./2026-09-05_CreativeRecap.md#lego-mosaics)
+
+# Future Targets =====
 
 ## PICO-8: Seven Segment Display
 
@@ -29,28 +95,6 @@ LINK to Lexaloffle page
 
 I made these PICO-8 cartridges back in (❓ when did I make this?), but only now got around to publishing them. This one is a 7-segment display visualizer
 
-
-
-## New Artwork: Ghost of the Number Line (❓)
-
-IMG: swatch of single ghost
-
-LINK to artwork page once available
-
-DESCRIPTION
-
-## New Tool: Musical Scale Flashcards
-
-Tagline: memorizing major scales
-
-THUMBNAIL: Screenshot of one of the major scale diagrams
-
-LINK to tool once available
-
-DESCRIPTION
-
-
-
 ## Pattern Lightning Round ⚡
 
 TAGLINE: A pallet of patterns
@@ -60,9 +104,6 @@ IMGS: the most interesting pattern swatches
 In the stuff I've been working on behind the scenes, I've been using a bunch
 of different patterns. I figured I should at least show them off even if I
 can't 
-
-# Future Targets =====
-
 
 ## New Pattern: XXX
 
