@@ -11,6 +11,11 @@ import SketchP5 from '../../components/SketchP5.vue'
 import {SKETCHES} from './number-line-arcs'
 </script>
 
+Ghost of the number line
+<SketchP5 :sketch="SKETCHES.ghost" />
+
+Ghost snail
+<SketchP5 :sketch="SKETCHES.ghost_snail" />
 
 +y
 <SketchP5 :sketch="SKETCHES.pos_y" />
@@ -30,3 +35,5 @@ Positive angle (clockwise)
 
 Negative angle (counterclockwise)
 <SketchP5 :sketch="SKETCHES.neg_angle" />
+
+

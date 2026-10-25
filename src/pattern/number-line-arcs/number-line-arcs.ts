@@ -8,7 +8,6 @@ import { Point2P } from '../../lib/math/pga2d/Point2P.ts'
 import { ArcConvention, NumberLineArcs } from './NumberLineArcs.ts'
 import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
 import { SWATCH } from '../../core/dimensions.ts'
-import { Group } from '../../lib/primitives/Group.ts'
 import { Color } from '../../lib/styling/Color.ts'
 
 class NumberLineArcTest implements SceneP5 {
@@ -18,7 +17,7 @@ class NumberLineArcTest implements SceneP5 {
   constructor(arc_convention: ArcConvention) {
     const arcs = new NumberLineArcs({
       origin: new Point2P(8, 128),
-      spacing: 40,
+      spacing: 32,
       arc_convention,
     })
 
@@ -43,6 +42,40 @@ class NumberLineArcTest implements SceneP5 {
   }
 }
 
+function ghost(): Drawable {
+  const arcs = new NumberLineArcs({
+    origin: new Point2P(8, 128),
+    spacing: 32,
+    arc_convention: ArcConvention.PATH_START_POS_Y,
+  })
+
+  const body = arcs.make_path([0, 7, 6, 5, 0], true)
+  const left_eye = arcs.make_path([1, 2, 1], true)
+  const right_eye = arcs.make_path([3, 4, 3], true)
+
+  return group(
+    style(Style.flat(Color.WHITE), body),
+    style(Style.flat(Color.BLACK), left_eye, right_eye),
+  )
+}
+
+function ghost_snail(): Drawable {
+  const arcs = new NumberLineArcs({
+    origin: new Point2P(8, 128),
+    spacing: 8,
+    arc_convention: ArcConvention.PATH_START_POS_Y,
+  })
+
+  const body = arcs.make_path([0, 25, 6, 20, 10, 16, 14, 12, 18, 8, /**/ 22, 5, 0], true)
+  const left_eye = arcs.make_path([1, 2, 1], true)
+  const right_eye = arcs.make_path([3, 4, 3], true)
+
+  return group(
+    style(Style.flat(Color.WHITE), body),
+    style(Style.flat(Color.BLACK), left_eye, right_eye),
+  )
+}
+
 export const SKETCHES = {
   pos_y: make_static_sketch(SWATCH.dimensions, new NumberLineArcTest(ArcConvention.POS_Y)),
   neg_y: make_static_sketch(SWATCH.dimensions, new NumberLineArcTest(ArcConvention.NEG_Y)),
@@ -56,4 +89,7 @@ export const SKETCHES = {
   ),
   pos_angle: make_static_sketch(SWATCH.dimensions, new NumberLineArcTest(ArcConvention.POS_ANGLE)),
   neg_angle: make_static_sketch(SWATCH.dimensions, new NumberLineArcTest(ArcConvention.NEG_ANGLE)),
+
+  ghost: make_static_sketch(SWATCH.dimensions, ghost()),
+  ghost_snail: make_static_sketch(SWATCH.dimensions, ghost_snail()),
 }
