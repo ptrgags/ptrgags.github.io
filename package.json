@@ -41,7 +41,7 @@
     "typescript": "^7.0.2",
     "vite": "^8.2.4",
     "vitepress": "^1.6.4",
-    "vitest": "^5.0.0",
+    "vitest": "^5.0.5",
     "vue-tsc": "^3.3.11"
   }
 }
