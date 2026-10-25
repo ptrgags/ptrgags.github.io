@@ -13,4 +13,10 @@ import SketchP5 from '../../components/SketchP5.vue'
 import {SKETCHES} from './halloween-friezes'
 </script>
 
-<SketchP5 :sketch="SKETCHES.p11m" />
+`p1m1` (translation, vertical mirrors)
+
+<SketchP5 :sketch="SKETCHES.p1m1" />
+
+`p11g` (translation, glide reflection)
+
+<SketchP5 :sketch="SKETCHES.p11g" />
