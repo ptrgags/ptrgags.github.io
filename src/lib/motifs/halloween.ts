@@ -263,7 +263,7 @@ export function bone2(length: number, radius: number): Path {
   })
 }
 
-export const WITCH_HAT_STYLES = [Style.lines('#9261ba', 2), Style.lines('#ffff00', 2)]
+export const WITCH_HAT_STYLES = [Style.flat('#9261ba'), Style.flat('#ffff00')]
 
 /// Create a motif shaped like a witch's hat.
 /// It's normalized so it fits in the unit circle
