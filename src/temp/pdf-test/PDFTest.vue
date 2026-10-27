@@ -11,7 +11,7 @@ import { make_static_sketch } from '../../lib/p5-helpers/sketches'
 import { ATC_SCREEN } from '../../core/dimensions'
 import { Path } from '../../lib/primitives/Path.ts'
 import { BezierCurve } from '../../lib/primitives/BezierCurve.ts'
-import { Zine } from '../../lib/zines/Zine.ts'
+import { Zine } from '../../lib/printables/Zine.ts'
 import PDFViewer from '../../components/PDFViewer.vue'
 import { PDFDoc } from '../../lib/pdf/PDFDoc.ts'
 import { Circle } from '../../lib/primitives/Circle.ts'
@@ -20,7 +20,6 @@ import { LineSegment } from '../../lib/primitives/LineSegment.ts'
 import { TradingCard } from '../../lib/printables/TradingCard.ts'
 import { TextStyle } from '../../lib/styling/TextStyle.ts'
 import { ATC3x3 } from '../../lib/printables/ATC3x3.ts'
-import { range } from '../../lib/math/iteration/range.ts'
 
 const pdf_file: Ref<File | undefined> = ref(undefined)
 

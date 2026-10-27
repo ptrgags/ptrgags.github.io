@@ -12,6 +12,9 @@ import SketchP5 from '../../components/SketchP5.vue'
 import {SKETCHES} from './path-test'
 </script>
 
+Debuggging arc-to-bezier
+<SketchP5 :sketch="SKETCHES.debug_arcs" />
+
 Quick test of paths
 
 <SketchP5 :sketch="SKETCHES.path_test" />

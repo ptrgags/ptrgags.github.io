@@ -1,22 +1,27 @@
-import { Point2P } from '../../lib/math/pga2d/Point2P.ts'
-import { Circle } from '../../lib/primitives/Circle.ts'
-import type { Dimensionlike } from '../../lib/primitives/Dimensionlike.ts'
-import type { Drawable } from '../../lib/primitives/Drawable.ts'
-import type { DrawingLibrary } from '../../lib/primitives/DrawingLibrary.ts'
-import { Polyline } from '../../lib/primitives/Polyline.ts'
-import { group, style } from '../../lib/primitives/shorthand.ts'
-import { Text } from '../../lib/primitives/Text.ts'
-import type { Vec2 } from '../../lib/primitives/Vec2.ts'
-import { Color } from '../../lib/styling/Color.ts'
-import { Oklch } from '../../lib/styling/Oklch.ts'
-import { Style } from '../../lib/styling/Style.ts'
-import { TextStyle } from '../../lib/styling/TextStyle.ts'
+import { Point2P } from '../math/pga2d/Point2P.ts'
+import { Circle } from '../primitives/Circle.ts'
+import type { Dimensionlike } from '../primitives/Dimensionlike.ts'
+import type { Drawable } from '../primitives/Drawable.ts'
+import type { DrawingLibrary } from '../primitives/DrawingLibrary.ts'
+import { Polyline } from '../primitives/Polyline.ts'
+import { group, style } from '../primitives/shorthand.ts'
+import { Text } from '../primitives/Text.ts'
+import type { Vec2 } from '../primitives/Vec2.ts'
+import { Color } from '../styling/Color.ts'
+import { Oklch } from '../styling/Oklch.ts'
+import { Style } from '../styling/Style.ts'
+import { TextStyle } from '../styling/TextStyle.ts'
 
 const STYLE_BLACK_KEYS = new Style({
   stroke: Oklch.grey(0.5),
   fill: Color.BLACK,
 })
-const STYLE_WHITE_KEYS = Style.flat(Color.WHITE)
+const STYLE_WHITE_KEYS = new Style({
+  stroke: Color.BLACK,
+  fill: Color.WHITE,
+})
+
+const STYLE_LINES = Style.lines(Oklch.grey(0.5), 4)
 
 export interface PianoScaleSchematicOptions {
   spacing: Dimensionlike
@@ -67,7 +72,7 @@ export class PianoScaleSchematic implements Drawable {
 
     this.primitive = group(
       style(
-        Style.DEFAULT_LINES,
+        STYLE_LINES,
         new Polyline({ vertices: vertices_left, closed: false }),
         new Polyline({ vertices: vertices_right, closed: false }),
       ),

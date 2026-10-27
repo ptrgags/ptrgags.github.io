@@ -1,5 +1,5 @@
-import { Direction2P } from '../math/pga2d/Direction2P.ts'
 import { Point2P } from '../math/pga2d/Point2P.ts'
+import { Direction2P } from '../math/pga2d/Direction2P.ts'
 import { quarter_circle_bezier } from './arc_to_bezier.ts'
 import type { BezierCurve } from './BezierCurve.ts'
 import type { Drawable } from './Drawable.ts'
@@ -14,6 +14,14 @@ export class Circle implements Drawable {
   constructor(center: Vec2, radius: number) {
     this.center = Point2P.from_vec2(center)
     this.radius = radius
+  }
+
+  static from_two_points(a: Vec2, b: Vec2): Circle {
+    const point_a = Point2P.from_vec2(a)
+    const point_b = Point2P.from_vec2(b)
+    const center = Point2P.lerp(point_a, point_b, 0.5)
+    const radius = 0.5 * point_b.sub(point_a).mag()
+    return new Circle(center, radius)
   }
 
   position(angle: number): Point2P {
