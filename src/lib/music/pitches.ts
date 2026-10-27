@@ -16,6 +16,7 @@ export const A = 9
 export const AS = 10
 export const Bb = 10
 export const B = 11
+export type PitchClass = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11
 
 // Undefined means rest
 export const REST = undefined

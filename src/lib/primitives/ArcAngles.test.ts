@@ -50,7 +50,7 @@ describe('ArcAngles', () => {
       expect(result).toBeCloseTo(expected)
     })
 
-    it('with angles in positive order returns correct angle', () => {
+    it('with angles in positive order and POSITIVE returns correct angle', () => {
       const angles = new ArcAngles(-Math.PI / 2, Math.PI / 4, AngleOrientation.POSITIVE)
 
       const result = angles.subtended_angle
@@ -59,13 +59,31 @@ describe('ArcAngles', () => {
       expect(result).toBeCloseTo(expected)
     })
 
-    it('with angles in negative order returns correct angle', () => {
-      const angles = new ArcAngles(-Math.PI / 2, Math.PI / 4, AngleOrientation.NEGATIVE)
+    it('with angles in negative order and POSITIVE returns correct angle', () => {
+      const angles = new ArcAngles(Math.PI / 4, -Math.PI / 2, AngleOrientation.POSITIVE)
 
       const result = angles.subtended_angle
 
       const expected = (5 * Math.PI) / 4
       expect(result).toBeCloseTo(expected)
+    })
+
+    it('with angles in negative order and NEGATIVE returns correct angle', () => {
+      const angles = new ArcAngles(Math.PI / 4, -Math.PI / 2, AngleOrientation.NEGATIVE)
+
+      const result = angles.subtended_angle
+
+      const expected = (3 * Math.PI) / 4
+      expect(result).toBeCloseTo(expected)
+    })
+
+    it('with angles in positive order and NEGATIVE returns correct angle', () => {
+      const angles = new ArcAngles(-Math.PI / 2, Math.PI / 4, AngleOrientation.NEGATIVE)
+
+      const result = angles.subtended_angle
+
+      const expected = (5 * Math.PI) / 4
+      expect(result).toEqual(expected)
     })
   })
 })

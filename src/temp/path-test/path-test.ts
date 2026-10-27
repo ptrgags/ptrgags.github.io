@@ -202,9 +202,45 @@ class SymmetricArc implements SceneP5 {
   }
 }
 
+// similar arcs are used in the bone motif
+function debug_arcs(): Drawable {
+  const circle_top_left = new Circle(new Point2P(64, 64), 64)
+  const circle_top_right = new Circle(new Point2P(192, 64), 64)
+  const circle_bottom_left = new Circle(new Point2P(64, 192), 64)
+  const circle_bottom_right = new Circle(new Point2P(192, 192), 64)
+
+  const arc_top_left = new CircularArc(
+    circle_top_left,
+    new ArcAngles(0, (-3 * Math.PI) / 2, AngleOrientation.NEGATIVE),
+  )
+  const arc_bottom_left = new CircularArc(
+    circle_bottom_left,
+    new ArcAngles((3 * Math.PI) / 2, 0, AngleOrientation.NEGATIVE),
+  )
+  const arc_bottom_right = new CircularArc(
+    circle_bottom_right,
+    new ArcAngles(Math.PI, -Math.PI / 2, AngleOrientation.NEGATIVE),
+  )
+  const arc_top_right = new CircularArc(
+    circle_top_right,
+    new ArcAngles(Math.PI / 2, -Math.PI, AngleOrientation.NEGATIVE),
+  )
+
+  const arcs = [arc_top_left, arc_bottom_left, arc_bottom_right, arc_top_right]
+  const beziers = arcs.flatMap((x) => x.to_bezier_curves())
+
+  console.log(arcs.map((x) => x.angles.subtended_angle))
+
+  return group(
+    style(Style.lines(Oklch.grey(0.5), 8), ...arcs),
+    style(Style.lines(Color.GREEN, 2), ...beziers),
+  )
+}
+
 export const SKETCHES = {
   path_test: make_static_sketch(SWATCH.dimensions, path_test()),
   arc_test: make_static_sketch(SWATCH.dimensions, arc_test()),
   growing_arc: make_sketch(SWATCH.dimensions, new GrowingArc()),
   symmetric_arc: make_sketch(SWATCH.dimensions, new SymmetricArc()),
+  debug_arcs: make_static_sketch(SWATCH.dimensions, debug_arcs()),
 }

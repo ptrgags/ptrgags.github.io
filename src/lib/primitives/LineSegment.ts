@@ -11,6 +11,10 @@ export class LineSegment implements Drawable {
     this.end = end
   }
 
+  reverse(): LineSegment {
+    return new LineSegment(this.end, this.start)
+  }
+
   draw(lib: DrawingLibrary): void {
     const { x: x1, y: y1 } = this.start
     const { x: x2, y: y2 } = this.end

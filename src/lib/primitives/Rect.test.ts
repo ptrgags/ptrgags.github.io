@@ -94,6 +94,15 @@ describe('Rect', () => {
     })
   })
 
+  it('transpose creates a new rectangle with swapped width and height', () => {
+    const rect = new Rect({ x: 10, y: 20 }, { width: 400, height: 200 })
+
+    const result = rect.transpose()
+
+    const expected = new Rect({ x: 10, y: 20 }, { width: 200, height: 400 })
+    expect(result).toEqual(expected)
+  })
+
   it('from_center computes rectangle correctly', () => {
     const result = Rect.from_center({ x: 100, y: 100 }, { width: 200, height: 200 })
 
@@ -105,6 +114,13 @@ describe('Rect', () => {
       { width: 200, height: 200 },
     )
 
+    expect(result).toEqual(expected)
+  })
+
+  it('from_dimensions computes rectangle at origin', () => {
+    const result = Rect.from_dimensions({ width: 500, height: 700 })
+
+    const expected = new Rect({ x: 0, y: 0 }, { width: 500, height: 700 })
     expect(result).toEqual(expected)
   })
 })

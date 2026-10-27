@@ -4,6 +4,7 @@ import { quarter_circle_bezier } from './arc_to_bezier.ts'
 import type { BezierCurve } from './BezierCurve.ts'
 import type { Drawable } from './Drawable.ts'
 import type { DrawingLibrary } from './DrawingLibrary.ts'
+import { Path } from './Path.ts'
 import type { Vec2 } from './Vec2.ts'
 
 export class Circle implements Drawable {
@@ -46,10 +47,15 @@ export class Circle implements Drawable {
     ]
   }
 
+  to_path(): Path {
+    return new Path({
+      parts: this.to_bezier_curves(),
+      closed: true,
+    })
+  }
+
   draw(lib: DrawingLibrary): void {
-    const { x, y } = this.center
-    const r = this.radius
-    lib.circle(x, y, r)
+    lib.circle(this)
   }
 
   static readonly UNIT_CIRCLE = new Circle(Point2P.ORIGIN, 1)
