@@ -44,5 +44,7 @@ export class Beziergon implements Drawable {
     return new Beziergon(bezier_curves)
   }
 
-  draw(lib: DrawingLibrary): void {}
+  draw(lib: DrawingLibrary): void {
+    lib.path(this.curves, true)
+  }
 }
