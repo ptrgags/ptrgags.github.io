@@ -241,7 +241,7 @@ export function bone2(length: number, radius: number): Path {
   )
   const arc_bottom_right = new CircularArc(
     circle_bottom_right,
-    new ArcAngles(Math.PI, (-3 * Math.PI) / 2, AngleOrientation.NEGATIVE),
+    new ArcAngles(Math.PI, -Math.PI / 2, AngleOrientation.NEGATIVE),
   )
   const arc_top_right = new CircularArc(
     circle_top_right,

@@ -57,8 +57,8 @@ function p11g_braided_bones(): Drawable {
 
   const crossing = group(
     style(Style.flat(Color.WHITE), bone_backslash),
-    //style(Style.lines(Color.BLACK, 4), bone_slash),
-    style(Style.flat(Color.WHITE), /*bone_slash,*/ joint),
+    style(Style.lines(Color.BLACK, 4), bone_slash),
+    style(Style.flat(Color.WHITE), bone_slash, joint),
   )
 
   return new FriezeP11G({
