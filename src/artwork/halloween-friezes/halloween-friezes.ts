@@ -4,6 +4,8 @@ import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
 import { Point2P } from '../../lib/math/pga2d/Point2P.ts'
 import {
   bone2,
+  candy_corn,
+  CANDY_CORN_STYLES,
   ghost,
   ghost_styles,
   witch_hat,
@@ -19,6 +21,7 @@ import { StyleLayers } from '../../lib/primitives/StyleLayers.ts'
 import { Color } from '../../lib/styling/Color.ts'
 import { Style } from '../../lib/styling/Style.ts'
 import { FriezeP1, FriezeP11G, FriezeP2 } from '../../lib/symmetry/frieze_groups.ts'
+import { RepeatCyclic } from '../../lib/symmetry/RepeatCyclic.ts'
 
 function p1_witch_hats(): Drawable {
   const unit_circle = new Circle(new Point2P(64, 0), 64)
@@ -94,9 +97,24 @@ function p2mg_ghosts(): Drawable {
   })
 }
 
+function p2mm_hex_candy(): Drawable {
+  const candy = new StyleLayers(CANDY_CORN_STYLES, candy_corn(new Circle(new Point2P(-40, 0), 32)))
+  const motif = new RepeatCyclic({
+    order: 6,
+    children: candy,
+  })
+
+  return new FriezeP2({
+    crs: new CRS12(new Point2P(0, 64), new Direction2P(128, 0)),
+    x_range: [0, 8],
+    children: motif,
+  })
+}
+
 export const SKETCHES = {
   p1: make_static_sketch(SWATCH_WIDE.dimensions, p1_witch_hats()),
   p1m1: make_static_sketch(SWATCH_WIDE.dimensions, p1m1_skull_and_bones()),
   p11g: make_static_sketch(SWATCH_WIDE.dimensions, p11g_braided_bones()),
   p2mg: make_static_sketch(SWATCH_WIDE.dimensions, p2mg_ghosts()),
+  p2mm: make_static_sketch(SWATCH_WIDE.dimensions, p2mm_hex_candy()),
 }

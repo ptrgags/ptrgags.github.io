@@ -28,3 +28,7 @@ import {SKETCHES} from './halloween-friezes'
 `p2mg` (translation, 2-fold rotation, vertical mirrors, glide reflections)
 
 <SketchP5 :sketch="SKETCHES.p2mg" />
+
+`p2mm` (translation, 2-fold rotation, vertical mirrors, horizontal mirrors)
+
+<SketchP5 :sketch="SKETCHES.p2mm" />
