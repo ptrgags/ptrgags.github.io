@@ -14,8 +14,6 @@ const props = defineProps<{
 const renderer = computed(() => new Engine(props.sketch.machine, props.use_midi ?? false))
 const dimensions = props.sketch.dimensions
 
-console.log(dimensions.toString())
-
 onMounted(() => {
   renderer.value.main()
 })
