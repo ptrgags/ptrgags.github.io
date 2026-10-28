@@ -205,16 +205,12 @@ export class CoralTree {
 
   /**
    * Render the tree as an intricate beziergon
-   * @returns {BeziergonPrimitive}
+   * @returns {Beziergon}
    */
   render(): Beziergon {
     return Beziergon.interpolate_points(this.get_outline_vertices())
   }
 
-  /**
-   *
-   * @returns {GroupPrimitive}
-   */
   debug_render(): Drawable {
     const nodes: CoralNode[] = []
     this.root.get_all_nodes(nodes)
