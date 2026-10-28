@@ -1,7 +1,7 @@
 ---
 layout: article
-title: Path Test
-date: '2026-10-10'
+title: Coral Tree Test
+date: '2026-10-27'
 hide: true
 # URL relative to BACKBLAZE assets root
 thumbnail: pattern/TEMPLATE/thumbnail.png
