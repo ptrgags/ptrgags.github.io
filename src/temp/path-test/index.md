@@ -6,11 +6,26 @@ hide: true
 # URL relative to BACKBLAZE assets root
 thumbnail: pattern/TEMPLATE/thumbnail.png
 ---
+
 <script setup lang="ts">
 import SketchP5 from '../../components/SketchP5.vue'
 import {SKETCHES} from './path-test'
 </script>
 
+Debuggging arc-to-bezier
+<SketchP5 :sketch="SKETCHES.debug_arcs" />
+
 Quick test of paths
 
-<SketchP5 :sketch="SKETCHES.template" />
+<SketchP5 :sketch="SKETCHES.path_test" />
+
+Converting arcs to bezier curves
+
+<SketchP5 :sketch="SKETCHES.arc_test" />
+
+Let's see it animated
+
+<SketchP5 :sketch="SKETCHES.growing_arc" />
+
+Chomp.
+<SketchP5 :sketch="SKETCHES.symmetric_arc" />

@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest'
 import type { VectorSpace } from '../math/VectorSpace.ts'
-import type { Equals } from '../types/Equals.ts'
 
 export interface VectorTestOptions<V> {
   label: string
@@ -69,6 +68,16 @@ export function vector_space_tests<V>(options: VectorTestOptions<V>) {
       const result = vs.neg(a)
 
       expect(vs.equals(result, expected_neg)).toBe(true)
+    })
+
+    it('neg() returns additive inverse', () => {
+      const [a] = options.add_inverse
+
+      const result = vs.neg(a)
+      const sum = vs.add(a, result)
+
+      // a + (-a) = 0
+      expect(vs.equals(sum, vs.zero())).toBe(true)
     })
 
     it('sub is the same as adding neg', () => {
