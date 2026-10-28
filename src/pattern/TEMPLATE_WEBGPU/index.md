@@ -8,10 +8,9 @@ thumbnail: pattern/TEMPLATE/thumbnail.png
 ---
 <script setup lang="ts">
 import SketchWebGPU from "../../components/SketchWebGPU.vue"
-import {TEMPLATESketch as Sketch} from "./TEMPLATESketch"
-const machine = Sketch.make_machine();
+import {WEBGPU_SKETCHES} from './TEMPLATESketch'
 </script>
 
-<SketchWebGPU :machine="machine" />
+<SketchWebGPU :sketch="WEBGPU_SKETCHES.template" />
 
 DESCRIPTION GOES HERE

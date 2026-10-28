@@ -1,15 +1,20 @@
 <script setup lang="ts">
-import { onMounted, computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { Engine, type Machine } from '../lib/webgpu/Engine'
+import type { Dimensionlike } from '../lib/primitives/Dimensionlike.ts'
 
 const props = defineProps<{
-  machine: Machine
+  sketch: {
+    machine: Machine
+    dimensions: Dimensionlike
+  }
   use_midi?: boolean
 }>()
 
-const renderer = computed(() => {
-  return new Engine(props.machine, props.use_midi ?? false)
-})
+const renderer = computed(() => new Engine(props.sketch.machine, props.use_midi ?? false))
+const dimensions = props.sketch.dimensions
+
+console.log(dimensions.toString())
 
 onMounted(() => {
   renderer.value.main()
@@ -18,7 +23,7 @@ onMounted(() => {
 
 <template>
   <div class="vertical">
-    <canvas id="webgpu-canvas" width="500" height="700"></canvas>
+    <canvas id="webgpu-canvas" :width="dimensions.width" :height="dimensions.height"></canvas>
   </div>
 </template>
 
