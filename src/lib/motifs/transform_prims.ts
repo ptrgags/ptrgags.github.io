@@ -5,6 +5,7 @@ import { BezierCurve } from '../primitives/BezierCurve.ts'
 import { Circle } from '../primitives/Circle.ts'
 import { LineSegment } from '../primitives/LineSegment.ts'
 import { Path } from '../primitives/Path.ts'
+import { Polyline } from '../primitives/Polyline.ts'
 
 export function transform_segment(segment: LineSegment, f: (x: Complex) => Complex): LineSegment {
   const start = Complex.from_vec2(segment.start)
@@ -28,6 +29,14 @@ export function transform_path(path: Path, f: (x: Complex) => Complex): Path {
   return new Path({
     parts,
     closed: path.closed,
+  })
+}
+
+export function transform_polyline(polyline: Polyline, f: (x: Complex) => Complex): Polyline {
+  const vertices = polyline.points.map((x) => f(Complex.from_vec2(x)))
+  return new Polyline({
+    vertices,
+    closed: polyline.closed,
   })
 }
 

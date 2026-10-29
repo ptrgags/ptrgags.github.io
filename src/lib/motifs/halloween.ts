@@ -1,18 +1,28 @@
 // Adapted from https://github.com/ptrgags/math-notebook/blob/main/artworks/src/motifs/halloween.rs
 
+import { ArcConvention, NumberLineArcs } from '../../pattern/number-line-arcs/NumberLineArcs.ts'
 import { Complex, VSComplex } from '../math/complex/Complex.ts'
 import { range } from '../math/iteration/range.ts'
 import { Point2P } from '../math/pga2d/Point2P.ts'
 import { AngleOrientation, ArcAngles } from '../primitives/ArcAngles.ts'
 import { Circle } from '../primitives/Circle.ts'
 import { CircularArc } from '../primitives/CircularArc.ts'
+import type { Drawable } from '../primitives/Drawable.ts'
+import { Group } from '../primitives/Group.ts'
 import { LineSegment } from '../primitives/LineSegment.ts'
 import { Path } from '../primitives/Path.ts'
+import { Polyline } from '../primitives/Polyline.ts'
 import { group } from '../primitives/shorthand.ts'
 import { type LayeredDrawable } from '../primitives/StyleLayers.ts'
 import { Color } from '../styling/Color.ts'
+import { Oklch } from '../styling/Oklch.ts'
 import { Style } from '../styling/Style.ts'
-import { transform_circle, transform_path, zoom_circle } from './transform_prims.ts'
+import {
+  transform_circle,
+  transform_path,
+  transform_polyline,
+  zoom_circle,
+} from './transform_prims.ts'
 
 export function ghost_styles(): Style[] {
   const style_body = Style.flat('#c5f2fa')
@@ -321,5 +331,57 @@ export function witch_hat(circle: Circle): LayeredDrawable {
 
   return {
     layers: [transform_path(outside, transform_point), transform_path(band, transform_point)],
+  }
+}
+
+export const PEPPERMINT_STYLES = [
+  Style.flat(Oklch.grey(0.8)),
+  Style.flat(Color.WHITE),
+  Style.flat(Color.RED),
+]
+
+export function peppermint(unit_circle: Circle): LayeredDrawable {
+  const r = unit_circle.radius
+  const arcs = new NumberLineArcs({
+    origin: unit_circle.center,
+    spacing: r / 8,
+    arc_convention: ArcConvention.PATH_START_POS_Y,
+  })
+
+  const swirl = arcs.make_path(
+    [
+      // clockwise spiral
+      0, -1, 2, -3, 4, -5, 6,
+      // counterclockwise spiral
+      7, -6, 5, -4, 3, -2, 1,
+      // and back to the start
+      0,
+    ],
+    true,
+  )
+
+  const wrapper = new Polyline({
+    vertices: [
+      new Complex(-1.5, 0.5),
+      new Complex(-0.5, 0.5),
+      new Complex(-0.5, -0.5),
+      new Complex(-1.5, -0.5),
+      new Complex(-1.25, -0.25),
+      new Complex(-1.5, 0),
+      new Complex(-1.25, 0.25),
+    ],
+    closed: true,
+  })
+
+  const flipped = transform_polyline(wrapper, (x) => x.neg.conj)
+
+  const zoom = zoom_circle(unit_circle)
+
+  return {
+    layers: [
+      group(transform_polyline(wrapper, zoom), transform_polyline(flipped, zoom)),
+      unit_circle,
+      swirl,
+    ],
   }
 }

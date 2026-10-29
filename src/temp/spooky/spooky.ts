@@ -10,6 +10,8 @@ import {
   CANDY_CORN_STYLES,
   ghost,
   ghost_styles,
+  peppermint,
+  PEPPERMINT_STYLES,
   witch_hat,
   WITCH_HAT_STYLES,
 } from '../../lib/motifs/halloween.ts'
@@ -34,6 +36,7 @@ import {
   tailbone,
   vertebra,
 } from '../../lib/motifs/skull.ts'
+import { ArcConvention, NumberLineArcs } from '../../pattern/number-line-arcs/NumberLineArcs.ts'
 
 class TEMPLATE implements SceneP5 {
   primitive: Drawable
@@ -135,6 +138,10 @@ class SpineWaveProto implements SceneP5 {
   }
 }
 
+function peppermint_stamp(): Drawable {
+  return new StyleLayers(PEPPERMINT_STYLES, peppermint(new Circle(SWATCH.center, 64)))
+}
+
 export const SKETCHES = {
   template: make_sketch(SWATCH.dimensions, new TEMPLATE()),
   ghost: make_static_sketch(SWATCH.dimensions, ghost_stamp()),
@@ -142,6 +149,7 @@ export const SKETCHES = {
   bone: make_static_sketch(SWATCH.dimensions, bone_stamp()),
   skull: make_static_sketch(SWATCH.dimensions, skull_stamp()),
   witch_hat: make_static_sketch(SWATCH.dimensions, witch_hat_stamp()),
+  peppermint: make_static_sketch(SWATCH.dimensions, peppermint_stamp()),
 
   spine: make_sketch(SWATCH.dimensions, new SpineWaveProto(7)),
 }
