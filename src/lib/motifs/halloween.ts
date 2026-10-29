@@ -3,6 +3,7 @@
 import { ArcConvention, NumberLineArcs } from '../../pattern/number-line-arcs/NumberLineArcs.ts'
 import { Complex, VSComplex } from '../math/complex/Complex.ts'
 import { range } from '../math/iteration/range.ts'
+import { Direction2P } from '../math/pga2d/Direction2P.ts'
 import { Point2P } from '../math/pga2d/Point2P.ts'
 import { AngleOrientation, ArcAngles } from '../primitives/ArcAngles.ts'
 import { Circle } from '../primitives/Circle.ts'
@@ -12,6 +13,7 @@ import { Group } from '../primitives/Group.ts'
 import { LineSegment } from '../primitives/LineSegment.ts'
 import { Path } from '../primitives/Path.ts'
 import { Polyline } from '../primitives/Polyline.ts'
+import { Rect } from '../primitives/Rect.ts'
 import { group } from '../primitives/shorthand.ts'
 import { type LayeredDrawable } from '../primitives/StyleLayers.ts'
 import { Color } from '../styling/Color.ts'
@@ -21,6 +23,7 @@ import {
   transform_circle,
   transform_path,
   transform_polyline,
+  transform_rect,
   zoom_circle,
 } from './transform_prims.ts'
 
@@ -360,15 +363,16 @@ export function peppermint(unit_circle: Circle): LayeredDrawable {
     true,
   )
 
+  const h = 0.6
   const wrapper = new Polyline({
     vertices: [
-      new Complex(-1.5, 0.5),
-      new Complex(-0.5, 0.5),
-      new Complex(-0.5, -0.5),
-      new Complex(-1.5, -0.5),
-      new Complex(-1.25, -0.25),
+      new Complex(-1.5, h),
+      new Complex(-0.5, h),
+      new Complex(-0.5, -h),
+      new Complex(-1.5, -h),
+      new Complex(-1.25, -0.5 * h),
       new Complex(-1.5, 0),
-      new Complex(-1.25, 0.25),
+      new Complex(-1.25, 0.5 * h),
     ],
     closed: true,
   })
@@ -383,5 +387,36 @@ export function peppermint(unit_circle: Circle): LayeredDrawable {
       unit_circle,
       swirl,
     ],
+  }
+}
+
+const CHOCOLATE_BROWN = Color.from_hex_code('#43290f')
+export const CHOCO_STYLES = [
+  Style.flat(CHOCOLATE_BROWN),
+  Style.flat(Color.RED),
+  Style.lines(Color.BLACK),
+]
+
+export function chocolate_bar(unit_circle: Circle): LayeredDrawable {
+  const wrapper = new Rect(new Point2P(-2, -0.75), new Direction2P(2.5, 1.5))
+  const choco_background = new Rect(new Point2P(0.5, -0.75), new Direction2P(1.5, 1.5))
+
+  const choco_squares = []
+  for (let i = 0; i < 2; i++) {
+    for (let j = 0; j < 3; j++) {
+      const rect = new Rect(
+        new Point2P(5 / 8 + j * 0.5, -5 / 8 + i * 0.75),
+        new Direction2P(0.25, 0.5),
+      )
+      choco_squares.push(rect)
+    }
+  }
+
+  const zoom = zoom_circle(unit_circle)
+
+  const squares = group(...choco_squares.map((x) => transform_rect(x, zoom)))
+
+  return {
+    layers: [transform_rect(choco_background, zoom), transform_rect(wrapper, zoom), squares],
   }
 }

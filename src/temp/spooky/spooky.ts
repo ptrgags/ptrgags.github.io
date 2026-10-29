@@ -8,6 +8,8 @@ import {
   bone,
   candy_corn,
   CANDY_CORN_STYLES,
+  CHOCO_STYLES,
+  chocolate_bar,
   ghost,
   ghost_styles,
   peppermint,
@@ -142,6 +144,10 @@ function peppermint_stamp(): Drawable {
   return new StyleLayers(PEPPERMINT_STYLES, peppermint(new Circle(SWATCH.center, 64)))
 }
 
+function chocolate_bar_stamp(): Drawable {
+  return new StyleLayers(CHOCO_STYLES, chocolate_bar(new Circle(SWATCH.center, 64)))
+}
+
 export const SKETCHES = {
   template: make_sketch(SWATCH.dimensions, new TEMPLATE()),
   ghost: make_static_sketch(SWATCH.dimensions, ghost_stamp()),
@@ -150,6 +156,7 @@ export const SKETCHES = {
   skull: make_static_sketch(SWATCH.dimensions, skull_stamp()),
   witch_hat: make_static_sketch(SWATCH.dimensions, witch_hat_stamp()),
   peppermint: make_static_sketch(SWATCH.dimensions, peppermint_stamp()),
+  chocolate: make_static_sketch(SWATCH.dimensions, chocolate_bar_stamp()),
 
   spine: make_sketch(SWATCH.dimensions, new SpineWaveProto(7)),
 }
