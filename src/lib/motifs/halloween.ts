@@ -27,8 +27,10 @@ import {
   zoom_circle,
 } from './transform_prims.ts'
 
+export const GHOST_BLUE = '#c5f2fa'
+
 export function ghost_styles(): Style[] {
-  const style_body = Style.flat('#c5f2fa')
+  const style_body = Style.flat(GHOST_BLUE)
   const style_eyes_mouth = Style.flat(Color.BLACK)
   return [style_body, style_eyes_mouth, style_eyes_mouth]
 }

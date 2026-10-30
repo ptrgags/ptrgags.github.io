@@ -13,6 +13,7 @@ import SketchP5 from '../../components/SketchP5.vue'
 import {SKETCHES} from './halloween-friezes'
 </script>
 
+
 `p1` (translation)
 
 <SketchP5 :sketch="SKETCHES.p1" />
@@ -28,6 +29,10 @@ import {SKETCHES} from './halloween-friezes'
 `p11g` (translation, glide reflection)
 
 <SketchP5 :sketch="SKETCHES.p11g" />
+
+`p2` (translation, 2-fold rotation)
+
+<SketchP5 :sketch="SKETCHES.p2" />
 
 `p2mg` (translation, 2-fold rotation, vertical mirrors, glide reflections)
 

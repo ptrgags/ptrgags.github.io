@@ -9,6 +9,7 @@ import {
   CHOCO_STYLES,
   chocolate_bar,
   ghost,
+  GHOST_BLUE,
   ghost_styles,
   peppermint,
   PEPPERMINT_STYLES,
@@ -26,6 +27,7 @@ import { Color } from '../../lib/styling/Color.ts'
 import { Style } from '../../lib/styling/Style.ts'
 import { FriezeP1, FriezeP11G, FriezeP11M, FriezeP2 } from '../../lib/symmetry/frieze_groups.ts'
 import { RepeatCyclic } from '../../lib/symmetry/RepeatCyclic.ts'
+import { ArcConvention, NumberLineArcs } from '../../pattern/number-line-arcs/NumberLineArcs.ts'
 
 function p1_witch_hats(): Drawable {
   const unit_circle = new Circle(new Point2P(64, 0), 64)
@@ -112,6 +114,27 @@ function p11g_braided_bones(): Drawable {
   })
 }
 
+function p2_intertwined_ghosts(): Drawable {
+  const arcs = new NumberLineArcs({
+    origin: Point2P.ORIGIN,
+    spacing: 4,
+    arc_convention: ArcConvention.PATH_START_NEG_Y,
+  })
+  const intertwined_ghosts = arcs.make_path([1, 11, -14, 16.5, 15.5, -13, 1], true)
+
+  const left_eye = arcs.make_path([3, 5, 3], true)
+  const right_eye = arcs.make_path([7, 9, 7], true)
+
+  return new FriezeP2({
+    crs: new CRS12(SWATCH_WIDE.center, new Direction2P(128, 0)),
+    x_range: [-2, 2],
+    children: group(
+      style(Style.flat(GHOST_BLUE), intertwined_ghosts),
+      style(Style.flat(Color.BLACK), left_eye, right_eye),
+    ),
+  })
+}
+
 function p2mg_ghosts(): Drawable {
   const motif = new StyleLayers(ghost_styles(), ghost(new Circle(new Point2P(16, -32), 16)))
 
@@ -141,6 +164,7 @@ export const SKETCHES = {
   p1m1: make_static_sketch(SWATCH_WIDE.dimensions, p1m1_skull_and_bones()),
   p11m: make_static_sketch(SWATCH_WIDE.dimensions, p11m_candy()),
   p11g: make_static_sketch(SWATCH_WIDE.dimensions, p11g_braided_bones()),
+  p2: make_static_sketch(SWATCH_WIDE.dimensions, p2_intertwined_ghosts()),
   p2mg: make_static_sketch(SWATCH_WIDE.dimensions, p2mg_ghosts()),
   p2mm: make_static_sketch(SWATCH_WIDE.dimensions, p2mm_hex_candy()),
 }
