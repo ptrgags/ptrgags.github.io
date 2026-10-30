@@ -6,8 +6,12 @@ import {
   bone2,
   candy_corn,
   CANDY_CORN_STYLES,
+  CHOCO_STYLES,
+  chocolate_bar,
   ghost,
   ghost_styles,
+  peppermint,
+  PEPPERMINT_STYLES,
   witch_hat,
   WITCH_HAT_STYLES,
 } from '../../lib/motifs/halloween.ts'
@@ -20,7 +24,7 @@ import { group, style, xform } from '../../lib/primitives/shorthand.ts'
 import { StyleLayers } from '../../lib/primitives/StyleLayers.ts'
 import { Color } from '../../lib/styling/Color.ts'
 import { Style } from '../../lib/styling/Style.ts'
-import { FriezeP1, FriezeP11G, FriezeP2 } from '../../lib/symmetry/frieze_groups.ts'
+import { FriezeP1, FriezeP11G, FriezeP11M, FriezeP2 } from '../../lib/symmetry/frieze_groups.ts'
 import { RepeatCyclic } from '../../lib/symmetry/RepeatCyclic.ts'
 
 function p1_witch_hats(): Drawable {
@@ -49,6 +53,27 @@ function p1m1_skull_and_bones(): Drawable {
     crs: new CRS12(new Point2P(0, 64), new Direction2P(128, 0)),
     x_range: [0, 4],
     children: group(head, bone_prim),
+  })
+}
+
+function p11m_candy(): Drawable {
+  const corn_prim = new StyleLayers(
+    CANDY_CORN_STYLES,
+    candy_corn(new Circle(new Point2P(0, 32), 24)),
+  )
+  const peppermint_prim = new StyleLayers(
+    PEPPERMINT_STYLES,
+    peppermint(new Circle(new Point2P(52, 32), 20)),
+  )
+  const chocolate_prim = new StyleLayers(
+    CHOCO_STYLES,
+    chocolate_bar(new Circle(new Point2P(128, 32), 20)),
+  )
+
+  return new FriezeP11M({
+    crs: new CRS12(new Point2P(0, 64), new Direction2P(192, 0)),
+    x_range: [0, 2],
+    children: group(corn_prim, peppermint_prim, chocolate_prim),
   })
 }
 
@@ -114,6 +139,7 @@ function p2mm_hex_candy(): Drawable {
 export const SKETCHES = {
   p1: make_static_sketch(SWATCH_WIDE.dimensions, p1_witch_hats()),
   p1m1: make_static_sketch(SWATCH_WIDE.dimensions, p1m1_skull_and_bones()),
+  p11m: make_static_sketch(SWATCH_WIDE.dimensions, p11m_candy()),
   p11g: make_static_sketch(SWATCH_WIDE.dimensions, p11g_braided_bones()),
   p2mg: make_static_sketch(SWATCH_WIDE.dimensions, p2mg_ghosts()),
   p2mm: make_static_sketch(SWATCH_WIDE.dimensions, p2mm_hex_candy()),

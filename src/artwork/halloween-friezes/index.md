@@ -21,6 +21,10 @@ import {SKETCHES} from './halloween-friezes'
 
 <SketchP5 :sketch="SKETCHES.p1m1" />
 
+`p11m` (translation, horizontal mirror)
+
+<SketchP5 :sketch="SKETCHES.p11m" />
+
 `p11g` (translation, glide reflection)
 
 <SketchP5 :sketch="SKETCHES.p11g" />
