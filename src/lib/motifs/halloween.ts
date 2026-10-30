@@ -1,18 +1,31 @@
 // Adapted from https://github.com/ptrgags/math-notebook/blob/main/artworks/src/motifs/halloween.rs
 
+import { ArcConvention, NumberLineArcs } from '../../pattern/number-line-arcs/NumberLineArcs.ts'
 import { Complex, VSComplex } from '../math/complex/Complex.ts'
 import { range } from '../math/iteration/range.ts'
+import { Direction2P } from '../math/pga2d/Direction2P.ts'
 import { Point2P } from '../math/pga2d/Point2P.ts'
 import { AngleOrientation, ArcAngles } from '../primitives/ArcAngles.ts'
 import { Circle } from '../primitives/Circle.ts'
 import { CircularArc } from '../primitives/CircularArc.ts'
+import type { Drawable } from '../primitives/Drawable.ts'
+import { Group } from '../primitives/Group.ts'
 import { LineSegment } from '../primitives/LineSegment.ts'
 import { Path } from '../primitives/Path.ts'
+import { Polyline } from '../primitives/Polyline.ts'
+import { Rect } from '../primitives/Rect.ts'
 import { group } from '../primitives/shorthand.ts'
 import { type LayeredDrawable } from '../primitives/StyleLayers.ts'
 import { Color } from '../styling/Color.ts'
+import { Oklch } from '../styling/Oklch.ts'
 import { Style } from '../styling/Style.ts'
-import { transform_circle, transform_path, zoom_circle } from './transform_prims.ts'
+import {
+  transform_circle,
+  transform_path,
+  transform_polyline,
+  transform_rect,
+  zoom_circle,
+} from './transform_prims.ts'
 
 export function ghost_styles(): Style[] {
   const style_body = Style.flat('#c5f2fa')
@@ -321,5 +334,120 @@ export function witch_hat(circle: Circle): LayeredDrawable {
 
   return {
     layers: [transform_path(outside, transform_point), transform_path(band, transform_point)],
+  }
+}
+
+export const PEPPERMINT_STYLES = [
+  Style.flat(Oklch.grey(0.8)),
+  Style.flat(Color.WHITE),
+  Style.flat(Color.RED),
+]
+
+export function peppermint(unit_circle: Circle): LayeredDrawable {
+  const r = unit_circle.radius
+  const arcs = new NumberLineArcs({
+    origin: unit_circle.center,
+    spacing: r / 8,
+    arc_convention: ArcConvention.PATH_START_POS_Y,
+  })
+
+  const swirl = arcs.make_path(
+    [
+      // clockwise spiral
+      0, -1, 2, -3, 4, -5, 6,
+      // counterclockwise spiral
+      7, -6, 5, -4, 3, -2, 1,
+      // and back to the start
+      0,
+    ],
+    true,
+  )
+
+  const h = 0.6
+  const wrapper = new Polyline({
+    vertices: [
+      new Complex(-1.5, h),
+      new Complex(-0.5, h),
+      new Complex(-0.5, -h),
+      new Complex(-1.5, -h),
+      new Complex(-1.25, -0.5 * h),
+      new Complex(-1.5, 0),
+      new Complex(-1.25, 0.5 * h),
+    ],
+    closed: true,
+  })
+
+  const flipped = transform_polyline(wrapper, (x) => x.neg.conj)
+
+  const zoom = zoom_circle(unit_circle)
+
+  return {
+    layers: [
+      group(transform_polyline(wrapper, zoom), transform_polyline(flipped, zoom)),
+      unit_circle,
+      swirl,
+    ],
+  }
+}
+
+const CHOCOLATE_BROWN = Color.from_hex_code('#43290f')
+const CHOCOLATE_LIGHT_BROWN = Color.from_hex_code('#805122')
+export const CHOCO_STYLES = [
+  Style.flat(CHOCOLATE_BROWN),
+  Style.flat(Color.RED),
+  Style.lines(CHOCOLATE_LIGHT_BROWN),
+  Style.flat(Color.WHITE),
+  Style.flat(Color.YELLOW),
+]
+
+export function chocolate_bar(unit_circle: Circle): LayeredDrawable {
+  const wrapper = new Rect(new Point2P(-2, -0.75), new Direction2P(2.5, 1.5))
+  const choco_background = new Rect(new Point2P(0.5, -0.75), new Direction2P(1.5, 1.5))
+
+  const choco_squares = []
+  for (let i = 0; i < 2; i++) {
+    for (let j = 0; j < 3; j++) {
+      const rect = new Rect(
+        new Point2P(5 / 8 + j * 0.5, -5 / 8 + i * 0.75),
+        new Direction2P(0.25, 0.5),
+      )
+      choco_squares.push(rect)
+    }
+  }
+
+  const h = 7 / 8
+  const opened_wrapper = new Polyline({
+    vertices: [
+      new Complex(0.5, -h),
+      new Complex(0, -h),
+      new Complex(0.25, -0.5 * h),
+      new Complex(0, h),
+      new Complex(0.5, h),
+    ],
+    closed: true,
+  })
+
+  const ribbon = new Polyline({
+    vertices: [
+      new Complex(-1, 0.75),
+      new Complex(-0, 0.75),
+      new Complex(-1, -0.75),
+      new Complex(-2, -0.75),
+    ],
+    closed: true,
+  })
+
+  const zoom = zoom_circle(unit_circle)
+
+  const squares = group(...choco_squares.map((x) => transform_rect(x, zoom)))
+
+  return {
+    layers: [
+      transform_rect(choco_background, zoom),
+      transform_rect(wrapper, zoom),
+      squares,
+      transform_polyline(opened_wrapper, zoom),
+      transform_polyline(ribbon, zoom),
+    ],
   }
 }

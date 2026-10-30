@@ -1,10 +1,14 @@
 // Temporary for now until I have a better transformation interface
 
 import { Complex } from '../math/complex/Complex.ts'
+import { Direction2P } from '../math/pga2d/Direction2P.ts'
+import { Point2P } from '../math/pga2d/Point2P.ts'
 import { BezierCurve } from '../primitives/BezierCurve.ts'
 import { Circle } from '../primitives/Circle.ts'
 import { LineSegment } from '../primitives/LineSegment.ts'
 import { Path } from '../primitives/Path.ts'
+import { Polyline } from '../primitives/Polyline.ts'
+import { Rect } from '../primitives/Rect.ts'
 
 export function transform_segment(segment: LineSegment, f: (x: Complex) => Complex): LineSegment {
   const start = Complex.from_vec2(segment.start)
@@ -29,6 +33,28 @@ export function transform_path(path: Path, f: (x: Complex) => Complex): Path {
     parts,
     closed: path.closed,
   })
+}
+
+export function transform_polyline(polyline: Polyline, f: (x: Complex) => Complex): Polyline {
+  const vertices = polyline.points.map((x) => f(Complex.from_vec2(x)))
+  return new Polyline({
+    vertices,
+    closed: polyline.closed,
+  })
+}
+
+export function transform_rect(rect: Rect, f: (x: Complex) => Complex): Rect {
+  const pos = Complex.from_vec2(rect.position)
+  const dims = Complex.from_vec2(rect.dimensions)
+  const corner = pos.add(dims)
+
+  const xformed_pos = f(pos)
+  const xformed_corner = f(corner)
+
+  return new Rect(
+    Point2P.from_vec2(xformed_pos),
+    Direction2P.from_vec2(xformed_corner.sub(xformed_pos)),
+  )
 }
 
 export function transform_circle(circle: Circle, f: (x: Complex) => Complex): Circle {
