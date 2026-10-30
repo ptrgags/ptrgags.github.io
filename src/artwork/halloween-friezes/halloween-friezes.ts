@@ -120,13 +120,14 @@ function p2_intertwined_ghosts(): Drawable {
     spacing: 4,
     arc_convention: ArcConvention.PATH_START_NEG_Y,
   })
-  const intertwined_ghosts = arcs.make_path([1, 11, -14, 16.5, 15.5, -13, 1], true)
+  const intertwined_ghosts = arcs.make_path([1, 11, -14, 16, 15, -13, 1], true)
 
   const left_eye = arcs.make_path([3, 5, 3], true)
   const right_eye = arcs.make_path([7, 9, 7], true)
 
   return new FriezeP2({
-    crs: new CRS12(SWATCH_WIDE.center, new Direction2P(128, 0)),
+    // adjust the spacing so the tails of the ghosts exactly overlap
+    crs: new CRS12(SWATCH_WIDE.center, new Direction2P(128 - 4, 0)),
     x_range: [-2, 2],
     children: group(
       style(Style.flat(GHOST_BLUE), intertwined_ghosts),
