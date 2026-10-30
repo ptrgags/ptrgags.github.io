@@ -1,4 +1,4 @@
-import { SWATCH_WIDE } from '../../core/dimensions.ts'
+import { SWATCH, SWATCH_WIDE } from '../../core/dimensions.ts'
 import { CRS12 } from '../../lib/math/CRS12.ts'
 import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
 import { Point2P } from '../../lib/math/pga2d/Point2P.ts'
@@ -22,7 +22,7 @@ import { Circle } from '../../lib/primitives/Circle.ts'
 import type { Drawable } from '../../lib/primitives/Drawable.ts'
 import { Rigid } from '../../lib/primitives/Rigid.ts'
 import { group, style, xform } from '../../lib/primitives/shorthand.ts'
-import { StyleLayers } from '../../lib/primitives/StyleLayers.ts'
+import { StyleLayers, type LayeredDrawable } from '../../lib/primitives/StyleLayers.ts'
 import { Color } from '../../lib/styling/Color.ts'
 import { Style } from '../../lib/styling/Style.ts'
 import { FriezeP1, FriezeP11G, FriezeP11M, FriezeP2 } from '../../lib/symmetry/frieze_groups.ts'
@@ -114,26 +114,35 @@ function p11g_braided_bones(): Drawable {
   })
 }
 
-function p2_intertwined_ghosts(): Drawable {
+const GHOST_SWIRL_STYLES = [Style.flat(GHOST_BLUE), Style.flat(Color.BLACK)]
+function ghost_swirl(): LayeredDrawable {
   const arcs = new NumberLineArcs({
     origin: Point2P.ORIGIN,
     spacing: 4,
     arc_convention: ArcConvention.PATH_START_NEG_Y,
   })
-  const intertwined_ghosts = arcs.make_path([1, 11, -14, 16, 15, -13, 1], true)
+  const body = arcs.make_path([1, 11, -14, 16, 15, -13, 1], true)
 
   const left_eye = arcs.make_path([3, 5, 3], true)
   const right_eye = arcs.make_path([7, 9, 7], true)
+  return {
+    layers: [body, group(left_eye, right_eye)],
+  }
+}
+
+function p2_intertwined_ghosts(): Drawable {
+  const swirl = new StyleLayers(GHOST_SWIRL_STYLES, ghost_swirl())
 
   return new FriezeP2({
     // adjust the spacing so the tails of the ghosts exactly overlap
     crs: new CRS12(SWATCH_WIDE.center, new Direction2P(128 - 4, 0)),
     x_range: [-2, 2],
-    children: group(
-      style(Style.flat(GHOST_BLUE), intertwined_ghosts),
-      style(Style.flat(Color.BLACK), left_eye, right_eye),
-    ),
+    children: swirl,
   })
+}
+
+function ghost_swatch(): Drawable {
+  return xform(Rigid.translation(SWATCH.center), new StyleLayers(GHOST_SWIRL_STYLES, ghost_swirl()))
 }
 
 function p2mg_ghosts(): Drawable {
@@ -168,4 +177,5 @@ export const SKETCHES = {
   p2: make_static_sketch(SWATCH_WIDE.dimensions, p2_intertwined_ghosts()),
   p2mg: make_static_sketch(SWATCH_WIDE.dimensions, p2mg_ghosts()),
   p2mm: make_static_sketch(SWATCH_WIDE.dimensions, p2mm_hex_candy()),
+  swirl_motif: make_static_sketch(SWATCH.dimensions, ghost_swatch()),
 }
