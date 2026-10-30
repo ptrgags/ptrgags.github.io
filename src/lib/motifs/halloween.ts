@@ -391,10 +391,13 @@ export function peppermint(unit_circle: Circle): LayeredDrawable {
 }
 
 const CHOCOLATE_BROWN = Color.from_hex_code('#43290f')
+const CHOCOLATE_LIGHT_BROWN = Color.from_hex_code('#805122')
 export const CHOCO_STYLES = [
   Style.flat(CHOCOLATE_BROWN),
   Style.flat(Color.RED),
-  Style.lines(Color.BLACK),
+  Style.lines(CHOCOLATE_LIGHT_BROWN),
+  Style.flat(Color.WHITE),
+  Style.flat(Color.YELLOW),
 ]
 
 export function chocolate_bar(unit_circle: Circle): LayeredDrawable {
@@ -412,11 +415,39 @@ export function chocolate_bar(unit_circle: Circle): LayeredDrawable {
     }
   }
 
+  const h = 7 / 8
+  const opened_wrapper = new Polyline({
+    vertices: [
+      new Complex(0.5, -h),
+      new Complex(0, -h),
+      new Complex(0.25, -0.5 * h),
+      new Complex(0, h),
+      new Complex(0.5, h),
+    ],
+    closed: true,
+  })
+
+  const ribbon = new Polyline({
+    vertices: [
+      new Complex(-1, 0.75),
+      new Complex(-0, 0.75),
+      new Complex(-1, -0.75),
+      new Complex(-2, -0.75),
+    ],
+    closed: true,
+  })
+
   const zoom = zoom_circle(unit_circle)
 
   const squares = group(...choco_squares.map((x) => transform_rect(x, zoom)))
 
   return {
-    layers: [transform_rect(choco_background, zoom), transform_rect(wrapper, zoom), squares],
+    layers: [
+      transform_rect(choco_background, zoom),
+      transform_rect(wrapper, zoom),
+      squares,
+      transform_polyline(opened_wrapper, zoom),
+      transform_polyline(ribbon, zoom),
+    ],
   }
 }
