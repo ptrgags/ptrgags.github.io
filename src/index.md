@@ -38,6 +38,8 @@ const recent_projects = ALL_PROJECT_THUMBNAILS.filter(x => !x.featured).slice(0,
     <a class="big-link" href="./gallery">Full Gallery ></a>
 </div>
 
+<hr class="divider" width="60%" />
+
 <h2 class="center-text">Featured Projects</h2>
 
 <div class="vertical">
@@ -61,6 +63,3 @@ const recent_projects = ALL_PROJECT_THUMBNAILS.filter(x => !x.featured).slice(0,
     </div>
     <a class="big-link" href="./projects">All Projects ></a>
 </div>
-
-<hr class="divider" width="60%" />
-

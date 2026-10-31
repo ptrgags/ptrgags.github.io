@@ -173,7 +173,7 @@ td {
 
 .divider {
   margin: 20px auto;
-  border: 1px solid var(--color-accent);
+  border: 1px solid var(--color-accent2-med);
 }
 
 .pixel-art {
