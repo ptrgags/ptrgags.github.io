@@ -9,7 +9,7 @@ title: 🎃 Happy Halloween! (Creative Recap 2026-10-25/31)
 sort_key: '2026-10-31'
 blog_date: '2026-10-31'
 summary: >
-    Halloween Friezes -- SUMMARY -- SUMMARY
+    Halloween Friezes -- Coral Skeletons
 # Backblaze link here. 
 # NOTE: in Backblaze, thumbnails are stored by the START date, not the end date.
 thumbnail: path/to/thumbnail.png
@@ -35,6 +35,15 @@ See the [Halloween Friezes](../artwork/halloween-friezes/) page on this website.
 I'm continuing to work on symmetry code for future math articles. To show off
 what it can do so far, I made a gallery of the 7 frieze groups but stylized
 for the holiday.
+
+## New Artwork: Coral Skeleton
+
+<img :src="backblaze_link('update/2026-10-25/coral-skeleton-thumbnail.png')" />
+
+See the [Coral Skeleton](../artwork/coral-skeleton/) page on this website.
+
+This artwork is a silly bit of Halloween wordplay. Corals do have "skeletons",
+but it's more like rock than bone!
 
 ## Past Haunts
 
