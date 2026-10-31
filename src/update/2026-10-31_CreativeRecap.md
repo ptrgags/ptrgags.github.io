@@ -24,8 +24,7 @@ import {backblaze_link} from '../core/links'
 Happy Halloween! Once again, October proves to be a creative time of year for
 me. I put together several new artworks to mark the occasion.
 
-If you haven't already seen it, [Last week's blog post](./2026-10-24_CreativeRecap/) includes a couple more Halloween-themed artworks
-in addition to the new ones below:
+If you haven't already seen it, [last week's blog post](./2026-10-24_CreativeRecap) also includes some Halloween art!
 
 ## New Artwork: Halloween Friezes
 
@@ -39,6 +38,6 @@ for the holiday.
 
 ## Past Haunts
 
-- [Last week's blog post](./2026-10-24_CreativeRecap/) has a couple more spooky artworks.
-- [`math-notebook`](../project/math-notebook/) (2024) for more Halloween math art. Some of the motifs were reused here in new ways.
-- [🎵 boo.](../album/boo/) (2020) my first synthezier improv album with an eerie theme.
+- [Last week's blog post](./2026-10-24_CreativeRecap) has a couple more spooky artworks.
+- [`math-notebook`](../project/math-notebook) (2024) for more Halloween math art. Some of the motifs were reused here in new ways.
+- [🎵 boo.](../album/boo) (2020) my first synthezier improv album with an eerie theme.

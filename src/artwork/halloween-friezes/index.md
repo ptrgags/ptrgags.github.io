@@ -46,7 +46,7 @@ Here both the skull and bone motifs have bilateral symmetry (i.e. left and right
 
 The bone motif actually has a second mirror axis (horizontal), but this symmetry is broken once juxtaposed with the skull (which has a different top and bottom).
 
-For this pattern, I used the skull and bone motifs used in a couple places in [Math Notebook](../../project/math-notebook/) as well as the more recent artwork [Spine Wave](../../artwork/spine-wave/). 
+For this pattern, I used the skull and bone motifs used in a couple places in [Math Notebook](../../project/math-notebook) as well as the more recent artwork [Spine Wave](../spine-wave/). 
 
 ## Candy Haul
 

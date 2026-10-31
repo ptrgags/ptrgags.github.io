@@ -61,8 +61,7 @@ function ghost_stamp(): Drawable {
 }
 
 function candy_corn_stamp(): Drawable {
-  const [a, b, c] = CANDY_CORN_STYLES
-  return new StyleLayers([a, b, c], candy_corn(UNIT_CIRCLE))
+  return new StyleLayers(CANDY_CORN_STYLES, candy_corn(UNIT_CIRCLE))
 }
 
 function bone_stamp(): Drawable {
