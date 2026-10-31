@@ -13,9 +13,7 @@ const LANDSCAPE_INCHES = US_LETTER_INCHES.transpose()
 
 const PRINTABLE = new PDFDoc({
   page_size_inches: LANDSCAPE_INCHES.dimensions,
-  // let's say the friezes are 5 inches in real life. The printable will
-  // be twice this
-  pixels_per_inch: SWATCH_WIDE.dimensions.width / 5,
+  pixels_per_inch: 125,
 })
 
 const PRINTABLE_SIZE = SWATCH_WIDE.dimensions.mul_components(new Direction2P(2, 7))

@@ -16,7 +16,7 @@ import {
   witch_hat,
   WITCH_HAT_STYLES,
 } from '../../lib/motifs/halloween.ts'
-import { skull, SKULL_STYLES } from '../../lib/motifs/skull.ts'
+import { BONE_STYLE, skull, SKULL_STYLES } from '../../lib/motifs/skull.ts'
 import { make_static_sketch } from '../../lib/p5-helpers/sketches.ts'
 import { Circle } from '../../lib/primitives/Circle.ts'
 import type { Drawable } from '../../lib/primitives/Drawable.ts'
@@ -35,7 +35,7 @@ function p1_witch_hats(): Drawable {
 
   return new FriezeP1({
     crs: new CRS12(SWATCH_WIDE.center, new Direction2P(128, 0)),
-    x_range: [-2, 2 + 4],
+    x_range: [-3, 2 + 5],
     children: new StyleLayers(WITCH_HAT_STYLES, hat),
   })
 }
@@ -48,12 +48,12 @@ function p1m1_skull_and_bones(): Drawable {
       translation: new Direction2P(64, 0),
       rotation: Math.PI / 2,
     }),
-    style(Style.flat(Color.WHITE), bone2(64, 8)),
+    style(BONE_STYLE, bone2(64, 8)),
   )
 
   return new FriezeP1({
     crs: new CRS12(SWATCH_WIDE.center, new Direction2P(128, 0)),
-    x_range: [-2, 2 + 4],
+    x_range: [-3, 2 + 5],
     children: group(head, bone_prim),
   })
 }
@@ -102,14 +102,15 @@ function p11g_braided_bones(): Drawable {
   const joint = new Circle(Point2P.ORIGIN, 8)
 
   const crossing = group(
-    style(Style.flat(Color.WHITE), bone_backslash),
+    style(BONE_STYLE, bone_backslash),
     style(Style.lines(Color.BLACK, 4), bone_slash),
-    style(Style.flat(Color.WHITE), bone_slash, joint),
+    style(Style.flat(Color.WHITE), bone_slash),
+    style(BONE_STYLE, joint),
   )
 
   return new FriezeP11G({
     crs: new CRS12(SWATCH_WIDE.center, new Direction2P(128, 0)),
-    x_range: [-2, 2 + 4],
+    x_range: [-4, 2 + 5],
     children: crossing,
   })
 }
@@ -136,7 +137,7 @@ function p2_intertwined_ghosts(): Drawable {
   return new FriezeP2({
     // adjust the spacing so the tails of the ghosts exactly overlap
     crs: new CRS12(SWATCH_WIDE.center, new Direction2P(128 - 4, 0)),
-    x_range: [-2, 2 + 4],
+    x_range: [-3, 2 + 5],
     children: swirl,
   })
 }
@@ -150,7 +151,7 @@ function p2mg_ghosts(): Drawable {
 
   return new FriezeP2({
     crs: new CRS12(SWATCH_WIDE.center, new Direction2P(64, 0)),
-    x_range: [-4, 4 + 8],
+    x_range: [-6, 4 + 10],
     children: motif,
   })
 }
@@ -164,7 +165,7 @@ function p2mm_hex_candy(): Drawable {
 
   return new FriezeP2({
     crs: new CRS12(SWATCH_WIDE.center, new Direction2P(128, 0)),
-    x_range: [-4, 4 + 4],
+    x_range: [-3, 7],
     children: motif,
   })
 }
