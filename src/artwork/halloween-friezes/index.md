@@ -11,6 +11,7 @@ thumbnail: artwork/halloween-friezes/thumbnail.png
 <script setup lang="ts">
 import SketchP5 from '../../components/SketchP5.vue'
 import {SKETCHES} from './halloween-friezes'
+import HalloweenFriezesPrintable from './HalloweenFriezesPrintable.vue'
 </script>
 
 <!-- Generate the thumbnails
@@ -114,6 +115,10 @@ This pattern is interesting because there are symmetries happening on three diff
 - A single candy corn has bilateral symmetry
 - Arranging six candy corns in a hexagon produces dihedral symmetry ($D_6$ = 6-fold rotations and 6 mirror lines). 3 of the mirrors line up with the bilateral symmetry of the candy corn motif, and the other 3 are in the gaps between candy corn.
 - Repeating the hexagon adds translation symmetry, but partially breaks the hexagon symmetry. The horizontal mirrors line up perfectly so that symmetry remains. The vertical gaps of each hexagon are perpendicular to the repeat direction so those are allowed here. However, the diagonal mirrors would change the direction of the frieze, so this symmetry breaks.
+
+## Bonus: Printable Friezes
+
+<HalloweenFriezesPrintable />
 
 ## See Also
 

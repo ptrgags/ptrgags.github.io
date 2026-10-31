@@ -35,7 +35,7 @@ function p1_witch_hats(): Drawable {
 
   return new FriezeP1({
     crs: new CRS12(SWATCH_WIDE.center, new Direction2P(128, 0)),
-    x_range: [-2, 2],
+    x_range: [-2, 2 + 4],
     children: new StyleLayers(WITCH_HAT_STYLES, hat),
   })
 }
@@ -53,7 +53,7 @@ function p1m1_skull_and_bones(): Drawable {
 
   return new FriezeP1({
     crs: new CRS12(SWATCH_WIDE.center, new Direction2P(128, 0)),
-    x_range: [-2, 2],
+    x_range: [-2, 2 + 4],
     children: group(head, bone_prim),
   })
 }
@@ -74,7 +74,7 @@ function p11m_candy(): Drawable {
 
   return new FriezeP11M({
     crs: new CRS12(SWATCH_WIDE.center, new Direction2P(192, 0)),
-    x_range: [-2, 1],
+    x_range: [-2, 1 + 3],
     children: group(corn_prim, peppermint_prim, chocolate_prim),
   })
 }
@@ -109,7 +109,7 @@ function p11g_braided_bones(): Drawable {
 
   return new FriezeP11G({
     crs: new CRS12(SWATCH_WIDE.center, new Direction2P(128, 0)),
-    x_range: [-2, 2],
+    x_range: [-2, 2 + 4],
     children: crossing,
   })
 }
@@ -136,7 +136,7 @@ function p2_intertwined_ghosts(): Drawable {
   return new FriezeP2({
     // adjust the spacing so the tails of the ghosts exactly overlap
     crs: new CRS12(SWATCH_WIDE.center, new Direction2P(128 - 4, 0)),
-    x_range: [-2, 2],
+    x_range: [-2, 2 + 4],
     children: swirl,
   })
 }
@@ -150,7 +150,7 @@ function p2mg_ghosts(): Drawable {
 
   return new FriezeP2({
     crs: new CRS12(SWATCH_WIDE.center, new Direction2P(64, 0)),
-    x_range: [-4, 4],
+    x_range: [-4, 4 + 8],
     children: motif,
   })
 }
@@ -164,7 +164,7 @@ function p2mm_hex_candy(): Drawable {
 
   return new FriezeP2({
     crs: new CRS12(SWATCH_WIDE.center, new Direction2P(128, 0)),
-    x_range: [-4, 4],
+    x_range: [-4, 4 + 4],
     children: motif,
   })
 }
@@ -201,6 +201,20 @@ function thumbnail(): Drawable {
   return group(
     xform(Rigid.translation(origin), p2_intertwined_ghosts()),
     xform(Rigid.translation(origin.add(STRIDE)), p1m1_skull_and_bones()),
+  )
+}
+
+export function printable_hallofriezes(): Drawable {
+  const origin = Point2P.ORIGIN
+  const STRIDE = Direction2P.DIR_Y.scale(SWATCH_WIDE.dimensions.height)
+  return group(
+    xform(Rigid.translation(origin), p1_witch_hats()),
+    xform(Rigid.translation(origin.add(STRIDE)), p1m1_skull_and_bones()),
+    xform(Rigid.translation(origin.add(STRIDE.scale(2))), p11m_candy()),
+    xform(Rigid.translation(origin.add(STRIDE.scale(3))), p11g_braided_bones()),
+    xform(Rigid.translation(origin.add(STRIDE.scale(4))), p2_intertwined_ghosts()),
+    xform(Rigid.translation(origin.add(STRIDE.scale(5))), p2mg_ghosts()),
+    xform(Rigid.translation(origin.add(STRIDE.scale(6))), p2mm_hex_candy()),
   )
 }
 
