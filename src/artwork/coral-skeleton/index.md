@@ -3,10 +3,8 @@ layout: article
 title: Coral Skeleton
 date: '2026-10-30'
 sort_key: '2026-10-30:01'
-hide: true
-# URL relative to BACKBLAZE assets root. The thumbnail must be 250x350 px
-# if not specified, a placeholder image will be used
-#thumbnail: artwork/P5_TEMPLATE/thumbnail.png
+hide: false
+thumbnail: artwork/coral-skeleton/thumbnail.png
 ---
 <script setup lang="ts">
 import SketchP5 from '../../components/SketchP5.vue'
