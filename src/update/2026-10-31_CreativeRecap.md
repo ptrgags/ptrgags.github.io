@@ -4,7 +4,7 @@
 
 layout: article
 # Date range should be the sunday of the start range to the ending saturday
-title: Happy Halloween! (Creative Recap 2026-10-25/31)
+title: 🎃 Happy Halloween! (Creative Recap 2026-10-25/31)
 # These dates should both be the end date
 sort_key: '2026-10-31'
 blog_date: '2026-10-31'
@@ -24,7 +24,7 @@ import {backblaze_link} from '../core/links'
 Happy Halloween! Once again, October proves to be a creative time of year for
 me. I put together several new artworks to mark the occasion.
 
-If you haven't already seen it, [last week's blog post](./2026-10-24_CreativeRecap) also includes some Halloween art!
+If you haven't already seen it, [last week's blog post](./2026-10-24_CreativeRecap) includes some additional Halloween art.
 
 ## New Artwork: Halloween Friezes
 
@@ -39,5 +39,5 @@ for the holiday.
 ## Past Haunts
 
 - [Last week's blog post](./2026-10-24_CreativeRecap) has a couple more spooky artworks.
-- [`math-notebook`](../project/math-notebook) (2024) for more Halloween math art. Some of the motifs were reused here in new ways.
-- [🎵 boo.](../album/boo) (2020) my first synthezier improv album with an eerie theme.
+- [`math-notebook`](../project/math-notebook) (2024) has more math art from a past Halloween. Several of the motifs are reused in this year's artworks.
+- [🎵 boo.](../album/boo) (2020) was my first synthezier improv album with a spooky vibe.
