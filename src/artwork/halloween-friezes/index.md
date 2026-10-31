@@ -21,7 +21,7 @@ import HalloweenFriezesPrintable from './HalloweenFriezesPrintable.vue'
 
 Happy Halloween! This month I've been adding code to set up symmetric patterns
 easily. I haven't yet written pattern articles to explain it, but for now
-I made these Halloween-themed artworks to give you a preview.
+I made these Halloween-themed artworks as a preview.
 
 There are seven types of [Frieze Groups](https://en.wikipedia.org/wiki/Frieze_group).
 These are patterns that repeat over and over in one direction, sometimes with extra symmetry.
@@ -46,7 +46,7 @@ Here both the skull and bone motifs have bilateral symmetry (i.e. left and right
 
 The bone motif actually has a second mirror axis (horizontal), but this symmetry is broken once juxtaposed with the skull (which has a different top and bottom).
 
-For this pattern, I used the skull and bone motifs used in a couple places in [Math Notebook](../../project/math-notebook) as well as the more recent artwork [Spine Wave](../spine-wave/). 
+Both the skull and bone motifs are from my past project [Math Notebook](../../project/math-notebook) They're also used in another recent artwork [Spine Wave](../spine-wave/). 
 
 ## Candy Haul
 
@@ -54,7 +54,7 @@ Frieze Group: `p11m` (translation, horizontal mirror)
 
 <SketchP5 :sketch="SKETCHES.p11m" />
 
-Have some candy! I'll even throw in a mirror so you get twice as much!
+Have some candy. I'll even throw in a mirror so you get twice as much! I suppose that makes it a trick _and_ a treat.
 
 The candy corn motif is the same one used in [Candy Corners](../../artwork/math-notebook/2024-10-30_CandyCorners.md) from `math-notebook`. The swirly peppermint and chocolate bar are new motifs.
 
@@ -66,9 +66,7 @@ Frieze Group: `p11g` (translation, glide reflection)
 
 Another type of frieze involves glide reflections. These are a combination of reflection and translation, like a set of footprints.
 
-While at first glance this pattern might look like it has rotation symmetry, closer inspection reveals that this is not the case. 
-
-The bone crossings in the top row look like backslashes, while the bottom row looks like forward slashes:
+While at first glance this pattern might look like it has rotation symmetry, closer inspection reveals that this is not the case. The bone crossings in the top row look like backslashes, while the bottom row looks like forward slashes:
 
 ```
  \ \ \ \ \
@@ -82,8 +80,6 @@ If you were to rotate the pattern 180 degrees, the slashes would now point the o
 \ \ \ \ \
 ```
 
-So we have glide symmetry, but no rotation.
-
 ## Ghost Swirls
 
 Frieze Group: `p2` (translation, 2-fold (180°) rotation)
@@ -96,13 +92,13 @@ For this one, I made a wispy ghost shape using circular arcs (see the swatch bel
 
 I also tweaked the frieze spacing just a little bit so the ghost tails would exactly overlap. I found this to look more satisfying.
 
-Frieze Group: `p2mg` (translation, 2-fold rotation, vertical mirrors, glide reflections)
-
 ## Ghost Zigzag
+
+Frieze Group: `p2mg` (translation, 2-fold rotation, vertical mirrors, glide reflections)
 
 <SketchP5 :sketch="SKETCHES.p2mg" />
 
-Here a row of ghosts is juxtaposed with another row, upside down and staggered. Here the ghost motif has bilateral symmetry which becomes mirror symmetry in the frieze. The staggering and flipping can be reinterpreted as a sequence of glide reflections. And also if you rotate the frieze around a point between diagonally adjacent ghosts, you get the same pattern.
+Here a row of ghosts is juxtaposed with another row, upside down and staggered. Here the ghost motif has bilateral symmetry which becomes mirror symmetry in the frieze. The staggering and flipping can be reinterpreted as a sequence of glide reflections. Also, rotating around a point between diagonally adjacent ghosts produces the same pattern. 
 
 ## Candy Corn Hexagons
 
@@ -112,7 +108,7 @@ Frieze Group: `p2mm` (translation, 2-fold rotation, vertical mirrors, horizontal
 
 This pattern is interesting because there are symmetries happening on three different levels. From local to global:
 
-- A single candy corn has bilateral symmetry
+- A single candy corn has bilateral symmetry.
 - Arranging six candy corns in a hexagon produces dihedral symmetry ($D_6$ = 6-fold rotations and 6 mirror lines). 3 of the mirrors line up with the bilateral symmetry of the candy corn motif, and the other 3 are in the gaps between candy corn.
 - Repeating the hexagon adds translation symmetry, but partially breaks the hexagon symmetry. The horizontal mirrors line up perfectly so that symmetry remains. The vertical gaps of each hexagon are perpendicular to the repeat direction so those are allowed here. However, the diagonal mirrors would change the direction of the frieze, so this symmetry breaks.
 
