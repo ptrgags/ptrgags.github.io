@@ -1,4 +1,4 @@
-import { SWATCH, SWATCH_WIDE } from '../../core/dimensions.ts'
+import { ATC_SCREEN, SWATCH, SWATCH_WIDE } from '../../core/dimensions.ts'
 import { CRS12 } from '../../lib/math/CRS12.ts'
 import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
 import { Point2P } from '../../lib/math/pga2d/Point2P.ts'
@@ -30,12 +30,12 @@ import { RepeatCyclic } from '../../lib/symmetry/RepeatCyclic.ts'
 import { ArcConvention, NumberLineArcs } from '../../pattern/number-line-arcs/NumberLineArcs.ts'
 
 function p1_witch_hats(): Drawable {
-  const unit_circle = new Circle(new Point2P(64, 0), 64)
+  const unit_circle = new Circle(Point2P.ORIGIN, 64)
   const hat = witch_hat(unit_circle)
 
   return new FriezeP1({
-    crs: new CRS12(new Point2P(0, 64), new Direction2P(128, 0)),
-    x_range: [0, 4],
+    crs: new CRS12(SWATCH_WIDE.center, new Direction2P(128, 0)),
+    x_range: [-2, 2],
     children: new StyleLayers(WITCH_HAT_STYLES, hat),
   })
 }
@@ -52,8 +52,8 @@ function p1m1_skull_and_bones(): Drawable {
   )
 
   return new FriezeP1({
-    crs: new CRS12(new Point2P(0, 64), new Direction2P(128, 0)),
-    x_range: [0, 4],
+    crs: new CRS12(SWATCH_WIDE.center, new Direction2P(128, 0)),
+    x_range: [-2, 2],
     children: group(head, bone_prim),
   })
 }
@@ -73,8 +73,8 @@ function p11m_candy(): Drawable {
   )
 
   return new FriezeP11M({
-    crs: new CRS12(new Point2P(0, 64), new Direction2P(192, 0)),
-    x_range: [0, 2],
+    crs: new CRS12(SWATCH_WIDE.center, new Direction2P(192, 0)),
+    x_range: [-2, 1],
     children: group(corn_prim, peppermint_prim, chocolate_prim),
   })
 }
@@ -108,8 +108,8 @@ function p11g_braided_bones(): Drawable {
   )
 
   return new FriezeP11G({
-    crs: new CRS12(new Point2P(0, 64), new Direction2P(128, 0)),
-    x_range: [0, 4],
+    crs: new CRS12(SWATCH_WIDE.center, new Direction2P(128, 0)),
+    x_range: [-2, 2],
     children: crossing,
   })
 }
@@ -149,8 +149,8 @@ function p2mg_ghosts(): Drawable {
   const motif = new StyleLayers(ghost_styles(), ghost(new Circle(new Point2P(16, -32), 16)))
 
   return new FriezeP2({
-    crs: new CRS12(new Point2P(0, 64), new Direction2P(64, 0)),
-    x_range: [0, 8],
+    crs: new CRS12(SWATCH_WIDE.center, new Direction2P(64, 0)),
+    x_range: [-4, 4],
     children: motif,
   })
 }
@@ -163,10 +163,18 @@ function p2mm_hex_candy(): Drawable {
   })
 
   return new FriezeP2({
-    crs: new CRS12(new Point2P(0, 64), new Direction2P(128, 0)),
-    x_range: [0, 8],
+    crs: new CRS12(SWATCH_WIDE.center, new Direction2P(128, 0)),
+    x_range: [-4, 4],
     children: motif,
   })
+}
+
+function card(): Drawable {
+  return group()
+}
+
+function thumbnail(): Drawable {
+  return group()
 }
 
 export const SKETCHES = {
@@ -178,4 +186,8 @@ export const SKETCHES = {
   p2mg: make_static_sketch(SWATCH_WIDE.dimensions, p2mg_ghosts()),
   p2mm: make_static_sketch(SWATCH_WIDE.dimensions, p2mm_hex_candy()),
   swirl_motif: make_static_sketch(SWATCH.dimensions, ghost_swatch()),
+
+  // used to create the assets to upload to Backblaze
+  card: make_static_sketch(ATC_SCREEN.dimensions, card()),
+  thumbnail: make_static_sketch(SWATCH.dimensions, thumbnail()),
 }
