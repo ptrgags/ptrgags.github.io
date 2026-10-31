@@ -24,9 +24,7 @@ function make_bone(parent_circle: Circle, child_circle: Circle): Drawable {
   const dir_ab = ab.normalize()
   const length = ab.mag()
 
-  const min_radius = Math.min(parent_circle.radius, child_circle.radius)
-
-  const bone_prim = bone2(0.75 * length, 4 /*0.25 * min_radius*/)
+  const bone_prim = bone2(0.75 * length, 4)
 
   const orient_bone = new Rigid({
     translation: midpoint,
