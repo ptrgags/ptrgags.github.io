@@ -10,21 +10,17 @@ sort_key: '2026-10-31'
 blog_date: '2026-10-31'
 summary: >
     Halloween Friezes -- Coral Skeletons
-# Backblaze link here. 
-# NOTE: in Backblaze, thumbnails are stored by the START date, not the end date.
-thumbnail: path/to/thumbnail.png
+thumbnail: update/2026-10-25/coral-skeleton-thumbnail.png
 
 # Keep this true until the Saturday morning when I publish
-hide: true
+hide: false
 ---
 <script setup lang="ts">
 import {backblaze_link} from '../core/links'
 </script>
 
 Happy Halloween! Once again, October proves to be a creative time of year for
-me. I put together several new artworks to mark the occasion.
-
-If you haven't already seen it, [last week's blog post](./2026-10-24_CreativeRecap) includes some additional Halloween art.
+me. I put together several new artworks to mark the occasion. Furthermore, [last week's blog post](./2026-10-24_CreativeRecap) also includes some Halloween art.
 
 ## New Artwork: Halloween Friezes
 
