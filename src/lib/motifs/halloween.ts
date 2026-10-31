@@ -27,8 +27,10 @@ import {
   zoom_circle,
 } from './transform_prims.ts'
 
+export const GHOST_BLUE = '#c5f2fa'
+
 export function ghost_styles(): Style[] {
-  const style_body = Style.flat('#c5f2fa')
+  const style_body = Style.flat(GHOST_BLUE)
   const style_eyes_mouth = Style.flat(Color.BLACK)
   return [style_body, style_eyes_mouth, style_eyes_mouth]
 }
@@ -94,6 +96,8 @@ export const CANDY_CORN_STYLES = [
   Style.flat(new Color(255, 127, 0)),
   // White tip
   Style.flat(new Color(255, 255, 255)),
+  // black outline
+  Style.lines(Color.BLACK, 2),
 ]
 
 /// Make a candy corn motif
@@ -176,9 +180,18 @@ export function candy_corn(circle: Circle): LayeredDrawable {
   const mid = new Path({ parts: [line_ab1_ab2, arc2, line_ac2_ac1, arc1.reverse()], closed: true })
   const tip = new Path({ parts: [arc_a, line_a_ab1, arc1, line_ac1_a], closed: true })
 
+  const line_ab = new LineSegment(isx_a_ab, isx_b_ab)
+  const line_ca = new LineSegment(isx_c_ca, isx_a_ca)
+
+  // Also include the outline for stroking against a white background
+  const outline = new Path({
+    parts: [arc_a, line_ab, arc_b, line_bc, arc_c, line_ca],
+    closed: true,
+  })
+
   const zoom = zoom_circle(circle)
 
-  return { layers: [base, mid, tip].map((x) => transform_path(x, zoom)) }
+  return { layers: [base, mid, tip, outline].map((x) => transform_path(x, zoom)) }
 }
 
 /// Create a vertical cartoon bone that fits in [-2, 2] x [- (length/2 + 1), (length/2 + 1)]
@@ -276,7 +289,14 @@ export function bone2(length: number, radius: number): Path {
   })
 }
 
-export const WITCH_HAT_STYLES = [Style.flat('#9261ba'), Style.flat('#ffff00')]
+export const WITCH_HAT_STYLES = [
+  new Style({
+    fill: '#9261ba',
+    stroke: Color.BLACK,
+    width: 2,
+  }),
+  Style.flat('#ffff00'),
+]
 
 /// Create a motif shaped like a witch's hat.
 /// It's normalized so it fits in the unit circle
@@ -339,7 +359,11 @@ export function witch_hat(circle: Circle): LayeredDrawable {
 
 export const PEPPERMINT_STYLES = [
   Style.flat(Oklch.grey(0.8)),
-  Style.flat(Color.WHITE),
+  new Style({
+    fill: Color.WHITE,
+    stroke: Oklch.grey(0.8),
+    width: 2,
+  }),
   Style.flat(Color.RED),
 ]
 
@@ -396,7 +420,7 @@ export const CHOCO_STYLES = [
   Style.flat(CHOCOLATE_BROWN),
   Style.flat(Color.RED),
   Style.lines(CHOCOLATE_LIGHT_BROWN),
-  Style.flat(Color.WHITE),
+  new Style({ fill: Color.WHITE, stroke: Color.BLACK, width: 1 }),
   Style.flat(Color.YELLOW),
 ]
 
@@ -423,6 +447,7 @@ export function chocolate_bar(unit_circle: Circle): LayeredDrawable {
       new Complex(0.25, -0.5 * h),
       new Complex(0, h),
       new Complex(0.5, h),
+      new Complex(0.5, -h),
     ],
     closed: true,
   })

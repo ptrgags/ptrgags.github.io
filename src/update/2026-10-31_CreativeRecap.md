@@ -4,12 +4,12 @@
 
 layout: article
 # Date range should be the sunday of the start range to the ending saturday
-title: Happy Halloween! (Creative Recap 2026-10-25/31)
+title: 🎃 Happy Halloween! (Creative Recap 2026-10-25/31)
 # These dates should both be the end date
 sort_key: '2026-10-31'
 blog_date: '2026-10-31'
 summary: >
-    Halloween Friezes -- Coral Skeletons -- SUMMARY
+    Halloween Friezes -- Coral Skeletons
 # Backblaze link here. 
 # NOTE: in Backblaze, thumbnails are stored by the START date, not the end date.
 thumbnail: path/to/thumbnail.png
@@ -24,12 +24,11 @@ import {backblaze_link} from '../core/links'
 Happy Halloween! Once again, October proves to be a creative time of year for
 me. I put together several new artworks to mark the occasion.
 
-If you haven't already seen it, [Last week's blog post](./2026-10-24_CreativeRecap/) includes a couple more Halloween-themed artworks
-in addition to the new ones below:
+If you haven't already seen it, [last week's blog post](./2026-10-24_CreativeRecap) includes some additional Halloween art.
 
 ## New Artwork: Halloween Friezes
 
-<img :src="backblaze_link('update/2026-10-25/halloween-frieze-thumbnail.png')" />
+<img :src="backblaze_link('update/2026-10-25/halloween-friezes-thumbnail.png')" />
 
 See the [Halloween Friezes](../artwork/halloween-friezes/) page on this website.
 
@@ -48,6 +47,6 @@ but it's more like rock than bone!
 
 ## Past Haunts
 
-- [Last week's blog post](./2026-10-24_CreativeRecap/) has a couple more spooky artworks.
-- [`math-notebook`](../project/math-notebook/) (2024) for more Halloween math art. Some of the motifs were reused here in new ways.
-- [🎵 boo.](../album/boo/) (2020) my first synthezier improv album with an eerie theme.
+- [Last week's blog post](./2026-10-24_CreativeRecap) has a couple more spooky artworks.
+- [`math-notebook`](../project/math-notebook) (2024) has more math art from a past Halloween. Several of the motifs are reused in this year's artworks.
+- [🎵 boo.](../album/boo) (2020) was my first synthezier improv album with a spooky vibe.

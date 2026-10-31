@@ -229,8 +229,6 @@ function debug_arcs(): Drawable {
   const arcs = [arc_top_left, arc_bottom_left, arc_bottom_right, arc_top_right]
   const beziers = arcs.flatMap((x) => x.to_bezier_curves())
 
-  console.log(arcs.map((x) => x.angles.subtended_angle))
-
   return group(
     style(Style.lines(Oklch.grey(0.5), 8), ...arcs),
     style(Style.lines(Color.GREEN, 2), ...beziers),
