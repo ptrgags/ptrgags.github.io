@@ -47,7 +47,7 @@ function coral_tree(): Drawable {
   // This loosely follows a sketch I have on paper
   const tree = new CoralTree(
     // Base of the coral
-    new CoralNode(circle(250, 650, 64), [
+    new CoralNode(circle(250, 675, 64), [
       // Parent node of bottom branches
       new CoralNode(circle(250, 550, 24), [
         // Bottom right section
@@ -176,18 +176,18 @@ function coral_tree(): Drawable {
 
   return group(
     // reference lines, temporary
-    style(
+    /*style(
       Style.lines(Oklch.grey(0.5)),
       new Gridlines({ bounds: ATC_SCREEN, x_spacing: 25, y_spacing: 25 }),
     ),
     style(
       Style.lines(Color.WHITE, 2),
       new Gridlines({ bounds: ATC_SCREEN, x_spacing: 100, y_spacing: 100 }),
-    ),
+    ),*/
     // -----------------------
 
     style(Style.lines(new Oklch(0.8264, 0.1, 131.93), 4), tree.render()),
-    style(Style.DEFAULT_LINES, tree.debug_render()),
+    //style(Style.DEFAULT_LINES, tree.debug_render()),
     style(Style.flat(Color.WHITE), ...bones),
     style(Style.flat(Oklch.grey(0.5)), rock),
   )
