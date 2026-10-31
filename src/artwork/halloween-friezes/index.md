@@ -3,15 +3,20 @@ layout: article
 title: Halloween Friezes
 date: '2026-10-30'
 sort_key: '2026-10-30:01'
-hide: true
+hide: false
 # URL relative to BACKBLAZE assets root. The thumbnail must be 250x350 px
 # if not specified, a placeholder image will be used
-#thumbnail: artwork/P5_TEMPLATE/thumbnail.png
+thumbnail: artwork/halloween-friezes/thumbnail.png
 ---
 <script setup lang="ts">
 import SketchP5 from '../../components/SketchP5.vue'
 import {SKETCHES} from './halloween-friezes'
 </script>
+
+<!-- Generate the thumbnails
+<SketchP5 :sketch="SKETCHES.thumbnail" />
+<SketchP5 :sketch="SKETCHES.card" />
+-->
 
 Happy Halloween! This month I've been adding code to set up symmetric patterns
 easily. I haven't yet written pattern articles to explain it, but for now
@@ -98,7 +103,7 @@ Frieze Group: `p2mg` (translation, 2-fold rotation, vertical mirrors, glide refl
 
 Here a row of ghosts is juxtaposed with another row, upside down and staggered. Here the ghost motif has bilateral symmetry which becomes mirror symmetry in the frieze. The staggering and flipping can be reinterpreted as a sequence of glide reflections. And also if you rotate the frieze around a point between diagonally adjacent ghosts, you get the same pattern.
 
-## Candy Corn Pies
+## Candy Corn Hexagons
 
 Frieze Group: `p2mm` (translation, 2-fold rotation, vertical mirrors, horizontal mirrors)
 

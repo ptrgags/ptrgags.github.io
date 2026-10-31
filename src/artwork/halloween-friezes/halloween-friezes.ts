@@ -170,11 +170,38 @@ function p2mm_hex_candy(): Drawable {
 }
 
 function card(): Drawable {
-  return group()
+  const SPACING = 32
+  const FRIEZE_BOX = ATC_SCREEN.align(
+    new Direction2P(SWATCH_WIDE.dimensions.width, 4 * SWATCH_WIDE.dimensions.height + 3 * SPACING),
+    'center',
+    'center',
+  )
+  const STRIDE = new Direction2P(0, SWATCH_WIDE.dimensions.height + SPACING)
+
+  const origin = FRIEZE_BOX.position
+
+  return group(
+    xform(Rigid.translation(origin), p2_intertwined_ghosts()),
+    xform(Rigid.translation(origin.add(STRIDE)), p1_witch_hats()),
+    xform(Rigid.translation(origin.add(STRIDE.scale(2))), p2mm_hex_candy()),
+    xform(Rigid.translation(origin.add(STRIDE.scale(3))), p1m1_skull_and_bones()),
+  )
 }
 
 function thumbnail(): Drawable {
-  return group()
+  const FRIEZE_BOX = SWATCH.align(
+    new Direction2P(SWATCH_WIDE.dimensions.width, 2 * SWATCH_WIDE.dimensions.height),
+    'center',
+    'center',
+  )
+  const STRIDE = Direction2P.DIR_Y.scale(SWATCH_WIDE.dimensions.height)
+
+  const origin = FRIEZE_BOX.position
+
+  return group(
+    xform(Rigid.translation(origin), p2_intertwined_ghosts()),
+    xform(Rigid.translation(origin.add(STRIDE)), p1m1_skull_and_bones()),
+  )
 }
 
 export const SKETCHES = {

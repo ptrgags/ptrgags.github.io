@@ -29,7 +29,7 @@ in addition to the new ones below:
 
 ## New Artwork: Halloween Friezes
 
-<img :src="backblaze_link('update/2026-10-25/halloween-frieze-thumbnail.png')" />
+<img :src="backblaze_link('update/2026-10-25/halloween-friezes-thumbnail.png')" />
 
 See the [Halloween Friezes](../artwork/halloween-friezes/) page on this website.
 
