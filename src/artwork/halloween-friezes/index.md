@@ -118,6 +118,8 @@ This pattern is interesting because there are symmetries happening on three diff
 
 ## Bonus: Printable Friezes
 
+Need some last-minute Halloween decorations? Here's a printable version of the above friezes!
+
 <HalloweenFriezesPrintable />
 
 ## See Also
