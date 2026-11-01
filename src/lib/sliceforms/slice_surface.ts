@@ -31,7 +31,7 @@ export class Slicer {
   }
 
   #make_u_slice(u: number): Polyline {
-    const vertices = [new Point2P(0, 0), new Point2P(1, 0)]
+    const vertices = [new Point2P(0, 0), new Point2P(1, 0), new Point2P(1, 1), new Point2P(0, 1)]
 
     // iterate from v = 1 downto v = 0 based on the sample counts
     // however, whenever we cross one of the slices in the orthogonal direction,
@@ -44,7 +44,7 @@ export class Slicer {
   }
 
   #make_v_slice(v: number): Polyline {
-    const vertices = [new Point2P(0, 0)]
+    const vertices = [new Point2P(0, 0), new Point2P(1, 0), new Point2P(1, 1), new Point2P(0, 1)]
 
     // iterate over the slit spacing and insert splits on the bottom edge
     // then jump up to f(1, v) and sample points on the return path
