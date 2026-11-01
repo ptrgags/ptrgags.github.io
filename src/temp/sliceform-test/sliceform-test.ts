@@ -1,10 +1,13 @@
 import { ATC_SCREEN } from '../../core/dimensions.ts'
+import { divmod } from '../../lib/math/divmod.ts'
 import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
 import { make_static_sketch } from '../../lib/p5-helpers/sketches.ts'
 import type { Drawable } from '../../lib/primitives/Drawable.ts'
-import { style } from '../../lib/primitives/shorthand.ts'
+import { Rigid } from '../../lib/primitives/Rigid.ts'
+import { style, xform } from '../../lib/primitives/shorthand.ts'
 import type { Vec2 } from '../../lib/primitives/Vec2.ts'
 import { Slicer } from '../../lib/sliceforms/slice_surface.ts'
+import { Color } from '../../lib/styling/Color.ts'
 import { Style } from '../../lib/styling/Style.ts'
 
 function surface(uv: Vec2): number {
@@ -12,14 +15,31 @@ function surface(uv: Vec2): number {
 }
 
 export function preview_pieces(): Drawable {
+  const SLICE_COUNTS = new Direction2P(5, 5)
+
   const slicer = new Slicer({
-    slice_counts: new Direction2P(3, 3),
+    slice_counts: SLICE_COUNTS,
     sample_counts: new Direction2P(100, 100),
+    slice_dimensions: new Direction2P(200, 100),
     slit_thickness: 0.01,
   })
 
-  const polylines = slicer.slice(surface)
-  return style(Style.DEFAULT_LINES, polylines[0])
+  const STRIDE = new Direction2P(210, 110)
+  const slices = slicer.slice(surface)
+
+  const STYLE_U = Style.lines(Color.RED, 2)
+  const STYLE_V = Style.DEFAULT_LINES
+
+  const arranged = slices.map((slice, i) => {
+    const [row, col] = divmod(i, 2)
+    const colored_lines = i < SLICE_COUNTS.x ? STYLE_U : STYLE_V
+    return xform(
+      Rigid.translation(new Direction2P(col, row).mul_components(STRIDE)),
+      style(colored_lines, slice),
+    )
+  })
+
+  return style(Style.DEFAULT_LINES, ...arranged)
 }
 
 export const SKETCHES = {
