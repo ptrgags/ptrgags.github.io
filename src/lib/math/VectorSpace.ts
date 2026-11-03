@@ -63,6 +63,14 @@ export class VectorSpace<V> {
     return this.ops.scale(k, v)
   }
 
+  sum(vectors: V[]): V {
+    let result = this.ops.zero()
+    for (const v of vectors) {
+      result = this.ops.add(result, v)
+    }
+    return result
+  }
+
   combo(scalars: number[], vectors: V[]): V {
     if (scalars.length !== vectors.length) {
       throw new Error('arrays must have the same length')
