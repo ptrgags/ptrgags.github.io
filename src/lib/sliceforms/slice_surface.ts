@@ -16,16 +16,15 @@ export interface SliceSurfaceOptions {
   // these are how many samples between each slit in the u direction/v direction
   samples_between: Vec2
   /**
-   * (width, max_height) of each slice in the output units (e.g. pixels, mm, etc)
+   * (width, max_height) of each slice in world space units
    * This is the dimensions of the part with the curve, not the base
    */
   slice_dimensions: Dimensionlike
   /**
-   * How far below the xy-plane the base extends
+   * How far below the xy-plane the base extends in world space units
    */
   base_depth: number
-  // How thick a slit should be in units of uv. This must be the same for
-  // both u and v slices, which is why this field is a number and not Vec2
+  // How thick a slit should be in units of world space
   slit_thickness: number
 }
 
@@ -68,11 +67,13 @@ export class Slicer {
     const samples_between = this.samples_between.y
     const samples_ends = samples_between + 1
 
+    const slit_thickness_v = this.slit_thickness / width
+    const slit_radius = 0.5 * slit_thickness_v
+
     // compute spacings in units of the v coordinate (i.e. [0, 1])
     const slit_spacing_v = 1.0 / (slit_count + 1)
     const sample_spacing_ends_v = slit_spacing_v / (samples_ends + 1)
-    const sample_spacing_between_v = (slit_spacing_v - this.slit_thickness) / (samples_between + 1)
-    const slit_radius = 0.5 * this.slit_thickness
+    const sample_spacing_between_v = (slit_spacing_v - slit_thickness_v) / (samples_between + 1)
 
     const vertices = [
       // Since the slits are on the top, the base will always be a horizontal
