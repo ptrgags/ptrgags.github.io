@@ -7,7 +7,9 @@ const { frontmatter } = useData()
 <template>
   <div class="vertical">
     <div class="content vertical">
-      <h1>{{ frontmatter.title }}</h1>
+      <h1>
+        {{ frontmatter.title }} <span v-if="frontmatter.date">({{ frontmatter.date }})</span>
+      </h1>
       <Content />
     </div>
   </div>
