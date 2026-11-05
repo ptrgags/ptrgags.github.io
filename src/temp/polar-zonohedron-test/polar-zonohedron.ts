@@ -10,10 +10,13 @@ import { Oklch } from '../../lib/styling/Oklch.ts'
 import { Style } from '../../lib/styling/Style.ts'
 
 export class PolarZonohedron {
+  edge_length: number
   basis: Vec3[]
   rows: Vec3[][]
 
   constructor(edge_length: number, aperture_angle: number, basis_count: number) {
+    this.edge_length = edge_length
+
     // Compute basis vectors ==========================================
 
     const angle_step = (2.0 * Math.PI) / basis_count
@@ -51,9 +54,23 @@ export class PolarZonohedron {
     this.rows.push([VSVec3.sum(basis)])
   }
 
+  dimensions(): Direction2P {
+    const angles = this.angles()
+    const basis_count = this.basis.length
+
+    let w = this.edge_length
+    let h = 0
+    for (let i = 0; i < basis_count - 1; i++) {
+      w += this.edge_length * Math.cos(angles[i])
+      h += this.edge_length * Math.sin(angles[i])
+    }
+
+    return new Direction2P(w, h)
+  }
+
   angles(): number[] {
     const n = this.basis.length
-    const result = new Array(n)
+    const result = new Array(n - 1)
     result[0] = get_angle(this.rows[0][0], this.rows[1][1], this.rows[1][0])
     for (let i = 1; i < n - 1; i++) {
       result[i] = get_angle(this.rows[i][1], this.rows[i + 1][1], this.rows[i + 1][0])
@@ -85,7 +102,7 @@ function get_angle(a: Vec3, b: Vec3, c: Vec3): number {
   return Math.acos(cos_theta)
 }
 
-export function printable_pattern(): Drawable {
+export function printable_pattern(): [Drawable, Direction2P] {
   const edge_length = 100
   const N = 6
   const zonohedron = new PolarZonohedron(edge_length, Math.PI / 4, N)
@@ -93,30 +110,46 @@ export function printable_pattern(): Drawable {
 
   const horizontal_edge = Direction2P.DIR_X.scale(edge_length)
 
+  const left_edge = []
+  const right_edge = []
   const rhombi = []
   let offset: Point2P = Point2P.ORIGIN
   for (let i = 0; i < N; i++) {
     const angle = angles[i]
     const angled_edge = Direction2P.from_angle(angle).scale(edge_length)
 
+    const a = offset
+    const b = offset.add(angled_edge)
+    const c = offset.add(angled_edge).add(horizontal_edge)
+    const d = offset.add(horizontal_edge)
+
     const rhombus = new Polyline({
-      vertices: [
-        offset,
-        offset.add(angled_edge),
-        offset.add(angled_edge).add(horizontal_edge),
-        offset.add(horizontal_edge),
-      ],
+      vertices: [a, b, c, d],
       closed: true,
     })
+
+    // update the boundary polygon.
+    left_edge.push(a, b)
+    // push these backwards, we'll reverse them at the end
+    right_edge.push(d, c)
 
     rhombi.push(rhombus)
     offset = offset.add(angled_edge)
   }
 
-  return group(
-    // Seam allowance
-    //style(Style.lines(Oklch.grey(0.5), 40), ...rhombi),
-    // Actual lines
-    style(new Style({ stroke: Color.BLACK, width: 2, fill: Color.WHITE }), ...rhombi),
-  )
+  // Explicitly list the boundary vertices so the corners render correctly
+  const boundary = new Polyline({
+    vertices: [...left_edge, ...right_edge.reverse()],
+    closed: true,
+  })
+
+  return [
+    group(
+      // Seam allowance
+      style(Style.lines(Oklch.grey(0.75), 40), boundary),
+      // Actual lines
+      style(new Style({ stroke: Color.BLACK, width: 2, fill: Color.WHITE }), ...rhombi),
+    ),
+    zonohedron.dimensions(),
+  ]
 }
