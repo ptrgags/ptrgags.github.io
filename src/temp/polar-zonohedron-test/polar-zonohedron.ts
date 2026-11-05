@@ -102,7 +102,7 @@ function get_angle(a: Vec3, b: Vec3, c: Vec3): number {
   return Math.acos(cos_theta)
 }
 
-export function printable_pattern(): [Drawable, Direction2P] {
+export function printable_pattern(pixels_per_inch: number): [Drawable, Direction2P] {
   const edge_length = 100
   const N = 6
   const zonohedron = new PolarZonohedron(edge_length, Math.PI / 4, N)
@@ -143,10 +143,13 @@ export function printable_pattern(): [Drawable, Direction2P] {
     closed: true,
   })
 
+  const SEAM_ALLOWANCE_INCHES = 5 / 8
+  const LINE_WIDTH = 2 * SEAM_ALLOWANCE_INCHES * pixels_per_inch
+
   return [
     group(
       // Seam allowance
-      style(Style.lines(Oklch.grey(0.75), 40), boundary),
+      style(Style.lines(Oklch.grey(15 / 16), LINE_WIDTH), boundary),
       // Actual lines
       style(new Style({ stroke: Color.BLACK, width: 2, fill: Color.WHITE }), ...rhombi),
     ),

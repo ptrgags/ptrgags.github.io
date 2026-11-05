@@ -7,6 +7,7 @@ import { printable_pattern } from './polar-zonohedron.ts'
 
 const pdf_file: Ref<File | undefined> = ref(undefined)
 
+// 100 pixels = 2 inches
 const PPI = 50
 const PRINTABLE = new PDFDoc({
   page_size_inches: US_LETTER_INCHES.dimensions,
@@ -15,7 +16,7 @@ const PRINTABLE = new PDFDoc({
 
 onMounted(async () => {
   await PRINTABLE.init()
-  const [pattern, dimensions] = printable_pattern()
+  const [pattern, dimensions] = printable_pattern(PPI)
   PRINTABLE.add_centered_page(pattern, dimensions)
   pdf_file.value = await PRINTABLE.finish('hallofriezes.pdf')
 })
