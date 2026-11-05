@@ -4,10 +4,13 @@ import { VSVec3, type Vec3 } from '../../lib/math/vector/Vec3.ts'
 import type { Drawable } from '../../lib/primitives/Drawable.ts'
 import { Polyline } from '../../lib/primitives/Polyline.ts'
 import { group, style } from '../../lib/primitives/shorthand.ts'
+import { Text } from '../../lib/primitives/Text.ts'
 import { VSVec2, type Vec2 } from '../../lib/primitives/Vec2.ts'
 import { Color } from '../../lib/styling/Color.ts'
 import { Oklch } from '../../lib/styling/Oklch.ts'
 import { Style } from '../../lib/styling/Style.ts'
+import { TextStyle } from '../../lib/styling/TextStyle.ts'
+import { Arrow, ArrowParts } from './Arrow.ts'
 
 export class PolarZonohedron {
   edge_length: number
@@ -146,12 +149,33 @@ export function printable_pattern(pixels_per_inch: number): [Drawable, Direction
   const SEAM_ALLOWANCE_INCHES = 5 / 8
   const LINE_WIDTH = 2 * SEAM_ALLOWANCE_INCHES * pixels_per_inch
 
+  const visual_center = VSVec2.centroid(rhombi[2].points)
+  const text = new Text(`Cut ${N}`, visual_center)
+  const STYLE_TEXT = {
+    text_style: new TextStyle(12, 'center', 'center'),
+    style: Style.flat(Color.BLACK),
+  }
+
+  const grain_arrow = new Arrow({
+    start: VSVec2.add(visual_center, new Direction2P(-25, 20)),
+    end: VSVec2.add(visual_center, new Direction2P(25, 20)),
+    tip: ArrowParts.ARROW_BOTH,
+    tail: ArrowParts.ARROW_BOTH,
+    arrow_radii: new Direction2P(10, 5),
+  })
+
   return [
     group(
       // Seam allowance
       style(Style.lines(Oklch.grey(15 / 16), LINE_WIDTH), boundary),
       // Actual lines
-      style(new Style({ stroke: Color.BLACK, width: 2, fill: Color.WHITE }), ...rhombi),
+      style(
+        new Style({ stroke: Color.BLACK, width: 2, fill: Color.WHITE }),
+        ...rhombi,
+        grain_arrow,
+      ),
+      // Cut N label
+      style(STYLE_TEXT, text),
     ),
     zonohedron.dimensions(),
   ]

@@ -71,6 +71,12 @@ export class VectorSpace<V> {
     return result
   }
 
+  centroid(vectors: V[]): V {
+    const sum = this.sum(vectors)
+    const scale_factor = 1.0 / vectors.length
+    return this.scale(scale_factor, sum)
+  }
+
   combo(scalars: number[], vectors: V[]): V {
     if (scalars.length !== vectors.length) {
       throw new Error('arrays must have the same length')
