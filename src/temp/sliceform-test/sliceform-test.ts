@@ -21,9 +21,9 @@ export function preview_pieces(): Drawable {
   const slicer = new Slicer({
     slice_counts: SLICE_COUNTS,
     samples_between: new Direction2P(5, 5),
-    slice_dimensions: new Direction2P(400, 200),
+    slice_dimensions: new Direction2P(200, 50),
     base_depth: 50,
-    slit_thickness: 16,
+    slit_thickness: 4,
   })
 
   const STRIDE = slicer.full_slice_dimensions.add(new Direction2P(20, 20))

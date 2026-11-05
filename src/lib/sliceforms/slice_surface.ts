@@ -145,61 +145,62 @@ export class Slicer {
     return new Polyline({ vertices, closed: true })
   }
 
-  /*
-  #make_u_slice(u: number, surface: Surface): Polyline {
+  #make_v_slice(v0: number, surface: Surface): Polyline {
     const { width, height } = this.slice_dimensions
+    const depth = this.base_depth
+
+    const f = (u: number) => height * surface(new Direction2P(u, v0)) + depth
+    const slit_count = this.slice_counts.x
+    const samples_between = this.samples_between.x
+    const samples_ends = samples_between + 1
+
     const vertices = [
+      // bottom left corner
       new Point2P(0, 0),
-      new Point2P(width, 0),
-      new Point2P(width, height * surface(new Direction2P(u, 1))),
     ]
 
-    const v_samples = this.sample_counts.y
-    const sample_spacing = 1.0 / (v_samples + 1)
-
-    for (let i = 0; i < v_samples; i++) {
-      const v = 1.0 - i * sample_spacing
-      const h = surface(new Direction2P(u, v))
-      vertices.push(new Point2P(width * v, height * h))
+    // slits from left to right
+    const slit_spacing_u = 1.0 / (slit_count + 1)
+    const slit_thickness_u = this.slit_thickness / width
+    const slit_radius = 0.5 * slit_thickness_u
+    for (let i = 0; i < slit_count; i++) {
+      const slit_u = (i + 1) * slit_spacing_u
+      const left_u = slit_u - slit_radius
+      const right_u = slit_u + slit_radius
+      const slit_height = 0.5 * f(slit_u)
+      vertices.push(
+        new Point2P(width * left_u, 0),
+        new Point2P(width * left_u, slit_height),
+        new Point2P(width * right_u, slit_height),
+        new Point2P(width * right_u, 0),
+      )
     }
 
-    vertices.push(new Point2P(0, height * surface(new Direction2P(u, 0))))
-
-    // iterate from v = 1 downto v = 0 based on the sample counts
-    // however, whenever we cross one of the slices in the orthogonal direction,
-    // insert a slit. For u slits, the slits will be in the top half
-
-    return new Polyline({
-      vertices,
-      closed: true,
-    })
-  }
-
-  #make_v_slice(v: number, surface: Surface): Polyline {
-    const { width, height } = this.slice_dimensions
-    const vertices = [
-      new Point2P(0, 0),
+    vertices.push(
+      // slits go here
+      // bottom right corner
       new Point2P(width, 0),
-      new Point2P(width, height * surface(new Direction2P(1, v))),
-    ]
+      // top right corner
+      new Point2P(width, f(width)),
+      // top samples
+    )
 
-    const u_samples = this.sample_counts.x
-    const sample_spacing = 1.0 / (u_samples + 1)
-
-    for (let i = 0; i < u_samples; i++) {
-      const u = 1.0 - i * sample_spacing
-      const h = surface(new Direction2P(u, v))
-      vertices.push(new Point2P(width * u, height * h))
+    // samples across the top from right to left.
+    // The count of samples matches the u-slice traversal,
+    // but the samples are evenly spaced here so the loop is simpler
+    const top_samples = (slit_count - 1) * samples_between + 3 * slit_count + 2 * samples_ends
+    const top_sample_spacing = 1.0 / (top_samples + 1)
+    for (let i = 0; i < top_samples; i++) {
+      const u = (top_samples - i) * top_sample_spacing
+      vertices.push(new Point2P(width * u, f(u)))
     }
 
-    vertices.push(new Point2P(0, height * surface(new Direction2P(0, v))))
-
-    return new Polyline({
-      vertices,
-      closed: true,
-    })
+    vertices.push(
+      // top left corner
+      new Point2P(0, f(0)),
+    )
+    return new Polyline({ vertices, closed: true })
   }
-    */
 
   slice(surface: Surface): Polyline[] {
     const result = []
@@ -208,12 +209,10 @@ export class Slicer {
       result.push(this.#make_u_slice(u0, surface))
     }
 
-    /*
     for (let i = 0; i < this.slice_counts.y; i++) {
       const v0 = (i + 1) * this.slit_spacing.y
       result.push(this.#make_v_slice(v0, surface))
     }
-      */
     return result
   }
 }
