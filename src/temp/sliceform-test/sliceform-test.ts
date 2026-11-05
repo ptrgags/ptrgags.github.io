@@ -11,20 +11,22 @@ import { Color } from '../../lib/styling/Color.ts'
 import { Style } from '../../lib/styling/Style.ts'
 
 function surface(uv: Vec2): number {
-  return Math.max(uv.x, uv.y)
+  return 0.5 + 0.5 * Math.sin(Math.PI * 2 * uv.x) * Math.sin(Math.PI * 2 * uv.y)
+  //return Math.max(uv.x, uv.y)
 }
 
 export function preview_pieces(): Drawable {
-  const SLICE_COUNTS = new Direction2P(5, 5)
+  const SLICE_COUNTS = new Direction2P(4, 5)
 
   const slicer = new Slicer({
     slice_counts: SLICE_COUNTS,
-    sample_counts: new Direction2P(100, 100),
-    slice_dimensions: new Direction2P(200, 100),
-    slit_thickness: 0.01,
+    samples_between: new Direction2P(5, 5),
+    slice_dimensions: new Direction2P(400, 200),
+    base_depth: 50,
+    slit_thickness: 0.05,
   })
 
-  const STRIDE = new Direction2P(210, 110)
+  const STRIDE = slicer.full_slice_dimensions.add(new Direction2P(20, 20))
   const slices = slicer.slice(surface)
 
   const STYLE_U = Style.lines(Color.RED, 2)
