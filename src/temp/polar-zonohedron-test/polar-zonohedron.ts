@@ -40,10 +40,9 @@ export class PolarZonohedron {
     // points, and we already have the first row with the basis vectors,
     // so N + 1 - 3 = N - 2 is our bound
     for (let i = 0; i < basis_count - 2; i++) {
-      const prev_row = this.rows[1 + i]
       const row = new Array(basis_count)
       for (let j = 0; j < basis_count; j++) {
-        row[j] = VSVec3.add(prev_row[j], prev_row[(j + 1) % basis_count])
+        row[j] = VSVec3.sum(cyclic_slice(basis, j, i + 2))
       }
       this.rows.push(row)
     }
@@ -55,12 +54,20 @@ export class PolarZonohedron {
   angles(): number[] {
     const n = this.basis.length
     const result = new Array(n)
-    result[0] = get_angle(this.rows[1][0], this.rows[0][0], this.rows[1][1])
+    result[0] = get_angle(this.rows[0][0], this.rows[1][1], this.rows[1][0])
     for (let i = 1; i < n - 1; i++) {
-      result[i] = get_angle(this.rows[i + 1][0], this.rows[i][1], this.rows[i + 1][1])
+      result[i] = get_angle(this.rows[i][1], this.rows[i + 1][1], this.rows[i + 1][0])
     }
     return result
   }
+}
+
+function cyclic_slice<T>(arr: T[], start: number, count: number): T[] {
+  const result = new Array(count)
+  for (let i = 0; i < count; i++) {
+    result[i] = arr[(start + i) % arr.length]
+  }
+  return result
 }
 
 function dot(a: Vec3, b: Vec3): number {
@@ -81,7 +88,7 @@ function get_angle(a: Vec3, b: Vec3, c: Vec3): number {
 export function printable_pattern(): Drawable {
   const edge_length = 100
   const N = 6
-  const zonohedron = new PolarZonohedron(edge_length, Math.PI / 3, N)
+  const zonohedron = new PolarZonohedron(edge_length, Math.PI / 4, N)
   const angles = zonohedron.angles()
 
   const horizontal_edge = Direction2P.DIR_X.scale(edge_length)
