@@ -81,7 +81,7 @@ export class Slicer {
       new Point2P(0, 0),
       new Point2P(width, 0),
       // Right corner
-      new Point2P(width, f(width)),
+      new Point2P(width, f(1)),
     ]
 
     // we're now proceeding from right to left across the top of the slice
@@ -181,7 +181,7 @@ export class Slicer {
       // bottom right corner
       new Point2P(width, 0),
       // top right corner
-      new Point2P(width, f(width)),
+      new Point2P(width, f(1)),
       // top samples
     )
 

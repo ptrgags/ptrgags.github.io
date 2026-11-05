@@ -11,8 +11,8 @@ import { Color } from '../../lib/styling/Color.ts'
 import { Style } from '../../lib/styling/Style.ts'
 
 function surface(uv: Vec2): number {
-  return 0.5 + 0.5 * Math.sin(Math.PI * 2 * uv.x) * Math.sin(Math.PI * 2 * uv.y)
-  //return Math.max(uv.x, uv.y)
+  //return 0.5 + 0.5 * Math.sin(Math.PI * 2 * uv.x) * Math.sin(Math.PI * 2 * uv.y)
+  return Math.max(uv.x, uv.y)
 }
 
 export function preview_pieces(): Drawable {
