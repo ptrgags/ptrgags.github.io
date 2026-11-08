@@ -161,7 +161,7 @@ export class DrawPDF implements DrawingLibrary {
     this.page.pushOperators(moveTo(x1, y1), lineTo(x2, y2), this.current_draw_command)
   }
 
-  polyline(points: Vec2[]): void {
+  polyline(points: Vec2[], closed: boolean): void {
     if (points.length < 2) {
       return
     }
@@ -170,6 +170,10 @@ export class DrawPDF implements DrawingLibrary {
     for (let i = 1; i < points.length; i++) {
       const { x, y } = points[i]
       this.page.pushOperators(lineTo(x, y))
+    }
+
+    if (closed) {
+      this.page.pushOperators(closePath())
     }
 
     this.page.pushOperators(this.current_draw_command)
