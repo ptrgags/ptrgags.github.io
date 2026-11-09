@@ -12,7 +12,7 @@ export function is_vec3(v: any): v is Vec3 {
 }
 
 export const VSVec3 = new VectorSpace<Vec3>({
-  equals: (a: Vec3, b: Vec3) => is_nearly(a.x, b.x) && is_nearly(a.y, b.y),
+  equals: (a: Vec3, b: Vec3) => is_nearly(a.x, b.x) && is_nearly(a.y, b.y) && is_nearly(a.z, b.z),
   zero: () => {
     return { x: 0, y: 0, z: 0 }
   },
