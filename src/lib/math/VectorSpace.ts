@@ -12,12 +12,14 @@ export interface VectorOps<V> {
   zero(): V
   // Vectoral sum. It must be commutative and associative
   add(a: V, b: V): V
-  // optional space-efficient subtraction
+  // optional space-efficient subtraction that doesn't call neg()
   efficient_sub?: (a: V, b: V) => V
   // Additive inverse
   neg(v: V): V
   // Scalar Multiplication
   scale(k: number, v: V): V
+  // sum many vectors at once
+  efficient_sum?: (vectors: V[]) => V
   // If defined, this should be a space-efficient linear combination
   // that avoids making temporaries like the generic implementation.
   //
@@ -64,6 +66,10 @@ export class VectorSpace<V> {
   }
 
   sum(vectors: V[]): V {
+    if (this.ops.efficient_sum) {
+      return this.ops.efficient_sum(vectors)
+    }
+
     let result = this.ops.zero()
     for (const v of vectors) {
       result = this.ops.add(result, v)

@@ -192,4 +192,6 @@ vector_space_tests({
     [new Complex(1, 2), new Complex(-3, 4), new Complex(5, -6)],
     new Complex(-15.5, 22),
   ],
+  sum: [[new Complex(1, 2), new Complex(2, 3), new Complex(3, 1)], new Complex(6, 6)],
+  centroid: [[new Complex(1, 2), new Complex(2, 3), new Complex(3, 1)], new Complex(2, 2)],
 })
