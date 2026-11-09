@@ -67,10 +67,10 @@ export function printable_sliceform(pixels_per_inch: number): {
   primitive: Drawable
   dimensions: Direction2P
 } {
-  const SLICE_COUNTS = new Direction2P(6, 8)
+  const SLICE_COUNTS = new Direction2P(5, 9)
   const TOTAL_SLICES = SLICE_COUNTS.x + SLICE_COUNTS.y
 
-  const THICKNESS_MM = 0.5
+  const THICKNESS_MM = 2 ////0.5
   const MM_PER_INCHES = 25.4
   const THICKNESS_PX = (THICKNESS_MM / MM_PER_INCHES) * pixels_per_inch
 
@@ -84,6 +84,48 @@ export function printable_sliceform(pixels_per_inch: number): {
 
   const STRIDE = slicer.full_slice_dimensions.add(new Direction2P(20, 20))
   const slices = slicer.slice(gradient_within_gradient)
+
+  const STYLE_U = Style.lines(Color.RED, 1)
+  const STYLE_V = Style.lines(Color.BLACK, 1)
+
+  const COLUMNS = 3
+
+  const arranged = slices.map((slice, i) => {
+    const [row, col] = divmod(i, COLUMNS)
+    const colored_lines = i < SLICE_COUNTS.x ? STYLE_U : STYLE_V
+    return xform(
+      Rigid.translation(new Direction2P(col, row).mul_components(STRIDE)),
+      style(colored_lines, slice),
+    )
+  })
+
+  return {
+    primitive: style(Style.DEFAULT_LINES, ...arranged),
+    dimensions: STRIDE.mul_components(new Direction2P(COLUMNS, Math.ceil(TOTAL_SLICES / COLUMNS))),
+  }
+}
+
+export function sliceform_3d_print(pixels_per_inch: number): {
+  primitive: Drawable
+  dimensions: Direction2P
+} {
+  const SLICE_COUNTS = new Direction2P(4, 5)
+  const TOTAL_SLICES = SLICE_COUNTS.x + SLICE_COUNTS.y
+
+  const THICKNESS_MM = 2
+  const MM_PER_INCHES = 25.4
+  const THICKNESS_PX = (THICKNESS_MM / MM_PER_INCHES) * pixels_per_inch
+
+  const slicer = new Slicer({
+    slice_counts: SLICE_COUNTS,
+    samples_between: new Direction2P(5, 5),
+    slice_dimensions: new Direction2P(200, 100),
+    base_depth: 50,
+    slit_thickness: THICKNESS_PX,
+  })
+
+  const STRIDE = slicer.full_slice_dimensions.add(new Direction2P(20, 20))
+  const slices = slicer.slice(surface)
 
   const STYLE_U = Style.lines(Color.RED, 1)
   const STYLE_V = Style.lines(Color.BLACK, 1)
