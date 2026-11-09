@@ -18,7 +18,7 @@ onMounted(async () => {
   await PRINTABLE.init()
   const [pattern, dimensions] = printable_pattern(PPI)
   PRINTABLE.add_centered_page(pattern, dimensions)
-  pdf_file.value = await PRINTABLE.finish('hallofriezes.pdf')
+  pdf_file.value = await PRINTABLE.finish('polar-zonohedron-sewing-pattern.pdf')
 })
 </script>
 
