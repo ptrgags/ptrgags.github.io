@@ -1,5 +1,6 @@
 import type { Vec3 } from '../math/vector/Vec3.ts'
 import type { Vec2 } from '../primitives/Vec2.ts'
+import { compute_normal } from './compute_normal.ts'
 
 /**
  * Attribute indices for one vertex of a face
@@ -9,6 +10,13 @@ export interface FaceVertex {
   pos: number
   uv?: number
   normal?: number
+}
+
+export interface MeshOptions {
+  positions: Vec3[]
+  normals: Vec3[]
+  uvs: Vec2[]
+  faces: FaceVertex[][]
 }
 
 /**
@@ -21,10 +29,17 @@ export interface FaceVertex {
  * @see {@link https://en.wikipedia.org/wiki/Wavefront_.obj_file | Wikipedia: Wavefront .obj file}
  */
 export class Mesh {
-  positions: Vec3[] = []
-  normals: Vec3[] = []
-  uvs: Vec2[] = []
-  faces: FaceVertex[][] = []
+  positions: Vec3[]
+  normals: Vec3[]
+  uvs: Vec2[]
+  faces: FaceVertex[][]
+
+  constructor(options: Partial<MeshOptions> = {}) {
+    this.positions = options.positions ?? []
+    this.normals = options.normals ?? []
+    this.uvs = options.uvs ?? []
+    this.faces = options.faces ?? []
+  }
 
   /**
    * Add a position to the positions list
@@ -123,9 +138,28 @@ export class Mesh {
 
   /**
    * Compute (unit) face normals for all faces in the mesh. This
-   * returns a new Mesh. Position and
+   * returns a new Mesh. Other attributes are shared with the original
+   * mesh to avoid copying
    */
   compute_face_normals(): Mesh {
-    throw new Error('not implemented')
+    const computed_normals = this.faces.map((face) => {
+      const a = this.positions[face[0].pos]
+      const b = this.positions[face[1].pos]
+      const c = this.positions[face[2].pos]
+      return compute_normal(a, b, c)
+    })
+
+    const updated_faces = this.faces.map((face, i) => {
+      return face.map((v) => {
+        return { ...v, normal: i }
+      })
+    })
+
+    return new Mesh({
+      positions: this.positions,
+      uvs: this.uvs,
+      normals: computed_normals,
+      faces: updated_faces,
+    })
   }
 }
