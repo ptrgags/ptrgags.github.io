@@ -165,7 +165,7 @@ export class PolarZonohedron {
 
     // handle the last row where the top point is shared by all rhombi
     for (let i = 0; i < n; i++) {
-      const pos_a = positions[n - 2][i]
+      const pos_a = positions[n - 2][(i + 1) % n]
       const pos_b = positions[n - 1][(i + 1) % n]
       // shared tip of rhombus
       const pos_c = positions[n][0]
