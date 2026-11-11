@@ -1,10 +1,14 @@
 import type { Vec3 } from '../math/vector/Vec3.ts'
 import type { Vec2 } from '../primitives/Vec2.ts'
 
+/**
+ * Attribute indices for one vertex of a face
+ * This is similar to OBJ-style mesh's v/vt/vn syntax, although 0-indexed
+ */
 export interface FaceVertex {
-  position_index: number
-  uv_index?: number
-  normal_index?: number
+  pos: number
+  uv?: number
+  normal?: number
 }
 
 /**
@@ -103,7 +107,7 @@ export class Mesh {
    */
   has_normals(): boolean {
     return this.faces.every((face) => {
-      return face.every((v) => v.normal_index !== undefined)
+      return face.every((v) => v.normal !== undefined)
     })
   }
 
@@ -113,7 +117,7 @@ export class Mesh {
    */
   has_uvs(): boolean {
     return this.faces.every((face) => {
-      return face.every((v) => v.uv_index !== undefined)
+      return face.every((v) => v.uv !== undefined)
     })
   }
 

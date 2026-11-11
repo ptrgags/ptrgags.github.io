@@ -15,11 +15,11 @@ export function mesh_to_triangle_soup(mesh: Mesh): TriangleSoup {
   }
 
   for (const face of mesh.faces) {
-    const positions = face.map((x) => mesh.positions[x.position_index])
+    const positions = face.map((x) => mesh.positions[x.pos])
 
     // The normal check before the loop guarantees that the normal index
     // is undefined
-    const normal_index = face[0].normal_index as number
+    const normal_index = face[0].normal as number
     const normal = mesh.normals[normal_index]
 
     // tessellate n-gons
