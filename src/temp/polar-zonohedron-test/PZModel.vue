@@ -17,5 +17,5 @@ function download() {
 </script>
 
 <template>
-  <button @click="download">YoU wOuLdN't DoWnLoAd A PoLaR zOnOhEdRoN</button>
+  <button @click="download">Download STL file</button>
 </template>
