@@ -1,6 +1,6 @@
 ---
 layout: article
-title: 🧪Cyclic Group
+title: Cyclic Group
 date: '2026-09-28'
 hide: true
 # URL relative to BACKBLAZE assets root
