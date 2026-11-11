@@ -5,6 +5,7 @@ title: Patterns
 <script setup lang="ts">
 import {data} from './pattern/pattern.data'
 import {backblaze_link} from './core/links'
+import PatternCard from './'
 
 const patterns = data.map(x => {return {...x.frontmatter, url: x.url}}).filter(x => x.hide !== true)
 </script>

@@ -5,6 +5,7 @@ date: '2026-09-28'
 hide: true
 # URL relative to BACKBLAZE assets root
 thumbnail: pattern/cyclic-group/thumbnail.png
+status: partial
 ---
 <script setup lang="ts">
 import SketchP5 from '../../components/SketchP5.vue'

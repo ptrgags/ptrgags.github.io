@@ -2,6 +2,7 @@
 layout: article
 title: Circular Arc
 thumbnail: pattern/circular-arc/thumbnail.png
+status: full
 ---
 <script setup lang="ts">
 import SketchP5 from '../../components/SketchP5.vue'
