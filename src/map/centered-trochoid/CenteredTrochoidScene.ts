@@ -28,7 +28,6 @@ const CLOCK = new Clock()
 const BIG_CIRCLE = new Circle(CENTER, RADIUS_BIG)
 
 export class CenteredTrochoidScene implements SceneP5 {
-  canvas_size = { width: 512, height: 256 }
   r: number
   p: number
   anim_circle: CircularMotion

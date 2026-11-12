@@ -2,6 +2,11 @@ import type { Drawable } from './Drawable.ts'
 import type { DrawingLibrary } from './DrawingLibrary.ts'
 
 export interface Transformation {
+  /**
+   * Apply a transformation. This should ultimately call one of the
+   * lib.begin_xform_XXX functions
+   * @param lib Drawing library
+   */
   apply_transformation(lib: DrawingLibrary): void
 }
 
@@ -15,9 +20,8 @@ export class TransformationOp implements Drawable {
   }
 
   draw(lib: DrawingLibrary): void {
-    lib.push()
     this.transformation.apply_transformation(lib)
     this.child.draw(lib)
-    lib.pop()
+    lib.end_xform()
   }
 }

@@ -17,6 +17,7 @@ import { mod } from '../../lib/math/mod.ts'
 import type { Vec2 } from '../../lib/primitives/Vec2.ts'
 import { Wave } from '../../lib/animation/Wave.ts'
 import { AngleAnnotation } from '../../lib/primitives/AngleAnnotation.ts'
+import { SWATCH } from '../../core/dimensions.ts'
 
 const MAIN_CIRCLE = new Circle({ x: 128, y: 128 }, 64)
 const LABEL_CIRCLE = new Circle(MAIN_CIRCLE.center, 96)
@@ -31,31 +32,19 @@ const STYLE_LABEL_NEUTRAL = { style: Style.flat(COLOR_NEUTRAL), text_style: TEXT
 const STYLE_LABEL_POSITIVE = { style: Style.flat(COLOR_POSITIVE), text_style: TEXT_STYLE_LABEL }
 const STYLE_LABEL_NEGATIVE = { style: Style.flat(COLOR_NEGATIVE), text_style: TEXT_STYLE_LABEL }
 
-class ArcConcept implements SceneP5 {
-  canvas_size = { width: 256, height: 256 }
-  primitive: Drawable
+function arc_concept(): Drawable {
+  const arc = new CircularArc(
+    MAIN_CIRCLE,
+    new ArcAngles(Math.PI / 4, Math.PI / 2, AngleOrientation.POSITIVE).reverse_angles(),
+  )
 
-  constructor() {
-    const arc = new CircularArc(
-      MAIN_CIRCLE,
-      new ArcAngles(Math.PI / 4, Math.PI / 2, AngleOrientation.POSITIVE).reverse_angles(),
-    )
-
-    this.primitive = group(
-      style(Style.lines(COLOR_GREY, 2), MAIN_CIRCLE),
-      style(Style.lines(COLOR_POSITIVE, 2), arc),
-    )
-  }
-
-  update(p: p5): void {}
-
-  draw(lib: DrawP5): void {
-    this.primitive.draw(lib)
-  }
+  return group(
+    style(Style.lines(COLOR_GREY, 2), MAIN_CIRCLE),
+    style(Style.lines(COLOR_POSITIVE, 2), arc),
+  )
 }
 
 class StartEndOrientation implements SceneP5 {
-  canvas_size = { width: 256, height: 256 }
   pos_arc: ArcArrow
   neg_arc: ArcArrow
 
@@ -155,7 +144,6 @@ class StartEndOrientation implements SceneP5 {
 }
 
 class StartDisplacement implements SceneP5 {
-  canvas_size = { width: 256, height: 256 }
   anim_start: CircularMotion
 
   annotation_start: AngleAnnotation
@@ -232,7 +220,6 @@ class StartDisplacement implements SceneP5 {
 }
 
 class CenterDisplacement implements SceneP5 {
-  canvas_size = { width: 256, height: 256 }
   anim_center: CircularMotion
   arc: ArcArrow
   annotation_start: AngleAnnotation
@@ -312,8 +299,6 @@ class CenterDisplacement implements SceneP5 {
 const WAVE_TOGGLE = Wave.square({ freq: 0.5 })
 
 class ArcInvolution implements SceneP5 {
-  canvas_size = { width: 256, height: 256 }
-
   arc_angles: [ArcAngles, ArcAngles]
   start_position: [Vec2, Vec2]
   end_position: [Vec2, Vec2]
@@ -412,8 +397,6 @@ class ArcInvolution implements SceneP5 {
 }
 
 class PhaseShiftRotate implements SceneP5 {
-  canvas_size = { width: 256, height: 256 }
-
   anim_delta: CircularMotion
 
   arc: ArcArrow
@@ -538,56 +521,48 @@ function rot180(arc: CircularArc): CircularArc {
 function diag(n: number): number {
   return Math.SQRT2 * n
 }
-const DOODLE_ARCS_HALF = [
-  grid_arc(0.5, 0, 0.5, -1 / 4, 1 / 2),
-  grid_arc(0.5, 1, 0.5, 1 / 4, 1),
-  grid_arc(1.5, 1, 0.5, 0, 1 / 2),
-  grid_arc(1, 1, 1, -1 / 4, 0),
-  grid_arc(1.5, 2.5, diag(0.5), 3 / 8, 5 / 8),
-  grid_arc(1, 1, 2, -1 / 4, 0),
-  grid_arc(3.5, 1.5, diag(0.5), 1 / 8, 3 / 8),
-  grid_arc(1, 1, 3, -1 / 4, 0),
 
-  grid_arc(0, 4, 1, 0, 1 / 4),
-  grid_arc(0, 0, 3, 1 / 2, 3 / 4),
-  grid_arc(-2.5, 0.5, diag(0.5), 1 / 8, 3 / 8),
-  grid_arc(-1, 0, 1, 1 / 2, 1),
-]
+function arc_doodle(): Drawable {
+  const DOODLE_ARCS_HALF = [
+    grid_arc(0.5, 0, 0.5, -1 / 4, 1 / 2),
+    grid_arc(0.5, 1, 0.5, 1 / 4, 1),
+    grid_arc(1.5, 1, 0.5, 0, 1 / 2),
+    grid_arc(1, 1, 1, -1 / 4, 0),
+    grid_arc(1.5, 2.5, diag(0.5), 3 / 8, 5 / 8),
+    grid_arc(1, 1, 2, -1 / 4, 0),
+    grid_arc(3.5, 1.5, diag(0.5), 1 / 8, 3 / 8),
+    grid_arc(1, 1, 3, -1 / 4, 0),
 
-const DOODLE_ARCS = [...DOODLE_ARCS_HALF, ...DOODLE_ARCS_HALF.map(rot180)]
+    grid_arc(0, 4, 1, 0, 1 / 4),
+    grid_arc(0, 0, 3, 1 / 2, 3 / 4),
+    grid_arc(-2.5, 0.5, diag(0.5), 1 / 8, 3 / 8),
+    grid_arc(-1, 0, 1, 1 / 2, 1),
+  ]
 
-class ArcDoodle implements SceneP5 {
-  canvas_size = { width: 256, height: 256 }
-  primitive: Drawable
-  constructor() {
-    this.primitive = style(Style.lines(COLOR_NEGATIVE, 2), ...DOODLE_ARCS)
-  }
-  update(p: p5): void {}
-  draw(lib: DrawP5): void {
-    this.primitive.draw(lib)
-  }
+  const DOODLE_ARCS = [...DOODLE_ARCS_HALF, ...DOODLE_ARCS_HALF.map(rot180)]
+  return style(Style.lines(COLOR_NEGATIVE, 2), ...DOODLE_ARCS)
 }
 
 export const SKETCHES = {
-  concept: make_static_sketch(new ArcConcept()),
-  start_end_orientation: make_sketch(new StartEndOrientation()),
-  start_displacement: make_sketch(new StartDisplacement()),
-  center_displacement: make_sketch(new CenterDisplacement()),
+  concept: make_static_sketch(SWATCH.dimensions, arc_concept()),
+  start_end_orientation: make_sketch(SWATCH.dimensions, new StartEndOrientation()),
+  start_displacement: make_sketch(SWATCH.dimensions, new StartDisplacement()),
+  center_displacement: make_sketch(SWATCH.dimensions, new CenterDisplacement()),
 
   // Transformation animations for arcs
-  xform_phase_shift_rotate: make_sketch(new PhaseShiftRotate(false)),
-  xform_complement: make_sketch(new ArcInvolution('complement', false)),
-  xform_flip_y: make_sketch(new ArcInvolution('flip_y', false)),
-  xform_other_path: make_sketch(new ArcInvolution('other_path', false)),
-  xform_reverse: make_sketch(new ArcInvolution('reverse', false)),
+  xform_phase_shift_rotate: make_sketch(SWATCH.dimensions, new PhaseShiftRotate(false)),
+  xform_complement: make_sketch(SWATCH.dimensions, new ArcInvolution('complement', false)),
+  xform_flip_y: make_sketch(SWATCH.dimensions, new ArcInvolution('flip_y', false)),
+  xform_other_path: make_sketch(SWATCH.dimensions, new ArcInvolution('other_path', false)),
+  xform_reverse: make_sketch(SWATCH.dimensions, new ArcInvolution('reverse', false)),
 
   // Symmetry animations (same as transformation animations, but with labels)
-  symm_phase_shift_rotate: make_sketch(new PhaseShiftRotate(true)),
-  symm_complement: make_sketch(new ArcInvolution('complement', true)),
-  symm_flip_y: make_sketch(new ArcInvolution('flip_y', true)),
-  symm_other_path: make_sketch(new ArcInvolution('other_path', true)),
-  symm_reverse: make_sketch(new ArcInvolution('reverse', true)),
+  symm_phase_shift_rotate: make_sketch(SWATCH.dimensions, new PhaseShiftRotate(true)),
+  symm_complement: make_sketch(SWATCH.dimensions, new ArcInvolution('complement', true)),
+  symm_flip_y: make_sketch(SWATCH.dimensions, new ArcInvolution('flip_y', true)),
+  symm_other_path: make_sketch(SWATCH.dimensions, new ArcInvolution('other_path', true)),
+  symm_reverse: make_sketch(SWATCH.dimensions, new ArcInvolution('reverse', true)),
 
   // Arc Doodle
-  showcase: make_static_sketch(new ArcDoodle()),
+  showcase: make_static_sketch(SWATCH.dimensions, arc_doodle()),
 }

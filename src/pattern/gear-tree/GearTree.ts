@@ -91,7 +91,7 @@ export class GearTree implements Drawable {
 
   draw(lib: DrawingLibrary): void {
     const style = this.is_root ? STYLE_DRIVING_GEAR : STYLE_GEAR
-    lib.apply_style(style)
+    lib.begin_style(style)
     this.gear.draw(lib)
 
     for (const connection of this.connections) {

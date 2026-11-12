@@ -1,11 +1,22 @@
 import { describe, it, expect } from 'vitest'
 import { Rect } from './Rect.ts'
+import { Point2P } from '../math/pga2d/Point2P.ts'
+import { Direction2P } from '../math/pga2d/Direction2P.ts'
 
 function make_container(): Rect {
   return new Rect({ x: 0, y: 0 }, { width: 100, height: 100 })
 }
 
 describe('Rect', () => {
+  it('center computes center', () => {
+    const rect = new Rect(new Point2P(-2, -4), new Direction2P(8, 8))
+
+    const result = rect.center
+
+    const expected = new Point2P(2, 0)
+    expect(result).toBePoint2P(expected)
+  })
+
   describe('align', () => {
     it('aligns smaller rectangle top-left', () => {
       const container = make_container()
@@ -83,6 +94,15 @@ describe('Rect', () => {
     })
   })
 
+  it('transpose creates a new rectangle with swapped width and height', () => {
+    const rect = new Rect({ x: 10, y: 20 }, { width: 400, height: 200 })
+
+    const result = rect.transpose()
+
+    const expected = new Rect({ x: 10, y: 20 }, { width: 200, height: 400 })
+    expect(result).toEqual(expected)
+  })
+
   it('from_center computes rectangle correctly', () => {
     const result = Rect.from_center({ x: 100, y: 100 }, { width: 200, height: 200 })
 
@@ -94,6 +114,13 @@ describe('Rect', () => {
       { width: 200, height: 200 },
     )
 
+    expect(result).toEqual(expected)
+  })
+
+  it('from_dimensions computes rectangle at origin', () => {
+    const result = Rect.from_dimensions({ width: 500, height: 700 })
+
+    const expected = new Rect({ x: 0, y: 0 }, { width: 500, height: 700 })
     expect(result).toEqual(expected)
   })
 })

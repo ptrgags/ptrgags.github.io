@@ -20,6 +20,7 @@ export class Trajectory implements Drawable {
   }
 
   draw(lib: DrawingLibrary): void {
-    lib.polyline([...this.history])
+    const closed = false
+    lib.polyline([...this.history], closed)
   }
 }

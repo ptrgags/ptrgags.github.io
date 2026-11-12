@@ -1,3 +1,5 @@
+import { Direction2P } from '../math/pga2d/Direction2P.ts'
+import { Point2P } from '../math/pga2d/Point2P.ts'
 import type { Dimensionlike } from './Dimensionlike.ts'
 import type { Drawable } from './Drawable.ts'
 import type { DrawingLibrary } from './DrawingLibrary.ts'
@@ -31,12 +33,16 @@ function parse_v_align(align: RectVerticalAlign): number {
 }
 
 export class Rect implements Drawable {
-  dimensions: Dimensionlike
-  position: Vec2
+  dimensions: Direction2P
+  position: Point2P
 
   constructor(position: Vec2, dimensions: Dimensionlike) {
-    this.position = position
-    this.dimensions = dimensions
+    this.position = Point2P.from_vec2(position)
+    this.dimensions = Direction2P.from_dimensions(dimensions)
+  }
+
+  get center(): Point2P {
+    return this.position.add(this.dimensions.scale(0.5))
   }
 
   align(
@@ -63,10 +69,20 @@ export class Rect implements Drawable {
     return new Rect(position, other_dimensions)
   }
 
+  transpose(): Rect {
+    const { x, y } = this.position
+    const { width, height } = this.dimensions
+    return new Rect(new Point2P(x, y), new Direction2P(height, width))
+  }
+
   draw(lib: DrawingLibrary): void {
     const { x, y } = this.position
     const { width, height } = this.dimensions
     lib.rect(x, y, width, height)
+  }
+
+  static from_dimensions(dimensions: Dimensionlike): Rect {
+    return new Rect(Point2P.ORIGIN, dimensions)
   }
 
   static from_center(center: Vec2, dimensions: Dimensionlike): Rect {

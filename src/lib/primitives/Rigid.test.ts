@@ -25,6 +25,17 @@ describe('Rigid', () => {
     expect(result).toBeRigid(expected)
   })
 
+  it('rot_n sets correct angle', () => {
+    const result = Rigid.rot_n(8)
+
+    const expected = new Rigid({
+      translation: Direction2P.ZERO,
+      rotation: Math.PI / 4,
+      flip: false,
+    })
+    expect(result).toBeRigid(expected)
+  })
+
   it('reflection sets correct settings', () => {
     const result = Rigid.reflection(Math.PI / 4)
 
