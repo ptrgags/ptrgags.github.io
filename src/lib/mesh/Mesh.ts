@@ -1,6 +1,7 @@
 import type { Vec3 } from '../math/vector/Vec3.ts'
 import type { Vec2 } from '../primitives/Vec2.ts'
 import { compute_normal } from './compute_normal.ts'
+import { GPUMesh, type GPUVertex } from './GPUMesh.ts'
 
 /**
  * Attribute indices for one vertex of a face
@@ -161,5 +162,37 @@ export class Mesh {
       normals: computed_normals,
       faces: updated_faces,
     })
+  }
+
+  to_gpu_mesh(): GPUMesh {
+    if (!this.has_normals() || !this.has_uvs()) {
+      throw new Error('mesh must have at least normals and UVs for use on the GPU')
+    }
+
+    const result = new GPUMesh('converted')
+
+    for (const face of this.faces) {
+      const face_indices: number[] = []
+      for (const x of face) {
+        const vertex: GPUVertex = {
+          pos: this.positions[x.pos],
+          normal: this.normals[x.normal ?? 0],
+          uv: this.uvs[x.uv ?? 0],
+        }
+        const index = result.add_vertex(vertex)
+        face_indices.push(index)
+      }
+
+      // tessellate polygonal face as a triangle fan
+      const triangle_count = face.length - 2
+      for (let i = 0; i < triangle_count; i++) {
+        const a = face_indices[0]
+        const b = face_indices[i + 1]
+        const c = face_indices[i + 2]
+        result.add_triangle(a, b, c)
+      }
+    }
+
+    return result
   }
 }

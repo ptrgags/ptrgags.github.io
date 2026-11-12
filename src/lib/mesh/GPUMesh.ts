@@ -1,4 +1,5 @@
 import type { Vec3 } from '../math/vector/Vec3.ts'
+import type { Vec2 } from '../primitives/Vec2.ts'
 import type { GPUPackedMesh } from '../webgpu/GPUPackedMesh.ts'
 import { VertexAttribute } from '../webgpu/VertexBuffer.ts'
 import type { TriangleSoup } from './TriangleSoup.ts'
@@ -6,7 +7,7 @@ import type { TriangleSoup } from './TriangleSoup.ts'
 export interface GPUVertex {
   pos: Vec3
   normal: Vec3
-  uv: Vec3
+  uv: Vec2
 }
 
 export interface GPUMeshOptions {
