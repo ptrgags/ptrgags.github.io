@@ -1,3 +1,4 @@
+import type { Vec2 } from '../../primitives/Vec2.ts'
 import { Group } from '../Group.ts'
 import { Even2P } from './Even2P.ts'
 import { Odd2P } from './Odd2P.ts'
@@ -20,20 +21,43 @@ export class Versor2P {
     return false
   }
 
-  // TODO: reflection, translation
+  /**
+   * Translation
+   * @param offset Translation amount (dx, dy)
+   * @returns An even versor
+   */
+  static translation(offset: Vec2): Versor2P {
+    const { x, y } = offset
+    const xo = x
+    const yo = y
+    const versor = new Even2P(1, 0, xo, yo)
+    return new Versor2P(versor)
+  }
 
   /**
    * Rotation about the origin
    * @param angle Angle in radians
-   * @returns
+   * @returns An even versor
    */
   static rotation(angle: number): Versor2P {
-    const c = Math.cos(angle / 2)
-    const s = Math.sin(angle / 2)
+    const half_angle = angle / 2
+    const c = Math.cos(half_angle)
+    const s = Math.sin(half_angle)
 
     // the versor cos(theta/2) + sin(theta / 2)xy rotates in the negative
     // direction, so use -sin() instead
     const versor = new Even2P(c, -s, 0, 0)
+    return new Versor2P(versor)
+  }
+
+  /**
+   * Reflection in plane through the origin
+   * @param normal normal vector that determines the reflection direction
+   * @returns An odd versor
+   */
+  static reflection(normal: Vec2): Versor2P {
+    const { x, y } = normal
+    const versor = new Odd2P(x, y, 0, 0)
     return new Versor2P(versor)
   }
 
@@ -55,6 +79,8 @@ export class Versor2P {
   }
 
   static readonly IDENTITY = new Versor2P(Even2P.IDENTITY)
+  static readonly FLIP_X = new Versor2P(new Odd2P(1, 0, 0, 0))
+  static readonly FLIP_Y = new Versor2P(new Odd2P(0, 1, 0, 0))
 }
 
 export const GVersor2P = new Group<Versor2P>({
