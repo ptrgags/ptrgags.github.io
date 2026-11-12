@@ -60,6 +60,38 @@ export class Odd2P {
 
   antidual = this.dual
 
+  reverse(): Odd2P {
+    return new Odd2P(this.x, this.y, this.o, -this.xyo)
+  }
+
+  #gp_odd(other: Odd2P): Even2P {
+    const scalar = Ax * Bx + Ay * By
+    const xo = -(Ao * Bx + Aoxy * By - Ax * Bo + Ay * Boxy)
+    const yo = -(Ao * By - Aoxy * Bx - Ax * Boxy - Ay * Bo)
+    const xy = Ax * By - Ay * Bx
+
+    return new Even2P(scalar, xy, xo, yo)
+  }
+
+  #gp_even(other: Even2P): Odd2P {
+    const x = Ax * Bs - Ay * Bxy
+    const y = Ax * Bxy + Ay * Bs
+    const o = Ao * Bs - Aoxy * Bxy - Ax * Box - Ay * Boy
+    const xyo = Ao * Bxy + Aoxy * Bs - Ax * Boy + Ay * Box
+    return new Odd2P(x, y, o, xyo)
+  }
+
+  gp(other: Even2P): Odd2P
+  gp(other: Odd2P): Even2P
+  gp(other: Even2P | Odd2P): Even2P | Odd2P
+  gp(other: Even2P | Odd2P): Even2P | Odd2P {
+    if (other instanceof Odd2P) {
+      return this.#gp_odd(other)
+    }
+
+    return this.#gp_even(other)
+  }
+
   dot(other: Odd2P): number {
     // The o and xyo components square to zero, so they are needed
     const { x: ax, y: ay } = this

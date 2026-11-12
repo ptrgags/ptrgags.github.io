@@ -24,14 +24,11 @@ export class Versor2P {
   }
 
   inv(): Versor2P {
-    throw new Error('not implemented')
-    //return new Versor2P(this.versor.reverse())
+    return new Versor2P(this.versor.reverse())
   }
 
   compose(other: Versor2P): Versor2P {
-    // huh, I never implemented geometric product for 2D PGA
-    throw new Error('not implemented')
-    //return new Versor2P(this.versor.gp(other.versor))
+    return new Versor2P(this.versor.gp(other.versor))
   }
 
   static readonly IDENTITY = new Versor2P(Even2P.IDENTITY)

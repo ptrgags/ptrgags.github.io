@@ -72,15 +72,42 @@ export class Even2P {
     return new Even2P(this.scalar, -this.xy, -this.xo, -this.yo)
   }
 
+  #gp_even(other: Even2P): Even2P {
+    const scalar = As * Bs - Axy * Bxy
+    const xo = -(Aox * Bs - Aoy * Bxy + As * Box + Axy * Boy)
+    const yo = -(Aox * Bxy + Aoy * Bs + As * Boy - Axy * Box)
+    const xy = As * Bxy + Axy * Bs
+
+    return new Even2P(scalar, xy, xo, yo)
+  }
+
+  #gp_odd(other: Odd2P): Odd2P {
+    const o = Aox * Bx + Aoy * By + As * Bo - Axy * Boxy
+    const x = As * Bx + Axy * By
+    const y = As * By - Axy * Bx
+    const xyo = Aox * By - Aoy * Bx + As * Boxy + Axy * Bo
+
+    return new Odd2P(x, y, o, xyo)
+  }
+
+  gp(other: Even2P): Even2P
+  gp(other: Odd2P): Odd2P
+  gp(other: Even2P | Odd2P): Even2P | Odd2P
+  gp(other: Even2P | Odd2P): Even2P | Odd2P {
+    if (other instanceof Odd2P) {
+      return this.#gp_odd(other)
+    }
+
+    return this.#gp_even(other)
+  }
+
   /**
    * Compute the regressive product with another Even2P multivector
    * @param other The other Even2P multivector
    * @returns The regressive product
    */
   #vee_even(other: Even2P): Odd2P {
-    // Bread V = A + Bxy + Cxo + Dyo
     const { xy: axy, xo: axo, yo: ayo } = this
-    // Filling U = a + bxy + cxo + dyo
     const { xy: bxy, xo: bxo, yo: byo } = other
 
     const x = -axo * bxy + axy * bxo
@@ -115,9 +142,7 @@ export class Even2P {
   }
 
   #sandwich_even(other: Even2P): Even2P {
-    // Bread V = A + Bxy + Cxo + Dyo
     const { scalar: as, xy: axy, xo: axo, yo: ayo } = this
-    // Filling U = a + bxy + cxo + dyo
     const { scalar: bs, xy: bxy, xo: bxo, yo: byo } = other
 
     const mag_sqr = as * as + axy * axy
