@@ -12,11 +12,11 @@ import { LineSegment } from '../../lib/primitives/LineSegment.ts'
 function thumbnail(): Drawable {
   const a = new Point2P(64, 196)
   const b = new Point2P(196, 64)
-  const end_points = new Dots([a, b])
+  const end_points = new Dots([a, b], 8)
   const segment = new LineSegment(a, b)
 
   return group(
-    style(Style.lines(Color.WHITE, 2), segment),
+    style(Style.lines(Color.RED, 4), segment),
     style(Style.flat(Color.WHITE), end_points),
   )
 }

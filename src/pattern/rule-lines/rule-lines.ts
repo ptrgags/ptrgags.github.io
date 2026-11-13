@@ -14,7 +14,7 @@ function thumbnail(): Drawable {
     x_phase: 0.5,
   })
 
-  return style(Style.lines(Color.WHITE, 2), lines)
+  return style(Style.lines(Color.RED, 2), lines)
 }
 
 export const SKETCHES = {

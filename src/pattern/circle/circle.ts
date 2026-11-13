@@ -21,7 +21,7 @@ function thumbnail(): Drawable {
 
   return group(
     style(Style.lines(Oklch.grey(0.5), 2), radius_line),
-    style(Style.lines(Color.WHITE, 4), new Circle(SWATCH.center, radius)),
+    style(Style.lines(Color.RED, 4), new Circle(SWATCH.center, radius)),
     style(Style.flat(Color.WHITE), center),
   )
 }

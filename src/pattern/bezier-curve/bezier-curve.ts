@@ -21,8 +21,8 @@ function thumbnail(): Drawable {
   const points = new Dots([a, b, c, d], 8)
 
   return group(
-    style(Style.lines(Oklch.grey(0.5), 4), polyline),
-    style(Style.lines(Color.RED, 8), bezier),
+    style(Style.lines(Oklch.grey(0.5), 2), polyline),
+    style(Style.lines(Color.RED, 4), bezier),
     style(Style.flat(Color.WHITE), points),
   )
 }

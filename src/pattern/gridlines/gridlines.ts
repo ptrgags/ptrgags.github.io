@@ -15,7 +15,7 @@ function thumbnail(): Drawable {
     draw_bounds: true,
   })
 
-  return style(Style.lines(Color.WHITE, 2), lines)
+  return style(Style.lines(Color.RED, 2), lines)
 }
 
 export const SKETCHES = {

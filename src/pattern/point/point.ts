@@ -8,9 +8,9 @@ import { Color } from '../../lib/styling/Color.ts'
 import { Dots } from '../../lib/primitives/Dots.ts'
 
 function thumbnail(): Drawable {
-  const center = new Dots([SWATCH.center])
+  const center = new Dots([SWATCH.center], 8)
 
-  return style(Style.flat(Color.WHITE), center)
+  return style(Style.flat(Color.RED), center)
 }
 
 export const SKETCHES = {
