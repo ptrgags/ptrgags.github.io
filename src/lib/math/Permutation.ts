@@ -146,7 +146,7 @@ export class Permutation {
  * @param n Number of elements that can be permuted
  * @returns group S_n
  */
-export function permutation_group(n: number) {
+export function permutation_group(n: number): Group<Permutation> {
   return new Group<Permutation>({
     equals(a, b) {
       return a.equals(b)
