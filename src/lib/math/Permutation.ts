@@ -141,6 +141,11 @@ export class Permutation {
   }
 }
 
+/**
+ * Create the permutation group (i.e. symmetric group) S_n
+ * @param n Number of elements that can be permuted
+ * @returns group S_n
+ */
 export function permutation_group(n: number) {
   return new Group<Permutation>({
     equals(a, b) {
