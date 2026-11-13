@@ -25,6 +25,7 @@ export class Line3P {
   }
 
   join(other: Point3P): Plane3P {
+    const vec = this.bivec.vee(other.trivec)
     throw new Error('not implemented')
   }
 }

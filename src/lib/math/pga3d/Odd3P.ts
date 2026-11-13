@@ -77,4 +77,43 @@ export class Odd3P {
   equals(other: Odd3P): boolean {
     throw new Error('not implemented')
   }
+
+  #wedge_even() {
+(Ao*Bs) 𝐞₀ 
+(Ax*Bs) 𝐞₁ 
+(Ay*Bs) 𝐞₂ 
+(Az*Bs) 𝐞₃
+(Ao*Bxy + Aoxy*Bs - Ax*Boy + Ay*Box) 𝐞₀₁₂ 
+(Ao*Bxz + Aoxz*Bs - Ax*Boz + Az*Box) 𝐞₀₁₃ 
+(Ao*Byz + Aoyz*Bs - Ay*Boz + Az*Boy) 𝐞₀₂₃ 
+(Ax*Byz + Axyz*Bs - Ay*Bxz + Az*Bxy) 𝐞₁₂₃
+  }
+  #wedge_odd() {
+(Ao*Bx - Ax*Bo) 𝐞₀₁ 
+(Ao*By - Ay*Bo) 𝐞₀₂ 
+(Ao*Bz - Az*Bo) 𝐞₀₃ 
+(Ax*By - Ay*Bx) 𝐞₁₂ 
+(Ax*Bz - Az*Bx) 𝐞₁₃ 
+(Ay*Bz - Az*By) 𝐞₂₃
+(Ao*Bxyz + Aoxy*Bz - Aoxz*By + Aoyz*Bx - Ax*Boyz - Axyz*Bo + Ay*Boxz - Az*Boxy) 𝐞₀₁₂₃
+  }
+  #vee_even() {
+(Ao*Boxyz + Aoxy*Boz - Aoxz*Boy + Aoyz*Box) 𝐞₀ 
+(Aoxy*Bxz - Aoxz*Bxy + Ax*Boxyz + Axyz*Box) 𝐞₁ 
+(Aoxy*Byz - Aoyz*Bxy + Axyz*Boy + Ay*Boxyz) 𝐞₂ 
+(Aoxz*Byz - Aoyz*Bxz + Axyz*Boz + Az*Boxyz) 𝐞₃
+(Aoxy*Boxyz) 𝐞₀₁₂ 
+(Aoxz*Boxyz) 𝐞₀₁₃ 
+(Aoyz*Boxyz) 𝐞₀₂₃ 
+(Axyz*Boxyz) 𝐞₁₂₃
+  }
+  #vee_odd() {
+(Ao*Bxyz + Aoxy*Bz - Aoxz*By + Aoyz*Bx - Ax*Boyz - Axyz*Bo + Ay*Boxz - Az*Boxy)
+(Aoxy*Boxz - Aoxz*Boxy) 𝐞₀₁ 
+(Aoxy*Boyz - Aoyz*Boxy) 𝐞₀₂ 
+(Aoxz*Boyz - Aoyz*Boxz) 𝐞₀₃ 
+(Aoxy*Bxyz - Axyz*Boxy) 𝐞₁₂ 
+(Aoxz*Bxyz - Axyz*Boxz) 𝐞₁₃ 
+(Aoyz*Bxyz - Axyz*Boyz) 𝐞₂₃
+  }
 }
