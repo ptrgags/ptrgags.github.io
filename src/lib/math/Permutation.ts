@@ -1,135 +1,159 @@
+import { count_up } from '../iteration/count_up.ts'
+import { DisjointCycles } from './DisjointCycles.ts'
+import { Group } from './Group.ts'
+
 /**
  * Mathematical permutation of N elements. An element of the symmetric group S_N
  */
 export class Permutation {
-    n: number
-    values: number[]
+  values: number[]
 
-     constructor(n: number, values: number[]) {
-        const unique_values = [...new Set(values)]
-        if (unique_values.length < values.length) {
-            throw new Error("values must not include repeat elements")
-        }
-
-        for (const value of values) {
-            if (value >= n) {
-                throw new Error(`permutation<${n}> value out of range: ${value}`)
-            }
-        }
-
-        this.n = n
-        this.values = values
+  constructor(values: number[]) {
+    const unique_values = [...new Set(values)]
+    if (unique_values.length < values.length) {
+      throw new Error('values must not include repeat elements')
     }
 
-    equals(other: Permutation) {
-        return this.order === other.order && arrays_equal(this.values, other.values)
+    const n = values.length
+    for (const value of values) {
+      if (value >= n) {
+        throw new Error(`permutation<${n}> value out of range: ${value}`)
+      }
     }
 
-    static from_str(str: string): Permutation{
-        let disjoint_cycles = s.parse::<DisjointCycles<N>>()?;
+    this.values = values
+  }
 
-        return Permutation.from_disjoint_cycles(disjoint_cycles)
+  get n(): number {
+    return this.values.length
+  }
+
+  equals(other: Permutation) {
+    return this.order === other.order && this.values.every((x, i) => x === other.values[i])
+  }
+
+  static from_str(n: number, str: string): Permutation {
+    const disjoint_cycles = DisjointCycles.from_str(n, str)
+    return Permutation.from_disjoint_cycles(disjoint_cycles)
+  }
+
+  static from_disjoint_cycles(disjoint_cycles: DisjointCycles): Permutation {
+    const n = disjoint_cycles.n
+    const combined = new Array(n).fill(0)
+    for (let i = 0; i < n; i++) {
+      combined[i] = i
     }
 
-     static from_disjoint_cycles(
-        disjoint_cycles: DisjointCycles,
-    ): Permutation {
-        let mut combined = [0; N];
-        (0..N).for_each(|i| combined[i] = i);
-
-        let DisjointCycles(cycles) = disjoint_cycles;
-        for cycle in cycles.iter().rev() {
-            for (i, &element) in cycle.iter().enumerate() {
-                combined[element] = cycle[(i + 1) % cycle.len()];
-            }
-        }
-
-        Self::new(combined)
+    for (const cycle of disjoint_cycles.cycles.toReversed()) {
+      cycle.forEach((x, i) => {
+        combined[x] = cycle[(i + 1) % cycle.length]
+      })
     }
 
-     order(&self): usize {
-        let id = Self::identity();
-        let mut current = *self;
-        for power in 1.. {
-            if current == id {
-                return power;
-            }
+    return new Permutation(combined)
+  }
 
-            current = *self * current;
-        }
+  /**
+   * Get the order of this element, i.e. how many times to repeat it until
+   * returning to the start.
+   *
+   * NOTE: this method is potentially expensive. The worst case is
+   * O(|G|) = O(n!). However, this depends heavily on the particular element.
+   * many will be much less than this
+   * @returns The power n in the equation this^n = I
+   */
+  order(): number {
+    const id = Permutation.identity(this.n)
 
-        unreachable!();
+    let current: Permutation = this
+    for (const power of count_up(1)) {
+      if (current.equals(id)) {
+        return power
+      }
+
+      current = current.mul(this)
+    }
+    throw new Error('unreachable')
+  }
+
+  count_out_of_place(): number {
+    return this.values.filter((x, i) => x !== i).length
+  }
+
+  cycle_decomposition(): DisjointCycles {
+    const visited = new Array(4).fill(false)
+    const result = []
+
+    const n = this.n
+
+    for (let i = 0; i < n; i++) {
+      if (visited[i]) {
+        continue
+      }
+      visited[i] = true
+
+      const cycle = [i]
+      for (let current = this.values[i]; current !== i; current = this.values[current]) {
+        visited[current] = true
+        cycle.push(current)
+      }
+
+      // Only include nontrivial cycles
+      if (cycle.length > 1) {
+        result.push(cycle)
+      }
     }
 
-     count_out_of_place(): number {
-        return this.values.filter((x, i) => x !== i).count()
+    return new DisjointCycles(n, result)
+  }
+
+  mul(rhs: Permutation): Permutation {
+    if (rhs.n !== this.n) {
+      throw new Error('mismatched number of elements')
     }
 
-     cycle_decomposition() DisjointCycles {
-        let mut visited = [false; N];
-        let mut result = Vec::new();
+    const product = new Array(this.n).fill(0)
+    rhs.values.forEach((x, i) => {
+      product[i] = this.values[x]
+    })
+    return new Permutation(product)
+  }
 
-        for start_element in 0..N {
-            if visited[start_element] {
-                continue;
-            }
-            visited[start_element] = true;
-            let mut cycle = vec![start_element];
-
-            let mut current = self.values[start_element];
-            while current != start_element {
-                visited[current] = true;
-                cycle.push(current);
-                current = self.values[current];
-            }
-
-            if cycle.len() > 1 {
-                result.push(cycle);
-            }
-        }
-
-        DisjointCycles::new(result).expect("unable to create DisjointCycles from Permutation")
+  static identity(n: number): Permutation {
+    const values = new Array(n).fill(0)
+    for (let i = 0; i < n; i++) {
+      values[i] = i
     }
+    return new Permutation(values)
+  }
 
-     mul(self, rhs: Self): Self::Output {
-        let mut product = [0; N];
+  inverse(): Permutation {
+    const result = new Array(this.n).fill(0)
+    this.values.forEach((x, i) => {
+      result[x] = i
+    })
 
-        for (i, rhs_value) in rhs.values.iter().enumerate() {
-            product[i] = self.values[*rhs_value];
-        }
+    return new Permutation(result)
+  }
 
-        Self { values: product }
-    }
-
-     identity(): Self {
-        let mut values = [0; N];
-        for (i, value) in values.iter_mut().enumerate() {
-            *value = i;
-        }
-
-        Self { values }
-    }
-
-     inverse(&self): Self {
-        let mut result = [0usize; N];
-
-        for (i, x) in self.values.iter().enumerate() {
-            result[*x] = i;
-        }
-
-        Self { values: result }
-    }
-
-      toString(&self, f: &mut std::fmt::Formatter<'_>): std::fmt::Result {
-        self.cycle_decomposition().fmt(f)
-    }
+  toString(): string {
+    return this.cycle_decomposition().toString()
+  }
 }
 
-    
-}
-
-impl<const N: usize> FromStr for Permutation<N> {
-    type Err = PermutationError;
-
-     
+export function permutation_group(n: number) {
+  return new Group<Permutation>({
+    equals(a, b) {
+      return a.equals(b)
+    },
+    identity() {
+      return Permutation.identity(n)
+    },
+    mul(a, b) {
+      return a.mul(b)
+    },
+    inv(g) {
+      return g.inverse()
+    },
+  })
 }
