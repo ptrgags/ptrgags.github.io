@@ -7,6 +7,7 @@ hide: false
 thumbnail: pattern/TEMPLATE/thumbnail.png
 status: partial
 description: A set of points a constant distance from a center point.
+uses: point
 ---
 <script setup lang="ts">
 import SketchP5 from '../../components/SketchP5.vue'
