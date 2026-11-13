@@ -6,7 +6,7 @@ hide: false
 # URL relative to BACKBLAZE assets root
 thumbnail: pattern/TEMPLATE/thumbnail.png
 status: partial
-description: A set of parallel lines
+description: A set of parallel lines.
 ---
 <script setup lang="ts">
 import SketchP5 from '../../components/SketchP5.vue'
