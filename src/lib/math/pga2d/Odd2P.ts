@@ -64,20 +64,24 @@ export class Odd2P {
     return new Odd2P(this.x, this.y, this.o, -this.xyo)
   }
 
-  #gp_odd(other: Odd2P): Even2P {
+  #gp_odd(odd: Odd2P): Even2P {
+    const { x: Ax, y: Ay, o: Ao, xyo: Axyo } = this
+    const { x: Bx, y: By, o: Bo, xyo: Bxyo } = odd
     const scalar = Ax * Bx + Ay * By
-    const xo = -(Ao * Bx + Aoxy * By - Ax * Bo + Ay * Boxy)
-    const yo = -(Ao * By - Aoxy * Bx - Ax * Boxy - Ay * Bo)
+    const xo = -(Ao * Bx + Axyo * By - Ax * Bo + Ay * Bxyo)
+    const yo = -(Ao * By - Axyo * Bx - Ax * Bxyo - Ay * Bo)
     const xy = Ax * By - Ay * Bx
 
     return new Even2P(scalar, xy, xo, yo)
   }
 
-  #gp_even(other: Even2P): Odd2P {
+  #gp_even(even: Even2P): Odd2P {
+    const { x: Ax, y: Ay, o: Ao, xyo: Axyo } = this
+    const { scalar: Bs, xy: Bxy, xo: Bxo, yo: Byo } = even
     const x = Ax * Bs - Ay * Bxy
     const y = Ax * Bxy + Ay * Bs
-    const o = Ao * Bs - Aoxy * Bxy - Ax * Box - Ay * Boy
-    const xyo = Ao * Bxy + Aoxy * Bs - Ax * Boy + Ay * Box
+    const o = Ao * Bs - Axyo * Bxy - Ax * -Bxo - Ay * -Byo
+    const xyo = Ao * Bxy + Axyo * Bs - Ax * -Byo + Ay * -Bxo
     return new Odd2P(x, y, o, xyo)
   }
 
@@ -100,11 +104,11 @@ export class Odd2P {
     return ax * bx + ay * by
   }
 
-  #wedge_odd(other: Odd2P): Even2P {
+  #wedge_odd(odd: Odd2P): Even2P {
     // Note that the pseudoscalar part xyo will always wedge to 0, so we can
     // ignore it.
     const { x: ax, y: ay, o: ao } = this
-    const { x: bx, y: by, o: bo } = other
+    const { x: bx, y: by, o: bo } = odd
 
     const xy_part = ax * by - ay * bx
     const xo_part = ax * bo - ao * bx
@@ -113,15 +117,19 @@ export class Odd2P {
     return new Even2P(0, xy_part, xo_part, yo_part)
   }
 
-  #wedge_even(other: Even2P): Odd2P {
-    (Ao*Bs) 𝐞₀ 
-(Ax*Bs) 𝐞₁ 
-(Ay*Bs) 𝐞₂
-(Ao*Bxy + Aoxy*Bs - Ax*Boy + Ay*Box) 𝐞₀₁₂
+  #wedge_even(even: Even2P): Odd2P {
+    const { x: Ax, y: Ay, o: Ao, xyo: Axyo } = this
+    const { scalar: Bs, xy: Bxy, xo: Bxo, yo: Byo } = even
+    const x = Ax * Bs
+    const y = Ay * Bs
+    const o = Ao * Bs
+    const xyo = Ao * Bxy + Axyo * Bs - Ax * -Byo + Ay * -Bxo
+    return new Odd2P(x, y, o, xyo)
   }
 
   wedge(other: Even2P): Odd2P
   wedge(other: Odd2P): Even2P
+  wedge(other: Even2P | Odd2P): Even2P | Odd2P
   wedge(other: Even2P | Odd2P): Even2P | Odd2P {
     if (other instanceof Odd2P) {
       return this.#wedge_odd(other)

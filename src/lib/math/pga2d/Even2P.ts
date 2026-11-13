@@ -72,20 +72,24 @@ export class Even2P {
     return new Even2P(this.scalar, -this.xy, -this.xo, -this.yo)
   }
 
-  #gp_even(other: Even2P): Even2P {
+  #gp_even(even: Even2P): Even2P {
+    const { scalar: As, xy: Axy, xo: Axo, yo: Ayo } = this
+    const { scalar: Bs, xy: Bxy, xo: Bxo, yo: Byo } = even
     const scalar = As * Bs - Axy * Bxy
-    const xo = -(Aox * Bs - Aoy * Bxy + As * Box + Axy * Boy)
-    const yo = -(Aox * Bxy + Aoy * Bs + As * Boy - Axy * Box)
+    const xo = -(-Axo * Bs - -Ayo * Bxy + As * -Bxo + Axy * -Byo)
+    const yo = -(-Axo * Bxy + -Ayo * Bs + As * -Byo - Axy * -Bxo)
     const xy = As * Bxy + Axy * Bs
 
     return new Even2P(scalar, xy, xo, yo)
   }
 
-  #gp_odd(other: Odd2P): Odd2P {
-    const o = Aox * Bx + Aoy * By + As * Bo - Axy * Boxy
+  #gp_odd(odd: Odd2P): Odd2P {
+    const { scalar: As, xy: Axy, xo: Axo, yo: Ayo } = this
+    const { x: Bx, y: By, o: Bo, xyo: Bxyo } = odd
+    const o = -Axo * Bx + -Ayo * By + As * Bo - Axy * Bxyo
     const x = As * Bx + Axy * By
     const y = As * By - Axy * Bx
-    const xyo = Aox * By - Aoy * Bx + As * Boxy + Axy * Bo
+    const xyo = -Axo * By - -Ayo * Bx + As * Bxyo + Axy * Bo
 
     return new Odd2P(x, y, o, xyo)
   }
@@ -101,27 +105,43 @@ export class Even2P {
     return this.#gp_even(other)
   }
 
-  #wedge_even() {
-(As*Bs)
-(Aox*Bs + As*Box) 𝐞₀₁ 
-(Aoy*Bs + As*Boy) 𝐞₀₂ 
-(As*Bxy + Axy*Bs) 𝐞₁₂
+  #wedge_even(even: Even2P): Even2P {
+    const { scalar: As, xy: Axy, xo: Axo, yo: Ayo } = this
+    const { scalar: Bs, xy: Bxy, xo: Bxo, yo: Byo } = even
+    const scalar = As * Bs
+    const xo = -(-Axo * Bs + As * -Bxo)
+    const yo = -(-Ayo * Bs + As * -Byo)
+    const xy = As * Bxy + Axy * Bs
+    return new Even2P(scalar, xy, xo, yo)
   }
-  #wedge_odd() {
-(As*Bo) 𝐞₀ 
-(As*Bx) 𝐞₁ 
-(As*By) 𝐞₂
-(Aox*By - Aoy*Bx + As*Boxy + Axy*Bo) 𝐞₀₁₂
+  #wedge_odd(odd: Odd2P): Odd2P {
+    const { scalar: As, xy: Axy, xo: Axo, yo: Ayo } = this
+    const { x: Bx, y: By, o: Bo, xyo: Bxyo } = odd
+    const x = As * Bx
+    const y = As * By
+    const o = As * Bo
+    const xyo = -Axo * By - -Ayo * Bx + As * Bxyo + Axy * Bo
+    return new Odd2P(x, y, o, xyo)
+  }
+
+  wedge(other: Even2P): Even2P
+  wedge(other: Odd2P): Odd2P
+  wedge(other: Even2P | Odd2P): Even2P | Odd2P
+  wedge(other: Even2P | Odd2P): Even2P | Odd2P {
+    if (other instanceof Odd2P) {
+      return this.#wedge_odd(other)
+    }
+    return this.#wedge_even(other)
   }
 
   /**
    * Compute the regressive product with another Even2P multivector
-   * @param other The other Even2P multivector
+   * @param even The other Even2P multivector
    * @returns The regressive product
    */
-  #vee_even(other: Even2P): Odd2P {
+  #vee_even(even: Even2P): Odd2P {
     const { xy: axy, xo: axo, yo: ayo } = this
-    const { xy: bxy, xo: bxo, yo: byo } = other
+    const { xy: bxy, xo: bxo, yo: byo } = even
 
     const x = -axo * bxy + axy * bxo
     const y = -ayo * bxy + axy * byo
@@ -131,15 +151,19 @@ export class Even2P {
     return new Odd2P(x, y, o, 0)
   }
 
-  #vee_odd(other: Odd2P): Even2P {
-    (Aox*By - Aoy*Bx + As*Boxy + Axy*Bo)
-(Aox*Boxy) 𝐞₀₁ 
-(Aoy*Boxy) 𝐞₀₂ 
-(Axy*Boxy) 𝐞₁₂
+  #vee_odd(odd: Odd2P): Even2P {
+    const { scalar: As, xy: Axy, xo: Axo, yo: Ayo } = this
+    const { x: Bx, y: By, o: Bo, xyo: Bxyo } = odd
+    const scalar = -Axo * By - -Ayo * Bx + As * Bxyo + Axy * Bo
+    const xo = -(-Axo * Bxyo)
+    const yo = -(-Ayo * Bxyo)
+    const xy = Axy * Bxyo
+    return new Even2P(scalar, xy, xo, yo)
   }
 
   vee(other: Even2P): Odd2P
   vee(other: Odd2P): Even2P
+  vee(other: Even2P | Odd2P): Even2P | Odd2P
   vee(other: Even2P | Odd2P): Even2P | Odd2P {
     if (other instanceof Odd2P) {
       return this.#vee_odd(other)
@@ -157,9 +181,9 @@ export class Even2P {
     )
   }
 
-  #sandwich_even(other: Even2P): Even2P {
+  #sandwich_even(even: Even2P): Even2P {
     const { scalar: as, xy: axy, xo: axo, yo: ayo } = this
-    const { scalar: bs, xy: bxy, xo: bxo, yo: byo } = other
+    const { scalar: bs, xy: bxy, xo: bxo, yo: byo } = even
 
     const mag_sqr = as * as + axy * axy
     if (is_nearly(mag_sqr, 0)) {
@@ -187,9 +211,9 @@ export class Even2P {
     return new Even2P(scalar, xy, xo, yo)
   }
 
-  #sandwich_odd(other: Odd2P): Odd2P {
+  #sandwich_odd(odd: Odd2P): Odd2P {
     const { scalar: as, xy: axy, xo: axo, yo: ayo } = this
-    const { x: bx, y: by, o: bo, xyo: bxyo } = other
+    const { x: bx, y: by, o: bo, xyo: bxyo } = odd
 
     const mag_sqr = as * as + axy * axy
     if (is_nearly(mag_sqr, 0)) {
