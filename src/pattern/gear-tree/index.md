@@ -4,6 +4,7 @@ title: Gear Tree
 date: '2026-09-05'
 thumbnail: pattern/gear-tree/thumbnail.png
 status: full
+description: Different ways to connect gears.
 ---
 <script setup lang="ts">
 import SketchP5 from '../../components/SketchP5.vue'

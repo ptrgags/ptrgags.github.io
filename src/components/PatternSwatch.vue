@@ -15,6 +15,7 @@ const frontmatter = page.frontmatter
 const title = frontmatter.title ?? 'MISSING TITLE'
 const status = frontmatter.status ?? 'stub'
 const thumbnail_url = frontmatter.thumbnail ?? ''
+const description = frontmatter.description ?? ''
 </script>
 
 <template>
@@ -27,7 +28,7 @@ const thumbnail_url = frontmatter.thumbnail ?? ''
       <h2 v-else>
         {{ title }}
       </h2>
-      <p>lorem ipsum</p>
+      <p>{{ description }}</p>
     </div>
   </div>
 </template>
