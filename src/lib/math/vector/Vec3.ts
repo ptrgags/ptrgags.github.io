@@ -11,23 +11,27 @@ export function is_vec3(v: any): v is Vec3 {
   return v.x !== undefined && v.y !== undefined && v.z !== undefined
 }
 
+export function vec3(x: number, y: number, z: number): Vec3 {
+  return { x, y, z }
+}
+
 export const VSVec3 = new VectorSpace<Vec3>({
   equals: (a: Vec3, b: Vec3) => is_nearly(a.x, b.x) && is_nearly(a.y, b.y) && is_nearly(a.z, b.z),
   zero: () => {
-    return { x: 0, y: 0, z: 0 }
+    return vec3(0, 0, 0)
   },
   add: (a: Vec3, b: Vec3) => {
     const { x: ax, y: ay, z: az } = a
     const { x: bx, y: by, z: bz } = b
-    return { x: ax + bx, y: ay + by, z: az + bz }
+    return vec3(ax + bx, ay + by, az + bz)
   },
   neg: (v: Vec3) => {
     const { x, y, z } = v
-    return { x: -x, y: -y, z: -z }
+    return vec3(-x, -y, -z)
   },
   scale: (k: number, v: Vec3) => {
     const { x, y, z } = v
-    return { x: k * x, y: k * y, z: k * z }
+    return vec3(k * x, k * y, k * z)
   },
   efficient_combo(scalars: number[], vecs: Vec3[]): Vec3 {
     let x = 0
@@ -41,6 +45,6 @@ export const VSVec3 = new VectorSpace<Vec3>({
       z += k * vz
     }
 
-    return { x, y, z }
+    return vec3(x, y, z)
   },
 })
