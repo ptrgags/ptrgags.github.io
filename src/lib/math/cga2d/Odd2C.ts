@@ -185,7 +185,7 @@ export class Odd2C {
   }
 
   /**
-   * Antidual, the inverse of dual. It's nearly the same
+   * Amtidual, the inverse of dual. It's nearly the same
    * except for a few pesky sign flips
    * @returns {Odd2C}
    */
@@ -301,6 +301,7 @@ export class Odd2C {
    */
   gp(other: Odd2C): Even2C
   gp(other: Even2C): Odd2C
+  gp(other: Odd2C | Even2C): Odd2C | Even2C
   gp(other: Odd2C | Even2C): Odd2C | Even2C {
     if (other instanceof Odd2C) {
       return this.#gp_odd(other)
@@ -309,43 +310,82 @@ export class Odd2C {
     return this.#gp_even(other)
   }
 
-  #wedge_even() {
-    (Ax*Bs) 𝐞₁ 
-(Ay*Bs) 𝐞₂ 
-(Ap*Bs) 𝐞₃ 
-(An*Bs) 𝐞₄
-(Ap*Bxy + Ax*Byp + Axyp*Bs - Ay*Bxp) 𝐞₁₂₃ 
-(An*Bxy + Ax*Byn + Axyn*Bs - Ay*Bxn) 𝐞₁₂₄ 
-(An*Bxp - Ap*Bxn + Ax*Bpn + Axpn*Bs) 𝐞₁₃₄ 
-(An*Byp - Ap*Byn + Ay*Bpn + Aypn*Bs) 𝐞₂₃₄
+  #wedge_even(even: Even2C): Odd2C {
+    const { x: Ax, y: Ay, p: Ap, m: Am, xyp: Axyp, xym: Axym, xpm: Axpm, ypm: Aypm } = this
+    const { scalar: Bs, xy: Bxy, xp: Bxp, xm: Bxm, yp: Byp, ym: Bym, pm: Bpm, xypm: Bxypm } = even
+    const x = Ax * Bs
+    const y = Ay * Bs
+    const p = Ap * Bs
+    const m = Am * Bs
+    const xyp = Ap * Bxy + Ax * Byp + Axyp * Bs - Ay * Bxp
+    const xym = Am * Bxy + Ax * Bym + Axym * Bs - Ay * Bxm
+    const xpm = Am * Bxp - Ap * Bxm + Ax * Bpm + Axpm * Bs
+    const ypm = Am * Byp - Ap * Bym + Ay * Bpm + Aypm * Bs
+    return new Odd2C(x, y, p, m, xyp, xym, xpm, ypm)
   }
-  #wedge_odd() {
-    (Ax*By - Ay*Bx) 𝐞₁₂ 
-(-Ap*Bx + Ax*Bp) 𝐞₁₃ 
-(-An*Bx + Ax*Bn) 𝐞₁₄ 
-(-Ap*By + Ay*Bp) 𝐞₂₃ 
-(-An*By + Ay*Bn) 𝐞₂₄ 
-(-An*Bp + Ap*Bn) 𝐞₃₄
-(-An*Bxyp + Ap*Bxyn + Ax*Bypn + Axpn*By - Axyn*Bp + Axyp*Bn - Ay*Bxpn - Aypn*Bx) 𝐞₁₂₃₄
+  #wedge_odd(odd: Odd2C): Even2C {
+    const { x: Ax, y: Ay, p: Ap, m: Am, xyp: Axyp, xym: Axym, xpm: Axpm, ypm: Aypm } = this
+    const { x: Bx, y: By, p: Bp, m: Bm, xyp: Bxyp, xym: Bxym, xpm: Bxpm, ypm: Bypm } = odd
+    const scalar = 0
+    const xy = Ax * By - Ay * Bx
+    const xp = -Ap * Bx + Ax * Bp
+    const xm = -Am * Bx + Ax * Bm
+    const yp = -Ap * By + Ay * Bp
+    const ym = -Am * By + Ay * Bm
+    const pm = -Am * Bp + Ap * Bm
+    const xypm =
+      -Am * Bxyp + Ap * Bxym + Ax * Bypm + Axpm * By - Axym * Bp + Axyp * Bm - Ay * Bxpm - Aypm * Bx
+    return new Even2C(scalar, xy, xp, xm, yp, ym, pm, xypm)
   }
-  #vee_even() {
-    (Ax*Bxypn + Axpn*Bxy - Axyn*Bxp + Axyp*Bxn) 𝐞₁ 
-(-Axyn*Byp + Axyp*Byn + Ay*Bxypn + Aypn*Bxy) 𝐞₂ 
-(Ap*Bxypn - Axpn*Byp + Axyp*Bpn + Aypn*Bxp) 𝐞₃ 
-(An*Bxypn - Axpn*Byn + Axyn*Bpn + Aypn*Bxn) 𝐞₄
-(Axyp*Bxypn) 𝐞₁₂₃ 
-(Axyn*Bxypn) 𝐞₁₂₄ 
-(Axpn*Bxypn) 𝐞₁₃₄ 
-(Aypn*Bxypn) 𝐞₂₃₄
+
+  wedge(other: Odd2C): Even2C
+  wedge(other: Even2C): Odd2C
+  wedge(other: Odd2C | Even2C): Odd2C | Even2C
+  wedge(other: Odd2C | Even2C): Odd2C | Even2C {
+    if (other instanceof Odd2C) {
+      return this.#wedge_odd(other)
+    }
+
+    return this.#wedge_even(other)
   }
-  #vee_odd() {
-    (-An*Bxyp + Ap*Bxyn + Ax*Bypn + Axpn*By - Axyn*Bp + Axyp*Bn - Ay*Bxpn - Aypn*Bx)
-(-Axyn*Bxyp + Axyp*Bxyn) 𝐞₁₂ 
-(-Axpn*Bxyp + Axyp*Bxpn) 𝐞₁₃ 
-(-Axpn*Bxyn + Axyn*Bxpn) 𝐞₁₄ 
-(Axyp*Bypn - Aypn*Bxyp) 𝐞₂₃ 
-(Axyn*Bypn - Aypn*Bxyn) 𝐞₂₄ 
-(Axpn*Bypn - Aypn*Bxpn) 𝐞₃₄
+
+  #vee_even(even: Even2C): Odd2C {
+    const { x: Ax, y: Ay, p: Ap, m: Am, xyp: Axyp, xym: Axym, xpm: Axpm, ypm: Aypm } = this
+    const { scalar: Bs, xy: Bxy, xp: Bxp, xm: Bxm, yp: Byp, ym: Bym, pm: Bpm, xypm: Bxypm } = even
+    const x = Ax * Bxypm + Axpm * Bxy - Axym * Bxp + Axyp * Bxm
+    const y = -Axym * Byp + Axyp * Bym + Ay * Bxypm + Aypm * Bxy
+    const p = Ap * Bxypm - Axpm * Byp + Axyp * Bpm + Aypm * Bxp
+    const m = Am * Bxypm - Axpm * Bym + Axym * Bpm + Aypm * Bxm
+    const xyp = Axyp * Bxypm
+    const xym = Axym * Bxypm
+    const xpm = Axpm * Bxypm
+    const ypm = Aypm * Bxypm
+    return new Odd2C(x, y, p, m, xyp, xym, xpm, ypm)
+  }
+  #vee_odd(odd: Odd2C): Even2C {
+    const { x: Ax, y: Ay, p: Ap, m: Am, xyp: Axyp, xym: Axym, xpm: Axpm, ypm: Aypm } = this
+    const { x: Bx, y: By, p: Bp, m: Bm, xyp: Bxyp, xym: Bxym, xpm: Bxpm, ypm: Bypm } = odd
+    const scalar =
+      -Am * Bxyp + Ap * Bxym + Ax * Bypm + Axpm * By - Axym * Bp + Axyp * Bm - Ay * Bxpm - Aypm * Bx
+    const xy = -Axym * Bxyp + Axyp * Bxym
+    const xp = -Axpm * Bxyp + Axyp * Bxpm
+    const xm = -Axpm * Bxym + Axym * Bxpm
+    const yp = Axyp * Bypm - Aypm * Bxyp
+    const ym = Axym * Bypm - Aypm * Bxym
+    const pm = Axpm * Bypm - Aypm * Bxpm
+    const xypm = 0
+    return new Even2C(scalar, xy, xp, xm, yp, ym, pm, xypm)
+  }
+
+  vee(other: Odd2C): Even2C
+  vee(other: Even2C): Odd2C
+  vee(other: Odd2C | Even2C): Odd2C | Even2C
+  vee(other: Odd2C | Even2C): Odd2C | Even2C {
+    if (other instanceof Odd2C) {
+      return this.#vee_odd(other)
+    }
+
+    return this.#vee_even(other)
   }
 
   /**
