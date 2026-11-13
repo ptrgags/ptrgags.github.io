@@ -16,6 +16,8 @@ data.forEach(x => {
 })
 </script>
 
+
+
 ## Building Blocks
 
 These building blocks are used in the patterns that follow
@@ -28,7 +30,8 @@ These building blocks are used in the patterns that follow
 ## Patterns
 
 
-
+<PatternSwatch :page="PATTERNS['/pattern/rule-lines/']" />
+<PatternSwatch :page="PATTERNS['/pattern/gridlines/']" />
 <PatternSwatch :page="PATTERNS['/pattern/gear-tree/']" />
 <PatternSwatch :page="PATTERNS['/pattern/musical-meter/']" />
 <!--<PatternCard :page="PATTERNS['/pattern/number-line-arcs/']" />-->
