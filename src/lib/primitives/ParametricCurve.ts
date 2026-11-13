@@ -1,5 +1,6 @@
 import type { Drawable } from './Drawable.ts'
 import type { DrawingLibrary } from './DrawingLibrary.ts'
+import { Polyline } from './Polyline.ts'
 import type { Vec2 } from './Vec2.ts'
 
 export class ParametricCurve implements Drawable {
@@ -21,6 +22,10 @@ export class ParametricCurve implements Drawable {
       const t = i * step_size
       this.points[i] = this.curve(t)
     }
+  }
+
+  to_polyline(): Polyline {
+    return new Polyline({ vertices: this.points, closed: false })
   }
 
   draw(lib: DrawingLibrary): void {
