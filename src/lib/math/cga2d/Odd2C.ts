@@ -309,6 +309,45 @@ export class Odd2C {
     return this.#gp_even(other)
   }
 
+  #wedge_even() {
+    (Ax*Bs) 𝐞₁ 
+(Ay*Bs) 𝐞₂ 
+(Ap*Bs) 𝐞₃ 
+(An*Bs) 𝐞₄
+(Ap*Bxy + Ax*Byp + Axyp*Bs - Ay*Bxp) 𝐞₁₂₃ 
+(An*Bxy + Ax*Byn + Axyn*Bs - Ay*Bxn) 𝐞₁₂₄ 
+(An*Bxp - Ap*Bxn + Ax*Bpn + Axpn*Bs) 𝐞₁₃₄ 
+(An*Byp - Ap*Byn + Ay*Bpn + Aypn*Bs) 𝐞₂₃₄
+  }
+  #wedge_odd() {
+    (Ax*By - Ay*Bx) 𝐞₁₂ 
+(-Ap*Bx + Ax*Bp) 𝐞₁₃ 
+(-An*Bx + Ax*Bn) 𝐞₁₄ 
+(-Ap*By + Ay*Bp) 𝐞₂₃ 
+(-An*By + Ay*Bn) 𝐞₂₄ 
+(-An*Bp + Ap*Bn) 𝐞₃₄
+(-An*Bxyp + Ap*Bxyn + Ax*Bypn + Axpn*By - Axyn*Bp + Axyp*Bn - Ay*Bxpn - Aypn*Bx) 𝐞₁₂₃₄
+  }
+  #vee_even() {
+    (Ax*Bxypn + Axpn*Bxy - Axyn*Bxp + Axyp*Bxn) 𝐞₁ 
+(-Axyn*Byp + Axyp*Byn + Ay*Bxypn + Aypn*Bxy) 𝐞₂ 
+(Ap*Bxypn - Axpn*Byp + Axyp*Bpn + Aypn*Bxp) 𝐞₃ 
+(An*Bxypn - Axpn*Byn + Axyn*Bpn + Aypn*Bxn) 𝐞₄
+(Axyp*Bxypn) 𝐞₁₂₃ 
+(Axyn*Bxypn) 𝐞₁₂₄ 
+(Axpn*Bxypn) 𝐞₁₃₄ 
+(Aypn*Bxypn) 𝐞₂₃₄
+  }
+  #vee_odd() {
+    (-An*Bxyp + Ap*Bxyn + Ax*Bypn + Axpn*By - Axyn*Bp + Axyp*Bn - Ay*Bxpn - Aypn*Bx)
+(-Axyn*Bxyp + Axyp*Bxyn) 𝐞₁₂ 
+(-Axpn*Bxyp + Axyp*Bxpn) 𝐞₁₃ 
+(-Axpn*Bxyn + Axyn*Bxpn) 𝐞₁₄ 
+(Axyp*Bypn - Aypn*Bxyp) 𝐞₂₃ 
+(Axyn*Bypn - Aypn*Bxyn) 𝐞₂₄ 
+(Axpn*Bypn - Aypn*Bxpn) 𝐞₃₄
+  }
+
   /**
    * Compute the sandwich product ABA^(-1), but only
    * where A is of magnitude +1, so this can be computed

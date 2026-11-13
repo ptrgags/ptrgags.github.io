@@ -378,6 +378,48 @@ export class Even2C {
     return this.#gp_odd(other)
   }
 
+  #wedge_even() {
+    (As*Bs)
+(As*Bxy + Axy*Bs) 𝐞₁₂ 
+(As*Bxp + Axp*Bs) 𝐞₁₃ 
+(As*Bxn + Axn*Bs) 𝐞₁₄ 
+(As*Byp + Ayp*Bs) 𝐞₂₃ 
+(As*Byn + Ayn*Bs) 𝐞₂₄ 
+(Apn*Bs + As*Bpn) 𝐞₃₄
+(Apn*Bxy + As*Bxypn + Axn*Byp - Axp*Byn + Axy*Bpn + Axypn*Bs - Ayn*Bxp + Ayp*Bxn) 𝐞₁₂₃₄
+  }
+  #wedge_odd() {
+    (As*Bx) 𝐞₁ 
+(As*By) 𝐞₂ 
+(As*Bp) 𝐞₃ 
+(As*Bn) 𝐞₄
+(As*Bxyp - Axp*By + Axy*Bp + Ayp*Bx) 𝐞₁₂₃ 
+(As*Bxyn - Axn*By + Axy*Bn + Ayn*Bx) 𝐞₁₂₄ 
+(Apn*Bx + As*Bxpn - Axn*Bp + Axp*Bn) 𝐞₁₃₄ 
+(Apn*By + As*Bypn - Ayn*Bp + Ayp*Bn) 𝐞₂₃₄
+  }
+  #vee_even() {
+(Apn*Bxy + As*Bxypn + Axn*Byp - Axp*Byn + Axy*Bpn + Axypn*Bs - Ayn*Bxp + Ayp*Bxn)
+(Axy*Bxypn + Axypn*Bxy) 𝐞₁₂ 
+(Axp*Bxypn + Axypn*Bxp) 𝐞₁₃ 
+(Axn*Bxypn + Axypn*Bxn) 𝐞₁₄ 
+(Axypn*Byp + Ayp*Bxypn) 𝐞₂₃ 
+(Axypn*Byn + Ayn*Bxypn) 𝐞₂₄ 
+(Apn*Bxypn + Axypn*Bpn) 𝐞₃₄
+(Axypn*Bxypn) 𝐞₁₂₃₄
+  }
+  #vee_odd() {
+(Axn*Bxyp - Axp*Bxyn + Axy*Bxpn + Axypn*Bx) 𝐞₁ 
+(Axy*Bypn + Axypn*By + Ayn*Bxyp - Ayp*Bxyn) 𝐞₂ 
+(Apn*Bxyp + Axp*Bypn + Axypn*Bp - Ayp*Bxpn) 𝐞₃ 
+(Apn*Bxyn + Axn*Bypn + Axypn*Bn - Ayn*Bxpn) 𝐞₄
+(Axypn*Bxyp) 𝐞₁₂₃ 
+(Axypn*Bxyn) 𝐞₁₂₄ 
+(Axypn*Bxpn) 𝐞₁₃₄ 
+(Axypn*Bypn) 𝐞₂₃₄
+  }
+  
+
   /**
    * Compute the sandwich product A * B * A.rev() for unit versor A
    * (i.e. a Even2C that squares to 1).
