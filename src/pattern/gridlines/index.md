@@ -1,6 +1,6 @@
 ---
 layout: article
-title: Grid Lines
+title: Gridlines
 date: '2026-11-13'
 hide: false
 # URL relative to BACKBLAZE assets root
