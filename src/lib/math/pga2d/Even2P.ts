@@ -101,6 +101,19 @@ export class Even2P {
     return this.#gp_even(other)
   }
 
+  #wedge_even() {
+(As*Bs)
+(Aox*Bs + As*Box) 𝐞₀₁ 
+(Aoy*Bs + As*Boy) 𝐞₀₂ 
+(As*Bxy + Axy*Bs) 𝐞₁₂
+  }
+  #wedge_odd() {
+(As*Bo) 𝐞₀ 
+(As*Bx) 𝐞₁ 
+(As*By) 𝐞₂
+(Aox*By - Aoy*Bx + As*Boxy + Axy*Bo) 𝐞₀₁₂
+  }
+
   /**
    * Compute the regressive product with another Even2P multivector
    * @param other The other Even2P multivector
@@ -119,7 +132,10 @@ export class Even2P {
   }
 
   #vee_odd(other: Odd2P): Even2P {
-    throw new Error('Not implemented')
+    (Aox*By - Aoy*Bx + As*Boxy + Axy*Bo)
+(Aox*Boxy) 𝐞₀₁ 
+(Aoy*Boxy) 𝐞₀₂ 
+(Axy*Boxy) 𝐞₁₂
   }
 
   vee(other: Even2P): Odd2P

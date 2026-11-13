@@ -114,7 +114,10 @@ export class Odd2P {
   }
 
   #wedge_even(other: Even2P): Odd2P {
-    throw new Error('Not Implemented')
+    (Ao*Bs) 𝐞₀ 
+(Ax*Bs) 𝐞₁ 
+(Ay*Bs) 𝐞₂
+(Ao*Bxy + Aoxy*Bs - Ax*Boy + Ay*Box) 𝐞₀₁₂
   }
 
   wedge(other: Even2P): Odd2P
