@@ -1,150 +1,130 @@
-import {describe, it, expect} from 'vitest'
-import { DisjointCycles } from './DisjointCycles';
-
+import { describe, it, expect } from 'vitest'
+import { DisjointCycles } from './DisjointCycles'
 
 describe('DisjointCycles', () => {
+  it('constructor with out of range element throws error', () => {
+    expect(() => {
+      return new DisjointCycles(4, [[1, 2, 10]])
+    }).toThrow('out of range')
+  })
 
-    
-    it('new_with_out_of_range_element_returns_error', () => {
-        let result = new DisjointCycles(4, [[1, 2, 10]]);
+  it('constructor with overlapping cycles throws error', () => {
+    expect(() => {
+      return new DisjointCycles(4, [
+        [1, 2, 3],
+        [0, 2],
+      ])
+    }).toThrow('overlapping cycles')
+  })
 
-        assert!(matches!(
-            result,
-            Err(PermutationError::ValueOutOfRange(_, _))
-        ))
+  describe('from_str', () => {
+    it('parse with empty string returns identity', () => {
+      const result = DisjointCycles.from_str(4, '')
+
+      const expected = new DisjointCycles(4, [])
+      expect(result).toEqual(expected)
     })
 
-    
-    it('new_with_overlapping_cycles_returns_error', () => {
-        let result = new DisjointCycles(4, [[1, 2, 3], [0, 2]]);
-
-        assert!(matches!(result, Err(PermutationError::OverlappingCycles)))
+    it('with missing left parenthesis throws error', () => {
+      expect(() => {
+        return DisjointCycles.from_str(4, '1 2)')
+      }).toThrow('value outside of parentheses')
     })
 
-    
-    it('new_with_disjoint_cycles_returns_struct', () => {
-        let cycles: Vec<Vec<usize>> = [[0, 1], [2, 3]];
-
-        let DisjointCycles(result) = new DisjointCycles(4, cycles.clone());
-
-        assert_eq!(&cycles[..], &result[..])
+    it('with missing right parenthesis throws error', () => {
+      expect(() => {
+        return DisjointCycles.from_str(4, '(1 2')
+      }).toThrow('unmatched parenthesis')
     })
 
-    
-    it('parse_with_empty_string_returns_identity', () => {
-        let DisjointCycles(result) = "".parse::<DisjointCycles<4>>();
-
-        let expected: Vec<Vec<usize>> = [];
-        assert_eq!(&result[..], &expected[..]);
+    it('with top level number throws error', () => {
+      expect(() => {
+        return DisjointCycles.from_str(4, '1(2 3)')
+      }).toThrow('value outside of parentheses')
     })
 
-    
-    it('parse_with_missing_left_parenthesis_returns_error', () => {
-        let result = "1 2)".parse::<DisjointCycles<4>>();
+    it('with whitespace between cycles is handled gracefully', () => {
+      const result = DisjointCycles.from_str(4, '(0 3) (1 2)')
 
-        // You could interpret this case as "values outside the parentheses"
-        // or an unmatched parenthesis.
-        assert!(
-            matches!(result, Err(PermutationError::UnmatchedParenthesis(_)))
-                || matches!(result, Err(PermutationError::ValueOutsideParentheses(_)))
-        );
+      const expected = new DisjointCycles(4, [
+        [0, 3],
+        [1, 2],
+      ])
+      expect(result).toEqual(expected)
     })
 
-    
-    it('parse_with_missing_right_parenthesis_returns_error', () => {
-        let result = "(1 2".parse::<DisjointCycles<4>>();
+    it('with whitespace before first element is handled gracefully', () => {
+      const result = DisjointCycles.from_str(4, '( 1 2)')
 
-        assert!(matches!(
-            result,
-            Err(PermutationError::UnmatchedParenthesis(_))
-        ));
+      const expected = new DisjointCycles(4, [[1, 2]])
+      expect(result).toEqual(expected)
     })
 
-    
-    it('parse_with_top_level_number_returns_error', () => {
-        let result = "1(2 3)".parse::<DisjointCycles<4>>();
+    it('with whitespace after last element is handled gracefully', () => {
+      const result = DisjointCycles.from_str(4, '(1 2 )')
 
-        assert!(matches!(
-            result,
-            Err(PermutationError::ValueOutsideParentheses(_))
-        ))
+      const expected = new DisjointCycles(4, [[1, 2]])
+      expect(result).toEqual(expected)
     })
 
-    
-    it('parse_with_whitespace_between_cycles_is_handled_gracefully', () => {
-        let DisjointCycles(result) = "(0 3) (1 2)".parse::<DisjointCycles<4>>();
-
-        let expected: Vec<Vec<usize>> = [[0, 3], [1, 2]];
-        assert_eq!(&result[..], &expected[..]);
+    it('with nested parentheses returns error', () => {
+      expect(() => {
+        return DisjointCycles.from_str(4, '(1 (2 3) 4)')
+      }).toThrow('nested cycle')
     })
 
-    
-    it('parse_with_whitespace_before_first_element_is_handled_gracefully', () => {
-        let DisjointCycles(result) = "( 1 2)".parse::<DisjointCycles<4>>();
-
-        let expected: Vec<Vec<usize>> = [[1, 2]];
-        assert_eq!(&result[..], &expected[..]);
+    it('with non-digit value throws error', () => {
+      expect(() => {
+        return DisjointCycles.from_str(4, '(1 2 a 3)')
+      }).toThrow('values must be integers')
     })
 
-    
-    it('parse_with_whitespace_after_last_element_is_handled_gracefully', () => {
-        let DisjointCycles(result) = "(1 2 )".parse::<DisjointCycles<4>>();
+    it('parse with single cycle parses correctly', () => {
+      const result = DisjointCycles.from_str(4, '(0 2 3)')
 
-        let expected: Vec<Vec<usize>> = [[1, 2]];
-        assert_eq!(&result[..], &expected[..]);
-    })
-    
-    
-    it('parse_with_nested_parentheses_returns_error', () => {
-        let result = "(1 (2 3) 4)".parse::<DisjointCycles<5>>();
-
-        assert!(matches!(result, Err(PermutationError::NestedCycle(_))))
+      const expected = new DisjointCycles(4, [[0, 2, 3]])
+      expect(result).toEqual(expected)
     })
 
-    
-    it('parse_with_bad_digit_returns_error', () => {
-        let result = "(1 2 a 3)".parse::<DisjointCycles<4>>();
+    it('with multiple cycles parses correctly', () => {
+      const result = DisjointCycles.from_str(5, '(0 3 4)(1 2)')
 
-        assert!(matches!(result, Err(PermutationError::BadInt(_))))
+      const expected = new DisjointCycles(5, [
+        [0, 3, 4],
+        [1, 2],
+      ])
+      expect(result).toEqual(expected)
+    })
+  })
+
+  describe('toString', () => {
+    it('with empty cycle returns identity', () => {
+      const cycles = new DisjointCycles(5, [])
+
+      const result = cycles.toString()
+
+      const expected = 'I'
+      expect(result).toEqual(expected)
     })
 
-    
-    it('parse_with_single_cycle_parses_correctly', () => {
-        let DisjointCycles(cycles) = "(0 2 3)".parse::<DisjointCycles<4>>();
+    it('formats cycles nicely', () => {
+      const cycles = new DisjointCycles(5, [
+        [0, 1, 2],
+        [3, 4],
+      ])
 
-        let expected: Vec<Vec<usize>> = [[0, 2, 3]];
-        assert_eq!(&cycles[..], &expected[..])
+      const result = cycles.toString()
+      const expected = '(0 1 2)(3 4)'
+      expect(result).toEqual(expected)
     })
 
-    
-    it('parse_with_multiple_cycles_parses_correctly', () => {
-        let DisjointCycles(cycles) = "(0 3 4)(1 2)".parse::<DisjointCycles<5>>();
+    it('ignores 1-cycles', () => {
+      const cycles = new DisjointCycles(5, [[0, 2], [1], [3, 4]])
 
-        let expected: Vec<Vec<usize>> = [[0, 3, 4], [1, 2]];
-        assert_eq!(&cycles[..], &expected[..])
+      const result = cycles.toString()
+
+      const expected = '(0 2)(3 4)'
+      expect(result).toEqual(expected)
     })
-
-    
-    it('to_string_with_empty_cycle_returns_identity', () => {
-        let cycles = new DisjointCycles(5, []);
-
-        let result = cycles.to_string();
-        assert_eq!(result, "I")
-    })
-
-    
-    it('to_string_formats_cycles_nicely', () => {
-        let cycles = new DisjointCycles(5, [[0, 1, 2], [3, 4]]);
-
-        let result = cycles.to_string();
-        assert_eq!(result, "(0 1 2)(3 4)")
-    })
-
-    
-    it('to_string_ignores_one_cycles', () => {
-        let cycles = new DisjointCycles(5, [[0, 2], [1], [3, 4]]);
-
-        let result = cycles.to_string();
-        assert_eq!(result, "(0 2)(3 4)")
-    })
+  })
 })

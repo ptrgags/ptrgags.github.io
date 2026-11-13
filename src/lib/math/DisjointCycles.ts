@@ -2,7 +2,8 @@ function parse_parentheses(cycle_str: string): string[] {
   const slices: string[] = []
   let start_index = 0
   let inside = false
-  ;[...cycle_str].forEach((c, i) => {
+  const chars = [...cycle_str]
+  chars.forEach((c, i) => {
     if (c === '(' && inside) {
       throw new Error(`nested cycle detected: ${cycle_str}`)
     }
@@ -17,7 +18,7 @@ function parse_parentheses(cycle_str: string): string[] {
     } else if (c === ')') {
       slices.push(cycle_str.substring(start_index, i))
       inside = false
-    } else if (!/\w+/.test(c) && !inside) {
+    } else if (c !== ' ' && !inside) {
       throw new Error(`value outside of parentheses ${cycle_str}`)
     }
   })
@@ -31,7 +32,15 @@ function parse_parentheses(cycle_str: string): string[] {
 }
 
 function parse_cycle(cycle_str: string): number[] {
-  return cycle_str.split(' ').map(parseInt)
+  const values = cycle_str
+    .trim()
+    .split(' ')
+    .map((x) => parseInt(x))
+
+  if (values.some((x) => isNaN(x))) {
+    throw new Error('values must be integers')
+  }
+  return values
 }
 
 export class DisjointCycles {
@@ -86,7 +95,7 @@ export class DisjointCycles {
         continue
       }
 
-      const numbers = cycle.map((x) => x.toString).join(' ')
+      const numbers = cycle.map((x) => x.toString()).join(' ')
       result += `(${numbers})`
     }
     return result
