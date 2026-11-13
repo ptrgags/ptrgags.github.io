@@ -5,7 +5,7 @@ title: Patterns
 <script setup lang="ts">
 import {data} from './pattern/pattern.data'
 import {backblaze_link} from './core/links'
-import PatternCard from './components/PatternCard.vue'
+import PatternSwatch from './components/PatternSwatch.vue'
 
 const PATTERNS = {}
 data.forEach(x => {
@@ -20,9 +20,9 @@ I'm starting to document math patterns I find in math, art, programming, and
 other topics. So far, I've written the following articles:
 
 
-<PatternCard :page="PATTERNS['/pattern/circular-arc/']" />
-<PatternCard :page="PATTERNS['/pattern/gear-tree/']" />
-<PatternCard :page="PATTERNS['/pattern/musical-meter/']" />
+<PatternSwatch :page="PATTERNS['/pattern/circular-arc/']" />
+<PatternSwatch :page="PATTERNS['/pattern/gear-tree/']" />
+<PatternSwatch :page="PATTERNS['/pattern/musical-meter/']" />
 <!--<PatternCard :page="PATTERNS['/pattern/number-line-arcs/']" />-->
 <!--<PatternCard :page="PATTERNS['/pattern/cyclic-group/']" />-->
 <!--<PatternCard :page="PATTERNS['/pattern/dihedral-group/']" />-->
