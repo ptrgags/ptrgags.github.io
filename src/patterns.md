@@ -16,11 +16,17 @@ data.forEach(x => {
 })
 </script>
 
-I'm starting to document math patterns I find in math, art, programming, and
-other topics. So far, I've written the following articles:
+## Building Blocks
 
+These building blocks are used in the patterns that follow
 
+<PatternSwatch :page="PATTERNS['/pattern/circle/']" />
 <PatternSwatch :page="PATTERNS['/pattern/circular-arc/']" />
+
+## Patterns
+
+
+
 <PatternSwatch :page="PATTERNS['/pattern/gear-tree/']" />
 <PatternSwatch :page="PATTERNS['/pattern/musical-meter/']" />
 <!--<PatternCard :page="PATTERNS['/pattern/number-line-arcs/']" />-->
