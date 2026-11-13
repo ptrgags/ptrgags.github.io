@@ -21,6 +21,7 @@ data.forEach(x => {
 These building blocks are used in the patterns that follow
 
 <PatternSwatch :page="PATTERNS['/pattern/point/']" />
+<PatternSwatch :page="PATTERNS['/pattern/line-segment/']" />
 <PatternSwatch :page="PATTERNS['/pattern/circle/']" />
 <PatternSwatch :page="PATTERNS['/pattern/circular-arc/']" />
 
