@@ -1,21 +1,21 @@
 import { describe, it, expect, test } from 'vitest'
 import { Grid, griderator, Index2D } from './Grid'
 import { CardinalDirection } from './CardinalDirection'
-import { Rect } from './primitives/Rect'
-import { Point } from '../sketchlib/pga2d/Point'
-import { Direction } from '../sketchlib/pga2d/Direction'
+import { Direction2P } from '../math/pga2d/Direction2P.ts'
+import { Point2P } from '../math/pga2d/Point2P.ts'
+import { Rect } from '../primitives/Rect.ts'
 
 describe('Index2D', () => {
   it('throws for negative row', () => {
     expect(() => {
       new Index2D(-1, 1)
-    }).toThrowError('i must be non-negative')
+    }).toThrow('i must be non-negative')
   })
 
   it('throws for negative column', () => {
     expect(() => {
       new Index2D(3, -1)
-    }).toThrowError('j must be non-negative')
+    }).toThrow('j must be non-negative')
   })
 
   it('left returns undefined at left boundary', () => {
@@ -106,31 +106,31 @@ describe('Index2D', () => {
   describe('to_world', () => {
     it('computes correct position without offset', () => {
       const index = new Index2D(1, 3)
-      const offset = Point.ORIGIN
-      const stride = new Direction(2, 4)
+      const offset = Point2P.ORIGIN
+      const stride = new Direction2P(2, 4)
 
       const result = index.to_world(offset, stride)
 
-      const expected = new Point(6, 4)
-      expect(result).toBePoint(expected)
+      const expected = new Point2P(6, 4)
+      expect(result).toBePoint2P(expected)
     })
 
     it('computes correct position with offset', () => {
       const index = new Index2D(1, 3)
-      const offset = new Point(4, 4)
-      const stride = new Direction(2, 4)
+      const offset = new Point2P(4, 4)
+      const stride = new Direction2P(2, 4)
 
       const result = index.to_world(offset, stride)
 
-      const expected = new Point(10, 8)
-      expect(result).toBePoint(expected)
+      const expected = new Point2P(10, 8)
+      expect(result).toBePoint2P(expected)
     })
   })
 })
 
 describe('griderator', () => {
   it('calls the callback for the given number of rows and columns', () => {
-    const result = []
+    const result: number[][] = []
     griderator(2, 3, (i, j) => {
       result.push([i, j])
     })
@@ -191,15 +191,15 @@ describe('Grid', () => {
   })
 
   it('for_each calls a callback at each grid cell', () => {
-    const grid = new Grid(2, 2)
+    const grid: Grid<number> = new Grid(2, 2)
     grid.fill((index) => {
       const { i, j } = index
 
       return i * 2 + j
     })
 
-    const indices = []
-    const values = []
+    const indices: Index2D[] = []
+    const values: number[] = []
     grid.for_each((index, value) => {
       indices.push(index)
       values.push(value)
@@ -251,20 +251,12 @@ describe('Grid', () => {
     expect(result).toEqual(expected)
   })
 
-  it('set_2d with 1D index throws', () => {
-    const grid = new Grid(4, 4)
-
-    expect(() => {
-      grid.set(2, 'foo')
-    }).toThrowError('index must be an Index2D object')
-  })
-
   it('set_1d with 2D index throws for out of bounds', () => {
     const grid = new Grid(4, 4)
 
     expect(() => {
       grid.set(new Index2D(4, 0), 'oops')
-    }).toThrowError('index out of bounds')
+    }).toThrow('index out of bounds')
   })
 
   it('set_2d sets value', () => {
@@ -277,20 +269,12 @@ describe('Grid', () => {
     expect(result).toBe('foo')
   })
 
-  it('get with 1D index throws', () => {
-    const grid = new Grid(4, 4)
-
-    expect(() => {
-      grid.get(2)
-    }).toThrowError('index must be an Index2D object')
-  })
-
   it('get with 2D index throws for out of bounds', () => {
     const grid = new Grid(4, 4)
 
     expect(() => {
       grid.get(new Index2D(4, 0))
-    }).toThrowError('index out of bounds')
+    }).toThrow('index out of bounds')
   })
 
   it('get with 2D index returns correct grid entry', () => {
@@ -359,7 +343,7 @@ describe('Grid', () => {
 
     const result = grid.get_neighbors(index)
 
-    const expected = []
+    const expected: Index2D[] = []
     expect(result).toEqual(expected)
   })
 
@@ -411,58 +395,58 @@ describe('Grid', () => {
   describe('compute_layout', () => {
     it('computes a layout without spacing or margins', () => {
       const grid = new Grid(2, 2)
-      const boundary = new Rect(Point.ORIGIN, new Direction(4, 4))
-      const item_size = new Direction(2, 2)
-      const margin = Direction.ZERO
+      const boundary = new Rect(Point2P.ORIGIN, new Direction2P(4, 4))
+      const item_size = new Direction2P(2, 2)
+      const margin = Direction2P.ZERO
 
       const [offset, stride] = grid.compute_layout(boundary, item_size, margin)
 
-      const expected_offset = Point.ORIGIN
-      const expected_stride = new Direction(2, 2)
-      expect(offset).toBePoint(expected_offset)
-      expect(stride).toBeDirection(expected_stride)
+      const expected_offset = Point2P.ORIGIN
+      const expected_stride = new Direction2P(2, 2)
+      expect(offset).toBePoint2P(expected_offset)
+      expect(stride).toBeDirection2P(expected_stride)
     })
 
     it('computes a layout with margins', () => {
       const grid = new Grid(2, 2)
-      const boundary = new Rect(Point.ORIGIN, new Direction(8, 12))
-      const item_size = new Direction(2, 2)
-      const margin = new Direction(2, 4)
+      const boundary = new Rect(Point2P.ORIGIN, new Direction2P(8, 12))
+      const item_size = new Direction2P(2, 2)
+      const margin = new Direction2P(2, 4)
 
       const [offset, stride] = grid.compute_layout(boundary, item_size, margin)
 
-      const expected_offset = new Point(2, 4)
-      const expected_stride = new Direction(2, 2)
-      expect(offset).toBePoint(expected_offset)
-      expect(stride).toBeDirection(expected_stride)
+      const expected_offset = new Point2P(2, 4)
+      const expected_stride = new Direction2P(2, 2)
+      expect(offset).toBePoint2P(expected_offset)
+      expect(stride).toBeDirection2P(expected_stride)
     })
 
     it('computes a layout with spacing', () => {
       const grid = new Grid(2, 2)
-      const boundary = new Rect(Point.ORIGIN, new Direction(8, 10))
-      const item_size = new Direction(2, 2)
-      const margin = Direction.ZERO
+      const boundary = new Rect(Point2P.ORIGIN, new Direction2P(8, 10))
+      const item_size = new Direction2P(2, 2)
+      const margin = Direction2P.ZERO
 
       const [offset, stride] = grid.compute_layout(boundary, item_size, margin)
 
-      const expected_offset = Point.ORIGIN
-      const expected_stride = new Direction(6, 8)
-      expect(offset).toBePoint(expected_offset)
-      expect(stride).toBeDirection(expected_stride)
+      const expected_offset = Point2P.ORIGIN
+      const expected_stride = new Direction2P(6, 8)
+      expect(offset).toBePoint2P(expected_offset)
+      expect(stride).toBeDirection2P(expected_stride)
     })
 
     it('computes a layout with spacing and margins', () => {
       const grid = new Grid(3, 3)
-      const boundary = new Rect(Point.ORIGIN, new Direction(16, 8))
-      const item_size = new Direction(2, 2)
-      const margin = new Direction(4, 1)
+      const boundary = new Rect(Point2P.ORIGIN, new Direction2P(16, 8))
+      const item_size = new Direction2P(2, 2)
+      const margin = new Direction2P(4, 1)
 
       const [offset, stride] = grid.compute_layout(boundary, item_size, margin)
 
-      const expected_offset = new Point(4, 1)
-      const expected_stride = new Direction(3, 2)
-      expect(offset).toBePoint(expected_offset)
-      expect(stride).toBeDirection(expected_stride)
+      const expected_offset = new Point2P(4, 1)
+      const expected_stride = new Direction2P(3, 2)
+      expect(offset).toBePoint2P(expected_offset)
+      expect(stride).toBeDirection2P(expected_stride)
     })
   })
 })

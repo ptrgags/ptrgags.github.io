@@ -1,7 +1,7 @@
-import { Direction } from '../sketchlib/pga2d/Direction.js'
-import { Point } from '../sketchlib/pga2d/Point.js'
-import { CardinalDirection } from './CardinalDirection.js'
-import { Rect } from './primitives/Rect.js'
+import { Direction2P } from '../math/pga2d/Direction2P.ts'
+import { Point2P } from '../math/pga2d/Point2P.ts'
+import type { Rect } from '../primitives/Rect.ts'
+import { CardinalDirection } from './CardinalDirection.ts'
 
 /**
  * Iterate over a 2D range of values, performing an action at each step.
@@ -13,7 +13,11 @@ import { Rect } from './primitives/Rect.js'
  * @param {number} cols How many columns to iterate over
  * @param {function(number, number): void} callback The action to perform at cell (i, j)
  */
-export function griderator(rows, cols, callback) {
+export function griderator(
+  rows: number,
+  cols: number,
+  callback: (arg0: number, arg1: number) => void,
+) {
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {
       callback(i, j)
@@ -27,12 +31,15 @@ export function griderator(rows, cols, callback) {
  * arrays.
  */
 export class Index2D {
+  i: number
+  j: number
+
   /**
    * Constructor
    * @param {number} i The first index, usually the row
    * @param {number} j The second index, usually the column
    */
-  constructor(i, j) {
+  constructor(i: number, j: number) {
     if (i < 0) {
       throw new Error('i must be non-negative')
     }
@@ -48,7 +55,7 @@ export class Index2D {
    * Get the coordinates of the left neighbor
    * @returns {Index2D | undefined} The left neighbor, or undefined if at the edge of the grid
    */
-  left() {
+  left(): Index2D | undefined {
     if (this.j === 0) {
       return undefined
     }
@@ -60,7 +67,7 @@ export class Index2D {
    * Get the coordinates of the neighbor to the right
    * @returns {Index2D} The neighbor to the right
    */
-  right() {
+  right(): Index2D {
     return new Index2D(this.i, this.j + 1)
   }
 
@@ -68,7 +75,7 @@ export class Index2D {
    * Get the coordinates of the neighbor one row above
    * @returns {Index2D | undefined} The upwards neighbor, or undefined if at the edge of the grid
    */
-  up() {
+  up(): Index2D | undefined {
     if (this.i === 0) {
       return undefined
     }
@@ -80,7 +87,7 @@ export class Index2D {
    * Get the coordinates of the neighbor one row below
    * @returns {Index2D} The downwards neighbor
    */
-  down() {
+  down(): Index2D {
     return new Index2D(this.i + 1, this.j)
   }
 
@@ -89,7 +96,7 @@ export class Index2D {
    * @param {Index2D} other Another cell
    * @returns {CardinalDirection|undefined} If the cell neighbors this one, the grid direction is returned. Else undefined is returned to indicate not adjacent.
    */
-  direction_to(other) {
+  direction_to(other: Index2D): CardinalDirection | undefined {
     const { i: ai, j: aj } = this
     const { i: bi, j: bj } = other
 
@@ -117,42 +124,42 @@ export class Index2D {
 
   /**
    * Convert an index (assumed to be row-major) to a point in the world
-   * @param {Point} offset The offset in units of the world as a Point
-   * @param {Direction} stride A Direction for the stride
-   * @returns {Point} A point in the world
+   * @param {Point2P} offset The offset in units of the world as a Point2P
+   * @param {Direction2P} stride A Direction2P for the stride
+   * @returns {Point2P} A point in the world
    */
-  to_world(offset, stride) {
+  to_world(offset: Point2P, stride: Direction2P): Point2P {
     const { i, j } = this
     const { x, y } = offset
     const { x: dx, y: dy } = stride
-    return new Point(x + j * dx, y + i * dy)
+    return new Point2P(x + j * dx, y + i * dy)
   }
 }
 
 /**
  * 2D array of values. It is indexed by Index2D objects rather than
  * an integer index.
- *
- * @template T
  */
-export class Grid {
+export class Grid<T> {
+  rows: number
+  cols: number
+  values: T[]
   /**
    *
    * @param {number} rows
    * @param {number} cols
    */
-  constructor(rows, cols) {
+  constructor(rows: number, cols: number) {
     this.rows = rows
     this.cols = cols
     // Preallocate the array
-    /** @type {T[]} */
     this.values = new Array(rows * cols)
   }
 
   /**
    * @returns {Generator<T>}
    */
-  *[Symbol.iterator]() {
+  *[Symbol.iterator](): Generator<T> {
     yield* this.values
   }
 
@@ -165,7 +172,7 @@ export class Grid {
    * @param {function(Index2D): T} callback A function that takes an index and
    * computes the value to store at that point in the grid.
    */
-  fill(callback) {
+  fill(callback: (arg0: Index2D) => T) {
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.cols; j++) {
         this.values[i * this.cols + j] = callback(new Index2D(i, j))
@@ -177,7 +184,7 @@ export class Grid {
    * Call a function at each cell of the grid
    * @param {function(Index2D, T): void} callback A function to call with the given index and cell value
    */
-  for_each(callback) {
+  for_each(callback: (arg0: Index2D, arg1: T) => void) {
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.cols; j++) {
         const index = new Index2D(i, j)
@@ -193,8 +200,8 @@ export class Grid {
    * @param {function(Index2D, T): U} callback A function that takes an index and the current value and computes a corresponding value in the new grid
    * @returns {Grid<U>} A new grid
    */
-  map(callback) {
-    const result = new Grid(this.rows, this.cols)
+  map<U>(callback: (arg0: Index2D, arg1: T) => U): Grid<U> {
+    const result: Grid<U> = new Grid(this.rows, this.cols)
     result.fill((index) => callback(index, this.get(index)))
     return result
   }
@@ -205,7 +212,7 @@ export class Grid {
    * @param {function(Index2D, T): U} callback  A function that takes the index and current value and computes a new value
    * @returns {Array<U>} an array of computed values, flattened in row-major order
    */
-  map_array(callback) {
+  map_array<U>(callback: (arg0: Index2D, arg1: T) => U): Array<U> {
     const result = new Array(this.rows * this.cols)
     for (let i = 0; i < this.rows; i++) {
       for (let j = 0; j < this.cols; j++) {
@@ -221,15 +228,11 @@ export class Grid {
    * this.rows * this.cols
    * @return {Number} The number of entries in the grid
    */
-  get length() {
+  get length(): number {
     return this.values.length
   }
 
-  set(index, value) {
-    if (!(index instanceof Index2D)) {
-      throw new Error('index must be an Index2D object')
-    }
-
+  set(index: Index2D, value: T) {
     const i = this.hash(index)
     if (i >= this.values.length) {
       throw new Error('index out of bounds')
@@ -237,11 +240,7 @@ export class Grid {
     this.values[i] = value
   }
 
-  get(index) {
-    if (!(index instanceof Index2D)) {
-      throw new Error('index must be an Index2D object')
-    }
-
+  get(index: Index2D): T {
     const i = this.hash(index)
     if (i >= this.values.length) {
       throw new Error('index out of bounds')
@@ -249,7 +248,7 @@ export class Grid {
     return this.values[i]
   }
 
-  hash(index) {
+  hash(index: Index2D): number {
     const { i, j } = index
     return i * this.cols + j
   }
@@ -260,7 +259,7 @@ export class Grid {
    * @returns {Index2D | undefined} The right neighbor, or undefined if at the
    * edge of the grid
    */
-  right(index) {
+  right(index: Index2D): Index2D | undefined {
     if (index.j >= this.cols - 1) {
       return undefined
     }
@@ -274,7 +273,7 @@ export class Grid {
    * @returns {Index2D | undefined} The downwards neighbor, or undefined if at
    * the edge of the grid
    */
-  down(index) {
+  down(index: Index2D): Index2D | undefined {
     if (index.i >= this.rows - 1) {
       return undefined
     }
@@ -289,7 +288,7 @@ export class Grid {
    * @returns {Index2D | undefined} The neighbor, or undefined if at the edge
    * of the grid.
    */
-  get_neighbor(index, direction) {
+  get_neighbor(index: Index2D, direction: CardinalDirection): Index2D | undefined {
     switch (direction) {
       case CardinalDirection.RIGHT:
         return this.right(index)
@@ -307,7 +306,7 @@ export class Grid {
    * @param {Index2D} index The index to check
    * @returns {boolean} true if the index is in bounds
    */
-  in_bounds(index) {
+  in_bounds(index: Index2D): boolean {
     const { i, j } = index
 
     return i >= 0 && i < this.rows && j >= 0 && j < this.cols
@@ -319,28 +318,32 @@ export class Grid {
    * @param {Index2D} index The current cell index
    * @returns {Index2D[]} List of all in-bounds neighbors accessible from this cell.
    */
-  get_neighbors(index) {
-    return [this.right(index), index.up(), index.left(), this.down(index)].filter(
-      (x) => x !== undefined && this.in_bounds(x),
-    )
+  get_neighbors(index: Index2D): Index2D[] {
+    return [this.right(index), index.up(), index.left(), this.down(index)]
+      .filter((x) => x !== undefined)
+      .filter((x) => this.in_bounds(x))
   }
 
   /**
    * Evenly space items of item_size within the bounding rectangle according
    * to the number of rows/columns in this grid.
    * @param {Rect} boundary The bounding rectangle
-   * @param {Direction} item_size The size of each item as a Direction
-   * @param {Direction} margin How much space to leave around the x or y direction (note that this will be doubled). Any remaining space will be used as padding
-   * @return {[Point, Direction]} [offset, stride] The computed offset and stride
+   * @param {Direction2P} item_size The size of each item as a Direction2P
+   * @param {Direction2P} margin How much space to leave around the x or y direction (note that this will be doubled). Any remaining space will be used as padding
+   * @return {[Point2P, Direction2P]} [offset, stride] The computed offset and stride
    */
-  compute_layout(boundary, item_size, margin) {
+  compute_layout(
+    boundary: Rect,
+    item_size: Direction2P,
+    margin: Direction2P,
+  ): [Point2P, Direction2P] {
     // If we arranged the items as tightly as possible, how big would this
     // rectangle be?
-    const total_item_space = new Direction(item_size.x * this.cols, item_size.y * this.rows)
+    const total_item_space = new Direction2P(item_size.x * this.cols, item_size.y * this.rows)
     const remaining_space = boundary.dimensions.sub(total_item_space)
     const padding = remaining_space.sub(margin.scale(2))
 
-    const padding_size = new Direction(padding.x / (this.cols - 1), padding.y / (this.rows - 1))
+    const padding_size = new Direction2P(padding.x / (this.cols - 1), padding.y / (this.rows - 1))
 
     const offset = boundary.position.add(margin)
     const stride = item_size.add(padding_size)
