@@ -2,12 +2,18 @@ import type p5 from 'p5'
 import type { DrawP5 } from '../../lib/p5-helpers/DrawP5.ts'
 import { make_sketch, make_static_sketch, type SceneP5 } from '../../lib/p5-helpers/sketches.ts'
 import type { Drawable } from '../../lib/primitives/Drawable.ts'
-import { group, style } from '../../lib/primitives/shorthand.ts'
-import { SWATCH } from '../../core/dimensions.ts'
+import { group, style, xform } from '../../lib/primitives/shorthand.ts'
+import { ATC_SCREEN, SWATCH } from '../../core/dimensions.ts'
 import { Polyline } from '../../lib/primitives/Polyline.ts'
 import { Point2P } from '../../lib/math/pga2d/Point2P.ts'
 import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
 import { Style } from '../../lib/styling/Style.ts'
+import { Rigid } from '../../lib/primitives/Rigid.ts'
+
+const TRIANGULAR_PRISM = {
+  sides: 4,
+  children: [{ sides: 3 }, { sides: 4, children: [{ sides: 4 }] }, { sides: 3 }],
+}
 
 const SIDE_LENGTH = 100
 
@@ -27,9 +33,13 @@ function regular_polygon(sides: number): Polyline {
 function net(): Drawable {
   const square = regular_polygon(4)
   const triangle = regular_polygon(3)
-  return style(Style.DEFAULT_LINES, square, triangle)
+  return xform(
+    Rigid.translation(ATC_SCREEN.center),
+
+    style(Style.DEFAULT_LINES, square, triangle),
+  )
 }
 
 export const SKETCHES = {
-  template: make_static_sketch(SWATCH.dimensions, net()),
+  template: make_static_sketch(ATC_SCREEN.dimensions, net()),
 }
