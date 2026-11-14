@@ -1,58 +1,29 @@
 import { vector_space_tests } from '../../test-helpers/vector_space_tests.ts'
-import { VSVec3 } from './Vec3.ts'
+import { vec3, VSVec3 } from './Vec3.ts'
 
 vector_space_tests({
   label: 'Vec3',
   vector_space: VSVec3,
   add_commutativity: [
-    { x: 3, y: -1, z: -3 },
-    { x: 1, y: 2, z: -4 },
+    vec3(3, -1, -3),
+    vec3(1, 2, -4),
     // expected sum
-    { x: 4, y: 1, z: -7 },
+    vec3(4, 1, -7),
   ],
   add_associativity: [
-    { x: 1, y: 2, z: 3 },
-    { x: -3, y: -4, z: 1 },
-    { x: 10, y: 7, z: -5 },
+    vec3(1, 2, 3),
+    vec3(-3, -4, 1),
+    vec3(10, 7, -5),
     // expected sum
-    { x: 8, y: 5, z: -1 },
+    vec3(8, 5, -1),
   ],
-  add_identity: { x: -5, y: 7, z: -7 },
-  add_inverse: [
-    { x: 3, y: -4, z: -3 },
-    { x: -3, y: 4, z: 3 },
-  ],
-  sub: [
-    { x: 10, y: -10, z: 3 },
-    { x: 2, y: 2, z: 0 },
-    { x: 8, y: -12, z: 3 },
-  ],
-  scalar_associativity: [3, 5, { x: -6, y: 2, z: 1 }, { x: -90, y: 30, z: 15 }],
-  distributivity: [4, { x: 3, y: -2, z: -1 }, { x: 4, y: 7, z: 4 }, { x: 28, y: 20, z: 12 }],
-  scalar_identity: { x: -7, y: 11, z: 4 },
-  combo: [
-    [1, 0.5, -3],
-    [
-      { x: 1, y: 2, z: 5 },
-      { x: -3, y: 4, z: 10 },
-      { x: 5, y: -6, z: 2 },
-    ],
-    { x: -15.5, y: 22, z: 4 },
-  ],
-  sum: [
-    [
-      { x: 1, y: 2, z: 3 },
-      { x: 2, y: 3, z: 1 },
-      { x: 3, y: 1, z: 2 },
-    ],
-    { x: 6, y: 6, z: 6 },
-  ],
-  centroid: [
-    [
-      { x: 1, y: 2, z: 3 },
-      { x: 2, y: 3, z: 1 },
-      { x: 3, y: 1, z: 2 },
-    ],
-    { x: 2, y: 2, z: 2 },
-  ],
+  add_identity: vec3(-5, 7, -7),
+  add_inverse: [vec3(3, -4, -3), vec3(-3, 4, 3)],
+  sub: [vec3(10, -10, 3), vec3(2, 2, 0), vec3(8, -12, 3)],
+  scalar_associativity: [3, 5, vec3(-6, 2, 1), vec3(-90, 30, 15)],
+  distributivity: [4, vec3(3, -2, -1), vec3(4, 7, 4), vec3(28, 20, 12)],
+  scalar_identity: vec3(-7, 11, 4),
+  combo: [[1, 0.5, -3], [vec3(1, 2, 5), vec3(-3, 4, 10), vec3(5, -6, 2)], vec3(-15.5, 22, 4)],
+  sum: [[vec3(1, 2, 3), vec3(2, 3, 1), vec3(3, 1, 2)], vec3(6, 6, 6)],
+  centroid: [[vec3(1, 2, 3), vec3(2, 3, 1), vec3(3, 1, 2)], vec3(2, 2, 2)],
 })
