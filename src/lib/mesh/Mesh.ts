@@ -1,6 +1,7 @@
 import type { Vec3 } from '../math/vector/Vec3.ts'
 import type { Vec2 } from '../primitives/Vec2.ts'
 import { compute_normal } from './compute_normal.ts'
+import type { TriangleSoup } from './TriangleSoup.ts'
 
 /**
  * Attribute indices for one vertex of a face
@@ -161,5 +162,33 @@ export class Mesh {
       normals: computed_normals,
       faces: updated_faces,
     })
+  }
+
+  to_soup(): TriangleSoup {
+    const result: TriangleSoup = []
+
+    if (!this.has_normals()) {
+      throw new Error('mesh must have normals')
+    }
+
+    for (const face of this.faces) {
+      const positions = face.map((x) => this.positions[x.pos])
+
+      // The normal check before the loop guarantees that the normal index
+      // is undefined
+      const normal_index = face[0].normal as number
+      const normal = this.normals[normal_index]
+
+      // tessellate n-gons
+      const sides = face.length
+      const num_triangles = sides - 2
+      for (let i = 0; i < num_triangles; i++) {
+        const a = positions[0]
+        const b = positions[i + 1]
+        const c = positions[i + 2]
+        result.push({ normal, a, b, c })
+      }
+    }
+    return result
   }
 }
