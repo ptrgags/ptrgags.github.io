@@ -13,13 +13,18 @@ export enum ArrowParts {
   BOUNDARY_BOTH = 0b1100,
 }
 
-export interface ArcArowOptions {
+export interface ArcOptions {
   circle: Circle
   angles: ArcAngles
-  tip?: number
-  tail?: number
-  arrow_radii?: Dimensionlike
 }
+
+export interface ArrowOptions {
+  tip: number
+  tail: number
+  arrow_radii: Dimensionlike
+}
+
+export type ArcArowOptions = ArcOptions & Partial<ArrowOptions>
 
 export class ArcArrow implements Drawable {
   circle: Circle

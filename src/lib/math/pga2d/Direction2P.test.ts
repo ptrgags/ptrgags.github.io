@@ -372,4 +372,12 @@ vector_space_tests({
     [new Direction2P(1, 2), new Direction2P(-3, 4), new Direction2P(5, -6)],
     new Direction2P(-15.5, 22),
   ],
+  sum: [
+    [new Direction2P(1, 2), new Direction2P(2, 3), new Direction2P(3, 1)],
+    new Direction2P(6, 6),
+  ],
+  centroid: [
+    [new Direction2P(1, 2), new Direction2P(2, 3), new Direction2P(3, 1)],
+    new Direction2P(2, 2),
+  ],
 })

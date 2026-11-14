@@ -1,4 +1,8 @@
-import type { ArcAngles } from './ArcAngles.ts'
+import { divmod } from '../math/divmod.ts'
+import { is_nearly } from '../math/is_nearly.ts'
+import { quarter_circle_bezier, small_arc_bezier } from './arc_to_bezier.ts'
+import { AngleOrientation, type ArcAngles } from './ArcAngles.ts'
+import { BezierCurve } from './BezierCurve.ts'
 import type { Circle } from './Circle.ts'
 import type { Drawable } from './Drawable.ts'
 import type { DrawingLibrary } from './DrawingLibrary.ts'
@@ -26,6 +30,45 @@ export class CircularArc implements Drawable {
 
   flip_y(): CircularArc {
     return new CircularArc(this.circle, this.angles.reverse_angles())
+  }
+
+  to_bezier_curves(): BezierCurve[] {
+    const angle = this.angles.subtended_angle
+
+    if (is_nearly(angle, 0)) {
+      return []
+    }
+
+    // How many quarter circles is this arc?
+    const [quarters, remaining] = divmod(angle, Math.PI / 2)
+
+    const orientation = this.angles.orientation
+
+    const flip = orientation === AngleOrientation.NEGATIVE
+
+    const result = []
+    for (let i = 0; i < quarters; i++) {
+      const curve = quarter_circle_bezier(
+        this.circle,
+        this.angles.start_angle + (orientation * (i * Math.PI)) / 2,
+        flip,
+      )
+      result.push(curve)
+    }
+
+    if (!is_nearly(remaining, 0)) {
+      const curve = small_arc_bezier(
+        this.circle,
+        // subtended angle
+        remaining,
+        // phase of start point
+        this.angles.start_angle + (orientation * (quarters * Math.PI)) / 2,
+        flip,
+      )
+      result.push(curve)
+    }
+
+    return result
   }
 
   draw(lib: DrawingLibrary): void {

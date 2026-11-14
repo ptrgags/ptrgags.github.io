@@ -6,7 +6,7 @@ title: Blog Archive
 import {data} from './update/update.data'
 import {sort_reverse_chronological} from './core/Sortable'
 
-const posts = data.map(x => {return {...x.frontmatter, url: x.url}}).sort(sort_reverse_chronological)
+const posts = data.map(x => {return {...x.frontmatter, url: x.url}}).filter(x => !x.hide).sort(sort_reverse_chronological)
 </script>
 
 <ul>

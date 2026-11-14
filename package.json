@@ -17,7 +17,8 @@
   "dependencies": {
     "@types/p5": "^1.7.7",
     "leaflet": "^1.9.4",
-    "p5": "^2.3.2"
+    "p5": "^2.3.2",
+    "pdf-lib": "^1.17.1"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.16.1",
@@ -30,6 +31,7 @@
     "@vue/eslint-config-typescript": "^14.9.0",
     "@vue/test-utils": "^2.5.0",
     "@vue/tsconfig": "^0.9.1",
+    "@webgpu/types": "^0.1.74",
     "eslint": "^10.9.1",
     "eslint-plugin-vue": "^10.10.0",
     "feed": "^6.0.0",
@@ -38,9 +40,9 @@
     "npm-run-all2": "^9.0.3",
     "prettier": "^3.9.6",
     "typescript": "^7.0.2",
-    "vite": "^8.2.2",
+    "vite": "^8.2.4",
     "vitepress": "^1.6.4",
-    "vitest": "^5.0.0",
+    "vitest": "^5.0.5",
     "vue-tsc": "^3.3.11"
   }
 }

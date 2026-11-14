@@ -1,6 +1,5 @@
 import { describe, it, expect } from 'vitest'
 import type { VectorSpace } from '../math/VectorSpace.ts'
-import type { Equals } from '../types/Equals.ts'
 
 export interface VectorTestOptions<V> {
   label: string
@@ -23,6 +22,10 @@ export interface VectorTestOptions<V> {
   scalar_identity: V
   // (weights, vectors, expected_sum)
   combo: [[number, number, number], [V, V, V], V]
+  // (vectors, expected_sum)
+  sum: [V[], V]
+  // (vectors, expected_centroid)
+  centroid: [V[], V]
 }
 
 /**
@@ -71,6 +74,16 @@ export function vector_space_tests<V>(options: VectorTestOptions<V>) {
       expect(vs.equals(result, expected_neg)).toBe(true)
     })
 
+    it('neg() returns additive inverse', () => {
+      const [a] = options.add_inverse
+
+      const result = vs.neg(a)
+      const sum = vs.add(a, result)
+
+      // a + (-a) = 0
+      expect(vs.equals(sum, vs.zero())).toBe(true)
+    })
+
     it('sub is the same as adding neg', () => {
       const [a, b, expected_diff] = options.sub
 
@@ -115,6 +128,22 @@ export function vector_space_tests<V>(options: VectorTestOptions<V>) {
       const result = vs.combo(weights, vectors)
 
       expect(vs.equals(result, expected_sum)).toBe(true)
+    })
+
+    it('sum() adds vectors', () => {
+      const [vectors, expected_sum] = options.sum
+
+      const result = vs.sum(vectors)
+
+      expect(vs.equals(result, expected_sum)).toBe(true)
+    })
+
+    it('centroid() computes centroid', () => {
+      const [vectors, expected_centroid] = options.centroid
+
+      const result = vs.centroid(vectors)
+
+      expect(vs.equals(result, expected_centroid)).toBe(true)
     })
   })
 }
