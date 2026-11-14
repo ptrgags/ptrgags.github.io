@@ -19,5 +19,8 @@ declare module 'vitest' {
 
     // Complex number matchers
     toBeComplex: (expected: T) => R
+
+    // 3D mesh matchers
+    toBeMesh: (expected: T) => R
   }
 }
