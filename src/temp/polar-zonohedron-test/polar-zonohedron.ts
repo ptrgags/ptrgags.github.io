@@ -1,6 +1,7 @@
 import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
 import { Point2P } from '../../lib/math/pga2d/Point2P.ts'
 import { VSVec3, type Vec3 } from '../../lib/math/vector/Vec3.ts'
+import { Mesh } from '../../lib/mesh/Mesh.ts'
 import type { Drawable } from '../../lib/primitives/Drawable.ts'
 import { Polyline } from '../../lib/primitives/Polyline.ts'
 import { group, style } from '../../lib/primitives/shorthand.ts'
@@ -79,6 +80,105 @@ export class PolarZonohedron {
       result[i] = get_angle(this.rows[i][1], this.rows[i + 1][1], this.rows[i + 1][0])
     }
     return result
+  }
+
+  to_mesh(): Mesh {
+    const mesh = new Mesh()
+    const positions: number[][] = this.rows.map((row) => {
+      return row.map((pos) => mesh.add_position(pos))
+    })
+
+    // All the faces are rhombi of different sizes. I'll label
+    // the four vertices in what follows:
+    //     c
+    //   /   \
+    //  d     b
+    //   \   /
+    //     a
+
+    // Add UVs. for now, each rhombus is mapped separately
+    //    1,1
+    //   /   \
+    // 0,1   1,0
+    //   \   /
+    //    0,0
+    const uv_a = mesh.add_uv(new Point2P(0, 0))
+    const uv_b = mesh.add_uv(new Point2P(1, 0))
+    const uv_c = mesh.add_uv(new Point2P(1, 1))
+    const uv_d = mesh.add_uv(new Point2P(0, 1))
+
+    // Add the faces
+    const n = this.basis.length
+
+    // Note: faces are ordered
+    //    2
+    //  /   \
+    // 3     1
+    //  \   /
+    //    0
+
+    // first row shares the origin so needs to be handled slightly differently
+    for (let i = 0; i < n; i++) {
+      // origin
+      const pos_a = positions[0][0]
+      const pos_b = positions[1][(i + 1) % n]
+      const pos_c = positions[2][i]
+      const pos_d = positions[1][i]
+
+      mesh.add_quad(
+        {
+          pos: pos_a,
+          uv: uv_a,
+        },
+        {
+          pos: pos_b,
+          uv: uv_b,
+        },
+        {
+          pos: pos_c,
+          uv: uv_c,
+        },
+        {
+          pos: pos_d,
+          uv: uv_d,
+        },
+      )
+    }
+
+    // Handle faces in all the rows except top and bottom
+    // which are different
+    for (let i = 1; i < n - 2; i++) {
+      for (let j = 0; j < n; j++) {
+        const pos_a = positions[i][(j + 1) % n]
+        const pos_b = positions[i + 1][(j + 1) % n]
+        const pos_c = positions[i + 2][j]
+        const pos_d = positions[i + 1][j]
+
+        mesh.add_quad(
+          { pos: pos_a, uv: uv_a },
+          { pos: pos_b, uv: uv_b },
+          { pos: pos_c, uv: uv_c },
+          { pos: pos_d, uv: uv_d },
+        )
+      }
+    }
+
+    // handle the last row where the top point is shared by all rhombi
+    for (let i = 0; i < n; i++) {
+      const pos_a = positions[n - 2][(i + 1) % n]
+      const pos_b = positions[n - 1][(i + 1) % n]
+      // shared tip of rhombus
+      const pos_c = positions[n][0]
+      const pos_d = positions[n - 1][i]
+      mesh.add_quad(
+        { pos: pos_a, uv: uv_a },
+        { pos: pos_b, uv: uv_b },
+        { pos: pos_c, uv: uv_c },
+        { pos: pos_d, uv: uv_d },
+      )
+    }
+
+    return mesh.compute_face_normals()
   }
 }
 

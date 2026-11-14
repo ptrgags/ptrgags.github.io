@@ -1,0 +1,194 @@
+import type { Vec3 } from '../math/vector/Vec3.ts'
+import type { Vec2 } from '../primitives/Vec2.ts'
+import { compute_normal } from './compute_normal.ts'
+import type { TriangleSoup } from './TriangleSoup.ts'
+
+/**
+ * Attribute indices for one vertex of a face
+ * This is similar to OBJ-style mesh's v/vt/vn syntax, although 0-indexed
+ */
+export interface FaceVertex {
+  pos: number
+  uv?: number
+  normal?: number
+}
+
+export interface MeshOptions {
+  positions: Vec3[]
+  normals: Vec3[]
+  uvs: Vec2[]
+  faces: FaceVertex[][]
+}
+
+/**
+ * 3D mesh that stores each attribute separately. This is like a limited form
+ * of an OBJ mesh.
+ *
+ * This class has methods for adding vertices and faces, but otherwise this is
+ * intended to be used as a read-only mesh format.
+ *
+ * @see {@link https://en.wikipedia.org/wiki/Wavefront_.obj_file | Wikipedia: Wavefront .obj file}
+ */
+export class Mesh {
+  positions: Vec3[]
+  normals: Vec3[]
+  uvs: Vec2[]
+  faces: FaceVertex[][]
+
+  constructor(options: Partial<MeshOptions> = {}) {
+    this.positions = options.positions ?? []
+    this.normals = options.normals ?? []
+    this.uvs = options.uvs ?? []
+    this.faces = options.faces ?? []
+  }
+
+  /**
+   * Add a position to the positions list
+   * @param pos Position in 3D space
+   * @returns index of the new position element
+   */
+  add_position(pos: Vec3): number {
+    const index = this.positions.length
+    this.positions.push(pos)
+    return index
+  }
+
+  /**
+   * Add a normal to the normals list
+   * @param normal A unit normal
+   * @returns index of the new normal element
+   */
+  add_normal(normal: Vec3): number {
+    const index = this.normals.length
+    this.normals.push(normal)
+    return index
+  }
+
+  /**
+   * Add a pair of (u, v) coordinates to the uvs list
+   * @param uv The uvs
+   * @returns index of the new uvs
+   */
+  add_uv(uv: Vec2): number {
+    const index = this.uvs.length
+    this.uvs.push(uv)
+    return index
+  }
+
+  /**
+   * Add a triangle
+   * @param a vertex a
+   * @param b vertex b
+   * @param c vertex c
+   * @returns index of the new triangle
+   */
+  add_triangle(a: FaceVertex, b: FaceVertex, c: FaceVertex): number {
+    const index = this.faces.length
+    this.faces.push([a, b, c])
+    return index
+  }
+
+  /**
+   * Add a quad
+   * @param a vertex a
+   * @param b vertex b
+   * @param c vertex c
+   * @param d vertex d
+   * @returns index of the new quad
+   */
+  add_quad(a: FaceVertex, b: FaceVertex, c: FaceVertex, d: FaceVertex): number {
+    const index = this.faces.length
+    this.faces.push([a, b, c, d])
+    return index
+  }
+
+  /**
+   * Add an n-gon with n >= 3
+   * @param vertices Vertices to add
+   * @returns index of the new n-gon
+   */
+  add_ngon(vertices: FaceVertex[]): number {
+    if (vertices.length < 3) {
+      throw new Error('vertices must have at least 3 elements')
+    }
+
+    const index = this.faces.length
+    this.faces.push(vertices)
+    return index
+  }
+
+  /**
+   * Check that every face vertex has normals set
+   * @returns true if mesh has normals
+   */
+  has_normals(): boolean {
+    return this.faces.every((face) => {
+      return face.every((v) => v.normal !== undefined)
+    })
+  }
+
+  /**
+   * Check that every face vertex has UV coordinates set
+   * @returns true if mesh has uv coordinates
+   */
+  has_uvs(): boolean {
+    return this.faces.every((face) => {
+      return face.every((v) => v.uv !== undefined)
+    })
+  }
+
+  /**
+   * Compute (unit) face normals for all faces in the mesh. This
+   * returns a new Mesh. Other attributes are shared with the original
+   * mesh to avoid copying
+   */
+  compute_face_normals(): Mesh {
+    const computed_normals = this.faces.map((face) => {
+      const a = this.positions[face[0].pos]
+      const b = this.positions[face[1].pos]
+      const c = this.positions[face[2].pos]
+      return compute_normal(a, b, c)
+    })
+
+    const updated_faces = this.faces.map((face, i) => {
+      return face.map((v) => {
+        return { ...v, normal: i }
+      })
+    })
+
+    return new Mesh({
+      positions: this.positions,
+      uvs: this.uvs,
+      normals: computed_normals,
+      faces: updated_faces,
+    })
+  }
+
+  to_soup(): TriangleSoup {
+    const result: TriangleSoup = []
+
+    if (!this.has_normals()) {
+      throw new Error('mesh must have normals')
+    }
+
+    for (const face of this.faces) {
+      const positions = face.map((x) => this.positions[x.pos])
+
+      // The normal check before the loop guarantees that the normal index
+      // is undefined
+      const normal_index = face[0].normal as number
+      const normal = this.normals[normal_index]
+
+      // tessellate n-gons
+      const sides = face.length
+      const num_triangles = sides - 2
+      for (let i = 0; i < num_triangles; i++) {
+        const a = positions[0]
+        const b = positions[i + 1]
+        const c = positions[i + 2]
+        result.push({ normal, a, b, c })
+      }
+    }
+    return result
+  }
+}
