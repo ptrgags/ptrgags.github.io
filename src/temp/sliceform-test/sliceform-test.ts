@@ -70,7 +70,7 @@ export function printable_sliceform(pixels_per_inch: number): {
   const SLICE_COUNTS = new Direction2P(5, 9)
   const TOTAL_SLICES = SLICE_COUNTS.x + SLICE_COUNTS.y
 
-  const THICKNESS_MM = 2 ////0.5
+  const THICKNESS_MM = 0.5
   const MM_PER_INCHES = 25.4
   const THICKNESS_PX = (THICKNESS_MM / MM_PER_INCHES) * pixels_per_inch
 
