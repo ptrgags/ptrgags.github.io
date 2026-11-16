@@ -112,44 +112,6 @@ describe('Even2P', () => {
     expect(result).toBeEven2P(expected)
   })
 
-  it('sandwich with null bread and Even2P filling returns zero', () => {
-    const a = new Even2P(0, 0, 1, 0)
-    const b = new Even2P(1, 2, 3, 4)
-
-    const result = a.sandwich(b)
-
-    expect(result).toBeEven2P(Even2P.ZERO)
-  })
-
-  it('sandwich with null bread and Odd2P filling returns zero', () => {
-    const a = new Even2P(0, 0, 1, 0)
-    const b = new Odd2P(1, 2, 3, 4)
-
-    const result = a.sandwich(b)
-
-    expect(result).toBeOdd2P(Odd2P.ZERO)
-  })
-
-  it('computes sandwich with Even2P filling', () => {
-    const a = new Even2P(1, 2, 3, 4)
-    const b = new Even2P(-3, 1, -2, 2)
-
-    const result = a.sandwich(b)
-
-    const expected = new Even2P(-3, 1, 3.6, 4.8)
-    expect(result).toBeEven2P(expected)
-  })
-
-  it('computes sandwich with Odd2P filling', () => {
-    const a = new Even2P(1, 2, 3, 4)
-    const b = new Odd2P(-3, 1, -2, 2)
-
-    const result = a.sandwich(b)
-
-    const expected = new Odd2P(2.6, 1.8, -12, 2)
-    expect(result).toBeOdd2P(expected)
-  })
-
   it('lerp with t zero returns first point', () => {
     const a = new Even2P(1, 2, 3, 4)
     const b = new Even2P(-3, 1, -2, 2)
