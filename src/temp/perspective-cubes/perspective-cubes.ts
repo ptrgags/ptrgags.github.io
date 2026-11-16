@@ -107,6 +107,33 @@ class OnePointBasis {
     return [x, y, z]
   }
 
+  unit_cube(): LineSegment[] {
+    const p_110 = converge(this.x, this.vp_y, this.y, this.vp_x)
+    const p_101 = converge(this.x, this.vp_z, this.z, this.vp_x)
+    const p_011 = converge(this.y, this.vp_z, this.z, this.vp_y)
+    const p_111 = converge(p_110, this.vp_z, p_011, this.vp_x)
+
+    return [
+      // origin to reference points
+      new LineSegment(this.origin, this.x),
+      new LineSegment(this.origin, this.y),
+      new LineSegment(this.origin, this.z),
+
+      // 6 segments zigzagging around the cube
+      new LineSegment(this.x, p_110),
+      new LineSegment(this.x, p_101),
+      new LineSegment(this.y, p_110),
+      new LineSegment(this.y, p_011),
+      new LineSegment(this.z, p_101),
+      new LineSegment(this.z, p_011),
+
+      // corners to far corner
+      new LineSegment(p_110, p_111),
+      new LineSegment(p_101, p_111),
+      new LineSegment(p_011, p_111),
+    ]
+  }
+
   get_point(coords: Vec3): Point2P {
     const { x, y, z } = coords
 
@@ -162,22 +189,27 @@ export class PerspectiveCubes implements SceneP5 {
   axes: Group
 
   x_wave: Wave
+  y_wave: Wave
   z_wave: Wave
 
   constructor() {
     this.x_wave = Wave.sine({
-      freq: 0.25,
+      freq: 1 / 8,
+      amp: 1.5,
+    })
+    this.y_wave = Wave.sine({
+      freq: 1 / 8,
       amp: 4,
     })
     this.z_wave = Wave.sine({
-      freq: 0.25,
+      freq: 1 / 8,
       phase: 0.25,
-      amp: 2,
+      amp: 1.5,
     })
 
     // Set up one-point perspective
     const vanishing_point = new Point2P(250, 200)
-    const origin = new Point2P(150, 350)
+    const origin = new Point2P(240, 275)
     this.basis = OnePointBasis.from_measurements(vanishing_point, origin, 50, 50, 50)
 
     // draw a horizontal line for the horizon
@@ -191,17 +223,21 @@ export class PerspectiveCubes implements SceneP5 {
 
     this.axes = group()
 
-    this.primitive = group(style(Style.lines(Color.WHITE, 4), horizon_segment, this.axes))
+    this.primitive = group(
+      style(Style.lines(Color.WHITE, 4), horizon_segment, this.axes, ...this.basis.axes()),
+    )
   }
 
   update(p: p5): void {
     const t = CLOCK.elapsed_time
     const x = this.x_wave.bipolar(t)
+    const y = this.y_wave.bipolar(t)
     const z = this.z_wave.bipolar(t)
 
-    const coords = vec3(x, 0, z)
-    const basis = this.basis.move_to(coords)
-    this.axes.regroup(...basis.axes())
+    const coords = [vec3(x, y, z), vec3(-z, y, x), vec3(-x, y, -z), vec3(z, y, -x)]
+
+    const line_segments = coords.flatMap((x) => this.basis.move_to(x).unit_cube())
+    this.axes.regroup(...line_segments)
   }
 
   draw(lib: DrawP5): void {
