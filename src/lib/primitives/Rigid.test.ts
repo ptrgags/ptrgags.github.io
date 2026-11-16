@@ -48,7 +48,6 @@ describe('Rigid', () => {
     expect(result).toBeRigid(expected)
   })
 
-  /*
   describe('inverse', () => {
     it('inverse of translation is translation with the opposite direction', () => {
       const translation = Rigid.translation(new Direction2P(2, -1))
@@ -108,7 +107,6 @@ describe('Rigid', () => {
     })
   })
 
-  
   describe('compose', () => {
     it('IDENTIY obeys the identity law', () => {
       const id = Rigid.IDENTITY
@@ -287,7 +285,7 @@ describe('Rigid', () => {
       const a = Rigid.translation(new Direction2P(2, -3))
       const b = Rigid.translation(new Direction2P(-1, -1))
 
-      const result = a.difference(b)
+      const result = GRigid.diff(a, b)
 
       const expected = Rigid.translation(new Direction2P(3, -2))
       expect(result).toBeRigid(expected)
@@ -297,7 +295,7 @@ describe('Rigid', () => {
       const a = Rigid.rotation(Math.PI / 4)
       const b = Rigid.rotation(Math.PI)
 
-      const result = a.difference(b)
+      const result = GRigid.diff(a, b)
 
       const expected = Rigid.rotation(-(3 * Math.PI) / 4)
       expect(result).toBeRigid(expected)
@@ -307,7 +305,7 @@ describe('Rigid', () => {
       const a = Rigid.translation(Direction2P.DIR_X)
       const b = Rigid.rotation(Math.PI / 2)
 
-      const result = a.difference(b)
+      const result = GRigid.diff(a, b)
 
       const expected = new Rigid({
         translation: Direction2P.DIR_X,
@@ -327,7 +325,7 @@ describe('Rigid', () => {
         rotation: Math.PI,
       })
 
-      const result = a.difference(b)
+      const result = GRigid.diff(a, b)
 
       // T(1, 0) * R4 * Y * R4^2 * T(0, -1)
       // T(1, 0) * R4 * R4^2 * Y * T(0, -1)
@@ -348,7 +346,7 @@ describe('Rigid', () => {
       const a = Rigid.translation(Direction2P.DIR_X)
       const b = Rigid.translation(new Direction2P(2, -4))
 
-      const result = a.conjugate(b)
+      const result = GRigid.sandwich(a, b)
 
       const expected = b
       expect(result).toBeRigid(expected)
@@ -358,7 +356,7 @@ describe('Rigid', () => {
       const a = Rigid.rotation(Math.PI)
       const b = Rigid.rotation(Math.PI / 4)
 
-      const result = a.conjugate(b)
+      const result = GRigid.sandwich(a, b)
 
       const expected = b
       expect(result).toBeRigid(expected)
@@ -368,7 +366,7 @@ describe('Rigid', () => {
       const a = Rigid.FLIP_Y
       const b = Rigid.FLIP_Y
 
-      const result = a.conjugate(b)
+      const result = GRigid.sandwich(a, b)
 
       const expected = Rigid.FLIP_Y
       expect(result).toBeRigid(expected)
@@ -378,7 +376,7 @@ describe('Rigid', () => {
       const a = Rigid.translation(Direction2P.DIR_Y)
       const b = Rigid.rotation(Math.PI / 2)
 
-      const result = a.conjugate(b)
+      const result = GRigid.sandwich(a, b)
 
       const expected = new Rigid({
         translation: new Direction2P(1, 1),
@@ -391,7 +389,7 @@ describe('Rigid', () => {
       const a = Rigid.translation(Direction2P.DIR_Y)
       const b = Rigid.FLIP_Y
 
-      const result = a.conjugate(b)
+      const result = GRigid.sandwich(a, b)
 
       // T(0, 1) * Y * T(0, -1)
       // = T(0, 1) * T(0, 1) * Y
@@ -416,7 +414,7 @@ describe('Rigid', () => {
         flip: true,
       })
 
-      const result = a.conjugate(b)
+      const result = GRigid.sandwich(a, b)
 
       // T(1, 0) * R4 * Y * T(1, 2) * R4^2 * Y * Y * R4^-1 * T(-1, 0)
       // = T(1, 0) * R4 * T(1, -2) * Y * R4^2 * R4^-1 * T(-1, 0)
@@ -433,7 +431,6 @@ describe('Rigid', () => {
       expect(result).toBeRigid(expected)
     })
   })
-  */
 
   describe('interpolate', () => {
     it('with mismatched flip flags throws error', () => {
