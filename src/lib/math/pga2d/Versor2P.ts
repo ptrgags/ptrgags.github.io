@@ -1,7 +1,9 @@
 import type { Vec2 } from '../../primitives/Vec2.ts'
 import { Group } from '../Group.ts'
+import { Direction2P } from './Direction2P.ts'
 import { Even2P } from './Even2P.ts'
 import { Odd2P } from './Odd2P.ts'
+import { Point2P } from './Point2P.ts'
 
 export class Versor2P {
   versor: Even2P | Odd2P
@@ -76,6 +78,22 @@ export class Versor2P {
 
   compose(other: Versor2P): Versor2P {
     return new Versor2P(this.versor.gp(other.versor))
+  }
+
+  transform_point(point: Point2P): Point2P {
+    const rev = this.versor.reverse()
+    // this is either  even * even * even = even
+    //             or   odd * even *  odd = odd * odd = even
+    const sandwich = this.versor.gp(point.bivec).gp(rev) as Even2P
+    return Point2P.from_bivec(sandwich)
+  }
+
+  transform_dir(dir: Direction2P): Direction2P {
+    const rev = this.versor.reverse()
+    // this is either  even * even * even = even
+    //             or   odd * even *  odd = odd * odd = even
+    const sandwich = this.versor.gp(dir.bivec).gp(rev) as Even2P
+    return Direction2P.from_bivec(sandwich)
   }
 
   static readonly IDENTITY = new Versor2P(Even2P.IDENTITY)

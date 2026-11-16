@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { Rigid } from './Rigid.js'
+import { GRigid, Rigid } from './Rigid.js'
 import { Direction2P } from '../math/pga2d/Direction2P.js'
+import { group_tests } from '../test-helpers/group_tests.js'
 
 describe('Rigid', () => {
   it('translation sets correct settings', () => {
@@ -543,4 +544,43 @@ describe('Rigid', () => {
       expect(result).toBeRigid(expected)
     })
   })
+})
+
+group_tests({
+  label: 'Rigid',
+  group: GRigid,
+  associativity: [
+    Rigid.translation(new Direction2P(3, 4)),
+    Rigid.FLIP_Y,
+    Rigid.rot_n(4),
+    new Rigid({
+      translation: new Direction2P(3, 4),
+      rotation: -Math.PI / 2,
+      flip: true,
+    }),
+  ],
+  identity_law: Rigid.rot_n(6),
+  inverse: [Rigid.translation(new Direction2P(3, -4)), Rigid.translation(new Direction2P(-3, 4))],
+  inv_product: [
+    Rigid.translation(new Direction2P(1, 3)),
+    Rigid.FLIP_Y,
+    new Rigid({
+      translation: new Direction2P(-1, 3),
+      flip: true,
+    }),
+  ],
+  diff: [Rigid.rotation(Math.PI / 3), Rigid.rotation(Math.PI / 4), Rigid.rotation(Math.PI / 12)],
+  sandwich: [
+    Rigid.translation(new Direction2P(3, 4)),
+    Rigid.rot_n(4),
+    new Rigid({
+      translation: new Direction2P(7, 1),
+      rotation: Math.PI / 2,
+    }),
+  ],
+  commutator: [
+    Rigid.translation(new Direction2P(3, 4)),
+    Rigid.rot_n(4),
+    Rigid.translation(new Direction2P(7, 1)),
+  ],
 })

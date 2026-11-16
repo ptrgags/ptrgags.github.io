@@ -5,6 +5,8 @@ import { Direction2P } from '../math/pga2d/Direction2P.js'
 import type { DrawingLibrary } from './DrawingLibrary.js'
 import type { Vec2 } from './Vec2.js'
 import type { Transformation } from './TransformationOp.js'
+import { Group } from '../math/Group.js'
+import { Versor2P } from '../math/pga2d/Versor2P.js'
 
 export interface RigidOptions {
   translation?: Vec2
@@ -42,7 +44,6 @@ export class Rigid implements Transformation {
     )
   }
 
-  /**
   inverse() {
     // (T * R * Y?)^-1 = Y? * R^-1 * T^-1
     // = Y? * R^-1 * T(-d)
@@ -52,7 +53,7 @@ export class Rigid implements Transformation {
 
     const angle = this.flip ? this.rotation : -this.rotation
 
-    const inv_rot = Motor.rotation(Point.ORIGIN, -this.rotation)
+    const inv_rot = Versor2P.rotation(-this.rotation)
     const rotated_offset = inv_rot.transform_dir(this.translation.neg())
     const translation = this.flip ? rotated_offset.flip_y() : rotated_offset
 
@@ -68,17 +69,17 @@ export class Rigid implements Transformation {
    * @param {Rigid} other Another transformation
    * @returns {Rigid} The transformation that represents applying other, then
    * applying this
-
+   */
   compose(other: Rigid): Rigid {
     // T1 * R1 * Y1? * T2 * R2 * Y2?
     // = T1 * T(R1 * Y1 * d2) * R1 * Y1? * R2 * Y2?
     // = T1 * T(R1 * Y1 * d2) * R1 * R2^(+/-1) * Y1? * Y2?
-    const motor = Motor.rotation(Point.ORIGIN, this.rotation)
+    const rotate = Versor2P.rotation(this.rotation)
 
     const flipped_offset = this.flip
       ? new Direction2P(other.translation.x, -other.translation.y)
       : other.translation
-    const translation = this.translation.add(motor.transform_dir(flipped_offset))
+    const translation = this.translation.add(rotate.transform_dir(flipped_offset))
 
     const r2_sign = this.flip ? -1 : 1
     const rotation = this.rotation + r2_sign * other.rotation
@@ -90,31 +91,6 @@ export class Rigid implements Transformation {
       flip: this.flip !== other.flip,
     })
   }
-
-  /**
-   * Compute the rigid transformation that takes other to this transformation.
-   * i.e. difference = A * B^-1
-   * @param {Rigid} other
-   * @returns {Rigid}
-   
-  difference(other: Rigid): Rigid {
-    // PERFORMANCE IDEA: this can be written out explicitly and simplified
-    // instead of making temporaries, similar to compose()
-    return this.compose(other.inverse())
-  }
-
-  /**
-   * Use this rigid transformation to conjugate another one,
-   * i.e. compute A * B * A^-1
-   * @param {Rigid} other
-   * @returns {Rigid}
-   
-  conjugate(other: Rigid): Rigid {
-    // PERFORMANCE IDEA: this can be written out explicitly and simplified
-    // instead of making temporaries, similar to compose()
-    return this.compose(other).compose(this.inverse())
-  }
-    */
 
   /**
    * Convenience constructor for a translation
@@ -185,3 +161,18 @@ export class Rigid implements Transformation {
   static readonly IDENTITY = new Rigid({})
   static readonly FLIP_Y = new Rigid({ flip: true })
 }
+
+export const GRigid = new Group<Rigid>({
+  equals(a, b) {
+    return a.equals(b)
+  },
+  identity() {
+    return Rigid.IDENTITY
+  },
+  mul(a, b) {
+    return a.compose(b)
+  },
+  inv(g) {
+    return g.inverse()
+  },
+})
