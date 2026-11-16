@@ -32,6 +32,14 @@ function converge(
   return line_a.meet(line_b)
 }
 
+interface OnePointBasisOptions {
+  origin: Point2P
+  vanishing_point: Point2P
+  x: Point2P
+  y: Point2P
+  z: Point2P
+}
+
 class OnePointBasis {
   vp_x: Direction2P = Direction2P.DIR_X
   vp_y: Direction2P = Direction2P.DIR_Y.neg()
@@ -50,23 +58,38 @@ class OnePointBasis {
   y: Point2P
   z: Point2P
 
-  constructor(
-    vp_z: Point2P,
-    origin: Point2P,
-    x_length: number,
-    y_length: number,
-    z_length: number,
-  ) {
-    this.vp_z = vp_z
-    this.origin = origin
-    this.x = origin.add(this.vp_x.scale(x_length))
-    this.y = origin.add(this.vp_y.scale(y_length))
-    const dir_z = origin.sub(vp_z).normalize()
-    this.z = origin.add(dir_z.scale(z_length))
+  constructor(options: OnePointBasisOptions) {
+    const origin = options.origin
+    this.vp_z = options.vanishing_point
+    this.origin = options.origin
+    this.x = options.x
+    this.y = options.y
+    this.z = options.z
 
     this.dir_x = this.x.sub(origin)
     this.dir_y = this.y.sub(origin)
     this.dir_z = this.z.sub(origin)
+  }
+
+  static from_measurements(
+    vanishing_point: Point2P,
+    origin: Point2P,
+    x_length: number,
+    y_length: number,
+    z_length: number,
+  ): OnePointBasis {
+    const x = origin.add(Direction2P.DIR_X.scale(x_length))
+    const y = origin.add(Direction2P.DIR_Y.scale(-y_length))
+    const dir_z = origin.sub(vanishing_point).normalize()
+    const z = origin.add(dir_z.scale(z_length))
+
+    return new OnePointBasis({
+      origin,
+      vanishing_point,
+      x,
+      y,
+      z,
+    })
   }
 
   vanishing_line(): Line2P {
@@ -107,13 +130,31 @@ class OnePointBasis {
     // finish the box to get (x, y, z)
     return converge(p_x0z, this.dir_y, p_0yz, this.dir_x) as Point2P
   }
+
+  /**
+   * Move the origin of the coordinate system while keeping the
+   * length reference constant
+   * @param coords
+   * @returns A new basis
+   */
+  move_to(coords: Vec3): OnePointBasis {
+    const { x, y, z } = coords
+
+    return new OnePointBasis({
+      origin: this.get_point(coords),
+      vanishing_point: this.vp_z,
+      x: this.get_point(vec3(x + 1, y, z)),
+      y: this.get_point(vec3(x, y + 1, z)),
+      z: this.get_point(vec3(x, y, z + 1)),
+    })
+  }
 }
 
 export function perspective_cubes(): Drawable {
   // Set up one-point perspective
   const vanishing_point = new Point2P(250, 200)
-  const origin = new Point2P(100, 400)
-  const basis = new OnePointBasis(vanishing_point, origin, 100, 100, 150)
+  const origin = new Point2P(100, 300)
+  const basis = OnePointBasis.from_measurements(vanishing_point, origin, 50, 50, 50)
 
   // draw a horizontal line for the horizon
   const line_horizon = basis.vanishing_line()
@@ -124,9 +165,9 @@ export function perspective_cubes(): Drawable {
     line_horizon.meet(line_right),
   )
 
-  const another_origin = basis.get_point(vec3(2, 0, 1))
-  console.log(another_origin.toString())
-  const diag = new LineSegment(basis.origin, another_origin)
+  const another_basis = basis.move_to(vec3(4, 0, 2))
+
+  const diag = new LineSegment(basis.origin, another_basis.origin)
 
   return group(
     style(
@@ -135,7 +176,7 @@ export function perspective_cubes(): Drawable {
       new LineSegment(basis.vp_z, basis.y),
       diag,
     ),
-    style(Style.lines(Color.WHITE, 4), horizon_segment, ...basis.axes()),
+    style(Style.lines(Color.WHITE, 4), horizon_segment, ...basis.axes(), ...another_basis.axes()),
   )
 }
 
