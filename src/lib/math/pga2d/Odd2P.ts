@@ -137,72 +137,34 @@ export class Odd2P {
     return this.#wedge_even(other)
   }
 
-  #sandwich_even(other: Even2P): Even2P {
-    const { x: ax, y: ay, o: ao, xyo: axyo } = this
-    const { scalar: bs, xy: bxy, xo: bxo, yo: byo } = other
-
-    // if the bread is a null vector, the result will be zero
-    const mag_sqr = ax * ax + ay * ay
-    if (is_nearly(mag_sqr, 0)) {
-      return Even2P.ZERO
-    }
-
-    const scalar = bs
-    const xy = -bxy
-    const xo =
-      -(
-        2 * ao * ay * bxy +
-        -2 * axyo * ax * bxy +
-        ax * ax * bxo +
-        2 * ax * ay * byo +
-        -ay * ay * bxo
-      ) / mag_sqr
-    const yo =
-      -(
-        -2 * ao * ax * bxy +
-        -2 * axyo * ay * bxy +
-        -ax * ax * byo +
-        2 * ax * ay * bxo +
-        ay * ay * byo
-      ) / mag_sqr
-
+  #vee_even(even: Even2P): Even2P {
+    const { x: Ax, y: Ay, o: Ao, xyo: Axyo } = this
+    const { scalar: Bs, xy: Bxy, xo: Bxo, yo: Byo } = even
+    const scalar = Ao * Bxy + Axyo * Bs - Ax * -Byo + Ay * -Bxo
+    const xo = -(Axyo * -Bxo)
+    const yo = -(Axyo * -Byo)
+    const xy = Axyo * Bxy
     return new Even2P(scalar, xy, xo, yo)
   }
 
-  #sandwich_odd(other: Odd2P): Odd2P {
-    const { x: ax, y: ay, o: ao, xyo: axyo } = this
-    const { x: bx, y: by, o: bo, xyo: bxyo } = other
-
-    const mag_sqr = ax * ax + ay * ay
-    if (is_nearly(mag_sqr, 0)) {
-      return Odd2P.ZERO
-    }
-
-    const x = (ax * ax * bx + 2 * ax * ay * by - ay * ay * bx) / mag_sqr
-    const y = (-ax * ax * by + 2 * ax * ay * bx + ay * ay * by) / mag_sqr
-    const o =
-      (2 * ao * ax * bx +
-        2 * ao * ay * by +
-        2 * axyo * ax * by +
-        -2 * axyo * ay * bx +
-        -ax * ax * bo +
-        -ay * ay * bo) /
-      mag_sqr
-    const xyo = bxyo
-
-    // Note: for odd[odd], we need to negate the result. The other 3
-    // sandwich products have a positive sign.
-    return new Odd2P(-x, -y, -o, -xyo)
+  #vee_odd(odd: Odd2P): Odd2P {
+    const { x: Ax, y: Ay, o: Ao, xyo: Axyo } = this
+    const { x: Bx, y: By, o: Bo, xyo: Bxyo } = odd
+    const o = Ao * Bxyo + Axyo * Bo
+    const x = Axyo * Bx + Ax * Bxyo
+    const y = Axyo * By + Ay * Bxyo
+    const xyo = Axyo * Bxyo
+    return new Odd2P(x, y, o, xyo)
   }
 
-  sandwich(other: Even2P): Even2P
-  sandwich(other: Odd2P): Odd2P
-  sandwich(other: Even2P | Odd2P): Even2P | Odd2P {
+  vee(other: Even2P): Even2P
+  vee(other: Odd2P): Odd2P
+  vee(other: Even2P | Odd2P): Even2P | Odd2P
+  vee(other: Even2P | Odd2P): Even2P | Odd2P {
     if (other instanceof Odd2P) {
-      return this.#sandwich_odd(other)
+      return this.#vee_odd(other)
     }
-
-    return this.#sandwich_even(other)
+    return this.#vee_even(other)
   }
 
   equals(other: Odd2P): boolean {
