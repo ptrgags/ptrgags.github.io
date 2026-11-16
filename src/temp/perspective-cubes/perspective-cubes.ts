@@ -10,7 +10,7 @@ import { Style } from '../../lib/styling/Style.ts'
 import { Line2P } from '../../lib/math/pga2d/Line2P.ts'
 import { LineSegment } from '../../lib/primitives/LineSegment.ts'
 import { Color } from '../../lib/styling/Color.ts'
-import { vec3, type Vec3 } from '../../lib/math/vector/Vec3.ts'
+import { vec3, VSVec3, type Vec3 } from '../../lib/math/vector/Vec3.ts'
 import SketchP5 from '../../components/SketchP5.vue'
 import { Wave } from '../../lib/animation/Wave.ts'
 import type { Group } from '../../lib/primitives/Group.ts'
@@ -187,6 +187,7 @@ export class PerspectiveCubes implements SceneP5 {
   primitive: Drawable
   basis: OnePointBasis
   axes: Group
+  ref_lines: Group
 
   x_wave: Wave
   y_wave: Wave
@@ -222,8 +223,10 @@ export class PerspectiveCubes implements SceneP5 {
     )
 
     this.axes = group()
+    this.ref_lines = group()
 
     this.primitive = group(
+      style(Style.lines(Color.RED, 2), this.ref_lines),
       style(Style.lines(Color.WHITE, 4), horizon_segment, this.axes, ...this.basis.axes()),
     )
   }
@@ -235,6 +238,13 @@ export class PerspectiveCubes implements SceneP5 {
     const z = this.z_wave.bipolar(t)
 
     const coords = [vec3(x, y, z), vec3(-z, y, x), vec3(-x, y, -z), vec3(z, y, -x)]
+
+    this.ref_lines.regroup(
+      ...coords.map((x) => {
+        const point = this.basis.get_point(VSVec3.add(x, vec3(0.5, 0.5, 0.5)))
+        return new LineSegment(this.basis.origin, point)
+      }),
+    )
 
     const line_segments = coords.flatMap((x) => this.basis.move_to(x).unit_cube())
     this.axes.regroup(...line_segments)
