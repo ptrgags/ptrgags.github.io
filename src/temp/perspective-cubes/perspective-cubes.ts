@@ -9,15 +9,54 @@ import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
 import { Style } from '../../lib/styling/Style.ts'
 import { Line2P } from '../../lib/math/pga2d/Line2P.ts'
 import { LineSegment } from '../../lib/primitives/LineSegment.ts'
+import { Color } from '../../lib/styling/Color.ts'
+import type { Vec3 } from '../../lib/math/vector/Vec3.ts'
+
+class OnePointBasis {
+  vp_x: Direction2P = Direction2P.DIR_X
+  vp_y: Direction2P = Direction2P.DIR_Y.neg()
+  vp_z: Point2P
+  origin: Point2P
+  // points 1 unit along each axis
+  x: Point2P
+  y: Point2P
+  z: Point2P
+
+  constructor(
+    vp_z: Point2P,
+    origin: Point2P,
+    x_length: number,
+    y_length: number,
+    z_length: number,
+  ) {
+    this.vp_z = vp_z
+    this.origin = origin
+    this.x = origin.add(this.vp_x.scale(x_length))
+    this.y = origin.add(this.vp_y.scale(y_length))
+    const dir_z = origin.sub(vp_z).normalize()
+    this.z = origin.add(dir_z.scale(z_length))
+  }
+
+  vanishing_line(): Line2P {
+    return this.vp_z.join(Direction2P.DIR_X)
+  }
+
+  axes(): LineSegment[] {
+    const x = new LineSegment(this.origin, this.x)
+    const y = new LineSegment(this.origin, this.y)
+    const z = new LineSegment(this.origin, this.z)
+    return [x, y, z]
+  }
+}
 
 export function perspective_cubes(): Drawable {
-  // one point perspective
-  const vp_x = Direction2P.DIR_X
-  const vp_y = Direction2P.DIR_Y.neg()
-  const vp_z = new Point2P(250, 200)
+  // Set up one-point perspective
+  const vanishing_point = new Point2P(250, 200)
+  const origin = new Point2P(100, 400)
+  const basis = new OnePointBasis(vanishing_point, origin, 100, 100, 150)
 
   // draw a horizontal line for the horizon
-  const line_horizon = vp_z.join(vp_x)
+  const line_horizon = basis.vanishing_line()
   const line_left = new Line2P(1, 0, 0)
   const line_right = new Line2P(1, 0, ATC_SCREEN.dimensions.width)
   const horizon_segment = new LineSegment(
@@ -25,20 +64,14 @@ export function perspective_cubes(): Drawable {
     line_horizon.meet(line_right),
   )
 
-  // set up 3 reference points that determine the scale of 1 unit in all
-  // three directions relative to this origin point
-  const origin = new Point2P(100, 400)
-  // x1 as in "1 unit in the x direction" and so on
-  const x1 = new Point2P(100 + 100, 400)
-  const y1 = new Point2P(100, 400 - 100)
-  const dir_z = origin.sub(vp_z).normalize()
-  const z1 = origin.add(dir_z.scale(100))
-
-  const leg_x = new LineSegment(origin, x1)
-  const leg_y = new LineSegment(origin, y1)
-  const leg_z = new LineSegment(origin, z1)
-
-  return group(style(Style.DEFAULT_LINES, horizon_segment, leg_x, leg_y, leg_z))
+  return group(
+    style(
+      Style.lines(Color.RED, 1),
+      new LineSegment(basis.vp_z, origin),
+      new LineSegment(basis.vp_z, basis.y),
+    ),
+    style(Style.lines(Color.WHITE, 4), horizon_segment, ...basis.axes()),
+  )
 }
 
 export const SKETCHES = {
