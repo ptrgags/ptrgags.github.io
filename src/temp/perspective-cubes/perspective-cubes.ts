@@ -11,6 +11,10 @@ import { Line2P } from '../../lib/math/pga2d/Line2P.ts'
 import { LineSegment } from '../../lib/primitives/LineSegment.ts'
 import { Color } from '../../lib/styling/Color.ts'
 import { vec3, type Vec3 } from '../../lib/math/vector/Vec3.ts'
+import SketchP5 from '../../components/SketchP5.vue'
+import { Wave } from '../../lib/animation/Wave.ts'
+import type { Group } from '../../lib/primitives/Group.ts'
+import { Clock } from '../../lib/animation/Clock.ts'
 
 /**
  * From four points, draw two line segments through them and then compute
@@ -150,36 +154,61 @@ class OnePointBasis {
   }
 }
 
-export function perspective_cubes(): Drawable {
-  // Set up one-point perspective
-  const vanishing_point = new Point2P(250, 200)
-  const origin = new Point2P(100, 300)
-  const basis = OnePointBasis.from_measurements(vanishing_point, origin, 50, 50, 50)
+const CLOCK = new Clock()
 
-  // draw a horizontal line for the horizon
-  const line_horizon = basis.vanishing_line()
-  const line_left = new Line2P(1, 0, 0)
-  const line_right = new Line2P(1, 0, ATC_SCREEN.dimensions.width)
-  const horizon_segment = new LineSegment(
-    line_horizon.meet(line_left),
-    line_horizon.meet(line_right),
-  )
+export class PerspectiveCubes implements SceneP5 {
+  primitive: Drawable
+  basis: OnePointBasis
+  axes: Group
 
-  const another_basis = basis.move_to(vec3(4, 0, 2))
+  x_wave: Wave
+  z_wave: Wave
 
-  const diag = new LineSegment(basis.origin, another_basis.origin)
+  constructor() {
+    this.x_wave = Wave.sine({
+      freq: 0.25,
+      amp: 4,
+    })
+    this.z_wave = Wave.sine({
+      freq: 0.25,
+      phase: 0.25,
+      amp: 2,
+    })
 
-  return group(
-    style(
-      Style.lines(Color.RED, 1),
-      new LineSegment(basis.vp_z, origin),
-      new LineSegment(basis.vp_z, basis.y),
-      diag,
-    ),
-    style(Style.lines(Color.WHITE, 4), horizon_segment, ...basis.axes(), ...another_basis.axes()),
-  )
+    // Set up one-point perspective
+    const vanishing_point = new Point2P(250, 200)
+    const origin = new Point2P(150, 350)
+    this.basis = OnePointBasis.from_measurements(vanishing_point, origin, 50, 50, 50)
+
+    // draw a horizontal line for the horizon
+    const line_horizon = this.basis.vanishing_line()
+    const line_left = new Line2P(1, 0, 0)
+    const line_right = new Line2P(1, 0, ATC_SCREEN.dimensions.width)
+    const horizon_segment = new LineSegment(
+      line_horizon.meet(line_left),
+      line_horizon.meet(line_right),
+    )
+
+    this.axes = group()
+
+    this.primitive = group(style(Style.lines(Color.WHITE, 4), horizon_segment, this.axes))
+  }
+
+  update(p: p5): void {
+    const t = CLOCK.elapsed_time
+    const x = this.x_wave.bipolar(t)
+    const z = this.z_wave.bipolar(t)
+
+    const coords = vec3(x, 0, z)
+    const basis = this.basis.move_to(coords)
+    this.axes.regroup(...basis.axes())
+  }
+
+  draw(lib: DrawP5): void {
+    this.primitive.draw(lib)
+  }
 }
 
 export const SKETCHES = {
-  template: make_static_sketch(ATC_SCREEN.dimensions, perspective_cubes()),
+  template: make_sketch(ATC_SCREEN.dimensions, new PerspectiveCubes()),
 }
