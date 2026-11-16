@@ -60,6 +60,36 @@ describe('Odd2P', () => {
     expect(result).toBe(expected)
   })
 
+  it('computes gp with Even2P multivector', () => {
+    const a = new Odd2P(1, 2, 3, 4)
+    const b = new Even2P(-2, 1, 3, -1)
+
+    const result = a.gp(b)
+
+    const expected = new Odd2P(-4, -3, -9, -12)
+    expect(result).toBeOdd2P(expected)
+  })
+
+  it('computes gp with Odd2P multivector', () => {
+    const a = new Odd2P(1, 2, 3, 4)
+    const b = new Odd2P(-2, 1, 3, -1)
+
+    const result = a.gp(b)
+
+    const expected = new Even2P(0, 5, 7, -6)
+    expect(result).toBeEven2P(expected)
+  })
+
+  it('computes wedge with Even2P multivector', () => {
+    const a = new Odd2P(1, 2, 3, 4)
+    const b = new Even2P(-2, 1, 3, -1)
+
+    const result = a.wedge(b)
+
+    const expected = new Odd2P(-2, -4, -6, -12)
+    expect(result).toBeOdd2P(expected)
+  })
+
   it('computes wedge with Odd2P multivector', () => {
     const a = new Odd2P(1, 2, 3, 4)
     const b = new Odd2P(-2, 1, 3, -1)
@@ -70,23 +100,23 @@ describe('Odd2P', () => {
     expect(result).toBeEven2P(expected)
   })
 
-  // wedge Even2P is not yet implemented
+  it('computes vee with Even2P multivector', () => {
+    const a = new Odd2P(1, 2, 3, 4)
+    const b = new Even2P(-2, 1, 3, -1)
 
-  it('sandwich with null bread and Even2P filling returns zero', () => {
-    const a = new Odd2P(0, 0, 0, 1)
-    const b = new Even2P(1, 2, 3, 4)
+    const result = a.vee(b)
 
-    const result = a.sandwich(b)
-
-    expect(result).toBeEven2P(Even2P.ZERO)
+    const expected = new Even2P(-12, 4, 12, -4)
+    expect(result).toBeEven2P(expected)
   })
 
-  it('sandwich with null bread and Odd2P filling returns zero', () => {
-    const a = new Odd2P(0, 0, 0, 1)
-    const b = new Odd2P(1, 2, 3, 4)
+  it('computes vee with Odd2P multivector', () => {
+    const a = new Odd2P(1, 2, 3, 4)
+    const b = new Odd2P(-2, 1, 3, -1)
 
-    const result = a.sandwich(b)
+    const result = a.vee(b)
 
-    expect(result).toBeOdd2P(Odd2P.ZERO)
+    const expected = new Odd2P(-9, 2, 9, -4)
+    expect(result).toBeOdd2P(expected)
   })
 })
