@@ -15,6 +15,8 @@ import SketchP5 from '../../components/SketchP5.vue'
 import { Wave } from '../../lib/animation/Wave.ts'
 import type { Group } from '../../lib/primitives/Group.ts'
 import { Clock } from '../../lib/animation/Clock.ts'
+import { Trajectory } from '../../lib/primitives/Trajectory.ts'
+import { range } from '../../lib/math/iteration/range.ts'
 
 /**
  * From four points, draw two line segments through them and then compute
@@ -188,6 +190,7 @@ export class PerspectiveCubes implements SceneP5 {
   basis: OnePointBasis
   axes: Group
   ref_lines: Group
+  trajectories: Trajectory[]
 
   x_wave: Wave
   y_wave: Wave
@@ -195,7 +198,7 @@ export class PerspectiveCubes implements SceneP5 {
 
   constructor() {
     this.x_wave = Wave.sine({
-      freq: 1 / 8,
+      freq: 1 / 4,
       amp: 1.5,
     })
     this.y_wave = Wave.sine({
@@ -203,7 +206,7 @@ export class PerspectiveCubes implements SceneP5 {
       amp: 4,
     })
     this.z_wave = Wave.sine({
-      freq: 1 / 8,
+      freq: 1 / 4,
       phase: 0.25,
       amp: 1.5,
     })
@@ -225,8 +228,12 @@ export class PerspectiveCubes implements SceneP5 {
     this.axes = group()
     this.ref_lines = group()
 
+    this.trajectories = range(4)
+      .map((x) => new Trajectory(100))
+      .toArray()
+
     this.primitive = group(
-      style(Style.lines(Color.RED, 2), this.ref_lines),
+      style(Style.lines(Color.RED, 2), ...this.trajectories),
       style(Style.lines(Color.WHITE, 4), horizon_segment, this.axes, ...this.basis.axes()),
     )
   }
@@ -240,8 +247,9 @@ export class PerspectiveCubes implements SceneP5 {
     const coords = [vec3(x, y, z), vec3(-z, y, x), vec3(-x, y, -z), vec3(z, y, -x)]
 
     this.ref_lines.regroup(
-      ...coords.map((x) => {
+      ...coords.map((x, i) => {
         const point = this.basis.get_point(VSVec3.add(x, vec3(0.5, 0.5, 0.5)))
+        this.trajectories[i].add_point(point)
         return new LineSegment(this.basis.origin, point)
       }),
     )
