@@ -13,6 +13,8 @@ import type { Vec2 } from '../../lib/primitives/Vec2.ts'
 import { Turtle } from './Turtle.ts'
 import { Color } from '../../lib/styling/Color.ts'
 import { Oklch } from '../../lib/styling/Oklch.ts'
+import type { Printable } from '../../lib/printables/Printable.ts'
+import { US_LETTER_INCHES } from '../../lib/printables/dimensions.ts'
 
 interface RegularPolygonNet {
   sides: number
@@ -163,7 +165,7 @@ function draw_faces(
 const LENGTH = 100
 const PPI = 100
 
-function net(): Drawable {
+function make_net(): Drawable {
   const points: Vec2[] = []
   draw_outline_root(TRIANGULAR_PRISM, points, LENGTH)
   const outline2 = new Polyline({
@@ -190,6 +192,17 @@ function net(): Drawable {
   )
 }
 
+const PRINTABLE_TRIANGULAR_PRISM: Printable = {
+  filename: 'triangular-prism.pdf',
+  pixels_per_inch: PPI,
+  page_size_inches: US_LETTER_INCHES.dimensions,
+  pages: [{ scene: make_net(), dimensions: ATC_SCREEN.dimensions }],
+}
+
 export const SKETCHES = {
-  template: make_static_sketch(ATC_SCREEN.dimensions, net()),
+  template: make_static_sketch(ATC_SCREEN.dimensions, make_net()),
+}
+
+export const PRINTABLES = {
+  triangular_prism: PRINTABLE_TRIANGULAR_PRISM,
 }

@@ -7,11 +7,10 @@ hide: true
 thumbnail: pattern/TEMPLATE/thumbnail.png
 ---
 <script setup lang="ts">
-import SketchP5 from '../../components/SketchP5.vue'
-import {SKETCHES} from './regular-net-test'
+import PDFPrintable from '../../components/PDFPrintable.vue'
+import {PRINTABLES} from './regular-net-test'
 </script>
 
+## Triangular Prism
 
-<SketchP5 :sketch="SKETCHES.template" />
-
-lorem ipsum blah blah blah
+<PDFPrintable :printable="PRINTABLES.triangular_prism" />
