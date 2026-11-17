@@ -7,6 +7,8 @@ import type { Drawable } from '../../lib/primitives/Drawable.ts'
 import { Rigid } from '../../lib/primitives/Rigid.ts'
 import { style, xform } from '../../lib/primitives/shorthand.ts'
 import type { Vec2 } from '../../lib/primitives/Vec2.ts'
+import { US_LETTER_INCHES } from '../../lib/printables/dimensions.ts'
+import type { Printable } from '../../lib/printables/Printable.ts'
 import { Slicer } from '../../lib/sliceforms/slice_surface.ts'
 import { Color } from '../../lib/styling/Color.ts'
 import { Style } from '../../lib/styling/Style.ts'
@@ -63,10 +65,7 @@ export function preview_pieces(): Drawable {
   return style(Style.DEFAULT_LINES, ...arranged)
 }
 
-export function printable_sliceform(pixels_per_inch: number): {
-  primitive: Drawable
-  dimensions: Direction2P
-} {
+export function printable_sliceform(pixels_per_inch: number): Printable {
   const SLICE_COUNTS = new Direction2P(5, 9)
   const TOTAL_SLICES = SLICE_COUNTS.x + SLICE_COUNTS.y
 
@@ -100,8 +99,17 @@ export function printable_sliceform(pixels_per_inch: number): {
   })
 
   return {
-    primitive: style(Style.DEFAULT_LINES, ...arranged),
-    dimensions: STRIDE.mul_components(new Direction2P(COLUMNS, Math.ceil(TOTAL_SLICES / COLUMNS))),
+    filename: 'sliceform-test.pdf',
+    pixels_per_inch,
+    page_size_inches: US_LETTER_INCHES.dimensions,
+    pages: [
+      {
+        scene: style(Style.DEFAULT_LINES, ...arranged),
+        dimensions: STRIDE.mul_components(
+          new Direction2P(COLUMNS, Math.ceil(TOTAL_SLICES / COLUMNS)),
+        ),
+      },
+    ],
   }
 }
 
@@ -149,4 +157,8 @@ export function sliceform_3d_print(pixels_per_inch: number): {
 
 export const SKETCHES = {
   sliceform: make_static_sketch(ATC_SCREEN.dimensions, preview_pieces()),
+}
+
+export const PRINTABLES = {
+  sliceform: printable_sliceform(100),
 }
