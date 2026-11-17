@@ -27,16 +27,14 @@ const TRIANGULAR_PRISM: RegularPolygonNet = {
   children: [{ sides: 3 }, { sides: 4, children: [undefined, { sides: 4 }] }, { sides: 3 }],
 }
 
-const SIDE_LENGTH = 100
-
-function regular_polygon(sides: number): Polyline {
+function regular_polygon(sides: number, length: number): Polyline {
   let position = Point2P.ORIGIN
 
   const vertices = []
   for (let i = 0; i < sides; i++) {
     vertices.push(position)
     const direction = Direction2P.from_angle((i * 2 * Math.PI) / sides)
-    position = position.add(direction.scale(SIDE_LENGTH))
+    position = position.add(direction.scale(length))
   }
 
   return new Polyline({ vertices, closed: true })
@@ -92,28 +90,73 @@ function draw_outline(net: RegularPolygonNet, points: Vec2[], turtle: Turtle, le
   }
 }
 
-class TurtleGraphics {
-  points: Point2P[]
-  position: Point2P
-  angle: number
-  constructor() {
-    this.points = [Point2P.ORIGIN]
-    this.position = Point2P.ORIGIN
-    this.angle = 0
-  }
+function draw_faces_root(net: RegularPolygonNet, output: Drawable[], length: number) {
+  // I only use constructible polygons up to 12
+  // see https://en.wikipedia.org/wiki/Constructible_polygon
+  const polygons = [
+    undefined,
+    undefined,
+    undefined,
+    regular_polygon(3, length),
+    regular_polygon(4, length),
+    regular_polygon(5, length),
+    regular_polygon(6, length),
+    undefined,
+    regular_polygon(8, length),
+    undefined,
+    regular_polygon(10, length),
+    undefined,
+    regular_polygon(12, length),
+  ]
 
-  forward(length: number) {
-    const offset = Direction2P.from_angle(this.angle).scale(length)
-    this.position = this.position.add(offset)
-    this.points.push(this.position)
-  }
+  const turtle = new Turtle()
 
-  rotate(angle: number) {
-    this.angle += angle
-  }
+  output.push(polygons[net.sides] as Polyline)
 
-  to_polyline(): Polyline {
-    return new Polyline({ vertices: this.points, closed: true })
+  const angle = 360 / net.sides
+  const children = net.children ?? []
+  for (let i = 0; i < net.sides; i++) {
+    turtle.forward(length)
+
+    const child = children[i]
+    if (child !== undefined) {
+      const turtle2 = turtle.clone()
+      turtle2.rotate(180)
+      draw_faces(child, output, length, turtle2, polygons)
+    }
+
+    turtle.rotate(angle)
+  }
+}
+
+function draw_faces(
+  net: RegularPolygonNet,
+  output: Drawable[],
+  length: number,
+  turtle: Turtle,
+  polygons: (Polyline | undefined)[],
+) {
+  const polygon = polygons[net.sides] as Polyline
+
+  const rigid = turtle.get_transform()
+  output.push(xform(rigid, polygon))
+
+  // move to first boundary edge
+  const angle = 360 / net.sides
+  turtle.forward(length)
+  turtle.rotate(angle)
+
+  const children = net.children ?? []
+  for (let i = 0; i < net.sides - 1; i++) {
+    turtle.forward(length)
+
+    const child = children[i]
+    if (child !== undefined) {
+      const turtle2 = turtle.clone()
+      turtle2.rotate(180)
+      draw_faces(child, output, length, turtle2, polygons)
+    }
+    turtle.rotate(angle)
   }
 }
 
@@ -128,12 +171,22 @@ function net(): Drawable {
     closed: true,
   })
 
+  const faces: Drawable[] = []
+  draw_faces_root(TRIANGULAR_PRISM, faces, LENGTH)
+
+  const FACE_STYLE = new Style({
+    fill: Color.WHITE,
+    stroke: Color.BLACK,
+    width: 2,
+  })
+
   return xform(
     new Rigid({
       translation: new Direction2P(100, 350),
       flip: true,
     }),
     style(Style.lines(Oklch.grey(0.8), (PPI * 5) / 8), outline2),
+    style(FACE_STYLE, ...faces),
   )
 }
 
