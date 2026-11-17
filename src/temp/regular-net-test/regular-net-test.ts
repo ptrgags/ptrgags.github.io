@@ -9,7 +9,7 @@ import { Point2P } from '../../lib/math/pga2d/Point2P.ts'
 import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
 import { Style } from '../../lib/styling/Style.ts'
 import { Rigid } from '../../lib/primitives/Rigid.ts'
-import type { Vec2 } from '../../lib/primitives/Vec2.ts'
+import { vec2, type Vec2 } from '../../lib/primitives/Vec2.ts'
 import { Turtle } from './Turtle.ts'
 import { Color } from '../../lib/styling/Color.ts'
 import { Oklch } from '../../lib/styling/Oklch.ts'
@@ -162,47 +162,51 @@ function draw_faces(
   }
 }
 
-const LENGTH = 100
-const PPI = 100
-
-function make_net(): Drawable {
+function draw_net(
+  net: RegularPolygonNet,
+  side_length_px: number,
+  pixels_per_inch: number,
+): Drawable {
   const points: Vec2[] = []
-  draw_outline_root(TRIANGULAR_PRISM, points, LENGTH)
-  const outline2 = new Polyline({
+  draw_outline_root(net, points, side_length_px)
+  const outline = new Polyline({
     vertices: points,
     closed: true,
   })
 
   const faces: Drawable[] = []
-  draw_faces_root(TRIANGULAR_PRISM, faces, LENGTH)
+  draw_faces_root(net, faces, side_length_px)
 
-  const FACE_STYLE = new Style({
-    fill: Color.WHITE,
-    stroke: Color.BLACK,
-    width: 2,
-  })
+  const seam_allowance = (5 / 8) * pixels_per_inch
 
-  return xform(
-    new Rigid({
-      translation: new Direction2P(100, 350),
-      flip: true,
-    }),
-    style(Style.lines(Oklch.grey(0.8), (PPI * 5) / 8), outline2),
-    style(FACE_STYLE, ...faces),
+  return group(
+    style(Style.lines(Oklch.grey(0.9), seam_allowance), outline),
+    style(
+      new Style({
+        fill: Color.WHITE,
+        stroke: Color.BLACK,
+        width: 2,
+      }),
+      group(...faces),
+    ),
   )
 }
 
-const PRINTABLE_TRIANGULAR_PRISM: Printable = {
-  filename: 'triangular-prism.pdf',
-  pixels_per_inch: PPI,
-  page_size_inches: US_LETTER_INCHES.dimensions,
-  pages: [{ scene: make_net(), dimensions: ATC_SCREEN.dimensions }],
-}
-
-export const SKETCHES = {
-  template: make_static_sketch(ATC_SCREEN.dimensions, make_net()),
+function triangular_prism(): Printable {
+  const PPI = 100
+  const LENGTH_IN = 2
+  const scene = xform(
+    Rigid.translation(vec2(350, 0)).compose(Rigid.rot_n(4)),
+    draw_net(TRIANGULAR_PRISM, LENGTH_IN * PPI, PPI),
+  )
+  return {
+    filename: 'triangular-prism.pdf',
+    pixels_per_inch: PPI,
+    page_size_inches: US_LETTER_INCHES.dimensions,
+    pages: [{ scene, dimensions: ATC_SCREEN.dimensions }],
+  }
 }
 
 export const PRINTABLES = {
-  triangular_prism: PRINTABLE_TRIANGULAR_PRISM,
+  triangular_prism: triangular_prism(),
 }
