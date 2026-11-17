@@ -117,56 +117,10 @@ class TurtleGraphics {
   }
 }
 
-function triangular_prism(): Polyline {
-  const ANGLE2 = Math.PI
-  const ANGLE3 = (2 * Math.PI) / 3
-  const ANGLE4 = Math.PI / 2
-  const LENGTH = SIDE_LENGTH
-
-  const outline = new TurtleGraphics()
-  // turn around
-  outline.rotate(ANGLE2)
-  // two edges of the triangle
-  outline.rotate(ANGLE3)
-  outline.forward(LENGTH)
-  outline.rotate(ANGLE3)
-  outline.forward(LENGTH)
-  // turn, but don't take the last edge
-  outline.rotate(ANGLE3)
-  // instead turn around
-  outline.rotate(ANGLE2)
-  // side of second square
-  outline.forward(LENGTH)
-  // 3 sides of third square
-  outline.forward(LENGTH)
-  outline.rotate(ANGLE4)
-  outline.forward(LENGTH)
-  outline.rotate(ANGLE4)
-  outline.forward(LENGTH)
-  // another side of second square
-  outline.forward(LENGTH)
-  // turn towards triangle and draw two edges
-  outline.rotate(ANGLE2)
-  outline.rotate(ANGLE3)
-  outline.forward(LENGTH)
-  outline.rotate(ANGLE3)
-  outline.forward(LENGTH)
-  // turn around the triangle to align with the square, then turn backwards
-  outline.rotate(ANGLE3)
-  outline.rotate(ANGLE2)
-  // turn the last corner and draw the last edge
-  outline.rotate(ANGLE4)
-  outline.forward(LENGTH)
-
-  return outline.to_polyline()
-}
-
 const LENGTH = 100
 const PPI = 100
 
 function net(): Drawable {
-  const outline = triangular_prism()
-
   const points: Vec2[] = []
   draw_outline_root(TRIANGULAR_PRISM, points, LENGTH)
   const outline2 = new Polyline({
@@ -179,7 +133,6 @@ function net(): Drawable {
       translation: new Direction2P(100, 350),
       flip: true,
     }),
-    style(Style.DEFAULT_LINES, outline),
     style(Style.lines(Oklch.grey(0.8), (PPI * 5) / 8), outline2),
   )
 }
