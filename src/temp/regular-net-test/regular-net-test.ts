@@ -227,11 +227,45 @@ function triangular_cupola(): Printable {
     Rigid.translation(vec2(150, 200)),
     draw_net(TRIANGULAR_CUPOLA, LENGTH_IN * PPI, PPI),
   )
+
+  const ANOTHER_NET: RegularPolygonNet = {
+    sides: 6,
+    children: [
+      {
+        sides: 4,
+        children: [
+          undefined,
+          { sides: 3 },
+          {
+            sides: 3,
+            children: [
+              {
+                sides: 4,
+                children: [
+                  undefined,
+                  { sides: 3, children: [{ sides: 4, children: [undefined, { sides: 3 }] }] },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  }
+
+  const scene2 = xform(
+    Rigid.translation(vec2(200, 450)),
+    draw_net(ANOTHER_NET, LENGTH_IN * PPI, PPI),
+  )
+
   return {
     filename: 'triangular-cupola.pdf',
     pixels_per_inch: PPI,
     page_size_inches: US_LETTER_INCHES.dimensions,
-    pages: [{ scene, dimensions: ATC_SCREEN.dimensions }],
+    pages: [
+      { scene: scene2, dimensions: ATC_SCREEN.dimensions },
+      { scene, dimensions: ATC_SCREEN.dimensions },
+    ],
   }
 }
 
