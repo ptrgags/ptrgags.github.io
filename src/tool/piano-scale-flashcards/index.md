@@ -1,16 +1,17 @@
 ---
 layout: article
 title: Piano Scale Flashcards
-date: 2026-10-23
+date: '2026-10-23'
 ---
 <script setup lang="ts">
-import PianoScaleFlashcards from './PianoScaleFlashcards.vue'
+import PDFPrintable from '../../components/PDFPrintable.vue'
+import {PRINTABLES} from './piano-scale-flashcards.ts'
 </script>
 
 To help study and practice musical scales on keyboard instruments, I made
 the following deck of flashcards:
 
-<PianoScaleFlashcards />
+<PDFPrintable :printable="PRINTABLES.deck" />
 
 ## Ways to Use These Cards
 
