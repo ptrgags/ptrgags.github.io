@@ -22,6 +22,10 @@ export interface VectorTestOptions<V> {
   scalar_identity: V
   // (weights, vectors, expected_sum)
   combo: [[number, number, number], [V, V, V], V]
+  // (vectors, expected_sum)
+  sum: [V[], V]
+  // (vectors, expected_centroid)
+  centroid: [V[], V]
 }
 
 /**
@@ -124,6 +128,22 @@ export function vector_space_tests<V>(options: VectorTestOptions<V>) {
       const result = vs.combo(weights, vectors)
 
       expect(vs.equals(result, expected_sum)).toBe(true)
+    })
+
+    it('sum() adds vectors', () => {
+      const [vectors, expected_sum] = options.sum
+
+      const result = vs.sum(vectors)
+
+      expect(vs.equals(result, expected_sum)).toBe(true)
+    })
+
+    it('centroid() computes centroid', () => {
+      const [vectors, expected_centroid] = options.centroid
+
+      const result = vs.centroid(vectors)
+
+      expect(vs.equals(result, expected_centroid)).toBe(true)
     })
   })
 }

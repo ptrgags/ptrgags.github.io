@@ -6,6 +6,7 @@ import type { HorizontalTextAlign, TextStyle, VerticalTextAlign } from '../styli
 import type { Vec2 } from '../primitives/Vec2.ts'
 import type { BezierCurve } from '../primitives/BezierCurve.ts'
 import { LineSegment } from '../primitives/LineSegment.ts'
+import type { Circle } from '../primitives/Circle.ts'
 
 /**
  * Convert string align values to p5.js constants
@@ -53,9 +54,11 @@ export class DrawP5 implements DrawingLibrary {
     this.p = p
   }
 
-  circle(cx: number, cy: number, r: number): void {
+  circle(circ: Circle): void {
     // p5 defines a circle in terms of diameter for some reason
-    this.p.circle(cx, cy, 2 * r)
+    const { center, radius } = circ
+    const { x, y } = center
+    this.p.circle(x, y, 2 * radius)
   }
 
   arc(

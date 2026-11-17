@@ -51,11 +51,6 @@ const SCENE = group(
 
 const sketch = make_static_sketch(SWATCH.dimensions, SCENE)
 
-const SVG_DOC = new DrawSVG({
-  view_box: SWATCH,
-})
-SCENE.draw(SVG_DOC)
-
 const converted = useTemplateRef('converted')
 
 function download() {
@@ -64,7 +59,11 @@ function download() {
 }
 
 onMounted(() => {
-  converted.value?.appendChild(SVG_DOC.root)
+  const svg_doc = new DrawSVG({
+    view_box: SWATCH,
+  })
+  SCENE.draw(svg_doc)
+  converted.value?.appendChild(svg_doc.root)
 })
 </script>
 

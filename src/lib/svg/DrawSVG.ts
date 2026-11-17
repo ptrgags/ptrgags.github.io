@@ -1,4 +1,5 @@
 import type { BezierCurve } from '../primitives/BezierCurve.ts'
+import type { Circle } from '../primitives/Circle.ts'
 import type { DrawingLibrary } from '../primitives/DrawingLibrary.ts'
 import { LineSegment } from '../primitives/LineSegment.ts'
 import type { Rect } from '../primitives/Rect.ts'
@@ -69,7 +70,10 @@ export class DrawSVG implements DrawingLibrary {
     this.add_child(last)
   }
 
-  circle(cx: number, cy: number, radius: number): void {
+  circle(circ: Circle): void {
+    const { x: cx, y: cy } = circ.center
+    const radius = circ.radius
+
     const tag = svg_tag('circle', { cx: cx.toString(), cy: cy.toString(), r: radius.toString() })
 
     this.add_child(tag)

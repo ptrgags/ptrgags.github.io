@@ -4,6 +4,8 @@ title: Musical Meter
 date: '2026-09-07'
 patterns_lurking: true
 thumbnail: pattern/musical-meter/thumbnail.png
+status: full
+description: Grouping pulses in time.
 ---
 <script setup lang="ts">
 import SketchP5 from '../../components/SketchP5.vue'
