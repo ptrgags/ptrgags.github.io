@@ -14,3 +14,7 @@ import {PRINTABLES} from './regular-net-test'
 ## Triangular Prism
 
 <PDFPrintable :printable="PRINTABLES.triangular_prism" />
+
+## Triangular Cupola
+
+<PDFPrintable :printable="PRINTABLES.triangular_cupola" />

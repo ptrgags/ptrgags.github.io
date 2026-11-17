@@ -24,11 +24,6 @@ interface RegularPolygonNet {
   children?: (RegularPolygonNet | undefined)[]
 }
 
-const TRIANGULAR_PRISM: RegularPolygonNet = {
-  sides: 4,
-  children: [{ sides: 3 }, { sides: 4, children: [undefined, { sides: 4 }] }, { sides: 3 }],
-}
-
 function regular_polygon(sides: number, length: number): Polyline {
   let position = Point2P.ORIGIN
 
@@ -193,6 +188,11 @@ function draw_net(
 }
 
 function triangular_prism(): Printable {
+  const TRIANGULAR_PRISM: RegularPolygonNet = {
+    sides: 4,
+    children: [{ sides: 3 }, { sides: 4, children: [undefined, { sides: 4 }] }, { sides: 3 }],
+  }
+
   const PPI = 100
   const LENGTH_IN = 2
   const scene = xform(
@@ -207,6 +207,35 @@ function triangular_prism(): Printable {
   }
 }
 
+function triangular_cupola(): Printable {
+  const PPI = 100
+  const LENGTH_IN = 1.5
+
+  const TRIANGULAR_CUPOLA: RegularPolygonNet = {
+    sides: 6,
+    children: [
+      { sides: 4 },
+      { sides: 3 },
+      { sides: 4, children: [undefined, { sides: 3 }] },
+      { sides: 3 },
+      { sides: 4 },
+      { sides: 3 },
+    ],
+  }
+
+  const scene = xform(
+    Rigid.translation(vec2(150, 200)),
+    draw_net(TRIANGULAR_CUPOLA, LENGTH_IN * PPI, PPI),
+  )
+  return {
+    filename: 'triangular-cupola.pdf',
+    pixels_per_inch: PPI,
+    page_size_inches: US_LETTER_INCHES.dimensions,
+    pages: [{ scene, dimensions: ATC_SCREEN.dimensions }],
+  }
+}
+
 export const PRINTABLES = {
   triangular_prism: triangular_prism(),
+  triangular_cupola: triangular_cupola(),
 }
