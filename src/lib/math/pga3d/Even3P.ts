@@ -1,3 +1,4 @@
+import { is_nearly } from '../is_nearly.ts'
 import { Odd3P } from './Odd3P.ts'
 
 export class Even3P {
@@ -28,6 +29,66 @@ export class Even3P {
     this.yo = yo
     this.zo = zo
     this.xyzo = xyzo
+  }
+
+  add(other: Even3P): Even3P {
+    const scalar = this.scalar + other.scalar
+    const xy = this.xy + other.xy
+    const xz = this.xz + other.xz
+    const xo = this.xo + other.xo
+    const yz = this.yz + other.yz
+    const yo = this.yo + other.yo
+    const zo = this.zo + other.zo
+    const xyzo = this.xyzo + other.xyzo
+    return new Even3P(scalar, xy, xz, xo, yz, yo, zo, xyzo)
+  }
+
+  sub(other: Even3P): Even3P {
+    const scalar = this.scalar - other.scalar
+    const xy = this.xy - other.xy
+    const xz = this.xz - other.xz
+    const xo = this.xo - other.xo
+    const yz = this.yz - other.yz
+    const yo = this.yo - other.yo
+    const zo = this.zo - other.zo
+    const xyzo = this.xyzo - other.xyzo
+    return new Even3P(scalar, xy, xz, xo, yz, yo, zo, xyzo)
+  }
+
+  dual(): Even3P {
+    // 1 ^ xyzo = xyzo
+    // xy ^ zo = xyzo
+    // xz ^ yo = -xyzo
+    // xo ^ yz = xyzo
+    // yz ^ xo = xyzo
+    // yo ^ xz = -xyzo
+    // zo ^ xy = xyzo
+    // xyzo ^ 1 = xyzo
+    const scalar = this.xyzo
+    const xy = this.zo
+    const xz = -this.yo
+    const xo = this.yz
+    const yz = this.xo
+    const yo = -this.xz
+    const zo = this.xy
+    const xyzo = this.scalar
+
+    return new Even3P(scalar, xy, xz, xo, yz, yo, zo, xyzo)
+  }
+
+  antidual = this.dual
+
+  reverse(): Even3P {
+    return new Even3P(
+      this.scalar,
+      -this.xy,
+      -this.xz,
+      -this.xo,
+      -this.yz,
+      -this.yo,
+      -this.zo,
+      this.xyzo,
+    )
   }
 
   #gp_odd(odd: Odd3P): Odd3P {
@@ -126,8 +187,8 @@ export class Even3P {
     return new Even3P(scalar, xy, xz, xo, yz, yo, zo, xyzo)
   }
 
-  gp(other: Odd3P): Even3P
-  gp(other: Even3P): Odd3P
+  gp(other: Odd3P): Odd3P
+  gp(other: Even3P): Even3P
   gp(other: Odd3P | Even3P): Odd3P | Even3P {
     if (other instanceof Odd3P) {
       return this.#gp_odd(other)
@@ -225,5 +286,22 @@ export class Even3P {
     }
 
     return this.#vee_even(other)
+  }
+
+  equals(other: Even3P): boolean {
+    return (
+      is_nearly(this.scalar, other.scalar) &&
+      is_nearly(this.xy, other.xy) &&
+      is_nearly(this.xz, other.xz) &&
+      is_nearly(this.xo, other.xo) &&
+      is_nearly(this.yz, other.yz) &&
+      is_nearly(this.yo, other.yo) &&
+      is_nearly(this.zo, other.zo) &&
+      is_nearly(this.xyzo, other.xyzo)
+    )
+  }
+
+  static lerp(a: Even3P, b: Even3P, t: number): Even3P {
+    throw new Error('not implemented')
   }
 }

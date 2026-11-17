@@ -13,6 +13,10 @@ declare module 'vitest' {
     toBeDirection2P: (expected: T) => R
     toBeLine2P: (expected: T) => R
 
+    // 3D Projective Geometric Algebra matchers
+    toBeEven3P: (expected: T) => R
+    toBeOdd3P: (expected: T) => R
+
     // 2D Conformal Geometric Algebra matchers
     toBeEven2C: (expected: T) => R
     toBeOdd2C: (expected: T) => R

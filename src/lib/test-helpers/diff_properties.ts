@@ -27,7 +27,7 @@ export function diff_property(
  * @param {object} received Received object
  * @param {object} expected Expected object
  * @param {string} property_name Property to compare
- * @param {string} [label] Label to use for formatting if different than label
+ * @param {string} [label] Label to use for formatting if different than property_name
  */
 export function diff_float_property(
   diffs: string[],

@@ -1,3 +1,4 @@
+import { is_nearly } from '../is_nearly.ts'
 import { Even3P } from './Even3P.ts'
 
 export class Odd3P {
@@ -31,15 +32,63 @@ export class Odd3P {
   }
 
   dual(): Odd3P {
-    throw new Error('not implemented')
+    // x ^ yzo = xyzo
+    // y ^ xzo = -xyzo
+    // z ^ xyo = xyzo
+    // o ^ xyz = -xyzo
+    // xyz ^ o = xyzo
+    // xyo ^ z = -xyzo
+    // xzo ^ y = xyzo
+    // yzo ^ x = -xyzo
+    const x = -this.yzo
+    const y = this.xzo
+    const z = -this.xyo
+    const o = this.xyz
+    const xyz = -this.o
+    const xyo = this.z
+    const xzo = -this.y
+    const yzo = this.x
+    return new Odd3P(x, y, z, o, xyz, xyo, xzo, yzo)
   }
 
   antidual(): Odd3P {
-    throw new Error('not implemented')
+    return this.dual().neg()
   }
 
   reverse(): Odd3P {
+    return new Odd3P(this.x, this.y, this.z, this.o, -this.xyz, -this.xyo, -this.xzo, -this.yzo)
+  }
+
+  neg(): Odd3P {
+    return new Odd3P(-this.x, -this.y, -this.z, -this.o, -this.xyz, -this.xyo, -this.xzo, -this.yzo)
+  }
+
+  dot() {
     throw new Error('not implemented')
+  }
+
+  add(other: Odd3P): Odd3P {
+    const x = this.x + other.x
+    const y = this.y + other.y
+    const z = this.z + other.z
+    const o = this.o + other.o
+    const xyz = this.xyz + other.xyz
+    const xyo = this.xyo + other.xyo
+    const xzo = this.xzo + other.xzo
+    const yzo = this.yzo + other.yzo
+    return new Odd3P(x, y, z, o, xyz, xyo, xzo, yzo)
+  }
+
+  sub(other: Odd3P): Odd3P {
+    const x = this.x - other.x
+    const y = this.y - other.y
+    const z = this.z - other.z
+    const o = this.o - other.o
+    const xyz = this.xyz - other.xyz
+    const xyo = this.xyo - other.xyo
+    const xzo = this.xzo - other.xzo
+    const yzo = this.yzo - other.yzo
+    return new Odd3P(x, y, z, o, xyz, xyo, xzo, yzo)
   }
 
   #gp_odd(odd: Odd3P): Even3P {
@@ -148,10 +197,6 @@ export class Odd3P {
     return this.#gp_even(other)
   }
 
-  equals(other: Odd3P): boolean {
-    throw new Error('not implemented')
-  }
-
   #wedge_even(even: Even3P): Odd3P {
     const { x: Ax, y: Ay, z: Az, o: Ao, xyz: Axyz, xyo: Axyo, xzo: Axzo, yzo: Ayzo } = this
     const { scalar: Bs, xy: Bxy, xz: Bxz, xo: Bxo, yz: Byz, yo: Byo, zo: Bzo, xyzo: Bxyzo } = even
@@ -188,8 +233,8 @@ export class Odd3P {
     return new Even3P(scalar, xy, xz, xo, yz, yo, zo, xyzo)
   }
 
-  wedge(other: Odd3P): Odd3P
-  wedge(other: Even3P): Even3P
+  wedge(other: Odd3P): Even3P
+  wedge(other: Even3P): Odd3P
   wedge(other: Even3P | Odd3P): Even3P | Odd3P {
     if (other instanceof Odd3P) {
       return this.#wedge_odd(other)
@@ -211,6 +256,7 @@ export class Odd3P {
     const xyz = Axyz * -Bxyzo
     return new Odd3P(x, y, z, o, xyz, xyo, xzo, yzo)
   }
+
   #vee_odd(odd: Odd3P): Even3P {
     const { x: Ax, y: Ay, z: Az, o: Ao, xyz: Axyz, xyo: Axyo, xzo: Axzo, yzo: Ayzo } = this
     const { x: Bx, y: By, z: Bz, o: Bo, xyz: Bxyz, xyo: Bxyo, xzo: Bxzo, yzo: Byzo } = odd
@@ -226,13 +272,30 @@ export class Odd3P {
     return new Even3P(scalar, xy, xz, xo, yz, yo, zo, xyzo)
   }
 
-  vee(other: Even3P): Even3P
-  vee(other: Odd3P): Odd3P
+  vee(other: Even3P): Odd3P
+  vee(other: Odd3P): Even3P
   vee(other: Even3P | Odd3P): Even3P | Odd3P {
     if (other instanceof Odd3P) {
       return this.#vee_odd(other)
     }
 
     return this.#vee_even(other)
+  }
+
+  equals(other: Odd3P): boolean {
+    return (
+      is_nearly(this.x, other.x) &&
+      is_nearly(this.y, other.y) &&
+      is_nearly(this.z, other.z) &&
+      is_nearly(this.o, other.o) &&
+      is_nearly(this.xyz, other.xyz) &&
+      is_nearly(this.xyo, other.xyo) &&
+      is_nearly(this.xzo, other.xzo) &&
+      is_nearly(this.yzo, other.yzo)
+    )
+  }
+
+  static lerp(a: Even3P, b: Even3P, t: number): Even3P {
+    throw new Error('not implemented')
   }
 }
