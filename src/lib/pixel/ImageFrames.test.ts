@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest'
 import { ImageFrames } from './ImageFrames.js'
-import { Index2D } from '../Grid.js'
 import { Rect } from '../primitives/Rect.js'
 import { Point2P } from '../math/pga2d/Point2P.js'
 import { Direction2P } from '../math/pga2d/Direction2P.js'
+import { Index2D } from '../data_structures/Grid.js'
 
 describe('ImageFrames', () => {
   it('Throws for frame size not evenly divisible', () => {
