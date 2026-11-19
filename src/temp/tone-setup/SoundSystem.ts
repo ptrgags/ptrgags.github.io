@@ -7,7 +7,7 @@ export interface MusicOptions {
 }
 
 export interface SFXOptions {
-  schedule: () => void
+  schedule: (time: number) => void
 }
 
 export class SoundSystem {
@@ -79,5 +79,17 @@ export class SoundSystem {
     if (!this.audio_ready) {
       throw new Error('Audio not yet ready! Did you call init()?')
     }
+
+    const options = this.sfx.get(id)
+    if (!options) {
+      throw new Error(`Unknown music ID: ${id}`)
+    }
+
+    const transport = Tone.getTransport()
+    transport.scheduleOnce((time) => {
+      options.schedule(time)
+    }, '+0.1')
+
+    transport.start()
   }
 }
