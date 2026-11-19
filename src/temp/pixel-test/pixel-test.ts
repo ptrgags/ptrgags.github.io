@@ -10,6 +10,7 @@ import { Point2P } from '../../lib/math/pga2d/Point2P.ts'
 import { Clock } from '../../lib/animation/Clock.ts'
 import type { Sprite } from '../../lib/pixel/Sprite.ts'
 import { Wave } from '../../lib/animation/Wave.ts'
+import type { Tilemap } from '../../lib/pixel/Tilemap.ts'
 
 const IMAGES = new ImageLibraryP5({
   // 12x11 tiles
@@ -50,11 +51,35 @@ class PixelScene {
   primitive: Drawable
   chest_opening_wave: Wave
 
-  constructor(images: ImageLibraryP5) {
+  tracks: Tilemap
+
+  constructor(p: p5, images: ImageLibraryP5) {
     this.chest = images.make_sprite('dungeon', TILE_SIZE, TILE_SIZE, 12 * 7 + 5)
-    this.primitive = this.chest
+
+    this.tracks = images.make_tilemap(p, 'dungeon', TILE_SIZE, SWATCH.dimensions)
+
+    const l = 12 * 6 + 9
+    const u = 12 * 5 + 10
+    const ul = u - 1
+    const ur = u + 1
+    const r = 12 * 6 + 11
+    const d = 12 * 7 + 10
+    const dl = d - 1
+    const dr = d + 1
+    this.tracks.blit_all([
+      [ul, u, u, u, u, u, u, ur],
+      [l, 0, 0, 0, 0, 0, 0, r],
+      [l, 0, 0, 0, 0, 0, 0, r],
+      [l, 0, 0, 0, 0, 0, 0, r],
+      [l, 0, 0, 0, 0, 0, 0, r],
+      [l, 0, 0, 0, 0, 0, 0, r],
+      [l, 0, 0, 0, 0, 0, 0, r],
+      [dl, d, d, d, d, d, d, dr],
+    ])
 
     this.chest_opening_wave = Wave.sine({ freq: 1.0, amp: 2 })
+
+    this.primitive = group(this.tracks, this.chest)
   }
 
   update(p: p5) {
@@ -82,7 +107,7 @@ const pixel_animation = (p: p5) => {
     p.pixelDensity(1)
     p.noSmooth()
 
-    scene = new PixelScene(IMAGES)
+    scene = new PixelScene(p, IMAGES)
   }
 
   p.draw = () => {
