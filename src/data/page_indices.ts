@@ -15,6 +15,22 @@ import { StereoPairArtwork } from '../core/StereoPairArtwork.ts'
 import { Project, type ProjectDescriptor } from '../core/Project.ts'
 import { MusicAlbum, type MusicAlbumDescriptor } from '../core/MusicAlbum.ts'
 
+export interface PageMetadata {
+  url: string
+  frontmatter: any
+}
+
+export const OLD_ARTWORK_FRONTMATTER: any[] = ARTWORK_METADATA.filter(
+  (x: any) => x.frontmatter.layout === 'artwork',
+).map((x: any) => x.frontmatter)
+export const OLD_ARTWORKS: Artwork[] = OLD_ARTWORK_FRONTMATTER.map(
+  (x: any) => new Artwork(x as ArtworkDescriptor),
+)
+
+export const NEW_ARTWORKS: PageMetadata[] = ARTWORK_METADATA.filter(
+  (x: any) => x.frontmatter.layout !== 'artwork',
+)
+
 export const ALL_ARTWORKS: Artwork[] = ARTWORK_METADATA.map(
   (x: { frontmatter: any }) => new Artwork(x.frontmatter as ArtworkDescriptor),
 )
