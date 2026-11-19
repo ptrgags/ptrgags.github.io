@@ -78,7 +78,7 @@ export class ImageLibraryP5 {
     origin: Vec2 = Point2P.ORIGIN,
   ): Sprite {
     return new Sprite({
-      spritesheet_id: image_id,
+      spritesheet: this.make_image(image_id),
       frame_size,
       position,
       frame_id,

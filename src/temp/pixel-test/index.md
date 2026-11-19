@@ -12,6 +12,6 @@ import {SKETCHES} from './pixel-test'
 </script>
 
 
-<SketchP5 :sketch="SKETCHES.template" />
+<SketchP5 :sketch="SKETCHES.static" />
 
-lorem ipsum blah blah blah
+<SketchP5 :sketch="SKETCHES.animated" />

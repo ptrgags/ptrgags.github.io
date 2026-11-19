@@ -5,24 +5,16 @@ import type { Drawable } from '../../lib/primitives/Drawable.ts'
 import { group, xform } from '../../lib/primitives/shorthand.ts'
 import { ATC_SCREEN, SWATCH } from '../../core/dimensions.ts'
 import { ImageLibraryP5 } from '../../lib/p5-helpers/ImageLibraryP5.ts'
+import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
+import { Point2P } from '../../lib/math/pga2d/Point2P.ts'
+import { Clock } from '../../lib/animation/Clock.ts'
+import type { Sprite } from '../../lib/pixel/Sprite.ts'
+import { Wave } from '../../lib/animation/Wave.ts'
 
 const IMAGES = new ImageLibraryP5({
-  dungeon: '/assets/kenney/tiny-dungeon.png',
+  // 12x11 tiles
+  dungeon: '/assets/kenney/tiny-dungeon-2x.png',
 })
-
-class TEMPLATE implements SceneP5 {
-  primitive: Drawable
-
-  constructor() {
-    this.primitive = group()
-  }
-
-  update(p: p5): void {}
-
-  draw(lib: DrawP5): void {
-    this.primitive.draw(lib)
-  }
-}
 
 function compute_scene(images: ImageLibraryP5): Drawable {
   const spritesheet = images.make_image('dungeon')
@@ -39,6 +31,7 @@ const pixel_test = (p: p5) => {
     p.createCanvas(width, height)
     p.pixelDensity(1)
     p.noLoop()
+    p.noSmooth()
 
     const scene = compute_scene(IMAGES)
 
@@ -47,6 +40,60 @@ const pixel_test = (p: p5) => {
   }
 }
 
+// 16x16 px but I scaled up the image 2x since 16px is tiny
+const TILE_SIZE = new Direction2P(32, 32)
+
+const CLOCK = new Clock()
+
+class PixelScene {
+  chest: Sprite
+  primitive: Drawable
+  chest_opening_wave: Wave
+
+  constructor(images: ImageLibraryP5) {
+    this.chest = images.make_sprite('dungeon', TILE_SIZE, TILE_SIZE, 12 * 7 + 5)
+    this.primitive = this.chest
+
+    this.chest_opening_wave = Wave.sine({ freq: 1.0, amp: 2 })
+  }
+
+  update(p: p5) {
+    const t = CLOCK.elapsed_time
+
+    const frame = Math.round(this.chest_opening_wave.unipolar(t))
+
+    this.chest.frame_id = 12 * 7 + 5 + frame
+  }
+
+  draw(lib: DrawP5) {
+    this.primitive.draw(lib)
+  }
+}
+
+const pixel_animation = (p: p5) => {
+  let scene: PixelScene
+
+  const lib = new DrawP5(p, IMAGES)
+  p.setup = async () => {
+    await IMAGES.preload(p)
+
+    const { width, height } = SWATCH.dimensions
+    p.createCanvas(width, height)
+    p.pixelDensity(1)
+    p.noSmooth()
+
+    scene = new PixelScene(IMAGES)
+  }
+
+  p.draw = () => {
+    p.background(0)
+
+    scene.update(p)
+    scene.draw(lib)
+  }
+}
+
 export const SKETCHES = {
-  template: pixel_test,
+  static: pixel_test,
+  animated: pixel_animation,
 }

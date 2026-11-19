@@ -4,10 +4,11 @@ import type { Dimensionlike } from '../primitives/Dimensionlike.js'
 import type { Drawable } from '../primitives/Drawable.js'
 import type { DrawingLibrary } from '../primitives/DrawingLibrary.js'
 import type { Vec2 } from '../primitives/Vec2.js'
+import type { Image } from './Image.js'
 import { ImageFrames } from './ImageFrames.js'
 
 export interface SpriteOptions {
-  spritesheet_id: string
+  spritesheet: Image
   frame_size: Dimensionlike
   position: Vec2
   /**
@@ -28,19 +29,16 @@ export interface SpriteOptions {
  * @implements {Primitive}
  */
 export class Sprite implements Drawable {
-  // Image ID of the spritesheet
-  spritesheet_id: string
+  spritesheet: Image
   frames: ImageFrames
   position: Point2P
   origin: Point2P
   frame_id: number
 
   constructor(options: SpriteOptions) {
-    this.spritesheet_id = options.spritesheet_id
+    this.spritesheet = options.spritesheet
 
-    // @ts-ignore
-    const dimensions = new Direction2P(spritesheet.width, spritesheet.height)
-    this.frames = new ImageFrames(dimensions, options.frame_size)
+    this.frames = new ImageFrames(this.spritesheet.dimensions, options.frame_size)
 
     this.position = Point2P.from_vec2(options.position)
     this.frame_id = options.frame_id ?? 0
@@ -50,6 +48,6 @@ export class Sprite implements Drawable {
   draw(lib: DrawingLibrary) {
     const dst_position = this.position.sub(this.origin)
     const src_rect = this.frames.get_frame(this.frame_id)
-    lib.image_frame(this.spritesheet_id, src_rect, dst_position)
+    lib.image_frame(this.spritesheet.image_id, src_rect, dst_position)
   }
 }
