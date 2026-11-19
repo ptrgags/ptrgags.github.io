@@ -28,7 +28,7 @@ const pixel_test = (p: p5) => {
   p.setup = async () => {
     await IMAGES.preload(p)
 
-    const { width, height } = ATC_SCREEN.dimensions
+    const { width, height } = new Direction2P(12 * 32, 11 * 32)
     p.createCanvas(width, height)
     p.pixelDensity(1)
     p.noLoop()
