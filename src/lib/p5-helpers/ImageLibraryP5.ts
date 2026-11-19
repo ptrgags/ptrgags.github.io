@@ -6,6 +6,7 @@ import { Point2P } from '../math/pga2d/Point2P.ts'
 import { Direction2P } from '../math/pga2d/Direction2P.ts'
 import { Tilemap } from '../pixel/Tilemap.ts'
 import { Image } from '../pixel/Image.ts'
+import { Sprite } from '../pixel/Sprite.ts'
 
 /**
  * Map of image ID to URL for an image
@@ -67,6 +68,22 @@ export class ImageLibraryP5 {
     const img = this.get_p5_image(image_id)
     const dimensions = new Direction2P(img.width, img.height)
     return new Image(image_id, dimensions)
+  }
+
+  make_sprite(
+    image_id: string,
+    frame_size: Dimensionlike,
+    position: Vec2,
+    frame_id: number = 0,
+    origin: Vec2 = Point2P.ORIGIN,
+  ): Sprite {
+    return new Sprite({
+      spritesheet_id: image_id,
+      frame_size,
+      position,
+      frame_id,
+      origin,
+    })
   }
 
   make_tilemap(
