@@ -50,6 +50,7 @@ class PixelScene {
   chest: Sprite
   primitive: Drawable
   chest_opening_wave: Wave
+  chest_moving_wave: Wave
 
   tracks: Tilemap
 
@@ -78,6 +79,7 @@ class PixelScene {
     ])
 
     this.chest_opening_wave = Wave.sine({ freq: 1.0, amp: 2 })
+    this.chest_moving_wave = Wave.sine({ freq: 0.5, amp: 32 * 5, bias: 32 })
 
     this.primitive = group(this.tracks, this.chest)
   }
@@ -88,6 +90,9 @@ class PixelScene {
     const frame = Math.round(this.chest_opening_wave.unipolar(t))
 
     this.chest.frame_id = 12 * 7 + 5 + frame
+
+    const x = this.chest_moving_wave.unipolar(t)
+    this.chest.position = new Point2P(x, 128)
   }
 
   draw(lib: DrawP5) {
