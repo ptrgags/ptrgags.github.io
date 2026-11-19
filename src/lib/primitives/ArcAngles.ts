@@ -16,6 +16,16 @@ export class ArcAngles {
     this.orientation = orientation
   }
 
+  get subtended_angle(): number {
+    const angle_diff = this.orientation * (this.end_angle - this.start_angle)
+
+    return mod(angle_diff, 2.0 * Math.PI)
+  }
+
+  angle(t: number): number {
+    return mod(this.start_angle + t * this.orientation * this.subtended_angle, 2.0 * Math.PI)
+  }
+
   swap(): ArcAngles {
     return new ArcAngles(this.end_angle, this.start_angle, this.orientation)
   }
@@ -31,4 +41,9 @@ export class ArcAngles {
   phase_shift(delta: number): ArcAngles {
     return new ArcAngles(this.start_angle + delta, this.end_angle + delta, this.orientation)
   }
+
+  static readonly SEMICIRCLES: [ArcAngles, ArcAngles] = [
+    new ArcAngles(0, Math.PI, AngleOrientation.POSITIVE),
+    new ArcAngles(Math.PI, 2.0 * Math.PI, AngleOrientation.POSITIVE),
+  ]
 }

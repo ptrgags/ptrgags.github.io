@@ -51,7 +51,7 @@ function diff_point(diffs: string[], received: unknown, expected: unknown): stri
   return diffs
 }
 
-function diff_dir(diffs: string[], received: unknown, expected: unknown): string[] {
+export function diff_dir(diffs: string[], received: unknown, expected: unknown): string[] {
   if (!(received instanceof Direction2P)) {
     diffs.push(`recieved is not a Direction object: ${received}`)
     return diffs

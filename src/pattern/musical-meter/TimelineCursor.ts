@@ -1,19 +1,19 @@
 import type { Animated } from '../../lib/animation/Animated.ts'
 import type { Drawable } from '../../lib/primitives/Drawable.ts'
 import type { DrawingLibrary } from '../../lib/primitives/DrawingLibrary.ts'
-import type { Pointlike } from '../../lib/primitives/Pointlike.ts'
+import type { Vec2 } from '../../lib/primitives/Vec2.ts'
 
 export class TimelineCursor implements Animated, Drawable {
   // Start position for the cursor
-  start_position: Pointlike
+  start_position: Vec2
   // current animation position
-  position: Pointlike
+  position: Vec2
   /** Half the height of the cursor above and below the current position */
   radius: number
   /** How fast the cursor moves in pixels/unit time */
   speed: number
 
-  constructor(start_position: Pointlike, radius: number, speed: number) {
+  constructor(start_position: Vec2, radius: number, speed: number) {
     this.start_position = start_position
     this.position = start_position
     this.radius = radius

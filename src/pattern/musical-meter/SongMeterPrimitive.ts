@@ -1,13 +1,13 @@
 import type { Drawable } from '../../lib/primitives/Drawable.ts'
 import type { DrawingLibrary } from '../../lib/primitives/DrawingLibrary.ts'
-import type { Pointlike } from '../../lib/primitives/Pointlike.ts'
+import type { Vec2 } from '../../lib/primitives/Vec2.ts'
 import { group } from '../../lib/primitives/shorthand.ts'
 import { MeterPrimitive } from './MeterPrimitive.ts'
 import type { SongMeter } from './SongMeter.ts'
 
 export interface SongMeterPrimitiveOptions {
   meter: SongMeter
-  position: Pointlike
+  position: Vec2
   radius: number
   pulse_spacing: number
   show_time_signature?: boolean

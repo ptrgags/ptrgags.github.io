@@ -1,7 +1,7 @@
 import type { Drawable } from '../../lib/primitives/Drawable.ts'
 import type { DrawingLibrary } from '../../lib/primitives/DrawingLibrary.ts'
 import { Gridlines } from '../../lib/primitives/Gridlines.ts'
-import type { Pointlike } from '../../lib/primitives/Pointlike.ts'
+import type { Vec2 } from '../../lib/primitives/Vec2.ts'
 import { Rect } from '../../lib/primitives/Rect.ts'
 import { group, style } from '../../lib/primitives/shorthand.ts'
 import { TextStyle } from '../../lib/styling/TextStyle.ts'
@@ -14,7 +14,7 @@ const STYLE_PICKUP = Style.lines(Oklch.grey(0.5), 2)
 
 export interface MeterPrimitiveOptions {
   meter: Meter
-  position: Pointlike
+  position: Vec2
   radius: number
   measure_count: number
   beat_spacing: number
@@ -23,7 +23,7 @@ export interface MeterPrimitiveOptions {
 }
 
 function make_time_signature(
-  position: Pointlike,
+  position: Vec2,
   radius: number,
   top: number,
   bottom: number,

@@ -3,7 +3,10 @@ import type { DrawingLibrary } from '../primitives/DrawingLibrary.ts'
 import type { Style } from '../styling/Style.ts'
 import { is_nearly } from '../math/is_nearly.ts'
 import type { HorizontalTextAlign, TextStyle, VerticalTextAlign } from '../styling/TextStyle.ts'
-import type { Pointlike } from '../primitives/Pointlike.ts'
+import type { Vec2 } from '../primitives/Vec2.ts'
+import type { BezierCurve } from '../primitives/BezierCurve.ts'
+import { LineSegment } from '../primitives/LineSegment.ts'
+import type { Circle } from '../primitives/Circle.ts'
 
 /**
  * Convert string align values to p5.js constants
@@ -51,9 +54,11 @@ export class DrawP5 implements DrawingLibrary {
     this.p = p
   }
 
-  circle(cx: number, cy: number, r: number): void {
+  circle(circ: Circle): void {
     // p5 defines a circle in terms of diameter for some reason
-    this.p.circle(cx, cy, 2 * r)
+    const { center, radius } = circ
+    const { x, y } = center
+    this.p.circle(x, y, 2 * radius)
   }
 
   arc(
@@ -75,12 +80,43 @@ export class DrawP5 implements DrawingLibrary {
     this.p.line(x1, y1, x2, y2)
   }
 
-  polyline(points: Pointlike[]): void {
+  bezier(a: Vec2, b: Vec2, c: Vec2, d: Vec2): void {
+    this.p.bezier(a.x, a.y, b.x, b.y, c.x, c.y, d.x, d.y)
+  }
+
+  polyline(points: Vec2[], closed: boolean): void {
     this.p.beginShape()
     for (const { x, y } of points) {
       this.p.vertex(x, y)
     }
-    this.p.endShape()
+    const close_flag = closed ? this.p.CLOSE : undefined
+    this.p.endShape(close_flag)
+  }
+
+  path(parts: (LineSegment | BezierCurve)[], closed: boolean): void {
+    if (parts.length === 0) {
+      return
+    }
+
+    this.p.beginShape()
+    const { x: start_x, y: start_y } = parts[0].start
+    this.p.vertex(start_x, start_y)
+    for (const part of parts) {
+      // Since paths are relative to the current point, we skip the
+      // start point of each path part
+      if (part instanceof LineSegment) {
+        const { x, y } = part.end
+        this.p.vertex(x, y)
+      } else {
+        const { b, c, d } = part
+        this.p.bezierVertex(b.x, b.y)
+        this.p.bezierVertex(c.x, c.y)
+        this.p.bezierVertex(d.x, d.y)
+      }
+    }
+
+    const close_flag = closed ? this.p.CLOSE : undefined
+    this.p.endShape(close_flag)
   }
 
   rect(x: number, y: number, width: number, height: number): void {
@@ -91,7 +127,7 @@ export class DrawP5 implements DrawingLibrary {
     this.p.text(value, x, y)
   }
 
-  apply_style(style: Style): void {
+  begin_style(style: Style): void {
     const p = this.p
     if (style.stroke && !is_nearly(style.stroke.a, 0)) {
       const { r, g, b, a } = style.stroke
@@ -110,7 +146,11 @@ export class DrawP5 implements DrawingLibrary {
     }
   }
 
-  apply_text_style(text_style: TextStyle): void {
+  end_style(): void {
+    // Since we always set the stroke and fill, there's nothing to do here.
+  }
+
+  begin_text_style(text_style: TextStyle): void {
     this.p.textSize(text_style.size)
 
     const h_align = get_horizontal_align(this.p, text_style.h_align)
@@ -118,23 +158,25 @@ export class DrawP5 implements DrawingLibrary {
     this.p.textAlign(h_align, v_align)
   }
 
-  apply_rigid(
+  end_text_style(): void {
+    // nothing to do here
+  }
+
+  begin_xform_rigid(
     translation_x: number,
     translation_y: number,
     rotation: number,
     flip_y: boolean,
   ): void {
+    this.p.push()
+
     this.p.translate(translation_x, translation_y)
     this.p.rotate(rotation)
     const scale_y = flip_y ? -1 : 1
     this.p.scale(1, scale_y)
   }
 
-  push(): void {
-    this.p.push()
-  }
-
-  pop(): void {
+  end_xform(): void {
     this.p.pop()
   }
 }

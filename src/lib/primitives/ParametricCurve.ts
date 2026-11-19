@@ -1,13 +1,13 @@
 import type { Drawable } from './Drawable.ts'
 import type { DrawingLibrary } from './DrawingLibrary.ts'
-import type { Pointlike } from './Pointlike.ts'
+import type { Vec2 } from './Vec2.ts'
 
 export class ParametricCurve implements Drawable {
   readonly num_points: number
-  readonly curve: (t: number) => Pointlike
-  readonly points: Pointlike[]
+  readonly curve: (t: number) => Vec2
+  readonly points: Vec2[]
 
-  constructor(num_points: number, curve: (t: number) => Pointlike) {
+  constructor(num_points: number, curve: (t: number) => Vec2) {
     this.curve = curve
     this.num_points = num_points
 
@@ -24,6 +24,7 @@ export class ParametricCurve implements Drawable {
   }
 
   draw(lib: DrawingLibrary): void {
-    lib.polyline(this.points)
+    const closed = false
+    lib.polyline(this.points, closed)
   }
 }

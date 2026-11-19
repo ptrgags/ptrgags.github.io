@@ -1,5 +1,5 @@
 import type { Circle } from '../primitives/Circle.ts'
-import type { Pointlike } from '../primitives/Pointlike.ts'
+import type { Vec2 } from '../primitives/Vec2.ts'
 
 export class CircularMotion {
   circle: Circle
@@ -20,7 +20,7 @@ export class CircularMotion {
     return 2.0 * Math.PI * this.frequency * t + this.phase
   }
 
-  position(t: number): Pointlike {
+  position(t: number): Vec2 {
     const angle = this.angle(t)
     return this.circle.position(angle)
   }
