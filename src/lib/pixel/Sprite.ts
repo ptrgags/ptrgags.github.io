@@ -1,7 +1,24 @@
-import { Direction } from '../pga2d/Direction.js'
-import { Point } from '../pga2d/Point.js'
-import { Primitive } from '../primitives/Primitive.js'
+import { Direction2P } from '../math/pga2d/Direction2P.js'
+import { Point2P } from '../math/pga2d/Point2P.js'
+import type { Dimensionlike } from '../primitives/Dimensionlike.js'
+import type { Drawable } from '../primitives/Drawable.js'
+import type { DrawingLibrary } from '../primitives/DrawingLibrary.js'
+import type { Vec2 } from '../primitives/Vec2.js'
 import { ImageFrames } from './ImageFrames.js'
+
+export interface SpriteOptions {
+  spritesheet_id: string
+  frame_size: Dimensionlike
+  position: Vec2
+  /**
+   * Frame ID (default 0)
+   */
+  frame_id?: number
+  /**
+   * Anchor point for the sprite if different than the top left corner
+   */
+  origin?: Vec2
+}
 
 /**
  * A sprite is an image divided into a grid of equally sized frames, indexed
@@ -10,51 +27,29 @@ import { ImageFrames } from './ImageFrames.js'
  * When drawn, only the currently selected frame is rendered.
  * @implements {Primitive}
  */
-export class Sprite {
-  /**
-   * Constructor
-   * @param {import("p5").Image | import("p5").Graphics} spritesheet Image containing a number of frames
-   * @param {Direction} frame_size Size of a single frame
-   * @param {Point} position Position of the sprite on the screen
-   * @param {number} frame_id ID of the current frame that will be rendered
-   * on draw
-   * @param {Point} origin The anchor point for positioning the sprite
-   */
-  constructor(spritesheet, frame_size, position, frame_id, origin) {
-    this.spritesheet = spritesheet
+export class Sprite implements Drawable {
+  // Image ID of the spritesheet
+  spritesheet_id: string
+  frames: ImageFrames
+  position: Point2P
+  origin: Point2P
+  frame_id: number
+
+  constructor(options: SpriteOptions) {
+    this.spritesheet_id = options.spritesheet_id
 
     // @ts-ignore
-    const dimensions = new Direction(spritesheet.width, spritesheet.height)
-    this.frames = new ImageFrames(dimensions, frame_size)
+    const dimensions = new Direction2P(spritesheet.width, spritesheet.height)
+    this.frames = new ImageFrames(dimensions, options.frame_size)
 
-    this.frame_size = frame_size
-    this.position = position
-    this.frame_id = frame_id
-    this.origin = origin
+    this.position = Point2P.from_vec2(options.position)
+    this.frame_id = options.frame_id ?? 0
+    this.origin = options.origin ? Point2P.from_vec2(options.origin) : Point2P.ORIGIN
   }
 
-  /**
-   * Draw the currently selected frame to the screen
-   * @param {import("p5")} p
-   */
-  draw(p) {
-    const offset = this.position.sub(this.origin)
-    const { x: dst_x, y: dst_y } = offset
-
-    const frame = this.frames.get_frame(this.frame_id)
-    const { position: src_position, dimensions } = frame
-
-    // @ts-ignore
-    p.image(
-      this.spritesheet,
-      dst_x,
-      dst_y,
-      dimensions.x,
-      dimensions.y,
-      src_position.x,
-      src_position.y,
-      dimensions.x,
-      dimensions.y,
-    )
+  draw(lib: DrawingLibrary) {
+    const dst_position = this.position.sub(this.origin)
+    const src_rect = this.frames.get_frame(this.frame_id)
+    lib.image_frame(this.spritesheet_id, src_rect, dst_position)
   }
 }
