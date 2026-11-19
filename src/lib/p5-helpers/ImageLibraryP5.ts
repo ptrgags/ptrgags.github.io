@@ -1,27 +1,36 @@
-import { Direction } from '../pga2d/Direction.js'
-import { Point } from '../pga2d/Point.js'
-import { Image } from './Image.js'
-import { Tilemap } from './Tilemap.js'
-import { Sprite } from './Sprite.js'
+import p5 from 'p5'
+import type { Dimensionlike } from '../primitives/Dimensionlike.ts'
+import { DrawingP5 } from './DrawingP5.ts'
+import type { Vec2 } from '../primitives/Vec2.ts'
+import { Point2P } from '../math/pga2d/Point2P.ts'
+import { Direction2P } from '../math/pga2d/Direction2P.ts'
+import { Tilemap } from '../pixel/Tilemap.ts'
+import { Image } from '../pixel/Image.ts'
 
-export class ImageLibrary {
+/**
+ * Map of image ID to URL for an image
+ */
+export type ImageManifest = { [id: string]: string }
+
+export class ImageLibraryP5 {
+  manifest: ImageManifest
+  images: { [id: string]: p5.Image | p5.Graphics }
+  next_gfx_id: number = 0
+
   /**
    * Constructor
-   * @param {{[id: string]: string}} manifest Dictionary of image ID to URL for an image
+   * @param manifest Dictionary of image ID to URL for an image
    */
-  constructor(manifest) {
+  constructor(manifest: ImageManifest) {
     this.manifest = manifest
-    /**
-     * @type {{[id: string]: import("p5").Image}}
-     */
     this.images = {}
   }
 
   /**
    * Await this in setup()
-   * @param {import("p5")} p
+   * @param p
    */
-  async preload(p) {
+  async preload(p: p5) {
     const promises = []
 
     for (const [id, url] of Object.entries(this.manifest)) {
@@ -33,13 +42,20 @@ export class ImageLibrary {
     await Promise.all(promises)
   }
 
+  register_gfx(gfx: p5.Graphics): string {
+    const id = `_gfx-${this.next_gfx_id}`
+    this.next_gfx_id++
+    this.images[id] = gfx
+    return id
+  }
+
   /**
    * Get a p5 Image from the library. This must be called in setup() or later
    * timing-wise.
-   * @param {string} image_id Image ID. It must match one of the keys of the manifest
-   * @returns {import("p5").Image} The loaded image
+   * @param image_id Image ID. It must match one of the keys of the manifest
+   * @returns The loaded image
    */
-  get_p5_image(image_id) {
+  get_p5_image(image_id: string): p5.Image | p5.Graphics {
     const img = this.images[image_id]
     if (!img) {
       throw new Error(`unknown image ID ${image_id}`)
@@ -47,41 +63,32 @@ export class ImageLibrary {
     return img
   }
 
-  /**
-   * Shorthand for creating an image primitive
-   * @param {string} image_id ID. it must match one of the keys declared in the manifest
-   * @param {Point} position Initial position for the image
-   * @returns {Image}
-   */
-  make_image(image_id, position) {
+  make_image(image_id: string): Image {
     const img = this.get_p5_image(image_id)
-    return new Image(img, position)
+    const dimensions = new Direction2P(img.width, img.height)
+    return new Image(image_id, dimensions)
   }
 
-  /**
-   * Shorthand for creating a sprite primitive
-   * @param {string} image_id image ID for the spritesheet. It must match
-   * @param {Direction} frame_size Size of each frame
-   * @param {Point} position Position on the screen for the sprite
-   * @param {Point} [origin=Point.ORIGIN] The anchor point for positioning the sprite
-   * @param {number} [frame_id=0] The frame to use
-   * @returns {Sprite}
-   */
-  make_sprite(image_id, frame_size, position, origin = Point.ORIGIN, frame_id = 0) {
-    const spritesheet = this.get_p5_image(image_id)
-    return new Sprite(spritesheet, frame_size, position, frame_id, origin)
+  make_tilemap(
+    p: p5,
+    image_id: string,
+    tile_size: Dimensionlike,
+    map_size: Dimensionlike,
+    position = Point2P.ORIGIN,
+  ): Tilemap {
+    const image = this.make_image(image_id)
+    return new Tilemap({
+      tileset: image,
+      tile_size,
+      map: this.make_drawing(p, map_size, position),
+    })
   }
 
-  /**
-   * Shorthand for making a tilemap
-   * @param {import("p5")} p p5 instance for allocating resources
-   * @param {string} image_id image ID for the spritesheet
-   * @param {Direction} tile_size (width, height) The size of a single tile in pixels
-   * @param {Direction} map_size (width_tiles, height_tiles) how big is the tileset measured in tiles
-   * @param {Point} [position=Point.ORIGIN] Where to draw the tilemap
-   */
-  make_tilemap(p, image_id, tile_size, map_size, position = Point.ORIGIN) {
-    const tileset = this.get_p5_image(image_id)
-    return new Tilemap(p, tileset, tile_size, map_size, position)
+  make_drawing(p: p5, canvas_dimensions: Dimensionlike, position = Point2P.ORIGIN): DrawingP5 {
+    const { width, height } = canvas_dimensions
+    const gfx = p.createGraphics(width, height)
+    return new DrawingP5(gfx, position, this)
   }
+
+  static readonly EMPTY = new ImageLibraryP5({})
 }
