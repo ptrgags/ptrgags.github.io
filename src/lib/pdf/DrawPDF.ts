@@ -3,6 +3,7 @@ import type { BezierCurve } from '../primitives/BezierCurve.ts'
 import { Circle } from '../primitives/Circle.ts'
 import type { DrawingLibrary } from '../primitives/DrawingLibrary.ts'
 import { LineSegment } from '../primitives/LineSegment.ts'
+import type { Rect } from '../primitives/Rect.ts'
 import type { Vec2 } from '../primitives/Vec2.ts'
 import { Color } from '../styling/Color.ts'
 import { Style } from '../styling/Style.ts'
@@ -323,5 +324,15 @@ export class DrawPDF implements DrawingLibrary {
     }
 
     throw new Error('pdf invisible styling')
+  }
+
+  image(image_id: string, position: Vec2): void {
+    // I need to figure out how to embed an image in the PDF (which will be async)
+    throw new Error('not implemented')
+  }
+
+  image_frame(image_id: string, src_rect: Rect, position: Vec2): void {
+    // this is going to require shifting and clipping the image
+    throw new Error('not implemented')
   }
 }
