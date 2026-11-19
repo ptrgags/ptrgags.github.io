@@ -11,8 +11,6 @@ import PDFPrintable from '../../components/PDFPrintable.vue'
 import {PRINTABLES} from './regular-net-test'
 </script>
 
-<PDFPrintable :printable="PRINTABLES.toroid" />
-
 ## Triangular Prism
 
 <PDFPrintable :printable="PRINTABLES.triangular_prism" />
@@ -20,3 +18,7 @@ import {PRINTABLES} from './regular-net-test'
 ## Triangular Cupola
 
 <PDFPrintable :printable="PRINTABLES.triangular_cupola" />
+
+## Stuart Toroid
+
+<PDFPrintable :printable="PRINTABLES.toroid" />
