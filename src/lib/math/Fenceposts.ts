@@ -1,5 +1,3 @@
-import { range } from './iteration/range.ts'
-
 export interface FencepostsOptions {
   num_fenceposts: number
   spacing: number
