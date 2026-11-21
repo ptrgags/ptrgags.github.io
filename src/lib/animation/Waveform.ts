@@ -9,4 +9,8 @@ export class Waveform {
   static square(t: number) {
     return t < 0.5 ? -1 : 1
   }
+
+  static saw(t: number): number {
+    return 1 - 2 * t
+  }
 }
