@@ -34,7 +34,7 @@ function meshes_equal(received: unknown, expected: unknown): boolean {
   // compare face sizes
   const received_face_lengths = received.faces.map((x) => x.length)
   const expected_face_lengths = expected.faces.map((x) => x.length)
-  if (received_face_lengths != expected_face_lengths) {
+  if (received_face_lengths.some((x, i) => x !== expected_face_lengths[i])) {
     return false
   }
 
@@ -44,7 +44,7 @@ function meshes_equal(received: unknown, expected: unknown): boolean {
   )
   const normals_equal = received.normals.every((x, i) => VSVec3.equals(x, expected.normals[i]))
   const uvs_equal = received.uvs.every((x, i) => VSVec2.equals(x, expected.uvs[i]))
-  if (!positions_equal || normals_equal || uvs_equal) {
+  if (!positions_equal || !normals_equal || !uvs_equal) {
     return false
   }
 
