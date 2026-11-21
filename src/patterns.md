@@ -19,6 +19,7 @@ data.forEach(x => {
 I'm starting to document math patterns I find in math, art, programming, and
 other topics. So far, I've written the following articles:
 
+<PatternSwatch :page="PATTERNS['/pattern/involute-gear/']" />
 
 <PatternSwatch :page="PATTERNS['/pattern/circular-arc/']" />
 <PatternSwatch :page="PATTERNS['/pattern/gear-tree/']" />
