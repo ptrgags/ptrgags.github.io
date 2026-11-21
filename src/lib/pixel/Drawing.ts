@@ -6,6 +6,7 @@ import type { Vec2 } from '../primitives/Vec2.ts'
 export interface Drawing extends Drawable {
   clear(): void
   position: Vec2
+  get image_id(): string
   get dimensions(): Dimensionlike
   get lib(): DrawingLibrary
 }
