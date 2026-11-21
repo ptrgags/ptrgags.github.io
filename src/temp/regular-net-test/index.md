@@ -1,7 +1,6 @@
 ---
 layout: article
 title: Regular Polygon Net
-date: 'YYYY-MM-DD'
 hide: true
 # URL relative to BACKBLAZE assets root
 thumbnail: pattern/TEMPLATE/thumbnail.png
