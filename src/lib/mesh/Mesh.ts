@@ -37,10 +37,10 @@ export interface MeshOptions {
  * @see {@link https://en.wikipedia.org/wiki/Wavefront_.obj_file | Wikipedia: Wavefront .obj file}
  */
 export class Mesh {
-  positions: Vec3[]
-  normals: Vec3[]
-  uvs: Vec2[]
-  faces: FaceVertex[][]
+  readonly positions: Vec3[]
+  readonly normals: Vec3[]
+  readonly uvs: Vec2[]
+  readonly faces: FaceVertex[][]
 
   constructor(options: Partial<MeshOptions> = {}) {
     this.positions = options.positions ?? []

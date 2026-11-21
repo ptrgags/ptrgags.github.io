@@ -76,11 +76,136 @@ const TWO_SQUARE = new Mesh({
   ],
 })
 
+const POSITIONS_ONLY = new Mesh({
+  positions: [vec3(0, 0, 0), vec3(1, 0, 0), vec3(0, 1, 0), vec3(0, 0, 1)],
+  faces: [
+    [{ pos: 0 }, { pos: 1 }, { pos: 2 }],
+    [{ pos: 0 }, { pos: 2 }, { pos: 3 }],
+    [{ pos: 0 }, { pos: 3 }, { pos: 1 }],
+  ],
+})
+
 describe('Mesh', () => {
-  describe('constructor', () => {})
-  describe('add_position', () => {})
-  describe('add_normal', () => {})
-  describe('add_uv', () => {})
+  describe('add_position', () => {
+    it('adds position value', () => {
+      const mesh = new Mesh()
+
+      mesh.add_position(vec3(1, 2, 3))
+
+      const expected = new Mesh({
+        positions: [vec3(1, 2, 3)],
+      })
+      expect(mesh).toBeMesh(expected)
+    })
+
+    it('indices auto-increment', () => {
+      const mesh = new Mesh()
+
+      const idx_a = mesh.add_position(vec3(1, 0, 0))
+      const idx_b = mesh.add_position(vec3(0, 1, 0))
+      const idx_c = mesh.add_position(vec3(0, 0, 1))
+      const result = [idx_a, idx_b, idx_c]
+
+      const expected = [0, 1, 2]
+
+      expect(result).toEqual(expected)
+    })
+
+    it('indices correspond to the correct values in the positions array', () => {
+      const mesh = new Mesh()
+
+      const idx_a = mesh.add_position(vec3(1, 0, 0))
+      const idx_b = mesh.add_position(vec3(0, 1, 0))
+      const idx_c = mesh.add_position(vec3(0, 0, 1))
+      const indices = [idx_a, idx_b, idx_c]
+      const result = indices.map((idx) => mesh.positions[idx])
+
+      const expected = [vec3(1, 0, 0), vec3(0, 1, 0), vec3(0, 0, 1)]
+      expect(result).toEqual(expected)
+    })
+  })
+
+  describe('add_normal', () => {
+    it('adds normal value', () => {
+      const mesh = new Mesh()
+
+      mesh.add_normal(vec3(1, 2, 3))
+
+      const expected = new Mesh({
+        normals: [vec3(1, 2, 3)],
+      })
+      expect(mesh).toBeMesh(expected)
+    })
+
+    it('indices auto-increment', () => {
+      const mesh = new Mesh()
+
+      const idx_a = mesh.add_normal(vec3(1, 0, 0))
+      const idx_b = mesh.add_normal(vec3(0, 1, 0))
+      const idx_c = mesh.add_normal(vec3(0, 0, 1))
+      const result = [idx_a, idx_b, idx_c]
+
+      const expected = [0, 1, 2]
+
+      expect(result).toEqual(expected)
+    })
+
+    it('indices correspond to the correct values in the normals array', () => {
+      const mesh = new Mesh()
+
+      const idx_a = mesh.add_normal(vec3(1, 0, 0))
+      const idx_b = mesh.add_normal(vec3(0, 1, 0))
+      const idx_c = mesh.add_normal(vec3(0, 0, 1))
+      const indices = [idx_a, idx_b, idx_c]
+      const result = indices.map((idx) => mesh.normals[idx])
+
+      const expected = [vec3(1, 0, 0), vec3(0, 1, 0), vec3(0, 0, 1)]
+      expect(result).toEqual(expected)
+    })
+  })
+
+  describe('add_uv', () => {
+    it('adds uv value', () => {
+      const mesh = new Mesh()
+
+      mesh.add_uv(vec2(0.5, 1))
+
+      const expected = new Mesh({
+        uvs: [vec2(0.5, 1)],
+      })
+      expect(mesh).toBeMesh(expected)
+    })
+
+    it('indices auto-increment', () => {
+      const mesh = new Mesh()
+
+      const idx_a = mesh.add_uv(vec2(1, 0))
+      const idx_b = mesh.add_uv(vec2(0, 1))
+      const idx_c = mesh.add_uv(vec2(1, 1))
+      const result = [idx_a, idx_b, idx_c]
+
+      const expected = [0, 1, 2]
+
+      expect(result).toEqual(expected)
+    })
+
+    it('indices correspond to the correct values in the uvs array', () => {
+      const mesh = new Mesh()
+
+      const idx_a = mesh.add_uv(vec2(1, 0))
+      const idx_b = mesh.add_uv(vec2(0, 1))
+      const idx_c = mesh.add_uv(vec2(1, 1))
+      const indices = [idx_a, idx_b, idx_c]
+      const result = indices.map((idx) => mesh.uvs[idx])
+
+      const expected = [vec2(1, 0), vec2(0, 1), vec2(1, 1)]
+      expect(result).toEqual(expected)
+    })
+  })
+
+  describe('add_triangle', () => {})
+  describe('add_quad', () => {})
+
   describe('add_ngon', () => {
     it('with less than 3 vertices throws error', () => {
       const mesh = new Mesh()
@@ -124,7 +249,45 @@ describe('Mesh', () => {
       expect(result).toEqual(expected)
     })
   })
-  describe('compute_face_normals', () => {})
+
+  describe('compute_face_normals', () => {
+    it('computes correct normals', () => {
+      const result = POSITIONS_ONLY.compute_face_normals()
+
+      const expected = new Mesh({
+        positions: [vec3(0, 0, 0), vec3(1, 0, 0), vec3(0, 1, 0), vec3(0, 0, 1)],
+        normals: [vec3(0, 0, 1), vec3(1, 0, 0), vec3(0, 1, 0)],
+        faces: [
+          [
+            { pos: 0, normal: 0 },
+            { pos: 1, normal: 0 },
+            { pos: 2, normal: 0 },
+          ],
+          [
+            { pos: 0, normal: 1 },
+            { pos: 2, normal: 1 },
+            { pos: 3, normal: 1 },
+          ],
+          [
+            { pos: 0, normal: 2 },
+            { pos: 3, normal: 2 },
+            { pos: 1, normal: 2 },
+          ],
+        ],
+      })
+      expect(result).toBeMesh(expected)
+    })
+
+    it('has_normals() returns true on resulting mesh', () => {
+      const mesh = POSITIONS_ONLY
+
+      const result = mesh.compute_face_normals()
+
+      expect(mesh.has_normals()).toBe(false)
+      expect(result.has_normals()).toBe(true)
+    })
+  })
+
   describe('has_normals', () => {
     it('with empty mesh returns true', () => {
       const mesh = new Mesh()
@@ -134,7 +297,15 @@ describe('Mesh', () => {
       const expected = true
       expect(result).toEqual(expected)
     })
+
+    it('with mesh without normals returns false', () => {
+      const result = POSITIONS_ONLY.has_normals()
+
+      const expected = false
+      expect(result).toEqual(expected)
+    })
   })
+
   describe('has_uvs', () => {
     it('with empty uvs returns true', () => {
       const mesh = new Mesh()
@@ -144,7 +315,15 @@ describe('Mesh', () => {
       const expected = true
       expect(result).toEqual(expected)
     })
+
+    it('with mesh without uvs returns false', () => {
+      const result = POSITIONS_ONLY.has_uvs()
+
+      const expected = false
+      expect(result).toEqual(expected)
+    })
   })
+
   describe('to_soup', () => {
     it('without normals throws error', () => {
       const mesh = new Mesh()
