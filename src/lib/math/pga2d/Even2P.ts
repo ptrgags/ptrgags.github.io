@@ -1,4 +1,5 @@
 import { is_nearly } from '../is_nearly.js'
+import type { Even3P } from '../pga3d/Even3P.js'
 import { Odd2P } from './Odd2P.js'
 
 // Much of the math here is determined by using the geometric algebra library
