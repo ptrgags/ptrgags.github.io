@@ -18,7 +18,7 @@ function diff_face(diffs: string[], received: FaceVertex[], expected: FaceVertex
     return diffs
   }
 
-  diff_arrays(diff_vertex, diffs, received, expected)
+  diff_arrays(diff_vertex, diffs, received, expected, 'face')
 
   return diffs
 }
@@ -30,11 +30,11 @@ function diff_mesh(diffs: string[], received: unknown, expected: unknown): strin
   }
 
   const expected_mesh = expected as Mesh
-  diff_arrays(diff_vec3, diffs, received.positions, expected_mesh.positions)
-  diff_arrays(diff_vec3, diffs, received.normals, expected_mesh.normals)
-  diff_arrays(diff_vec2, diffs, received.uvs, expected_mesh.uvs)
+  diff_arrays(diff_vec3, diffs, received.positions, expected_mesh.positions, 'positions')
+  diff_arrays(diff_vec3, diffs, received.normals, expected_mesh.normals, 'normals')
+  diff_arrays(diff_vec2, diffs, received.uvs, expected_mesh.uvs, 'uvs')
 
-  diff_arrays(diff_face, diffs, received.faces, expected_mesh.faces)
+  diff_arrays(diff_face, diffs, received.faces, expected_mesh.faces, 'faces')
 
   return diffs
 }

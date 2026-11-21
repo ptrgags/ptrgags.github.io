@@ -203,8 +203,44 @@ describe('Mesh', () => {
     })
   })
 
-  describe('add_triangle', () => {})
-  describe('add_quad', () => {})
+  it('add_triangle creates triangle face', () => {
+    const mesh = new Mesh()
+    mesh.add_position(vec3(1, 0, 0))
+    mesh.add_position(vec3(0, 1, 0))
+    mesh.add_position(vec3(0, 0, 1))
+
+    const result = mesh.add_triangle({ pos: 0 }, { pos: 1 }, { pos: 2 })
+
+    expect(mesh).toBeMesh(
+      new Mesh({
+        positions: [vec3(1, 0, 0), vec3(0, 1, 0), vec3(0, 0, 1)],
+        faces: [[{ pos: 0 }, { pos: 1 }, { pos: 2 }]],
+      }),
+    )
+
+    const expected = 0
+    expect(result).toEqual(expected)
+  })
+
+  it('add_quad creates quad face', () => {
+    const mesh = new Mesh()
+    mesh.add_position(vec3(0, 0, 0))
+    mesh.add_position(vec3(1, 0, 0))
+    mesh.add_position(vec3(1, 1, 0))
+    mesh.add_position(vec3(0, 1, 0))
+
+    const result = mesh.add_quad({ pos: 0 }, { pos: 1 }, { pos: 2 }, { pos: 3 })
+
+    expect(mesh).toBeMesh(
+      new Mesh({
+        positions: [vec3(0, 0, 0), vec3(1, 0, 0), vec3(1, 1, 0), vec3(0, 1, 0)],
+        faces: [[{ pos: 0 }, { pos: 1 }, { pos: 2 }, { pos: 3 }]],
+      }),
+    )
+
+    const expected = 0
+    expect(result).toEqual(expected)
+  })
 
   describe('add_ngon', () => {
     it('with less than 3 vertices throws error', () => {

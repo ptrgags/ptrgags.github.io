@@ -50,9 +50,10 @@ export function diff_arrays<T>(
   diffs: string[],
   received: T[],
   expected: T[],
+  label: string,
 ): string[] {
   if (received.length !== expected.length) {
-    diffs.push(`wrong length: ${received.length} | ${expected.length}`)
+    diffs.push(`${label}: wrong length ${received.length} | ${expected.length}`)
     return diffs
   }
 
