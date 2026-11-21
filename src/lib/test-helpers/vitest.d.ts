@@ -2,6 +2,10 @@ import 'vitest'
 
 declare module 'vitest' {
   interface Matchers<R, T> {
+    // Vector types
+    toBeVec2: (expected: T) => R
+    toBeVec3: (expected: T) => R
+
     // Geometry matchers
     toBeRigid: (expected: T) => R
     toBeBezier: (expected: T) => R
