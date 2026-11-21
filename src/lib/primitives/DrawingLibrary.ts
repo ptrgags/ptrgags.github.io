@@ -3,6 +3,7 @@ import type { TextStyle } from '../styling/TextStyle.ts'
 import type { BezierCurve } from './BezierCurve.ts'
 import type { Circle } from './Circle.ts'
 import type { LineSegment } from './LineSegment.ts'
+import type { Rect } from './Rect.ts'
 import type { Vec2 } from './Vec2.ts'
 
 /**
@@ -125,4 +126,20 @@ export interface DrawingLibrary {
    * Finish applying the most recent transformation
    */
   end_xform(): void
+
+  /**
+   * Draw a selected image to the screen at position
+   * @param image_id the id of the image to draw
+   * @param position the position on the screen to draw it
+   */
+  image(image_id: string, position: Vec2): void
+
+  /**
+   * Draw a sub-frame of an image src_rect to the specified position. No
+   * The result is the same size as src_rect.dimensions in pixels
+   * @param image_id The image id
+   * @param src_rect The rectangle indicating the sub-image
+   * @param position The point on the screen to draw the image
+   */
+  image_frame(image_id: string, src_rect: Rect, position: Vec2): void
 }

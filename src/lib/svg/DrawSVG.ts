@@ -192,4 +192,14 @@ export class DrawSVG implements DrawingLibrary {
   end_xform(): void {
     this.end_group()
   }
+
+  image(image_id: string, position: Vec2): void {
+    // I need to think about how I want to declare images in SVG
+    throw new Error('not implemented')
+  }
+
+  image_frame(image_id: string, src_rect: Rect, position: Vec2): void {
+    // this is going to require shifting and clipping the image
+    throw new Error('not implemented')
+  }
 }

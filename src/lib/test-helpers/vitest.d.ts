@@ -3,6 +3,7 @@ import 'vitest'
 declare module 'vitest' {
   interface Matchers<R, T> {
     // Geometry matchers
+    toBeRect: (expected: T) => R
     toBeRigid: (expected: T) => R
     toBeBezier: (expected: T) => R
 
