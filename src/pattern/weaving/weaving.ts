@@ -100,11 +100,11 @@ class WeaveScene {
     const e = weave_tile(1, 3, YarnDirection.VERTICAL)
     const f = weave_tile(1, 3, YarnDirection.HORIZONTAL)
     satin.blit_all([
-      [e, e, e, f, e],
-      [e, f, e, e, e],
-      [e, e, e, e, f],
-      [e, e, f, e, e],
-      [f, e, e, e, e],
+      [f, f, f, f, e],
+      [f, e, f, f, f],
+      [f, f, f, e, f],
+      [e, f, f, f, f],
+      [f, f, e, f, f],
     ])
 
     this.primitive = group(
