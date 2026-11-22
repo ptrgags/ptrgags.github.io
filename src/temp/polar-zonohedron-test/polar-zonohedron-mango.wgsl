@@ -13,13 +13,14 @@ fn vertex_main(input: VertexInput) -> Interpolated {
     let model = rotate_z(angle);
     let inv_model = rotate_z(-angle);
 
-    // for this particular polar zonohedron the basis is at 45 degrees
-    // and the length of each vector is 1
-    // so each row of vertices is sqrt(1/2) higher than the previous one.
-    // for 6 basis vectors that's 6 sqrt(1/2) tall, and we want the eye
-    // to be halfway up this.
-    let half_height = 6.0 * sqrt(0.5) * 0.5;
-    let eye = vec3f(1.5, 0.0, half_height);
+
+    // dimensions are passed in to help know where to put the camera
+    let zonohedron_height: f32 = get_analog(0);
+    let zonohedron_max_radius: f32 = get_analog(1);
+
+    let half_height = 0.5 * zonohedron_height;
+    let eye_distance = 2.0 * zonohedron_max_radius;
+    let eye = vec3f(eye_distance, 0.0, half_height);
     let camera = look_at(eye, vec3f(0.0, 0.0, half_height));
     let view = make_view(camera);
     let inv_view = make_inv_view(camera);

@@ -1,8 +1,9 @@
 import { ATC_SCREEN } from '../../core/dimensions.ts'
+import { AnalogConst } from '../../lib/input/const_signal.ts'
 import type { InputSystem } from '../../lib/input/InputSystem.ts'
 import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
 import { Point2P } from '../../lib/math/pga2d/Point2P.ts'
-import { VSVec3, type Vec3 } from '../../lib/math/vector/Vec3.ts'
+import { vec3, VSVec3, type Vec3 } from '../../lib/math/vector/Vec3.ts'
 import { Mesh } from '../../lib/mesh/Mesh.ts'
 import type { Drawable } from '../../lib/primitives/Drawable.ts'
 import { Polyline } from '../../lib/primitives/Polyline.ts'
@@ -65,6 +66,24 @@ export class PolarZonohedron {
 
     // The top point is simply the sum of the basis vectors
     this.rows.push([VSVec3.sum(basis)])
+  }
+
+  height(): number {
+    const n = this.basis.length
+    const vector_height = this.basis[0].z
+    return n * vector_height
+  }
+
+  max_radius(): number {
+    const n = this.basis.length
+    let max_s_sqr = 0
+    let sum = vec3(0, 0, 0)
+    for (let i = 0; i < n; i++) {
+      sum = VSVec3.add(sum, this.basis[i])
+      const s_sqr = sum.x * sum.x + sum.y * sum.y
+      max_s_sqr = Math.max(max_s_sqr, s_sqr)
+    }
+    return Math.sqrt(max_s_sqr)
   }
 
   dimensions(): Direction2P {
@@ -291,6 +310,8 @@ export function printable_pattern(pixels_per_inch: number): [Drawable, Direction
 }
 
 export class PolarZonohedronMango implements ShapeMachineSketch {
+  zonohedron: PolarZonohedron
+
   shader_url: string = SHADER
   imports = [
     SHADER_LIBRARY.constants,
@@ -299,13 +320,20 @@ export class PolarZonohedronMango implements ShapeMachineSketch {
     SHADER_LIBRARY.xforms,
   ]
   meshes: GPUPackedMesh[]
+
   constructor() {
-    const zonohedron = new PolarZonohedron(1, Math.PI / 4, 6)
-    this.meshes = [zonohedron.to_mesh().to_gpu_mesh().pack()]
+    this.zonohedron = new PolarZonohedron(1, Math.PI / 4, 6)
+    this.meshes = [this.zonohedron.to_mesh().to_gpu_mesh().pack()]
   }
 
-  configure_input?: ((input: InputSystem) => void) | undefined
-  update?: ((time: number) => void) | undefined
+  configure_input(input: InputSystem) {
+    input.configure_uniforms({
+      analog: [
+        new AnalogConst(this.zonohedron.height()),
+        new AnalogConst(this.zonohedron.max_radius()),
+      ],
+    })
+  }
 }
 
 export const WEBGPU_SKETCHES = {
