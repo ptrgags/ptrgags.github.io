@@ -4,8 +4,8 @@ title: Printable Zine Template
 ---
 
 <script setup lang="ts">
-import ZinePrintable from './ZinePrintable.vue'
-import {Zine} from '../../lib/printables/Zine'
+import PDFPrintable from '../../components/PDFPrintable.vue'
+import {PRINTABLES} from './zine-template'
 </script>
 
 In an effort to make my art more tangible, I want to turn my designs into
@@ -21,21 +21,21 @@ margin around the print area.
 
 The simplest template just outlines each page:
 
-<ZinePrintable :zine="Zine.BLANK"/>
+<PDFPrintable :printable="PRINTABLES.blank" />
 
 ## Template with Caption Boxes
 
 This variation includes a box for captions for the six inside pages, but leaves
 the front and back covers blank.
 
-<ZinePrintable :zine="Zine.BLANK_WITH_CAPTION_BOXES"/>
+<PDFPrintable :printable="PRINTABLES.with_captions" />
 
 ## Folding Instructions
 
 After printing the template, note the order and orientation of pages as in the 
 following diagram:
 
-<ZinePrintable :zine="Zine.LABELED" />
+<PDFPrintable :printable="PRINTABLES.labeled" />
 
 Though this zine template is a little smaller than usual, it folds in the
 same manner as a regular mini-zine. You can find folding instructions in

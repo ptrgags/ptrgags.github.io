@@ -2,7 +2,12 @@ import 'vitest'
 
 declare module 'vitest' {
   interface Matchers<R, T> {
+    // Vector types
+    toBeVec2: (expected: T) => R
+    toBeVec3: (expected: T) => R
+
     // Geometry matchers
+    toBeRect: (expected: T) => R
     toBeRigid: (expected: T) => R
     toBeBezier: (expected: T) => R
 
@@ -19,5 +24,8 @@ declare module 'vitest' {
 
     // Complex number matchers
     toBeComplex: (expected: T) => R
+
+    // 3D mesh matchers
+    toBeMesh: (expected: T) => R
   }
 }

@@ -2,6 +2,8 @@
 layout: article
 title: Circular Arc
 thumbnail: pattern/circular-arc/thumbnail.png
+status: full
+description: A slice out of a circle.
 ---
 <script setup lang="ts">
 import SketchP5 from '../../components/SketchP5.vue'

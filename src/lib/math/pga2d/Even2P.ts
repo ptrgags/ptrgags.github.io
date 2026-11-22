@@ -72,16 +72,76 @@ export class Even2P {
     return new Even2P(this.scalar, -this.xy, -this.xo, -this.yo)
   }
 
+  #gp_even(even: Even2P): Even2P {
+    const { scalar: As, xy: Axy, xo: Axo, yo: Ayo } = this
+    const { scalar: Bs, xy: Bxy, xo: Bxo, yo: Byo } = even
+    const scalar = As * Bs - Axy * Bxy
+    const xo = -(-Axo * Bs - -Ayo * Bxy + As * -Bxo + Axy * -Byo)
+    const yo = -(-Axo * Bxy + -Ayo * Bs + As * -Byo - Axy * -Bxo)
+    const xy = As * Bxy + Axy * Bs
+
+    return new Even2P(scalar, xy, xo, yo)
+  }
+
+  #gp_odd(odd: Odd2P): Odd2P {
+    const { scalar: As, xy: Axy, xo: Axo, yo: Ayo } = this
+    const { x: Bx, y: By, o: Bo, xyo: Bxyo } = odd
+    const o = -Axo * Bx + -Ayo * By + As * Bo - Axy * Bxyo
+    const x = As * Bx + Axy * By
+    const y = As * By - Axy * Bx
+    const xyo = -Axo * By - -Ayo * Bx + As * Bxyo + Axy * Bo
+
+    return new Odd2P(x, y, o, xyo)
+  }
+
+  gp(other: Even2P): Even2P
+  gp(other: Odd2P): Odd2P
+  gp(other: Even2P | Odd2P): Even2P | Odd2P
+  gp(other: Even2P | Odd2P): Even2P | Odd2P {
+    if (other instanceof Odd2P) {
+      return this.#gp_odd(other)
+    }
+
+    return this.#gp_even(other)
+  }
+
+  #wedge_even(even: Even2P): Even2P {
+    const { scalar: As, xy: Axy, xo: Axo, yo: Ayo } = this
+    const { scalar: Bs, xy: Bxy, xo: Bxo, yo: Byo } = even
+    const scalar = As * Bs
+    const xo = -(-Axo * Bs + As * -Bxo)
+    const yo = -(-Ayo * Bs + As * -Byo)
+    const xy = As * Bxy + Axy * Bs
+    return new Even2P(scalar, xy, xo, yo)
+  }
+  #wedge_odd(odd: Odd2P): Odd2P {
+    const { scalar: As, xy: Axy, xo: Axo, yo: Ayo } = this
+    const { x: Bx, y: By, o: Bo, xyo: Bxyo } = odd
+    const x = As * Bx
+    const y = As * By
+    const o = As * Bo
+    const xyo = -Axo * By - -Ayo * Bx + As * Bxyo + Axy * Bo
+    return new Odd2P(x, y, o, xyo)
+  }
+
+  wedge(other: Even2P): Even2P
+  wedge(other: Odd2P): Odd2P
+  wedge(other: Even2P | Odd2P): Even2P | Odd2P
+  wedge(other: Even2P | Odd2P): Even2P | Odd2P {
+    if (other instanceof Odd2P) {
+      return this.#wedge_odd(other)
+    }
+    return this.#wedge_even(other)
+  }
+
   /**
    * Compute the regressive product with another Even2P multivector
-   * @param other The other Even2P multivector
+   * @param even The other Even2P multivector
    * @returns The regressive product
    */
-  #vee_even(other: Even2P): Odd2P {
-    // Bread V = A + Bxy + Cxo + Dyo
+  #vee_even(even: Even2P): Odd2P {
     const { xy: axy, xo: axo, yo: ayo } = this
-    // Filling U = a + bxy + cxo + dyo
-    const { xy: bxy, xo: bxo, yo: byo } = other
+    const { xy: bxy, xo: bxo, yo: byo } = even
 
     const x = -axo * bxy + axy * bxo
     const y = -ayo * bxy + axy * byo
@@ -91,12 +151,19 @@ export class Even2P {
     return new Odd2P(x, y, o, 0)
   }
 
-  #vee_odd(other: Odd2P): Even2P {
-    throw new Error('Not implemented')
+  #vee_odd(odd: Odd2P): Even2P {
+    const { scalar: As, xy: Axy, xo: Axo, yo: Ayo } = this
+    const { x: Bx, y: By, o: Bo, xyo: Bxyo } = odd
+    const scalar = -Axo * By - -Ayo * Bx + As * Bxyo + Axy * Bo
+    const xo = -(-Axo * Bxyo)
+    const yo = -(-Ayo * Bxyo)
+    const xy = Axy * Bxyo
+    return new Even2P(scalar, xy, xo, yo)
   }
 
   vee(other: Even2P): Odd2P
   vee(other: Odd2P): Even2P
+  vee(other: Even2P | Odd2P): Even2P | Odd2P
   vee(other: Even2P | Odd2P): Even2P | Odd2P {
     if (other instanceof Odd2P) {
       return this.#vee_odd(other)
@@ -113,80 +180,6 @@ export class Even2P {
       is_nearly(this.yo, other.yo)
     )
   }
-
-  #sandwich_even(other: Even2P): Even2P {
-    // Bread V = A + Bxy + Cxo + Dyo
-    const { scalar: as, xy: axy, xo: axo, yo: ayo } = this
-    // Filling U = a + bxy + cxo + dyo
-    const { scalar: bs, xy: bxy, xo: bxo, yo: byo } = other
-
-    const mag_sqr = as * as + axy * axy
-    if (is_nearly(mag_sqr, 0)) {
-      return Even2P.ZERO
-    }
-
-    const scalar = bs
-    const xy = bxy
-    const xo =
-      -(
-        -2 * axo * axy * bxy +
-        2 * ayo * as * bxy +
-        -as * as * bxo +
-        -2 * as * axy * byo +
-        axy * axy * bxo
-      ) / mag_sqr
-    const yo =
-      -(
-        -2 * axo * as * bxy +
-        -2 * ayo * axy * bxy +
-        -as * as * byo +
-        2 * as * axy * bxo +
-        axy * axy * byo
-      ) / mag_sqr
-    return new Even2P(scalar, xy, xo, yo)
-  }
-
-  #sandwich_odd(other: Odd2P): Odd2P {
-    const { scalar: as, xy: axy, xo: axo, yo: ayo } = this
-    const { x: bx, y: by, o: bo, xyo: bxyo } = other
-
-    const mag_sqr = as * as + axy * axy
-    if (is_nearly(mag_sqr, 0)) {
-      return Odd2P.ZERO
-    }
-
-    const x = (as * as * bx + 2 * as * axy * by - axy * axy * bx) / mag_sqr
-    const y = (as * as * by - 2 * as * axy * bx - axy * axy * by) / mag_sqr
-    const o =
-      (-2 * axo * as * bx +
-        -2 * axo * axy * by +
-        -2 * ayo * as * by +
-        2 * ayo * axy * bx +
-        as * as * bo +
-        axy * axy * bo) /
-      mag_sqr
-    const xyo = bxyo
-
-    return new Odd2P(x, y, o, xyo)
-  }
-
-  sandwich(other: Even2P): Even2P
-  sandwich(other: Odd2P): Odd2P
-  sandwich(other: Even2P | Odd2P): Even2P | Odd2P {
-    if (other instanceof Odd2P) {
-      return this.#sandwich_odd(other)
-    }
-
-    return this.#sandwich_even(other)
-  }
-
-  /*
-  unit_sandwich(other: Odd2P): Odd2P
-  unit_sandwich(other: Even2P): Even2P
-  unit_sandwich(other: Even2P | Odd2P): Even2P | Odd2P {
-    return this.gp(other).gp(this.reverse)
-  }
-    */
 
   static lerp(a: Even2P, b: Even2P, t: number): Even2P {
     const s = 1 - t

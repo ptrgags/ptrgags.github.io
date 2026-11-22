@@ -23,6 +23,8 @@ import type { Drawable } from '../../lib/primitives/Drawable.ts'
 import { Rigid } from '../../lib/primitives/Rigid.ts'
 import { group, style, xform } from '../../lib/primitives/shorthand.ts'
 import { StyleLayers, type LayeredDrawable } from '../../lib/primitives/StyleLayers.ts'
+import { US_LETTER_INCHES } from '../../lib/printables/dimensions.ts'
+import type { Printable } from '../../lib/printables/Printable.ts'
 import { Color } from '../../lib/styling/Color.ts'
 import { Style } from '../../lib/styling/Style.ts'
 import { FriezeP1, FriezeP11G, FriezeP11M, FriezeP2 } from '../../lib/symmetry/frieze_groups.ts'
@@ -205,10 +207,10 @@ function thumbnail(): Drawable {
   )
 }
 
-export function printable_hallofriezes(): Drawable {
+export function printable_hallofriezes(): Printable {
   const origin = Point2P.ORIGIN
   const STRIDE = Direction2P.DIR_Y.scale(SWATCH_WIDE.dimensions.height)
-  return group(
+  const scene = group(
     xform(Rigid.translation(origin), p1_witch_hats()),
     xform(Rigid.translation(origin.add(STRIDE)), p1m1_skull_and_bones()),
     xform(Rigid.translation(origin.add(STRIDE.scale(2))), p11m_candy()),
@@ -217,6 +219,18 @@ export function printable_hallofriezes(): Drawable {
     xform(Rigid.translation(origin.add(STRIDE.scale(5))), p2mg_ghosts()),
     xform(Rigid.translation(origin.add(STRIDE.scale(6))), p2mm_hex_candy()),
   )
+
+  return {
+    filename: 'hallofriezes.pdf',
+    pixels_per_inch: 125,
+    page_size_inches: US_LETTER_INCHES.transpose().dimensions,
+    pages: [
+      {
+        scene,
+        dimensions: SWATCH_WIDE.dimensions.mul_components(new Direction2P(2, 7)),
+      },
+    ],
+  }
 }
 
 export const SKETCHES = {
@@ -232,4 +246,8 @@ export const SKETCHES = {
   // used to create the assets to upload to Backblaze
   card: make_static_sketch(ATC_SCREEN.dimensions, card()),
   thumbnail: make_static_sketch(SWATCH.dimensions, thumbnail()),
+}
+
+export const PRINTABLES = {
+  hallofriezes: printable_hallofriezes(),
 }

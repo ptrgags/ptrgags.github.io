@@ -7,6 +7,8 @@ import type { Vec2 } from '../primitives/Vec2.ts'
 import type { BezierCurve } from '../primitives/BezierCurve.ts'
 import { LineSegment } from '../primitives/LineSegment.ts'
 import type { Circle } from '../primitives/Circle.ts'
+import type { Rect } from '../primitives/Rect.ts'
+import { ImageLibraryP5, type ImageManifest } from './ImageLibraryP5.ts'
 
 /**
  * Convert string align values to p5.js constants
@@ -49,9 +51,11 @@ export class DrawP5 implements DrawingLibrary {
    * p5 instance
    */
   private p: p5
+  image_library: ImageLibraryP5
 
-  constructor(p: p5) {
+  constructor(p: p5, image_library?: ImageLibraryP5) {
     this.p = p
+    this.image_library = image_library ?? ImageLibraryP5.EMPTY
   }
 
   circle(circ: Circle): void {
@@ -178,5 +182,27 @@ export class DrawP5 implements DrawingLibrary {
 
   end_xform(): void {
     this.p.pop()
+  }
+
+  image(image_id: string, position: Vec2): void {
+    const image = this.image_library.get_p5_image(image_id)
+    this.p.image(image, position.x, position.y)
+  }
+
+  image_frame(image_id: string, src_rect: Rect, position: Vec2): void {
+    const image = this.image_library.get_p5_image(image_id)
+    const { width, height } = src_rect.dimensions
+    const src_position = src_rect.position
+    this.p.image(
+      image,
+      position.x,
+      position.y,
+      width,
+      height,
+      src_position.x,
+      src_position.y,
+      width,
+      height,
+    )
   }
 }

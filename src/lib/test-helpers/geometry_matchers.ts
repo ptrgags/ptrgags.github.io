@@ -5,6 +5,20 @@ import { diff_float_property, diff_property } from './diff_properties.ts'
 import { diff_dir } from './pga_matchers.ts'
 import { BezierCurve } from '../primitives/BezierCurve.ts'
 import { diff_vec2 } from './vec_matchers.ts'
+import { Rect } from '../primitives/Rect.ts'
+
+export function diff_rect(diffs: string[], received: unknown, expected: unknown): string[] {
+  if (!(received instanceof Rect)) {
+    diffs.push(`expected Rect, got ${received}`)
+    return diffs
+  }
+
+  const expected_rect = expected as Rect
+  diff_vec2(diffs, received.position, expected_rect.position)
+  diff_vec2(diffs, received.dimensions, expected_rect.dimensions)
+
+  return diffs
+}
 
 export function diff_rigid(diffs: string[], received: unknown, expected: unknown): string[] {
   if (!(received instanceof Rigid)) {
@@ -36,6 +50,9 @@ export function diff_bezier(diffs: string[], received: unknown, expected: unknow
 }
 
 export const GEOMETRY_MATCHERS = {
+  toBeRect(this: MatcherState, received: unknown, expected: unknown): MatcherResult {
+    return custom_equality_matcher(Rect, diff_rect, received, expected)
+  },
   toBeRigid(this: MatcherState, received: unknown, expected: unknown): MatcherResult {
     return custom_equality_matcher(Rigid, diff_rigid, received, expected)
   },

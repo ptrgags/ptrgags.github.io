@@ -17,23 +17,27 @@ export function is_vec2(v: any): v is Vec2 {
   return v.x !== undefined && v.y !== undefined
 }
 
+export function vec2(x: number, y: number): Vec2 {
+  return { x, y }
+}
+
 export const VSVec2 = new VectorSpace<Vec2>({
   equals: (a: Vec2, b: Vec2) => is_nearly(a.x, b.x) && is_nearly(a.y, b.y),
   zero: () => {
-    return { x: 0, y: 0 }
+    return vec2(0, 0)
   },
   add: (a: Vec2, b: Vec2) => {
     const { x: ax, y: ay } = a
     const { x: bx, y: by } = b
-    return { x: ax + bx, y: ay + by }
+    return vec2(ax + bx, ay + by)
   },
   neg: (v: Vec2) => {
     const { x, y } = v
-    return { x: -x, y: -y }
+    return vec2(-x, -y)
   },
   scale: (k: number, v: Vec2) => {
     const { x, y } = v
-    return { x: k * x, y: k * y }
+    return vec2(k * x, k * y)
   },
   efficient_combo(scalars: number[], vecs: Vec2[]): Vec2 {
     let x = 0
@@ -45,6 +49,6 @@ export const VSVec2 = new VectorSpace<Vec2>({
       y += k * vy
     }
 
-    return { x, y }
+    return vec2(x, y)
   },
 })

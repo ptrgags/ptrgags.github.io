@@ -1,7 +1,15 @@
-import type { Vec3 } from '../math/vector/Vec3.ts'
-import type { Vec2 } from '../primitives/Vec2.ts'
+import { VSVec3, type Vec3 } from '../math/vector/Vec3.ts'
+import { VSVec2, type Vec2 } from '../primitives/Vec2.ts'
 import { compute_normal } from './compute_normal.ts'
 import { GPUMesh, type GPUVertex } from './GPUMesh.ts'
+import type { TriangleSoup } from './TriangleSoup.ts'
+
+function faces_equal(received: FaceVertex[], expected: FaceVertex[]): boolean {
+  return received.every((vr, i) => {
+    const ve = expected[i]
+    return vr.pos === ve.pos && vr.normal === ve.normal && vr.uv === ve.uv
+  })
+}
 
 /**
  * Attribute indices for one vertex of a face
@@ -30,10 +38,10 @@ export interface MeshOptions {
  * @see {@link https://en.wikipedia.org/wiki/Wavefront_.obj_file | Wikipedia: Wavefront .obj file}
  */
 export class Mesh {
-  positions: Vec3[]
-  normals: Vec3[]
-  uvs: Vec2[]
-  faces: FaceVertex[][]
+  readonly positions: Vec3[]
+  readonly normals: Vec3[]
+  readonly uvs: Vec2[]
+  readonly faces: FaceVertex[][]
 
   constructor(options: Partial<MeshOptions> = {}) {
     this.positions = options.positions ?? []
@@ -194,5 +202,63 @@ export class Mesh {
     }
 
     return result
+  }
+  
+  to_soup(): TriangleSoup {
+    const result: TriangleSoup = []
+
+    if (!this.has_normals()) {
+      throw new Error('mesh must have normals')
+    }
+
+    for (const face of this.faces) {
+      const positions = face.map((x) => this.positions[x.pos])
+
+      // The normal check before the loop guarantees that the normal index
+      // is undefined
+      const normal_index = face[0].normal as number
+      const normal = this.normals[normal_index]
+
+      // tessellate n-gons
+      const sides = face.length
+      const num_triangles = sides - 2
+      for (let i = 0; i < num_triangles; i++) {
+        const a = positions[0]
+        const b = positions[i + 1]
+        const c = positions[i + 2]
+        result.push({ normal, a, b, c })
+      }
+    }
+    return result
+  }
+
+  equals(other: Mesh): boolean {
+    // compare lengths
+    if (
+      other.positions.length !== this.positions.length ||
+      other.uvs.length !== this.uvs.length ||
+      other.normals.length !== this.normals.length ||
+      other.faces.length !== this.faces.length
+    ) {
+      return false
+    }
+
+    // compare face sizes
+    const other_face_lengths = other.faces.map((x) => x.length)
+    const this_face_lengths = this.faces.map((x) => x.length)
+    if (other_face_lengths.some((x, i) => x !== this_face_lengths[i])) {
+      return false
+    }
+
+    // compare attribute values
+    const positions_equal = other.positions.every((x, i) => VSVec3.equals(x, this.positions[i]))
+    const normals_equal = other.normals.every((x, i) => VSVec3.equals(x, this.normals[i]))
+    const uvs_equal = other.uvs.every((x, i) => VSVec2.equals(x, this.uvs[i]))
+    if (!positions_equal || !normals_equal || !uvs_equal) {
+      return false
+    }
+
+    // Compare faces
+    return other.faces.every((face, i) => faces_equal(face, this.faces[i]))
   }
 }
