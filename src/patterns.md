@@ -17,6 +17,7 @@ data.forEach(x => {
 </script>
 
 
+<PatternSwatch :page="PATTERNS['/pattern/involute-gear/']" />
 
 ## Building Blocks
 
