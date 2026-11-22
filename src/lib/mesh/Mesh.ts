@@ -22,6 +22,7 @@ export interface FaceVertex {
 }
 
 export interface MeshOptions {
+  label: string
   positions: Vec3[]
   normals: Vec3[]
   uvs: Vec2[]
@@ -38,12 +39,14 @@ export interface MeshOptions {
  * @see {@link https://en.wikipedia.org/wiki/Wavefront_.obj_file | Wikipedia: Wavefront .obj file}
  */
 export class Mesh {
+  readonly label: string
   readonly positions: Vec3[]
   readonly normals: Vec3[]
   readonly uvs: Vec2[]
   readonly faces: FaceVertex[][]
 
   constructor(options: Partial<MeshOptions> = {}) {
+    this.label = options.label ?? 'UNLABELED'
     this.positions = options.positions ?? []
     this.normals = options.normals ?? []
     this.uvs = options.uvs ?? []
@@ -174,10 +177,12 @@ export class Mesh {
 
   to_gpu_mesh(): GPUMesh {
     if (!this.has_normals() || !this.has_uvs()) {
-      throw new Error('mesh must have at least normals and UVs for use on the GPU')
+      throw new Error('mesh must have normals and UVs for use on the GPU')
     }
 
-    const result = new GPUMesh('converted')
+    const result = new GPUMesh({
+      label: `${this.label}-to-gpu`,
+    })
 
     for (const face of this.faces) {
       const face_indices: number[] = []
@@ -203,7 +208,7 @@ export class Mesh {
 
     return result
   }
-  
+
   to_soup(): TriangleSoup {
     const result: TriangleSoup = []
 

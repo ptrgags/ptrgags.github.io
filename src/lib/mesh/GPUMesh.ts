@@ -11,8 +11,9 @@ export interface GPUVertex {
 }
 
 export interface GPUMeshOptions {
-  vertices: GPUVertex[]
-  triangles: [number, number, number][]
+  label: string
+  vertices?: GPUVertex[]
+  triangles?: [number, number, number][]
 }
 
 /**
@@ -26,8 +27,8 @@ export class GPUMesh {
   vertices: GPUVertex[]
   triangles: [number, number, number][]
 
-  constructor(label: string, options: Partial<GPUMeshOptions> = {}) {
-    this.label = label
+  constructor(options: Partial<GPUMeshOptions> = {}) {
+    this.label = options.label ?? 'UNLABELED'
     this.vertices = options.vertices ?? []
     this.triangles = options.triangles ?? []
   }

@@ -3,8 +3,10 @@ import { Mesh } from './Mesh.ts'
 import { vec3 } from '../math/vector/Vec3.ts'
 import { vec2 } from '../primitives/Vec2.ts'
 import type { TriangleSoup } from './TriangleSoup.ts'
+import { GPUMesh } from './GPUMesh.ts'
 
 const ONE_TRIANGLE = new Mesh({
+  label: 'triangle',
   positions: [vec3(0, 0, 0), vec3(1, 0, 0), vec3(0, 1, 0)],
   normals: [vec3(0, 0, 1)],
   uvs: [vec2(0, 0), vec2(1, 0), vec2(0, 1)],
@@ -18,6 +20,7 @@ const ONE_TRIANGLE = new Mesh({
 })
 
 const UNIT_SQUARE = new Mesh({
+  label: 'square',
   positions: [vec3(0, 0, 0), vec3(1, 0, 0), vec3(1, 1, 0), vec3(0, 1, 0)],
   normals: [vec3(0, 0, 1)],
   uvs: [vec2(0, 0), vec2(1, 0), vec2(1, 1), vec2(0, 1)],
@@ -33,6 +36,7 @@ const UNIT_SQUARE = new Mesh({
 
 // House-shaped pentagon
 const HOUSE = new Mesh({
+  label: 'house',
   positions: [vec3(0, 0, 0), vec3(1, 0, 0), vec3(1, 1, 0), vec3(0.5, 1.5, 0), vec3(0, 1, 0)],
   normals: [vec3(0, 0, 1)],
   // not the best UVs, but powers of two are easier to test with
@@ -50,6 +54,7 @@ const HOUSE = new Mesh({
 
 // Rectangle of 2 square quads
 const TWO_SQUARE = new Mesh({
+  label: 'two-square',
   positions: [
     vec3(0, 0, 0),
     vec3(1, 0, 0),
@@ -59,7 +64,7 @@ const TWO_SQUARE = new Mesh({
     vec3(0, 1, 0),
   ],
   normals: [vec3(0, 0, 1)],
-  uvs: [vec2(0, 0), vec2(0.5, 0), vec2(1, 0), vec2(0, 1), vec2(0.5, 1), vec2(1, 1)],
+  uvs: [vec2(0, 0), vec2(0.5, 0), vec2(1, 0), vec2(1, 1), vec2(0.5, 1), vec2(0, 1)],
   faces: [
     [
       { pos: 0, normal: 0, uv: 0 },
@@ -77,6 +82,7 @@ const TWO_SQUARE = new Mesh({
 })
 
 const POSITIONS_ONLY = new Mesh({
+  label: 'positions-only',
   positions: [vec3(0, 0, 0), vec3(1, 0, 0), vec3(0, 1, 0), vec3(0, 0, 1)],
   faces: [
     [{ pos: 0 }, { pos: 1 }, { pos: 2 }],
@@ -356,6 +362,78 @@ describe('Mesh', () => {
       const result = POSITIONS_ONLY.has_uvs()
 
       const expected = false
+      expect(result).toEqual(expected)
+    })
+  })
+
+  describe('to_gpu_mesh', () => {
+    it('without normals throws error', () => {
+      // ONE_TRIANGLE minus the normals
+      const mesh = new Mesh({
+        positions: [vec3(0, 0, 0), vec3(1, 0, 0), vec3(0, 1, 0)],
+        uvs: [vec2(0, 0), vec2(1, 0), vec2(0, 1)],
+        faces: [
+          [
+            { pos: 0, uv: 0 },
+            { pos: 1, uv: 1 },
+            { pos: 2, uv: 2 },
+          ],
+        ],
+      })
+
+      expect(() => {
+        return mesh.to_gpu_mesh()
+      }).toThrow('must have normals and UVs')
+    })
+
+    it('without uvs throws error', () => {
+      // positions and normals but no UVs
+      const mesh = POSITIONS_ONLY.compute_face_normals()
+
+      expect(() => {
+        return mesh.to_gpu_mesh()
+      }).toThrow('must have normals and UVs')
+    })
+
+    it('with single triangle produces single triangle', () => {
+      const result = ONE_TRIANGLE.to_gpu_mesh()
+
+      const expected = new GPUMesh({
+        label: 'triangle-to-gpu',
+        vertices: [
+          { pos: vec3(0, 0, 0), normal: vec3(0, 0, 1), uv: vec2(0, 0) },
+          { pos: vec3(1, 0, 0), normal: vec3(0, 0, 1), uv: vec2(1, 0) },
+          { pos: vec3(0, 1, 0), normal: vec3(0, 0, 1), uv: vec2(0, 1) },
+        ],
+        triangles: [[0, 1, 2]],
+      })
+      expect(result).toEqual(expected)
+    })
+
+    it('with two squares tesslates correctly', () => {
+      const result = TWO_SQUARE.to_gpu_mesh()
+
+      const expected = new GPUMesh({
+        label: 'two-square-to-gpu',
+        vertices: [
+          // first quad
+          { pos: vec3(0, 0, 0), normal: vec3(0, 0, 1), uv: vec2(0, 0) },
+          { pos: vec3(1, 0, 0), normal: vec3(0, 0, 1), uv: vec2(0.5, 0) },
+          { pos: vec3(1, 1, 0), normal: vec3(0, 0, 1), uv: vec2(0.5, 1) },
+          { pos: vec3(0, 1, 0), normal: vec3(0, 0, 1), uv: vec2(0, 1) },
+          // second quad. Some vertices will be duplicated
+          { pos: vec3(1, 0, 0), normal: vec3(0, 0, 1), uv: vec2(0.5, 0) },
+          { pos: vec3(2, 0, 0), normal: vec3(0, 0, 1), uv: vec2(1, 0) },
+          { pos: vec3(2, 1, 0), normal: vec3(0, 0, 1), uv: vec2(1, 1) },
+          { pos: vec3(1, 1, 0), normal: vec3(0, 0, 1), uv: vec2(0.5, 1) },
+        ],
+        triangles: [
+          [0, 1, 2],
+          [0, 2, 3],
+          [4, 5, 6],
+          [4, 6, 7],
+        ],
+      })
       expect(result).toEqual(expected)
     })
   })
