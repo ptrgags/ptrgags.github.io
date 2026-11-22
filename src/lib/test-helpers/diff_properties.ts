@@ -45,6 +45,25 @@ export function diff_float_property(
   }
 }
 
+export function diff_arrays<T>(
+  diff_func: (diffs: string[], a: T, b: T) => void,
+  diffs: string[],
+  received: T[],
+  expected: T[],
+  label: string,
+): string[] {
+  if (received.length !== expected.length) {
+    diffs.push(`${label}: wrong length ${received.length} | ${expected.length}`)
+    return diffs
+  }
+
+  received.forEach((x, i) => {
+    diff_func(diffs, x, expected[i])
+  })
+
+  return diffs
+}
+
 /**
  * Format diffs for test helpers
  * @param {string[]} diffs Diff error messages

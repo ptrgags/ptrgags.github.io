@@ -5,6 +5,7 @@ date: '2026-10-05'
 hide: true
 # URL relative to BACKBLAZE assets root
 thumbnail: pattern/TEMPLATE/thumbnail.png
+status: stub
 ---
 <script setup lang="ts">
 import SketchP5 from '../../components/SketchP5.vue'

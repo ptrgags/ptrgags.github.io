@@ -5,36 +5,42 @@ title: Patterns
 <script setup lang="ts">
 import {data} from './pattern/pattern.data'
 import {backblaze_link} from './core/links'
+import PatternSwatch from './components/PatternSwatch.vue'
 
-const patterns = data.map(x => {return {...x.frontmatter, url: x.url}}).filter(x => x.hide !== true)
+const PATTERNS = {}
+data.forEach(x => {
+    if (x.frontmatter.hide === true) {
+        return;
+    }
+    PATTERNS[x.url] = x
+})
 </script>
 
-I'm starting to document math patterns I find in math, art, programming, and
-other topics. So far, I've written the following articles:
 
-<div class="horizontal">
-<template v-for="pattern in patterns" :key="pattern.title">
-    <div class="pattern-swatch vertical">
-        <img width="256" height="256" :src="backblaze_link(pattern.thumbnail)" />
-        <div class="pattern-text">
-            <h3><a :href="pattern.url">{{pattern.title}}</a></h3>
-        </div>
-    </div>
-</template>
-</div>
+
+## Building Blocks
+
+These building blocks are used in the patterns that follow
+
+<PatternSwatch :page="PATTERNS['/pattern/point/']" />
+<PatternSwatch :page="PATTERNS['/pattern/line-segment/']" />
+<PatternSwatch :page="PATTERNS['/pattern/circle/']" />
+<PatternSwatch :page="PATTERNS['/pattern/circular-arc/']" />
+<PatternSwatch :page="PATTERNS['/pattern/bezier-curve/']" />
+
+## Patterns
+
+
+<PatternSwatch :page="PATTERNS['/pattern/rule-lines/']" />
+<PatternSwatch :page="PATTERNS['/pattern/gridlines/']" />
+<PatternSwatch :page="PATTERNS['/pattern/gear-tree/']" />
+<PatternSwatch :page="PATTERNS['/pattern/musical-meter/']" />
+<!--<PatternCard :page="PATTERNS['/pattern/number-line-arcs/']" />-->
+<!--<PatternCard :page="PATTERNS['/pattern/cyclic-group/']" />-->
+<!--<PatternCard :page="PATTERNS['/pattern/dihedral-group/']" />-->
+<!--<PatternCard :page="PATTERNS['/pattern/frieze-groups/']" />-->
+
+---
+
 
 See also my repo [`pattern-spotting`](https://ptrgags.github.io/pattern-spotting/), an earlier version of this idea.
-
-<style>
-.pattern-swatch {
-    width: 300px;
-    background-color: var(--color-main-med-dark);
-    padding: 10px;
-    border-radius: 20px;
-    margin-bottom: 20px;
-}
-
-.pattern-text {
-    max-width: 400px
-}
-</style>

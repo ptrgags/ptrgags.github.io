@@ -10,8 +10,8 @@ thumbnail: artwork/halloween-friezes/thumbnail.png
 ---
 <script setup lang="ts">
 import SketchP5 from '../../components/SketchP5.vue'
-import {SKETCHES} from './halloween-friezes'
-import HalloweenFriezesPrintable from './HalloweenFriezesPrintable.vue'
+import PDFPrintable from '../../components/PDFPrintable.vue'
+import {SKETCHES, PRINTABLES} from './halloween-friezes'
 </script>
 
 <!-- Generate the thumbnails
@@ -116,7 +116,7 @@ This pattern is interesting because there are symmetries happening on three diff
 
 Need some last-minute Halloween decorations? Here's a printable version of the above friezes!
 
-<HalloweenFriezesPrintable />
+<PDFPrintable :printable="PRINTABLES.hallofriezes" />
 
 ## See Also
 

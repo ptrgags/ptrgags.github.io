@@ -91,4 +91,8 @@ export class Wave {
   static square(options: WaveOptions = {}): Wave {
     return new Wave(Waveform.square, options)
   }
+
+  static saw(options: WaveOptions = {}): Wave {
+    return new Wave(Waveform.saw, options)
+  }
 }

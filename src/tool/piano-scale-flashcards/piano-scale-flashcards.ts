@@ -1,17 +1,6 @@
-<script setup lang="ts">
-import { onMounted, ref, type Ref } from 'vue'
-import PDFViewer from '../../components/PDFViewer.vue'
-import {
-  AEOLIAN_MODE,
-  DORIAN_MODE,
-  HARMONIC_MINOR_SCALE,
-  IONIAN_MODE,
-  LOCRIAN_MODE,
-  LYDIAN_MODE,
-  MIXOLYDIAN_MODE,
-  PHRYGIAN_MODE,
-} from '../../lib/music/scales.ts'
-import { TradingCard } from '../../lib/printables/TradingCard.ts'
+import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
+import { Point2P } from '../../lib/math/pga2d/Point2P.ts'
+import { PianoScaleSchematic } from '../../lib/music/PianoScaleSchematic.ts'
 import {
   A,
   Ab,
@@ -27,20 +16,27 @@ import {
   Gb,
   type PitchClass,
 } from '../../lib/music/pitches.ts'
-import { PianoScaleSchematic } from '../../lib/music/PianoScaleSchematic.ts'
 import {
+  scale_to_note_names,
   AccidentalEncoding,
   get_note_name,
-  scale_to_note_names,
 } from '../../lib/music/scale_note_names.ts'
-import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
-import { Point2P } from '../../lib/math/pga2d/Point2P.ts'
-import { PDFDoc } from '../../lib/pdf/PDFDoc.ts'
-import { ATC3x3 } from '../../lib/printables/ATC3x3.ts'
+import {
+  LYDIAN_MODE,
+  IONIAN_MODE,
+  MIXOLYDIAN_MODE,
+  DORIAN_MODE,
+  AEOLIAN_MODE,
+  PHRYGIAN_MODE,
+  LOCRIAN_MODE,
+  HARMONIC_MINOR_SCALE,
+} from '../../lib/music/scales.ts'
 import { Rigid } from '../../lib/primitives/Rigid.ts'
 import { xform } from '../../lib/primitives/shorthand.ts'
-
-const pdf_file: Ref<File | undefined> = ref(undefined)
+import { ATC3x3 } from '../../lib/printables/ATC3x3.ts'
+import { US_LETTER_INCHES } from '../../lib/printables/dimensions.ts'
+import type { Printable, PrintablePage } from '../../lib/printables/Printable.ts'
+import { TradingCard } from '../../lib/printables/TradingCard.ts'
 
 const SCALES = [
   LYDIAN_MODE,
@@ -96,24 +92,23 @@ function make_flashcards(): TradingCard[] {
   })
 }
 
-onMounted(async () => {
-  const doc = new PDFDoc({
-    page_size_inches: new Direction2P(8.5, 11),
-    pixels_per_inch: 200,
-  })
-  await doc.init()
-
+function make_deck(): Printable {
   const all_flashcards = make_flashcards()
   const page_count = Math.ceil(all_flashcards.length / 9)
+  const pages: PrintablePage[] = []
   for (let i = 0; i < page_count; i++) {
     const page_cards = all_flashcards.slice(9 * i, 9 * (i + 1))
-    doc.add_centered_page(new ATC3x3(page_cards), ATC3x3.DIMENSIONS)
+    pages.push({ scene: new ATC3x3(page_cards), dimensions: ATC3x3.DIMENSIONS })
   }
 
-  pdf_file.value = await doc.finish('piano-scale-flashcards.pdf')
-})
-</script>
+  return {
+    filename: 'piano-scale-flashcards.pdf',
+    pixels_per_inch: 200,
+    page_size_inches: US_LETTER_INCHES.dimensions,
+    pages,
+  }
+}
 
-<template>
-  <PDFViewer v-if="pdf_file" :width="700" :height="500" :file="pdf_file"></PDFViewer>
-</template>
+export const PRINTABLES = {
+  deck: make_deck(),
+}

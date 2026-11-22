@@ -81,6 +81,10 @@ export class Rect implements Drawable {
     lib.rect(x, y, width, height)
   }
 
+  equals(other: Rect) {
+    return this.position.equals(other.position) && this.dimensions.equals(other.dimensions)
+  }
+
   static from_dimensions(dimensions: Dimensionlike): Rect {
     return new Rect(Point2P.ORIGIN, dimensions)
   }
