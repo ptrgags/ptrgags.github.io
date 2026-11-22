@@ -2,7 +2,7 @@ import type { MatcherResult, MatcherState } from 'vitest'
 import { custom_equality_matcher } from './matchermaking.ts'
 import { Rigid } from '../primitives/Rigid.ts'
 import { diff_float_property, diff_property } from './diff_properties.ts'
-import { diff_dir } from './pga_matchers.ts'
+import { diff_dir_2p } from './pga_matchers.ts'
 import { BezierCurve } from '../primitives/BezierCurve.ts'
 import { diff_vec2 } from './vec_matchers.ts'
 import { Rect } from '../primitives/Rect.ts'
@@ -28,7 +28,7 @@ export function diff_rigid(diffs: string[], received: unknown, expected: unknown
 
   diff_float_property(diffs, received, expected, 'rotation')
   diff_property(diffs, received, expected, 'flip')
-  diff_dir(diffs, received.translation, (expected as Rigid).translation)
+  diff_dir_2p(diffs, received.translation, (expected as Rigid).translation)
 
   return diffs
 }
