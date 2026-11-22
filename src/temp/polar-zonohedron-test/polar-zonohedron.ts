@@ -1,3 +1,5 @@
+import { ATC_SCREEN } from '../../core/dimensions.ts'
+import type { InputSystem } from '../../lib/input/InputSystem.ts'
 import { Direction2P } from '../../lib/math/pga2d/Direction2P.ts'
 import { Point2P } from '../../lib/math/pga2d/Point2P.ts'
 import { VSVec3, type Vec3 } from '../../lib/math/vector/Vec3.ts'
@@ -11,7 +13,14 @@ import { Color } from '../../lib/styling/Color.ts'
 import { Oklch } from '../../lib/styling/Oklch.ts'
 import { Style } from '../../lib/styling/Style.ts'
 import { TextStyle } from '../../lib/styling/TextStyle.ts'
+import type { CyclicCounter } from '../../lib/webgpu/CyclicCounter.ts'
+import type { GPUPackedMesh } from '../../lib/webgpu/GPUPackedMesh.ts'
+import type { LazyShader } from '../../lib/webgpu/LazyShader.ts'
+import type { ShapeMachineSketch } from '../../lib/webgpu/machines/ShapeMachine.ts'
+import { SHADER_LIBRARY } from '../../lib/webgpu/ShaderLibrary.ts'
+import { make_shape_sketch } from '../../lib/webgpu/sketches.ts'
 import { Arrow, ArrowParts } from './Arrow.ts'
+import SHADER from './polar-zonohedron-mango.wgsl?url'
 
 export class PolarZonohedron {
   edge_length: number
@@ -279,4 +288,26 @@ export function printable_pattern(pixels_per_inch: number): [Drawable, Direction
     ),
     zonohedron.dimensions(),
   ]
+}
+
+export class PolarZonohedronMango implements ShapeMachineSketch {
+  shader_url: string = SHADER
+  imports = [
+    SHADER_LIBRARY.constants,
+    SHADER_LIBRARY.camera,
+    SHADER_LIBRARY.ortho,
+    SHADER_LIBRARY.xforms,
+  ]
+  meshes: GPUPackedMesh[]
+  constructor() {
+    const zonohedron = new PolarZonohedron(1, Math.PI / 4, 6)
+    this.meshes = [zonohedron.to_mesh().to_gpu_mesh().pack()]
+  }
+
+  configure_input?: ((input: InputSystem) => void) | undefined
+  update?: ((time: number) => void) | undefined
+}
+
+export const WEBGPU_SKETCHES = {
+  zonohedron: make_shape_sketch(ATC_SCREEN.dimensions, new PolarZonohedronMango()),
 }
