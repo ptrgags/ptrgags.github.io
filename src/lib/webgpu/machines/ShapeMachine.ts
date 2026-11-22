@@ -2,7 +2,7 @@ import { fetch_text } from '../../fetch_text.ts'
 import type { InputSystem } from '../../input/InputSystem.ts'
 import type { BindGroup } from '../BindGroup.ts'
 import { compile_shader } from '../compile_shader.ts'
-import type { CyclicCounter } from '../CyclicCounter.ts'
+import { CyclicCounter } from '../CyclicCounter.ts'
 import type { Machine } from '../Engine.ts'
 import type { GPUPackedMesh } from '../GPUPackedMesh.ts'
 import { IndexBuffer } from '../IndexBuffer.ts'
@@ -16,7 +16,7 @@ export interface ShapeMachineSketch {
   shader_url: string
   imports?: LazyShader[]
   meshes: GPUPackedMesh[]
-  current_mesh: CyclicCounter
+  current_mesh?: CyclicCounter
 
   configure_input?: (input: InputSystem) => void
   update?: (time: number) => void
@@ -126,7 +126,8 @@ export class ShapeMachine implements Machine {
     context: GPUCanvasContext,
     bind_group: BindGroup,
   ): void {
-    const model_index = this.sketch.current_mesh.value
+    const current_mesh = this.sketch.current_mesh ?? CyclicCounter.CONSTANT
+    const model_index = current_mesh.value
     const model = this.models[model_index]
 
     this.render_pipeline.render(encoder, context, bind_group, (pass) => {
