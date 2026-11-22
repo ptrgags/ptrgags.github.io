@@ -1,6 +1,7 @@
 import { VSVec3, type Vec3 } from '../math/vector/Vec3.ts'
 import { VSVec2, type Vec2 } from '../primitives/Vec2.ts'
 import { compute_normal } from './compute_normal.ts'
+import { GPUMesh, type GPUVertex } from './GPUMesh.ts'
 import type { TriangleSoup } from './TriangleSoup.ts'
 
 function faces_equal(received: FaceVertex[], expected: FaceVertex[]): boolean {
@@ -21,6 +22,7 @@ export interface FaceVertex {
 }
 
 export interface MeshOptions {
+  label: string
   positions: Vec3[]
   normals: Vec3[]
   uvs: Vec2[]
@@ -37,12 +39,14 @@ export interface MeshOptions {
  * @see {@link https://en.wikipedia.org/wiki/Wavefront_.obj_file | Wikipedia: Wavefront .obj file}
  */
 export class Mesh {
+  readonly label: string
   readonly positions: Vec3[]
   readonly normals: Vec3[]
   readonly uvs: Vec2[]
   readonly faces: FaceVertex[][]
 
   constructor(options: Partial<MeshOptions> = {}) {
+    this.label = options.label ?? 'UNLABELED_MESH'
     this.positions = options.positions ?? []
     this.normals = options.normals ?? []
     this.uvs = options.uvs ?? []
@@ -169,6 +173,40 @@ export class Mesh {
       normals: computed_normals,
       faces: updated_faces,
     })
+  }
+
+  to_gpu_mesh(): GPUMesh {
+    if (!this.has_normals() || !this.has_uvs()) {
+      throw new Error('mesh must have normals and UVs for use on the GPU')
+    }
+
+    const result = new GPUMesh({
+      label: `${this.label}-to-gpu`,
+    })
+
+    for (const face of this.faces) {
+      const face_indices: number[] = []
+      for (const x of face) {
+        const vertex: GPUVertex = {
+          pos: this.positions[x.pos],
+          normal: this.normals[x.normal ?? 0],
+          uv: this.uvs[x.uv ?? 0],
+        }
+        const index = result.add_vertex(vertex)
+        face_indices.push(index)
+      }
+
+      // tessellate polygonal face as a triangle fan
+      const triangle_count = face.length - 2
+      for (let i = 0; i < triangle_count; i++) {
+        const a = face_indices[0]
+        const b = face_indices[i + 1]
+        const c = face_indices[i + 2]
+        result.add_triangle(a, b, c)
+      }
+    }
+
+    return result
   }
 
   to_soup(): TriangleSoup {
