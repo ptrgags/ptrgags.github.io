@@ -46,7 +46,7 @@ export class Mesh {
   readonly faces: FaceVertex[][]
 
   constructor(options: Partial<MeshOptions> = {}) {
-    this.label = options.label ?? 'UNLABELED'
+    this.label = options.label ?? 'UNLABELED_MESH'
     this.positions = options.positions ?? []
     this.normals = options.normals ?? []
     this.uvs = options.uvs ?? []

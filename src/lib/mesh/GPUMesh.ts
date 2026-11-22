@@ -28,7 +28,7 @@ export class GPUMesh {
   triangles: [number, number, number][]
 
   constructor(options: Partial<GPUMeshOptions> = {}) {
-    this.label = options.label ?? 'UNLABELED'
+    this.label = options.label ?? 'UNLABELED_GPU_MESH'
     this.vertices = options.vertices ?? []
     this.triangles = options.triangles ?? []
   }
@@ -86,7 +86,7 @@ export class GPUMesh {
     const indices = this.triangles.flat()
 
     return {
-      label: this.label,
+      label: `${this.label}-packed`,
       positions: new VertexAttribute(3, packed_positions),
       normals: new VertexAttribute(3, packed_normals),
       uvs: new VertexAttribute(2, packed_uvs),
