@@ -3,7 +3,7 @@ layout: article
 title: Rule Lines
 hide: false
 thumbnail: pattern/rule-lines/thumbnail.png
-status: partial
+status: stub
 description: A set of parallel lines.
 ---
 <script setup lang="ts">

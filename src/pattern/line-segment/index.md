@@ -3,7 +3,7 @@ layout: article
 title: Line Segment
 hide: false
 thumbnail: pattern/line-segment/thumbnail.png
-status: partial
+status: stub
 description: A straight path from A to B.
 uses: point
 ---

@@ -3,7 +3,7 @@ layout: article
 title: Point
 hide: false
 thumbnail: pattern/point/thumbnail.png
-status: partial
+status: stub
 description: A specific location in space.
 ---
 <script setup lang="ts">

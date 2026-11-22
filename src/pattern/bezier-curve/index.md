@@ -3,7 +3,7 @@ layout: article
 title: Bézier Curve
 hide: false
 thumbnail: pattern/bezier-curve/thumbnail.png
-status: partial
+status: stub
 description: A handy curve defined by four points.
 uses: point
 ---

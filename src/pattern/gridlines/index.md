@@ -3,7 +3,7 @@ layout: article
 title: Gridlines
 hide: false
 thumbnail: pattern/gridlines/thumbnail.png
-status: partial
+status: stub
 description: Rule lines in two perpendicular directions.
 uses: rule-lines
 ---

@@ -3,7 +3,7 @@ layout: article
 title: Circle
 hide: false
 thumbnail: pattern/circle/thumbnail.png
-status: partial
+status: stub
 description: A set of points a constant distance from a center point.
 uses: point
 ---
