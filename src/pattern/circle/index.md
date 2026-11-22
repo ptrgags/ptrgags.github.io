@@ -1,10 +1,8 @@
 ---
 layout: article
 title: Circle
-date: '2026-11-13'
 hide: false
-# URL relative to BACKBLAZE assets root
-thumbnail: pattern/TEMPLATE/thumbnail.png
+thumbnail: pattern/circle/thumbnail.png
 status: partial
 description: A set of points a constant distance from a center point.
 uses: point

@@ -1,10 +1,8 @@
 ---
 layout: article
 title: Point
-date: '2026-11-13'
 hide: false
-# URL relative to BACKBLAZE assets root
-thumbnail: pattern/TEMPLATE/thumbnail.png
+thumbnail: pattern/point/thumbnail.png
 status: partial
 description: A specific location in space.
 ---

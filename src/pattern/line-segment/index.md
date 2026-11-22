@@ -1,10 +1,8 @@
 ---
 layout: article
 title: Line Segment
-date: '2026-11-13'
 hide: false
-# URL relative to BACKBLAZE assets root
-thumbnail: pattern/TEMPLATE/thumbnail.png
+thumbnail: pattern/line-segment/thumbnail.png
 status: partial
 description: A straight path from A to B.
 uses: point
