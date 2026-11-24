@@ -1,6 +1,5 @@
-import p5 from 'p5'
+import type p5 from 'p5'
 import { Point2P } from '../math/pga2d/Point2P.js'
-import type { Drawable } from '../primitives/Drawable.js'
 import type { Vec2 } from '../primitives/Vec2.js'
 import { DrawP5 } from './DrawP5.js'
 import type { ImageLibraryP5 } from './ImageLibraryP5.js'

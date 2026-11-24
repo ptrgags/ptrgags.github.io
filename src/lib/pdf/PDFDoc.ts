@@ -1,4 +1,4 @@
-import { PDFDocument, PDFFont, StandardFonts } from 'pdf-lib'
+import { PDFDocument, type PDFFont, StandardFonts } from 'pdf-lib'
 import { Direction2P } from '../math/pga2d/Direction2P.ts'
 import type { Dimensionlike } from '../primitives/Dimensionlike.ts'
 import type { Drawable } from '../primitives/Drawable.ts'
