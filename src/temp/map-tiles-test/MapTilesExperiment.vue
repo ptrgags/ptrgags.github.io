@@ -62,6 +62,10 @@ onMounted(async () => {
   //map.addLayer(bounds)
 
   const svg_layer = new SVGLayer((coords) => {
+    if (coords.x < 0 || coords.y < 0) {
+      return undefined
+    }
+
     const hue = mod(coords.x * 5, 360)
 
     return group(
