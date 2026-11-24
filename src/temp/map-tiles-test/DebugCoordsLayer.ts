@@ -6,8 +6,8 @@ export class DebugCoordsLayer extends GridLayer {
     const tile = document.createElement('div')
     console.log('creating tile for', coords)
     tile.innerHTML = `(${coords.x}, ${coords.y}), zoom: ${coords.z}`
-    tile.style.outline = '2px solid red'
-    tile.style.backgroundColor = 'orange'
+    tile.style.outline = '2px solid #7f7f7f'
+    //tile.style.backgroundColor = 'white'
     tile.style.color = 'black'
     tile.style.fontSize = '24px'
     return tile
