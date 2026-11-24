@@ -1,4 +1,4 @@
-import p5 from 'p5'
+import type p5 from 'p5'
 
 import type { Dimensionlike } from '../../lib/primitives/Dimensionlike.ts'
 import { Style } from '../../lib/styling/Style.ts'
@@ -16,7 +16,6 @@ import { group, style } from '../../lib/primitives/shorthand.ts'
 import { TextStyle } from '../../lib/styling/TextStyle.ts'
 import { SongMeter } from './SongMeter.ts'
 import { SongMeterPrimitive } from './SongMeterPrimitive.ts'
-import { Rect } from '../../lib/primitives/Rect.ts'
 import type { Vec2 } from '../../lib/primitives/Vec2.ts'
 import { make_sketch, make_static_sketch, type SceneP5 } from '../../lib/p5-helpers/sketches.ts'
 import { SWATCH_WIDE } from '../../core/dimensions.ts'

@@ -1,4 +1,4 @@
-import p5 from 'p5'
+import type p5 from 'p5'
 import type { Dimensionlike } from '../primitives/Dimensionlike.ts'
 import { DrawingP5 } from './DrawingP5.ts'
 import type { Vec2 } from '../primitives/Vec2.ts'
