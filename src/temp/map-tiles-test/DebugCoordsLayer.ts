@@ -8,6 +8,8 @@ export class DebugCoordsLayer extends GridLayer {
     tile.innerHTML = `(${coords.x}, ${coords.y}), zoom: ${coords.z}`
     tile.style.outline = '2px solid red'
     tile.style.backgroundColor = 'orange'
+    tile.style.color = 'black'
+    tile.style.fontSize = '24px'
     return tile
   }
 }
