@@ -136,6 +136,15 @@ export class Index2D {
   }
 }
 
+export interface VerticalEdge {
+  left?: Index2D
+  right?: Index2D
+}
+export interface HorizontalEdge {
+  above?: Index2D
+  below?: Index2D
+}
+
 /**
  * 2D array of values. It is indexed by Index2D objects rather than
  * an integer index.
@@ -161,6 +170,34 @@ export class Grid<T> {
    */
   *[Symbol.iterator](): Generator<T> {
     yield* this.values
+  }
+
+  *iter_vertical_edges(): Generator<VerticalEdge> {
+    for (let i = 0; i < this.rows; i++) {
+      yield { right: new Index2D(i, 0) }
+
+      for (let j = 1; j < this.cols; j++) {
+        yield {
+          left: new Index2D(i, j - 1),
+          right: new Index2D(i, j),
+        }
+      }
+      yield { left: new Index2D(i, this.cols - 1) }
+    }
+  }
+
+  *iter_horizontal_edges(): Generator<HorizontalEdge> {
+    for (let j = 0; j < this.cols; j++) {
+      yield { below: new Index2D(0, j) }
+
+      for (let i = 1; i < this.rows; i++) {
+        yield {
+          above: new Index2D(i - 1, j),
+          below: new Index2D(i, j),
+        }
+      }
+      yield { above: new Index2D(this.rows - 1, j) }
+    }
   }
 
   entries() {
