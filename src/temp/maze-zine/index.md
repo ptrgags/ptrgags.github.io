@@ -1,7 +1,6 @@
 ---
 layout: article
-title: TEMPLATE
-date: 'YYYY-MM-DD'
+title: The Amazing Maze Zine
 hide: true
 # URL relative to BACKBLAZE assets root
 thumbnail: pattern/TEMPLATE/thumbnail.png
