@@ -1,0 +1,49 @@
+export class Random {
+  /**
+   * Random integer in [min, max)
+   * @param {number} min Minimum value (inclusive)
+   * @param {number} max Maximum value (exclusive)
+   * @returns {number} Random integer in [min, max)
+   */
+  static rand_int(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min) + min)
+  }
+
+  /**
+   * Random float in [min, max)
+   * @param {number} min Minimum value (inclusive)
+   * @param {number} max Maximum value (exclusive)
+   * @returns {number} Random float in [min, max)
+   */
+  static rand_range(min: number, max: number): number {
+    return Math.random() * (max - min) + min
+  }
+
+  // Random choice from an array of choices
+  /**
+   * @template T
+   * @param {T[]} choices Array of items to choose from
+   * @returns {T} One of the choices
+   */
+  static rand_choice<T>(choices: T[]): T {
+    const index = Random.rand_int(0, choices.length)
+    return choices[index]
+  }
+
+  /**
+   * Fisher-Yates shuffle, see https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle#The_modern_algorithm
+   *
+   * This returns a copy of the results
+   * @param {Array} array Any array
+   * @returns A shuffled copy of the array
+   */
+  static shuffle(array: Array<any>) {
+    const result = [...array]
+    const n = array.length
+    for (let i = 0; i < n - 1; i++) {
+      const j = Random.rand_int(i, n)
+      ;[result[i], result[j]] = [result[j], result[i]]
+    }
+    return result
+  }
+}

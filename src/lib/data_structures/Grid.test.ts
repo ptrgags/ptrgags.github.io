@@ -176,6 +176,42 @@ describe('Grid', () => {
     expect(result).toEqual(expected)
   })
 
+  it('iter_vertical_edges iterates all grid edges', () => {
+    const grid = new Grid<number>(2, 2)
+
+    const result = grid.iter_vertical_edges().toArray()
+
+    const expected = [
+      // first row
+      { right: new Index2D(0, 0) },
+      { left: new Index2D(0, 0), right: new Index2D(0, 1) },
+      { left: new Index2D(0, 1) },
+      // second row
+      { right: new Index2D(1, 0) },
+      { left: new Index2D(1, 0), right: new Index2D(1, 1) },
+      { left: new Index2D(1, 1) },
+    ]
+    expect(result).toEqual(expected)
+  })
+
+  it('iter_horizontal_edges iterates all grid edges', () => {
+    const grid = new Grid<number>(2, 2)
+
+    const result = grid.iter_horizontal_edges().toArray()
+
+    const expected = [
+      // first column
+      { below: new Index2D(0, 0) },
+      { above: new Index2D(0, 0), below: new Index2D(1, 0) },
+      { above: new Index2D(1, 0) },
+      // second column
+      { below: new Index2D(0, 1) },
+      { above: new Index2D(0, 1), below: new Index2D(1, 1) },
+      { above: new Index2D(1, 1) },
+    ]
+    expect(result).toEqual(expected)
+  })
+
   it('fill populates the array with the callback values', () => {
     const grid = new Grid(2, 2)
 
