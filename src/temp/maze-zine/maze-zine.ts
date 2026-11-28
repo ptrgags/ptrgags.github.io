@@ -15,7 +15,6 @@ const CELL_SIZE = 25
 const GRID_DIMENSIONS = ATC_SCREEN.dimensions.scale(1 / CELL_SIZE)
 
 function* make_edges(maze: Grid<MazeCell>): Generator<Drawable> {
-  console.log(maze.values)
   for (const edge of maze.iter_vertical_edges()) {
     if (edge.right) {
       const cell = maze.get(edge.right)
